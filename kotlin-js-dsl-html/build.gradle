@@ -1,9 +1,22 @@
 plugins {
+    id 'java-library'
     id 'org.jetbrains.kotlin.jvm'
+    id 'maven-publish' // Essential for the 'publishing' block
+    id 'signing' // Essential for the 'signing' block
 }
 
 group = 'net.asere'
-version = '1.0-SNAPSHOT'
+
+version = '0.0.2'
+
+ext {
+    VERSION = version
+    ARTIFACT_ID = 'js-dsl-html'
+    POM_NAME = 'Js-Dsl-Html'
+    POM_DESCRIPTION = 'Kotlin Js Dsl integration for Kotlin Html Dsl'
+}
+
+apply from: "${rootProject.projectDir}/scripts/base_publish.gradle"
 
 repositories {
     mavenCentral()

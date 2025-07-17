@@ -1,0 +1,51 @@
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    archiveClassifier.set('sources')
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    archiveClassifier.set('javadoc')
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = 'net.asere.kotlin'
+            artifactId = ARTIFACT_ID
+            version = VERSION
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom {
+                name.set(POM_NAME)
+                description.set(POM_DESCRIPTION)
+                url.set("https://github.com/martppa/kotlin-js-dsl")
+                licenses {
+                    license {
+                        name.set("MIT License")
+                        url.set("https://opensource.org/licenses/MIT")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("martppa")
+                        name.set("Humberto Martín Dieppa")
+                        email.set("hm.dieppa@gmail.com")
+                    }
+                }
+                scm {
+                    connection.set("scm:git:git://github.com/martppa/omni-mvi.git")
+                    developerConnection.set("scm:git@github.com:martppa/kotlin-js-dsl.git")
+                    url.set("https://github.com/martppa/kotlin-js-dsl")
+                }
+            }
+        }
+    }
+}
+
+signing {
+    useGpgCmd()
+    sign publishing.publications.mavenJava
+}
