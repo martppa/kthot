@@ -7,7 +7,6 @@ import net.asere.kotlin.js.dsl.value.JsValue
 
 class JsDomCollectionRef(
     name: String? = null
-) : JsDomCollection(), JsReference<JsValue> by JsValueRef(name) {
-
-    override val name: String = name ?: "dom_collection_$id"
-}
+) : JsDomCollection(), JsReference<JsValue> by JsValueRef(
+    name = name ?: "dom_collection_${JsReference.nextRefInt()}"
+)

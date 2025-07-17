@@ -83,6 +83,4 @@ class JsLambdaRef(
 
 abstract class JsLambdaRefCommons(
     name: String? = null
-) : JsValueRef<JsValue>(name) {
-    override fun toString(): String = present()
-}
+) : JsValueRef<JsValue>(name ?: "lambda_${JsReference.nextRefInt()}")

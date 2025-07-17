@@ -4,8 +4,8 @@ import net.asere.kotlin.js.dsl.type.JsString
 
 class JsStringRef internal constructor(
     name: String? = null
-) : JsString(), JsDeclarableReference<JsString> by JsValueRef(name) {
-    override val name: String = name ?: "string_$id"
-}
+) : JsString(), JsDeclarableReference<JsString> by JsValueRef(
+    name = name ?: "string_${JsReference.nextRefInt()}"
+)
 
-fun JsString.Companion.ref(name: String): JsStringRef = JsStringRef(name)
+fun JsString.Companion.ref(name: String? = null): JsStringRef = JsStringRef(name)

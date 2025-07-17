@@ -244,9 +244,8 @@ class JsFunction(
 
 abstract class JsFunctionCommons<FunctionRef : JsFunctionRefCommons>(
     name: String? = null,
-) : JsValueRef<JsValue>(name) {
+) : JsValueRef<JsValue>(name ?: "function_${JsReference.nextRefInt()}") {
 
-    override val name: String = name ?: "function_$id"
     protected abstract val functionRef: FunctionRef
     protected abstract fun buildScopeParameters(): InnerScopeParameters
 

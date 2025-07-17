@@ -1,6 +1,5 @@
 package net.asere.kotlin.js.dsl.reference
 
-import net.asere.kotlin.js.dsl.id.generateId
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.value.JsValue
 
@@ -56,9 +55,6 @@ class JsFunctionRef(
 
 abstract class JsFunctionRefCommons(
     name: String? = null,
-) : JsReference<JsValue> {
-    override val id: String = generateId()
-    override val name: String = name ?: "function_$id"
-    override fun present(): String = name
-    override fun toString(): String = present()
-}
+) : JsReference<JsValue> by JsValueRef(
+    name = name ?: "function_${JsReference.nextRefInt()}"
+)

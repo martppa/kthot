@@ -6,6 +6,7 @@ import net.asere.kotlin.js.dsl.callable.JsLambda
 import net.asere.kotlin.js.dsl.callable.JsLambda2
 import net.asere.kotlin.js.dsl.callable.value
 import net.asere.kotlin.js.dsl.declaration.Constant
+import net.asere.kotlin.js.dsl.declaration.Mutable
 import net.asere.kotlin.js.dsl.html.jsScript
 import net.asere.kotlin.js.dsl.log.jsLog
 import net.asere.kotlin.js.dsl.reference.ref
@@ -17,6 +18,8 @@ import net.asere.kotlin.js.dsl.value.value
 fun main(vararg args: String) {
     val result = createHTML().body {
         jsScript {
+            val stringValue = +JsString.ref().declare(Mutable)
+
             val lambda = JsLambda.value(
                 JsString.ref("first"),
                 JsString.ref("second")
