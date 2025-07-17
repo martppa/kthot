@@ -8,4 +8,4 @@ class JsNumberRef internal constructor(
     name = name ?: "number_${JsReference.nextRefInt()}"
 )
 
-fun JsNumber.Companion.ref(name: String? = null) = JsNumberRef(name)
+fun JsNumber.Companion.ref(name: String? = null): JsNumberRef = JsNumberRef(name)

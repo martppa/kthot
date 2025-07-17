@@ -57,4 +57,6 @@ abstract class JsFunctionRefCommons(
     name: String? = null,
 ) : JsReference<JsValue> by JsValueRef(
     name = name ?: "function_${JsReference.nextRefInt()}"
-)
+) {
+    override fun toString(): String = present()
+}

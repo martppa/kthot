@@ -9,4 +9,4 @@ class JsCollectionRef<T : JsValue> internal constructor(
     name = name ?: "collection_${JsReference.nextRefInt()}"
 )
 
-fun <T : JsValue> JsCollection.Companion.ref(name: String? = null): JsCollectionRef<JsReference<T>> = JsCollectionRef(name)
+fun <T : JsValue> JsCollection.Companion.ref(name: String? = null): JsCollectionRef<T> = JsCollectionRef(name)
