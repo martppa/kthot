@@ -1,4 +1,4 @@
-# kotlin-js-dsl ![](https://img.shields.io/badge/mvi_version-0.0.1-004475)
+# kotlin-js-dsl ![](https://img.shields.io/badge/jsDsl_version-0.0.1-004475)
 This semi-typed DSL is intended to help kotlin developers write, reuse and interact with Javascript. This tool is currently under development and it's in an experimental stage.
 
 ## Installation
@@ -39,7 +39,7 @@ In order to assign values to a JavaScript object use the `assign` extension func
 
 ```kotlin
 val syntax = js {
-    +JsString.ref().declare(Mutable).assign(JsString.value("Juan"))
+    +JsString.ref().declare(Mutable).assign("Juan".js)
 }
 println(syntax) // --> let string_1 = "Juan"
 ```
@@ -50,8 +50,8 @@ Declare reference objects to deal with them at any time
 
 ```kotlin
 val syntax = js {
-    val stringValue = +JsString.ref().declare(Mutable).assign(JsString.value("Juan"))
-    +jsLog(stringValue.charAt(JsNumber.value(0)))
+    val stringValue = +JsString.ref().declare(Mutable).assign("Juan".js)
+    +jsLog(stringValue.charAt(0.js))
 }
 println(syntax)
 
