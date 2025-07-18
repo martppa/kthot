@@ -3,7 +3,7 @@ package net.asere.kotlin.js.dsl.dom.reference
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.value.JsStringValue
 
-object DocumentJsObjectRef : JsDomObjectRef("document") {
+object JsDocumentObjectRef : JsDomObjectRef("document") {
     fun getElementById(id: JsStringValue): JsSyntax = JsSyntax("${this}.getElementById($id)")
     fun querySelector(selector: JsStringValue): JsSyntax = JsSyntax("${this}.querySelector($selector)")
     fun querySelectorAll(selector: JsStringValue): JsSyntax = JsSyntax("${this}.querySelectorAll($selector)")

@@ -6,9 +6,7 @@ class JsStringValue(
     val value: String
 ) : JsString(), JsRawValue<JsString> {
 
-    override fun present(): String = """
-        "$value"
-    """.trimIndent()
+    override fun present(): String = "'$value'"
 }
 
 fun JsString.Companion.value(value: String): JsString = JsStringValue(value)

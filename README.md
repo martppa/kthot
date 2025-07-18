@@ -95,11 +95,49 @@ val syntax = js {
 }
 println(syntax)
 
-// Output
+// Output:
 // function greet(string_1, string_2) {
 //     console.log(string_1 + string_2)
 // }
 // greet("Hello, ", "World")
+```
+## Integrate with Html DSL
+
+Javascript code can be integrated with the Html DSL using `jsScript` function
+
+```kotlin
+val showAlert = JsFunction1Ref<JsString>("showAlert")
+val html = createHTML().html {
+    head {
+        jsScript {
+            +JsFunction(name = "showAlert", JsString.ref()) {
+                +JsWindowObjectRef.alert(it)
+            }
+        }
+    }
+    body {
+        button {
+            onClick = "${showAlert("Hello World!".js)}"
+            +"Click me"
+        }
+    }
+}
+println(html)
+
+// Output:
+// <html>
+// <head>
+//  <script>
+//      function showAlert(string_0) {
+//          window.alert(string_0)
+//      }
+//  </script>
+// </head>
+// <body>
+//  <button onclick="showAlert('Hello World!')">Click me</button>
+// </body>
+// </html>
+
 ```
 
 # License - MIT
