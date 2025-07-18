@@ -11,4 +11,4 @@ class JsStringValue(
     """.trimIndent()
 }
 
-fun JsString.Companion.value(name: String): JsString = JsStringValue(name)
+fun JsString.Companion.value(value: String): JsString = JsStringValue(value)

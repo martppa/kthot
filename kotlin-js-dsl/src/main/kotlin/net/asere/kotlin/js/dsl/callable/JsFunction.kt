@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package net.asere.kotlin.js.dsl.callable
 
 import net.asere.kotlin.js.dsl.extension.unaryPlus
@@ -41,11 +43,11 @@ fun <Param1 : JsValue,
     param4: JsReference<Param4>,
     param5: JsReference<Param5>,
     definition: JsSyntaxScope.(
-        JsReference<Param1>,
-        JsReference<Param2>,
-        JsReference<Param3>,
-        JsReference<Param4>,
-        JsReference<Param5>
+        Param1,
+        Param2,
+        Param3,
+        Param4,
+        Param5
     ) -> Unit
 ) = JsFunction5(
     name = name,
@@ -64,11 +66,11 @@ class JsFunction5<
         Param4 : JsValue,
         Param5 : JsValue>(
     name: String? = null,
-    private val param1: Param1,
-    private val param2: Param2,
-    private val param3: Param3,
-    private val param4: Param4,
-    private val param5: Param5,
+    private val param1: JsReference<Param1>,
+    private val param2: JsReference<Param2>,
+    private val param3: JsReference<Param3>,
+    private val param4: JsReference<Param4>,
+    private val param5: JsReference<Param5>,
     private val definition: JsSyntaxScope.(
         Param1,
         Param2,
@@ -82,7 +84,7 @@ class JsFunction5<
 
     override fun buildScopeParameters() = InnerScopeParameters(
         scope = JsSyntaxScope().apply {
-            definition(this, param1, param2, param3, param4, param5)
+            definition(this, param1 as Param1, param2 as Param2, param3 as Param3, param4 as Param4, param5 as Param5)
         },
         invocationParameters = listOf(param1, param2, param3, param4, param5)
     )
@@ -96,10 +98,10 @@ fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue> JsF
     param3: JsReference<Param3>,
     param4: JsReference<Param4>,
     definition: JsSyntaxScope.(
-        JsReference<Param1>,
-        JsReference<Param2>,
-        JsReference<Param3>,
-        JsReference<Param4>
+        Param1,
+        Param2,
+        Param3,
+        Param4
     ) -> Unit
 ) = JsFunction4(
     name = name,
@@ -117,10 +119,10 @@ class JsFunction4<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 :
     private val param3: JsReference<Param3>,
     private val param4: JsReference<Param4>,
     private val definition: JsSyntaxScope.(
-        JsReference<Param1>,
-        JsReference<Param2>,
-        JsReference<Param3>,
-        JsReference<Param4>
+        Param1,
+        Param2,
+        Param3,
+        Param4
     ) -> Unit,
 ) : JsFunctionCommons<JsFunction4Ref<Param1, Param2, Param3, Param4>>(name) {
 
@@ -128,7 +130,7 @@ class JsFunction4<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 :
 
     override fun buildScopeParameters() = InnerScopeParameters(
         scope = JsSyntaxScope().apply {
-            definition(this, param1, param2, param3, param4)
+            definition(this, param1 as Param1, param2 as Param2, param3 as Param3, param4 as Param4)
         },
         invocationParameters = listOf(param1, param2, param3, param4)
     )
@@ -140,9 +142,9 @@ fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue> JsFunction(
     param2: JsReference<Param2>,
     param3: JsReference<Param3>,
     definition: JsSyntaxScope.(
-        JsReference<Param1>,
-        JsReference<Param2>,
-        JsReference<Param3>
+        Param1,
+        Param2,
+        Param3
     ) -> Unit
 ) = JsFunction3(
     name = name,
@@ -158,9 +160,9 @@ class JsFunction3<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue>(
     private val param2: JsReference<Param2>,
     private val param3: JsReference<Param3>,
     private val definition: JsSyntaxScope.(
-        JsReference<Param1>,
-        JsReference<Param2>,
-        JsReference<Param3>
+        Param1,
+        Param2,
+        Param3
     ) -> Unit,
 ) : JsFunctionCommons<JsFunction3Ref<Param1, Param2, Param3>>(name) {
 
@@ -168,7 +170,7 @@ class JsFunction3<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue>(
 
     override fun buildScopeParameters() = InnerScopeParameters(
         scope = JsSyntaxScope().apply {
-            definition(this, param1, param2, param3)
+            definition(this, param1 as Param1, param2 as Param2, param3 as Param3)
         },
         invocationParameters = listOf(param1, param2, param3)
     )
@@ -179,7 +181,7 @@ fun <Param1 : JsValue, Param2 : JsValue> JsFunction(
     param1: JsReference<Param1>,
     param2: JsReference<Param2>,
     definition: JsSyntaxScope.(
-        JsReference<Param1>, JsReference<Param2>
+        Param1, Param2
     ) -> Unit
 ) = JsFunction2(
     name = name,
@@ -193,8 +195,8 @@ class JsFunction2<Param1 : JsValue, Param2 : JsValue>(
     private val param1: JsReference<Param1>,
     private val param2: JsReference<Param2>,
     private val definition: JsSyntaxScope.(
-        JsReference<Param1>,
-        JsReference<Param2>
+        Param1,
+        Param2,
     ) -> Unit,
 ) : JsFunctionCommons<JsFunction2Ref<Param1, Param2>>(name) {
 
@@ -202,7 +204,7 @@ class JsFunction2<Param1 : JsValue, Param2 : JsValue>(
 
     override fun buildScopeParameters() = InnerScopeParameters(
         scope = JsSyntaxScope().apply {
-            definition(this, param1, param2)
+            definition(this, param1 as Param1, param2 as Param2)
         },
         invocationParameters = listOf(param1, param2)
     )
@@ -211,7 +213,7 @@ class JsFunction2<Param1 : JsValue, Param2 : JsValue>(
 fun <Param1 : JsValue> JsFunction(
     name: String? = null,
     param: JsReference<Param1>,
-    definition: JsSyntaxScope.(JsReference<Param1>) -> Unit
+    definition: JsSyntaxScope.(Param1) -> Unit
 ) = JsFunction1(
     name = name,
     param = param,
@@ -221,13 +223,13 @@ fun <Param1 : JsValue> JsFunction(
 class JsFunction1<Param1 : JsValue>(
     name: String? = null,
     private val param: JsReference<Param1>,
-    private val definition: JsSyntaxScope.(JsReference<Param1>) -> Unit,
+    private val definition: JsSyntaxScope.(Param1) -> Unit,
 ) : JsFunctionCommons<JsFunction1Ref<Param1>>(name) {
 
     override val functionRef: JsFunction1Ref<Param1> = JsFunction1Ref(name)
     override fun buildScopeParameters() = InnerScopeParameters(
         scope = JsSyntaxScope().apply {
-            definition(this, param)
+            definition(this, param as Param1)
         },
         invocationParameters = listOf(param)
     )
