@@ -91,7 +91,7 @@ val syntax = js {
     val greet = +JsFunction(name = "greet", JsString.ref(), JsString.ref()) { string1, string2 ->
         +jsLog(string1 + string2)
     }
-    +greet(JsString.value("Hello, "), JsString.value("World"))
+    +greet("Hello, ".js, "World".js)
 }
 println(syntax)
 
