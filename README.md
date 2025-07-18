@@ -1,12 +1,12 @@
-# kotlin-js-dsl ![](https://img.shields.io/badge/jsDsl_version-0.0.1-004475)
+# kotlin-js-dsl ![](https://img.shields.io/badge/jsDsl_version-0.0.2-004475)
 This semi-typed DSL is intended to help kotlin developers write, reuse and interact with Javascript. This tool is currently under development and it's in an experimental stage.
 
 ## Installation
 In order to include the DSL, add the following dependencies to your project build.gradle file:
 ```groovy
 dependencies {
-    implementation "net.asere.kotlin:js-dsl:0.0.1"
-    implementation "net.asere.kotlin:js-dsl-html:0.0.1"
+    implementation "net.asere.kotlin:js-dsl:$version"
+    implementation "net.asere.kotlin:js-dsl-html:$version"
 }
 ```
 
