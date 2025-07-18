@@ -1,4 +1,4 @@
-# kotlin-js-dsl ![](https://img.shields.io/badge/mvi_version-0.0.1-004475)
+# kotlin-js-dsl ![](https://img.shields.io/badge/jsDsl_version-0.0.1-004475)
 This semi-typed DSL is intended to help kotlin developers write, reuse and interact with Javascript. This tool is currently under development and it's in an experimental stage.
 
 ## Installation
@@ -39,7 +39,7 @@ In order to assign values to a JavaScript object use the `assign` extension func
 
 ```kotlin
 val syntax = js {
-    +JsString.ref().declare(Mutable).assign(JsString.value("Juan"))
+    +JsString.ref().declare(Mutable).assign("Juan".js)
 }
 println(syntax) // --> let string_1 = "Juan"
 ```
@@ -50,8 +50,8 @@ Declare reference objects to deal with them at any time
 
 ```kotlin
 val syntax = js {
-    val stringValue = +JsString.ref().declare(Mutable).assign(JsString.value("Juan"))
-    +jsLog(stringValue.charAt(JsNumber.value(0)))
+    val stringValue = +JsString.ref().declare(Mutable).assign("Juan".js)
+    +jsLog(stringValue.charAt(0.js))
 }
 println(syntax)
 
@@ -66,17 +66,9 @@ Declare collections and iterate them
 ```kotlin
 fun main(vararg args: String) {
     val syntax = js {
-        val collection = +JsCollection
-            .ref<JsNumber>()
-            .declare(Constant)
-            .assign(
-                JsCollection.value(
-                    JsNumber.value(0),
-                    JsNumber.value(1),
-                    JsNumber.value(2),
-                    JsNumber.value(3),
-                )
-            )
+        val collection = +JsCollection.ref<JsNumber>().declare(Constant).assign(
+            JsCollection.value(0.js, 1.js, 2.js, 3.js, 4.js)
+        )
         +collection.forEach(JsLambda.value(JsNumber.ref()) { number1 ->
             +jsLog(number1)
         })
