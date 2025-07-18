@@ -79,3 +79,9 @@ abstract class JsScriptScope {
     fun <T : JsReference<*>> JsSyntaxBuilder<T>.assign(value: Number) = assign(element = JsNumberValue(value))
     fun <T : JsReference<*>> JsSyntaxBuilder<T>.assign(value: Boolean) = assign(element = JsBooleanValue(value))
 }
+
+fun js(block: JsSyntaxScope.() -> Unit): JsSyntax {
+    val scope = JsSyntaxScope()
+    block(scope)
+    return scope.toSyntax()
+}

@@ -10,3 +10,5 @@ class JsBooleanValue(
         $value
     """.trimIndent()
 }
+
+fun JsBoolean.Companion.value(value: Boolean) = JsBooleanValue(value)

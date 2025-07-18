@@ -2,7 +2,6 @@ package net.asere.kotlin.js.dsl.type
 
 import net.asere.kotlin.js.dsl.reference.JsNumberRef
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
-import net.asere.kotlin.js.dsl.value.JsNumberValue
 import net.asere.kotlin.js.dsl.value.JsValue
 import net.asere.kotlin.js.dsl.value.value
 
@@ -47,13 +46,13 @@ abstract class JsNumber : JsValue {
 
         fun isSafeInteger(value: JsNumber): JsSyntax = JsSyntax("Number.isSafeInteger($value)")
 
-        fun parseFloat(string: String) = parseFloat(JsString.value(string))
         fun parseFloat(string: JsString): JsSyntax = JsSyntax("Number.parseFloat($string)")
 
-        fun parseInt(string: String, radix: JsNumberRef? = null) = parseInt(JsString.value(string), radix)
         fun parseInt(string: JsString, radix: JsNumberRef? = null): JsSyntax {
             val radixArg = radix?.let { ", $it" } ?: ""
             return JsSyntax("Number.parseInt($string$radixArg)")
         }
     }
 }
+
+val Number.js: JsNumber get() = JsNumber.value(this)

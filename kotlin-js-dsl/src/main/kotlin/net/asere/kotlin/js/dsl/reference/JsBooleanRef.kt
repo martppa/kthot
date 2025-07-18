@@ -7,3 +7,5 @@ class JsBooleanRef(
 ) : JsBoolean(), JsDeclarableReference<JsBoolean> by JsValueRef(
     name = name ?: "boolean_${JsReference.nextRefInt()}"
 )
+
+fun JsBoolean.Companion.ref(name: String? = null) = JsBooleanRef(name)
