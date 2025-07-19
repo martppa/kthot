@@ -10,7 +10,12 @@ class AndComparison(
     override val operator: LogicalOperator = And
 }
 
-fun Comparable.and(rightHand: Comparable): AndComparison = AndComparison(
+infix fun Comparable.and(rightHand: Comparable): AndComparison = AndComparison(
     leftHand = this,
-    rightHand = rightHand
+    rightHand = rightHand.groupIfComparison()
+)
+
+infix fun Comparison.and(rightHand: Comparable): AndComparison = AndComparison(
+    leftHand = this.group(),
+    rightHand = rightHand.groupIfComparison()
 )

@@ -22,11 +22,11 @@ fun main(vararg args: String) {
             val bool1 = +JsBoolean.ref().declare(Constant).assign(false.js)
             val bool2 = +JsBoolean.ref().declare(Constant).assign(false.js)
 
-            +jsIf(bool0.and(bool1).and(bool2)) {
+            +jsIf((bool0 and bool1) or (bool1 and bool2)) {
                 +jsLog("and!")
-            }.jsElseIf(bool0.or(bool1.or(bool2).group())) {
+            }.jsElseIf(bool0 or (bool1 or bool2)) {
                 +jsLog("or!")
-            }.jsElseIf(bool0.or(bool1.or(bool2))) {
+            }.jsElseIf((bool0 or bool1) or bool2) {
                 +jsLog("or!")
             }.jsElse {
                 +jsLog("else!")

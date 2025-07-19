@@ -10,7 +10,12 @@ class OrComparison(
     override val operator: LogicalOperator = Or
 }
 
-fun Comparable.or(rightHand: Comparable): OrComparison = OrComparison(
+infix fun Comparable.or(rightHand: Comparable): OrComparison = OrComparison(
     leftHand = this,
-    rightHand = rightHand
+    rightHand = rightHand.groupIfComparison()
+)
+
+infix fun Comparison.or(rightHand: Comparable): OrComparison = OrComparison(
+    leftHand = this.group(),
+    rightHand = rightHand.groupIfComparison()
 )

@@ -12,3 +12,5 @@ class GroupedComparison<T : Comparison>(
 }
 
 fun <T : Comparison> T.group(): GroupedComparison<T> = GroupedComparison(this)
+
+fun Comparable.groupIfComparison() = if (this is Comparison) this.group() else this
