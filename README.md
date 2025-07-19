@@ -1,5 +1,5 @@
 # kotlin-js-dsl ![](https://img.shields.io/badge/jsDsl_version-0.0.2-004475)
-This semi-typed DSL is intended to help kotlin developers write, reuse and interact with Javascript. This tool is currently under development and it's in an experimental stage.
+This semi-typed DSL is intended to help kotlin developers write, reuse and interact with Javascript without WASM. This tool is currently under development, and it's in an experimental stage. 
 
 ## Installation
 In order to include the DSL, add the following dependencies to your project build.gradle file:
@@ -10,13 +10,14 @@ dependencies {
 }
 ```
 
-## Usage
-
 The DSL is currently capable of offering some basic functionalities
 
-### Variable definition
+## Variable 
 
-Define a basic string variable. `JsString` is the Kotlin representation for the `String` type in Javascript. Use the `js` function to generate the syntax. `js` function will pack all instructions and return them as a single `JsSyntax` object. Use the unary plus (+) operator to "print" any `JsElement` on the scope of `js` function's lambda.
+### Definition
+
+Define a basic string variable. `JsString` is the Kotlin representation for the `String` type in Javascript. Use the `js` function to generate the syntax. `js` function will pack all instructions and return them as a single `JsSyntax` object. Use the unary plus (+) operator to "print" any `JsElement` on the scope of `js` function's lambda. 
+The `declare` function will write the variable declaration, it could be mutable or constant.
 
 ```kotlin
 val syntax = js {
@@ -35,7 +36,7 @@ When no `name` argument is provided to `ref()` build extension function, a defau
 
 ### Assign values to declared references
 
-In order to assign values to a JavaScript object use the `assign` extension function
+In order to assign values to a JavaScript object use the `assign` extension function. In this case in the example the `js` extension val is used to turn the `String` into a `JsString` accepted by the `assign` function.
 
 ```kotlin
 val syntax = js {
@@ -46,7 +47,7 @@ println(syntax) // --> let string_1 = "Juan"
 
 ### Referencing objects in Kotlin
 
-Declare reference objects to deal with them at any time
+Every object reference (e.g `JsString.ref()`) can be assigned to a Kotlin object to interact with it. In the example below the `JsString` reference is stored in `stringValue`, then the first character of 'Juan' is printed.
 
 ```kotlin
 val syntax = js {
@@ -54,12 +55,90 @@ val syntax = js {
     +jsLog(stringValue.charAt(0.js))
 }
 println(syntax)
-
-// Output:
-// let string_1 = "Juan"
-// console.log(string_1.charAt(0))
 ```
-### Collections
+Output:
+```javascript
+    let string_1 = "Juan"
+    console.log(string_1.charAt(0))
+```
+
+## Operators
+
+### Arithmetical
+
+Arithmetical operators are overloaded in Kotlin so you can use them like you would do in Javascript.
+
+```kotlin
+val syntax = js {
+    val result = +JsNumber.ref("result").declare(Constant).assign(5.js + 10.js - 2.js)
+    val text = +JsString.ref("text").declare(Constant).assign("The result is: ".js + result)
+    +jsLog(text)
+}
+println(syntax)
+```
+
+Output:
+```javascript
+const result = 5 + 10 - 2
+const text = 'The result is: ' + result
+console.log(text)
+```
+
+> Parenthesis usage in arithmetical operations is currently not supported.
+
+### Logical
+
+Logical operators can be applied using infix functions to emulate them:
+
+| Javascript operator | Kotlin reference |
+|---------------------|------------------|
+| &&                  | and              |
+| II                  | or               |
+| !                   | !                |
+
+```kotlin
+val syntax = js {
+    val bool0 = +JsBoolean.ref().declare(Constant).assign(true)
+    val bool1 = +JsBoolean.ref().declare(Constant).assign(false)
+    val result = +JsBoolean.ref("result").declare(Constant).assign(bool0 and bool1)
+    +jsLog(result)
+}
+println(syntax)
+```
+
+Output:
+```javascript
+const boolean_1 = true
+const boolean_2 = false
+const result = boolean_1 && boolean_2
+console.log(result)
+```
+
+### Equality
+
+| Javascript operator | Kotlin reference |
+|---------------------|------------------|
+| ==                  | eq               |
+| ===                 | seq              |
+| !                   | !                |
+
+```kotlin
+val syntax = js {
+    val result = +JsBoolean.ref("result").declare(Constant).assign(5.js eq 5.js)
+    +jsLog(result)
+}
+println(syntax)
+```
+
+Output:
+```javascript
+const result = 5 == 5
+console.log(result)
+```
+
+You can use parenthesis to group expressions just like you would do it in Kotlin.
+
+## Collections
 
 Declare collections and iterate them
 
