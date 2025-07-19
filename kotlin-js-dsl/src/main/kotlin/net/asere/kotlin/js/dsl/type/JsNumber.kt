@@ -2,10 +2,11 @@ package net.asere.kotlin.js.dsl.type
 
 import net.asere.kotlin.js.dsl.reference.JsNumberRef
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
+import net.asere.kotlin.js.dsl.syntax.comparison.ArithmeticalComparable
 import net.asere.kotlin.js.dsl.value.JsValue
 import net.asere.kotlin.js.dsl.value.value
 
-abstract class JsNumber : JsValue {
+abstract class JsNumber : JsValue, ArithmeticalComparable {
 
     fun toExponential(fractionDigits: JsNumber? = null): JsSyntax {
         val arg = fractionDigits?.let { "$it" } ?: ""

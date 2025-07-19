@@ -9,6 +9,9 @@ import net.asere.kotlin.js.dsl.declaration.Constant
 import net.asere.kotlin.js.dsl.html.jsScript
 import net.asere.kotlin.js.dsl.log.jsLog
 import net.asere.kotlin.js.dsl.reference.ref
+import net.asere.kotlin.js.dsl.syntax.jsElse
+import net.asere.kotlin.js.dsl.syntax.jsElseIf
+import net.asere.kotlin.js.dsl.syntax.jsIf
 import net.asere.kotlin.js.dsl.syntax.jsReturn
 import net.asere.kotlin.js.dsl.type.JsString
 import net.asere.kotlin.js.dsl.value.plus
