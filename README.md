@@ -1,5 +1,5 @@
 # kotlin-js-dsl ![](https://img.shields.io/badge/jsDsl_version-0.0.2-004475)
-This semi-typed DSL is intended to help kotlin developers write, reuse and interact with Javascript without ![WASM](https://kotlinlang.org/docs/wasm-overview.html). It was born under the need to help developers of ![Kotlin Html Dsl](https://kotlinlang.org/docs/typesafe-html-dsl.html) write JS code while staying in Kotlin. If what you are looking for is writing entire projects in JS using Kotlin, ![WASM](https://kotlinlang.org/docs/wasm-overview.html) is your tool. This tool is currently under development, and it's in an experimental stage. 
+This semi-typed DSL is intended to help kotlin developers write, reuse and interact with Javascript without [WASM](https://kotlinlang.org/docs/wasm-overview.html). It was born under the need to help developers of [Kotlin Html Dsl](https://kotlinlang.org/docs/typesafe-html-dsl.html) write JS code while staying in Kotlin. If what you are looking for is writing entire projects in JS using Kotlin, [WASM](https://kotlinlang.org/docs/wasm-overview.html) is your tool. This tool is currently under development, and it's in an experimental stage. 
 
 ## Installation
 In order to include the DSL, add the following dependencies to your project build.gradle file:
