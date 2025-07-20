@@ -1,10 +1,10 @@
 package net.asere.kotlin.js.dsl.syntax
 
-import net.asere.kotlin.js.dsl.syntax.comparison.Comparable
+import net.asere.kotlin.js.dsl.syntax.operation.Operable
 
 class JsIfSyntaxBuilder : JsSyntaxBuilder<Unit>(Unit)
 
-fun jsIf(comparable: Comparable, block: JsSyntaxScope.() -> Unit) : JsIfSyntaxBuilder  {
+fun jsIf(comparable: Operable, block: JsSyntaxScope.() -> Unit) : JsIfSyntaxBuilder  {
     val scope = JsSyntaxScope()
     block(scope)
     return JsIfSyntaxBuilder().apply {
@@ -18,7 +18,7 @@ fun jsIf(comparable: Comparable, block: JsSyntaxScope.() -> Unit) : JsIfSyntaxBu
     }
 }
 
-fun JsIfSyntaxBuilder.jsElseIf(comparable: Comparable, block: JsSyntaxScope.() -> Unit): JsIfSyntaxBuilder {
+fun JsIfSyntaxBuilder.jsElseIf(comparable: Operable, block: JsSyntaxScope.() -> Unit): JsIfSyntaxBuilder {
     return apply {
         append(
             JsSyntax(

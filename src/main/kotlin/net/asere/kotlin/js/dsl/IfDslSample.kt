@@ -6,9 +6,9 @@ import net.asere.kotlin.js.dsl.declaration.Constant
 import net.asere.kotlin.js.dsl.html.jsScript
 import net.asere.kotlin.js.dsl.log.jsLog
 import net.asere.kotlin.js.dsl.reference.ref
-import net.asere.kotlin.js.dsl.syntax.comparison.and
-import net.asere.kotlin.js.dsl.syntax.comparison.not
-import net.asere.kotlin.js.dsl.syntax.comparison.or
+import net.asere.kotlin.js.dsl.syntax.operation.and
+import net.asere.kotlin.js.dsl.syntax.operation.not
+import net.asere.kotlin.js.dsl.syntax.operation.or
 import net.asere.kotlin.js.dsl.syntax.jsElse
 import net.asere.kotlin.js.dsl.syntax.jsElseIf
 import net.asere.kotlin.js.dsl.syntax.jsIf
