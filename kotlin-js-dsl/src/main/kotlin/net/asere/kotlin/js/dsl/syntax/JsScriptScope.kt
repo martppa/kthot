@@ -18,6 +18,7 @@ import net.asere.kotlin.js.dsl.reference.JsReference
 import net.asere.kotlin.js.dsl.reference.JsStringRef
 import net.asere.kotlin.js.dsl.toLine
 import net.asere.kotlin.js.dsl.toSyntax
+import net.asere.kotlin.js.dsl.type.js
 import net.asere.kotlin.js.dsl.value.JsBooleanValue
 import net.asere.kotlin.js.dsl.value.JsNumberValue
 import net.asere.kotlin.js.dsl.value.JsStringValue
@@ -75,9 +76,9 @@ abstract class JsScriptScope {
         return this
     }
 
-    fun <T : JsReference<*>> JsSyntaxBuilder<T>.assign(value: String) = assign(element = JsStringValue(value))
-    fun <T : JsReference<*>> JsSyntaxBuilder<T>.assign(value: Number) = assign(element = JsNumberValue(value))
-    fun <T : JsReference<*>> JsSyntaxBuilder<T>.assign(value: Boolean) = assign(element = JsBooleanValue(value))
+    fun <T : JsReference<*>> JsSyntaxBuilder<T>.assign(value: String) = assign(element = value.js)
+    fun <T : JsReference<*>> JsSyntaxBuilder<T>.assign(value: Number) = assign(element = value.js)
+    fun <T : JsReference<*>> JsSyntaxBuilder<T>.assign(value: Boolean) = assign(element = value.js)
 }
 
 fun js(block: JsSyntaxScope.() -> Unit): JsSyntax {

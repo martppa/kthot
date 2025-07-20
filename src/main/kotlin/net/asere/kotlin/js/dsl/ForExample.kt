@@ -12,24 +12,16 @@ import net.asere.kotlin.js.dsl.syntax.operation.or
 import net.asere.kotlin.js.dsl.syntax.jsif.jsElse
 import net.asere.kotlin.js.dsl.syntax.jsif.jsElseIf
 import net.asere.kotlin.js.dsl.syntax.jsif.jsIf
+import net.asere.kotlin.js.dsl.syntax.loop.jsfor.forI
+import net.asere.kotlin.js.dsl.syntax.loop.jsfor.jsFor
 import net.asere.kotlin.js.dsl.type.JsBoolean
 import net.asere.kotlin.js.dsl.type.js
 
 fun main(vararg args: String) {
     val result = createHTML().body {
         jsScript {
-            val bool0 = +JsBoolean.ref().declare(Constant).assign(true.js)
-            val bool1 = +JsBoolean.ref().declare(Constant).assign(false.js)
-            val bool2 = +JsBoolean.ref().declare(Constant).assign(false.js)
+            +jsFor(forI, 0.js, forI < 10, forI++) {
 
-            +jsIf((!bool0 and bool1) or (bool1 and bool2)) {
-                +jsLog("and!")
-            }.jsElseIf(bool0 or (bool1 or bool2)) {
-                +jsLog("or!")
-            }.jsElseIf((bool0 or bool1) or bool2) {
-                +jsLog("or!")
-            }.jsElse {
-                +jsLog("else!")
             }
         }
     }

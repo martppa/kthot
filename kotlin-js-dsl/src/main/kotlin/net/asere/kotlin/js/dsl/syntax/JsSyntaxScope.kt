@@ -17,3 +17,5 @@ class JsSyntaxScope : JsScriptScope(), JsElement {
 
     override fun toString(): String = present()
 }
+
+fun <T : JsElement> JsSyntaxScope.run(block: JsSyntaxScope.() -> T) = block(this) 
