@@ -119,7 +119,9 @@ console.log(result)
 | Javascript operator | Kotlin reference |
 |---------------------|------------------|
 | ==                  | eq               |
+| != | neq |
 | ===                 | seq              |
+| !== | nseq |
 | !                   | !                |
 
 ```kotlin
@@ -137,6 +139,24 @@ console.log(result)
 ```
 
 You can use parenthesis to group expressions just like you would do it in Kotlin.
+
+```kotlin
+val syntax = js {
+    val bool0 = +JsBoolean.ref().declare(Constant).assign(5.js eq 5.js)
+    val bool1 = +JsBoolean.ref().declare(Constant).assign(false)
+    val bool2 = +JsBoolean.ref().declare(Constant).assign(true)
+    +jsLog(bool1 and (bool2 or bool0))
+}
+println(syntax)
+```
+
+Output:
+```javascript
+const boolean_4 = 5 == 5
+const boolean_5 = false
+const boolean_6 = true
+console.log(boolean_5 && (boolean_6 || boolean_4))
+```
 
 ## Collections
 
