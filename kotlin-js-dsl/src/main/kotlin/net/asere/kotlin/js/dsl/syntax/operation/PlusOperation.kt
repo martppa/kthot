@@ -15,7 +15,7 @@ operator fun Operable.plus(rightHand: Operable): PlusOperation = PlusOperation(
     rightHand = rightHand.groupIfComparison()
 )
 
-operator fun Operation.plus(rightHand: Operable): PlusOperation = PlusOperation(
+operator fun CompoundOperation.plus(rightHand: Operable): PlusOperation = PlusOperation(
     leftHand = this.group(),
     rightHand = rightHand.groupIfComparison()
 )

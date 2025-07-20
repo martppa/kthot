@@ -15,7 +15,7 @@ infix fun Operable.seq(rightHand: Operable): StrictEqualsComparison = StrictEqua
     rightHand = rightHand.groupIfComparison()
 )
 
-infix fun Operation.seq(rightHand: Operable): StrictEqualsComparison = StrictEqualsComparison(
+infix fun CompoundOperation.seq(rightHand: Operable): StrictEqualsComparison = StrictEqualsComparison(
     leftHand = this.group(),
     rightHand = rightHand.groupIfComparison()
 )

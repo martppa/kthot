@@ -15,7 +15,7 @@ infix fun Operable.nseq(rightHand: Operable): NotStrictEqualsComparison = NotStr
     rightHand = rightHand.groupIfComparison()
 )
 
-infix fun Operation.nseq(rightHand: Operable): NotStrictEqualsComparison = NotStrictEqualsComparison(
+infix fun CompoundOperation.nseq(rightHand: Operable): NotStrictEqualsComparison = NotStrictEqualsComparison(
     leftHand = this.group(),
     rightHand = rightHand.groupIfComparison()
 )

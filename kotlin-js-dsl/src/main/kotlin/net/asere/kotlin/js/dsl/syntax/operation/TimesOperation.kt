@@ -15,7 +15,7 @@ operator fun Operable.times(rightHand: Operable): TimesOperation = TimesOperatio
     rightHand = rightHand.groupIfComparison()
 )
 
-operator fun Operation.times(rightHand: Operable): TimesOperation = TimesOperation(
+operator fun CompoundOperation.times(rightHand: Operable): TimesOperation = TimesOperation(
     leftHand = this.group(),
     rightHand = rightHand.groupIfComparison()
 )

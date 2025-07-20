@@ -9,6 +9,7 @@ import net.asere.kotlin.js.dsl.syntax.JsSyntaxBuilder
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.syntax.operation.Operable
 import net.asere.kotlin.js.dsl.syntax.operation.Operation
+import net.asere.kotlin.js.dsl.syntax.operation.Operation
 import net.asere.kotlin.js.dsl.type.JsCollection
 import net.asere.kotlin.js.dsl.type.JsNumber
 import net.asere.kotlin.js.dsl.value.JsValue

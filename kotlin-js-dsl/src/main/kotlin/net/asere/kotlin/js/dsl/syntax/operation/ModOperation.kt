@@ -1,7 +1,6 @@
 package net.asere.kotlin.js.dsl.syntax.operation
 
 import net.asere.kotlin.js.dsl.syntax.operation.operator.ArithmeticalOperator
-import net.asere.kotlin.js.dsl.syntax.operation.operator.Div
 import net.asere.kotlin.js.dsl.syntax.operation.operator.Mod
 
 class ModOperation(
@@ -16,7 +15,7 @@ operator fun Operable.rem(rightHand: Operable): ModOperation = ModOperation(
     rightHand = rightHand.groupIfComparison()
 )
 
-operator fun Operation.rem(rightHand: Operable): ModOperation = ModOperation(
+operator fun CompoundOperation.rem(rightHand: Operable): ModOperation = ModOperation(
     leftHand = this.group(),
     rightHand = rightHand.groupIfComparison()
 )

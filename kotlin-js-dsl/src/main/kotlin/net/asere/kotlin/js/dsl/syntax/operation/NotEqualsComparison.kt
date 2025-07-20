@@ -15,7 +15,7 @@ infix fun Operable.neq(rightHand: Operable): NotEqualsComparison = NotEqualsComp
     rightHand = rightHand.groupIfComparison()
 )
 
-infix fun Operation.neq(rightHand: Operable): NotEqualsComparison = NotEqualsComparison(
+infix fun CompoundOperation.neq(rightHand: Operable): NotEqualsComparison = NotEqualsComparison(
     leftHand = this.group(),
     rightHand = rightHand.groupIfComparison()
 )

@@ -6,7 +6,7 @@ import net.asere.kotlin.js.dsl.syntax.operation.operator.Operator
 class InstanceOfComparison(
     override val leftHand: Operable,
     override val rightHand: Operable,
-) : Operation() {
+) : CompoundOperation() {
     override val operator: Operator = InstanceOf
 }
 
@@ -15,7 +15,7 @@ infix fun Operable.instanceOf(rightHand: Operable): InstanceOfComparison = Insta
     rightHand = rightHand.groupIfComparison()
 )
 
-infix fun Operation.instanceOf(rightHand: Operable): InstanceOfComparison = InstanceOfComparison(
+infix fun CompoundOperation.instanceOf(rightHand: Operable): InstanceOfComparison = InstanceOfComparison(
     leftHand = this.group(),
     rightHand = rightHand.groupIfComparison()
 )

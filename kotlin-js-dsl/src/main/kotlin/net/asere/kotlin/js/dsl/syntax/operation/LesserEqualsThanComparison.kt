@@ -15,7 +15,7 @@ infix fun Operable.lte(rightHand: Operable): LesserEqualsThanComparison = Lesser
     rightHand = rightHand.groupIfComparison()
 )
 
-infix fun Operation.lte(rightHand: Operable): LesserEqualsThanComparison = LesserEqualsThanComparison(
+infix fun CompoundOperation.lte(rightHand: Operable): LesserEqualsThanComparison = LesserEqualsThanComparison(
     leftHand = this.group(),
     rightHand = rightHand.groupIfComparison()
 )

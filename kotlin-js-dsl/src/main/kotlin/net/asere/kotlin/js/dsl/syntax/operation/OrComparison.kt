@@ -15,7 +15,7 @@ infix fun Operable.or(rightHand: Operable): OrComparison = OrComparison(
     rightHand = rightHand.groupIfComparison()
 )
 
-infix fun Operation.or(rightHand: Operable): OrComparison = OrComparison(
+infix fun CompoundOperation.or(rightHand: Operable): OrComparison = OrComparison(
     leftHand = this.group(),
     rightHand = rightHand.groupIfComparison()
 )
