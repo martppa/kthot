@@ -4,6 +4,9 @@ import net.asere.kotlin.js.dsl.JsElement
 import net.asere.kotlin.js.dsl.callable.*
 import net.asere.kotlin.js.dsl.declaration.*
 import net.asere.kotlin.js.dsl.reference.*
+import net.asere.kotlin.js.dsl.syntax.operation.AssignmentOperation
+import net.asere.kotlin.js.dsl.syntax.operation.Operable
+import net.asere.kotlin.js.dsl.syntax.value.JsObjectSyntax
 import net.asere.kotlin.js.dsl.toLine
 import net.asere.kotlin.js.dsl.toSyntax
 import net.asere.kotlin.js.dsl.type.js
@@ -11,7 +14,7 @@ import net.asere.kotlin.js.dsl.value.JsValue
 
 abstract class JsScriptScope {
 
-    protected abstract fun append(syntax: JsSyntax)
+    abstract fun append(syntax: JsSyntax)
 
     operator fun JsElement.unaryPlus() = append(toLine())
 
@@ -48,14 +51,13 @@ abstract class JsScriptScope {
     }
 
     fun <T : JsReference<*>> T.assign(element: JsElement): JsSyntaxBuilder<T> {
-        val builder = JsSyntaxBuilder(this)
-        builder.append(JsSyntax("$this = $element"))
-        return builder
+        val assignOperation = AssignmentOperation(this, element.toOperable())
+        return JsSyntaxBuilder(this).apply { append(assignOperation) }
     }
 
     fun <T : JsReference<*>> JsSyntaxBuilder<T>.assign(element: JsElement): JsSyntaxBuilder<T> {
-        append(JsSyntax(" = $element"))
-        return this
+        val assignOperation = AssignmentOperation(this.toOperable(), element.toOperable())
+        return JsSyntaxBuilder(value).apply { append(assignOperation) }
     }
 
     fun <T : JsReference<*>> JsSyntaxBuilder<T>.assign(value: String) = assign(element = value.js)
@@ -73,15 +75,15 @@ abstract class JsScriptScope {
 
     infix fun <T : JsReference<C>, C : JsValue> JsSyntaxBuilder<T>.`=`(
         value: Number
-    ): JsReference<C> = assign(element = value.js).render()
+    ): T = assign(element = value.js).render()
 
     infix fun <T : JsReference<C>, C : JsValue> JsSyntaxBuilder<T>.`=`(
         value: String
-    ): JsReference<C> = assign(element = value.js).render()
+    ): T = assign(element = value.js).render()
 
     infix fun <T : JsReference<C>, C : JsValue> JsSyntaxBuilder<T>.`=`(
         value: JsElement
-    ) = assign(element = value).render()
+    ): T = assign(element = value).render()
 }
 
 fun js(block: JsSyntaxScope.() -> Unit): JsSyntax {

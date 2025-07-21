@@ -2,7 +2,6 @@ package net.asere.kotlin.js.dsl.syntax
 
 import net.asere.kotlin.js.dsl.JsElement
 import net.asere.kotlin.js.dsl.reference.JsObjectRef
-import net.asere.kotlin.js.dsl.reference.JsValueRef
 import net.asere.kotlin.js.dsl.reference.JsReference
 
 class JsSyntaxScope : JsScriptScope(), JsElement {
@@ -16,6 +15,8 @@ class JsSyntaxScope : JsScriptScope(), JsElement {
     override fun present(): String = syntaxBuilder.present()
 
     override fun toString(): String = present()
+
+    fun forceSingleLine() = syntaxBuilder.forceSingleLine()
 }
 
-fun <T : JsElement> JsSyntaxScope.run(block: JsSyntaxScope.() -> T) = block(this) 
+fun <T : JsElement> JsSyntaxScope.run(block: JsSyntaxScope.() -> T) = block(this)
