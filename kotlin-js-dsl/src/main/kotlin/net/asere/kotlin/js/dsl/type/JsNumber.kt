@@ -6,7 +6,7 @@ import net.asere.kotlin.js.dsl.syntax.operation.ArithmeticalComparable
 import net.asere.kotlin.js.dsl.value.JsValue
 import net.asere.kotlin.js.dsl.value.value
 
-abstract class JsNumber : JsValue, ArithmeticalComparable {
+interface JsNumber : JsValue, ArithmeticalComparable {
 
     fun toExponential(fractionDigits: JsNumber? = null): JsSyntax {
         val arg = fractionDigits?.let { "$it" } ?: ""
@@ -35,8 +35,6 @@ abstract class JsNumber : JsValue, ArithmeticalComparable {
     }
 
     fun valueOf(): JsSyntax = JsSyntax("${this}.valueOf()")
-
-    override fun toString(): String = present()
 
     companion object {
         fun isFinite(value: JsNumber): JsSyntax = JsSyntax("Number.isFinite($value)")

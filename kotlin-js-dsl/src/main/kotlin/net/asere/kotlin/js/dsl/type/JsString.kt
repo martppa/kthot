@@ -5,7 +5,7 @@ import net.asere.kotlin.js.dsl.value.JsNumberValue
 import net.asere.kotlin.js.dsl.value.JsValue
 import net.asere.kotlin.js.dsl.value.value
 
-abstract class JsString : JsValue {
+interface JsString : JsValue {
     companion object
 
     fun getLength(): JsSyntax = JsSyntax("${this}.length")
@@ -99,8 +99,6 @@ abstract class JsString : JsValue {
     fun trimEnd(): JsSyntax = JsSyntax("${this}.trimEnd()")
 
     fun trimStart(): JsSyntax = JsSyntax("${this}.trimStart()")
-
-    override fun toString(): String = present()
 }
 
 val String.js: JsString get() = JsString.value(this)

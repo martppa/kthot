@@ -5,11 +5,9 @@ import net.asere.kotlin.js.dsl.syntax.operation.LogicalComparable
 import net.asere.kotlin.js.dsl.value.JsValue
 import net.asere.kotlin.js.dsl.value.value
 
-abstract class JsBoolean : JsValue, LogicalComparable {
+interface JsBoolean : JsValue, LogicalComparable {
 
     fun jsToString(): JsSyntax = JsSyntax("${this}.toString()")
-
-    override fun toString(): String = present()
 
     companion object
 }

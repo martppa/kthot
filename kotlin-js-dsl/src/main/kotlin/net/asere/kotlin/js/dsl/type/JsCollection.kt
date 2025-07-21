@@ -3,30 +3,32 @@ package net.asere.kotlin.js.dsl.type
 import net.asere.kotlin.js.dsl.callable.JsLambda1
 import net.asere.kotlin.js.dsl.callable.JsLambda2
 import net.asere.kotlin.js.dsl.reference.JsNumberRef
+import net.asere.kotlin.js.dsl.reference.JsReference
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
-import net.asere.kotlin.js.dsl.value.JsNumberValue
+import net.asere.kotlin.js.dsl.syntax.value.JsNumberSyntax
+import net.asere.kotlin.js.dsl.syntax.value.JsReferenceSyntax
 import net.asere.kotlin.js.dsl.value.JsValue
 
-abstract class JsCollection<T : JsValue> : JsValue {
+interface JsCollection<T : JsValue> : JsValue {
 
     companion object
 
-    fun getByIndex(index: JsNumberValue): JsSyntax = JsSyntax("${this}[$index]")
+    fun getByIndex(index: JsNumber): JsReference<T> = JsReferenceSyntax.of("${this}[$index]")
 
-    fun getLength(): JsSyntax = JsSyntax("${this}.length")
+    fun getLength(): JsNumberSyntax = JsNumberSyntax("${this}.length")
 
-    fun push(elements: List<T>): JsSyntax {
+    fun push(elements: List<T>): JsNumberSyntax {
         val args = elements.joinToString(", ") { "$it" }
-        return JsSyntax("${this}.push($args)")
+        return JsNumberSyntax("${this}.push($args)")
     }
 
-    fun pop(): JsSyntax = JsSyntax("${this}.pop()")
+    fun pop(): JsReference<T> = JsReferenceSyntax.of("${this}.pop()")
 
-    fun shift(): JsSyntax = JsSyntax("${this}.shift()")
+    fun shift(): JsNumberSyntax = JsNumberSyntax("${this}.shift()")
 
-    fun unshift(elements: List<JsSyntax>): JsSyntax {
+    fun unshift(elements: List<JsSyntax>): JsNumberSyntax {
         val args = elements.joinToString(", ") { "$it" }
-        return JsSyntax("${this}.unshift($args)")
+        return JsNumberSyntax("${this}.unshift($args)")
     }
 
     fun forEach(lambda: JsLambda1<T>): JsSyntax = JsSyntax("${this}.forEach(${lambda})")
@@ -34,6 +36,4 @@ abstract class JsCollection<T : JsValue> : JsValue {
     fun map(lambda: JsLambda1<T>): JsSyntax = JsSyntax("${this}.map(${lambda})")
 
     fun mapIndexed(lambda: JsLambda2<T, JsNumberRef>): JsSyntax = JsSyntax("${this}.map(${lambda})")
-
-    override fun toString(): String = present()
 }

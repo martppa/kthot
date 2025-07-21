@@ -5,7 +5,7 @@ import net.asere.kotlin.js.dsl.type.JsCollection
 
 class JsCollectionValue<T : JsValue> private constructor(
     val value: JsSyntax
-) : JsCollection<T>(), JsRawValue<JsCollection<T>> {
+) : JsCollection<T>, JsRawValue<JsCollection<T>> {
 
     internal constructor(vararg values: T) : this(
         JsSyntax("[${values.joinToString(", ")}]")
@@ -16,6 +16,8 @@ class JsCollectionValue<T : JsValue> private constructor(
     )
 
     override fun present(): String = "$value"
+
+    override fun toString(): String = present()
 
     companion object
 }

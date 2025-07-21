@@ -4,8 +4,10 @@ import net.asere.kotlin.js.dsl.type.JsNumber
 
 class JsNumberRef internal constructor(
     name: String? = null
-) : JsNumber(), JsDeclarableReference<JsNumber> by JsValueRef(
+) : JsNumber, JsDeclarableReference<JsNumber> by JsValueRef(
     name = name ?: "number_${JsReference.nextRefInt()}"
-)
+) {
+    override fun toString(): String = present()
+}
 
 fun JsNumber.Companion.ref(name: String? = null): JsNumberRef = JsNumberRef(name)

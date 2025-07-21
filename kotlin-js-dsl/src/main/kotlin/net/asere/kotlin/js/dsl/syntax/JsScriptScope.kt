@@ -7,15 +7,7 @@ import net.asere.kotlin.js.dsl.declaration.DeclarationType
 import net.asere.kotlin.js.dsl.declaration.JsConstantDeclaration
 import net.asere.kotlin.js.dsl.declaration.JsMutableDeclaration
 import net.asere.kotlin.js.dsl.declaration.Mutable
-import net.asere.kotlin.js.dsl.reference.JsBooleanRef
-import net.asere.kotlin.js.dsl.reference.JsDeclarableReference
-import net.asere.kotlin.js.dsl.reference.JsFunctionRef
-import net.asere.kotlin.js.dsl.reference.JsFunctionRefCommons
-import net.asere.kotlin.js.dsl.reference.JsLambdaRef
-import net.asere.kotlin.js.dsl.reference.JsLambdaRefCommons
-import net.asere.kotlin.js.dsl.reference.JsNumberRef
-import net.asere.kotlin.js.dsl.reference.JsReference
-import net.asere.kotlin.js.dsl.reference.JsStringRef
+import net.asere.kotlin.js.dsl.reference.*
 import net.asere.kotlin.js.dsl.toLine
 import net.asere.kotlin.js.dsl.toSyntax
 import net.asere.kotlin.js.dsl.type.js
@@ -30,11 +22,7 @@ abstract class JsScriptScope {
 
     operator fun JsElement.unaryPlus() = append(toLine())
 
-    operator fun JsStringRef.unaryPlus() = append(toLine())
-
-    operator fun JsNumberRef.unaryPlus() = append(toLine())
-
-    operator fun JsBooleanRef.unaryPlus() = append(toLine())
+    operator fun JsValueRef<*>.unaryPlus() = append(toLine())
 
     operator fun String.unaryPlus() = append(JsLine(this))
 

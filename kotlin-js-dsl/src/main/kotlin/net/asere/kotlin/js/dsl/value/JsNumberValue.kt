@@ -4,11 +4,13 @@ import net.asere.kotlin.js.dsl.type.JsNumber
 
 class JsNumberValue internal constructor(
     val value: Number
-) : JsNumber(), JsRawValue<JsNumber> {
+) : JsNumber, JsRawValue<JsNumber> {
 
     override fun present(): String = """
         $value
     """.trimIndent()
+
+    override fun toString(): String = present()
 }
 
 fun JsNumber.Companion.value(value: Number): JsNumber = JsNumberValue(value)
