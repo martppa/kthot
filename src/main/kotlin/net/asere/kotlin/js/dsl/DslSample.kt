@@ -5,7 +5,7 @@ import kotlinx.html.stream.createHTML
 import net.asere.kotlin.js.dsl.callable.JsLambda
 import net.asere.kotlin.js.dsl.callable.JsLambda2
 import net.asere.kotlin.js.dsl.callable.value
-import net.asere.kotlin.js.dsl.declaration.Constant
+import net.asere.kotlin.js.dsl.declaration.Const
 import net.asere.kotlin.js.dsl.html.jsScript
 import net.asere.kotlin.js.dsl.log.jsLog
 import net.asere.kotlin.js.dsl.reference.ref
@@ -24,11 +24,11 @@ fun main(vararg args: String) {
                 +jsReturn(first + second)
             }
             val lambdaRef = +JsLambda2.ref<JsString, JsString>("lambda")
-                .declare(Constant)
+                .declare(Const)
                 .assign(lambda)
             val concatenation = +JsString
                 .ref("concatenation")
-                .declare(Constant)
+                .declare(Const)
                 .assign(lambdaRef(JsString.value("Hello "), JsString.value("World")))
             +jsLog(concatenation)
         }

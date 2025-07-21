@@ -1,14 +1,13 @@
 package net.asere.kotlin.js.dsl.syntax.loop.jsfor
 
-import net.asere.kotlin.js.dsl.declaration.Constant
-import net.asere.kotlin.js.dsl.declaration.Mutable
+import net.asere.kotlin.js.dsl.declaration.Const
+import net.asere.kotlin.js.dsl.declaration.Let
 import net.asere.kotlin.js.dsl.reference.JsDeclarableReference
 import net.asere.kotlin.js.dsl.reference.ref
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxBuilder
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.syntax.operation.Operable
-import net.asere.kotlin.js.dsl.syntax.operation.Operation
 import net.asere.kotlin.js.dsl.syntax.operation.Operation
 import net.asere.kotlin.js.dsl.type.JsCollection
 import net.asere.kotlin.js.dsl.type.JsNumber
@@ -32,7 +31,7 @@ fun <T : JsValue> jsFor(
         append(
             JsSyntax(
                 """for (${JsSyntaxScope().run { 
-                    reference.declare(Mutable).assign(initialValue) 
+                    reference.declare(Let).assign(initialValue) 
                 }}; $comparable; $operation) {
                     $scope
                 }""".trimIndent()
@@ -51,7 +50,7 @@ fun jsFor(
     return JsSyntaxBuilder(Unit).apply {
         append(
             JsSyntax(
-                """for (${JsSyntaxScope().run { reference.declare(Constant) }} in $obj) {
+                """for (${JsSyntaxScope().run { reference.declare(Const) }} in $obj) {
                     $scope
                 }""".trimIndent()
             )
@@ -69,7 +68,7 @@ fun jsFor(
     return JsSyntaxBuilder(Unit).apply {
         append(
             JsSyntax(
-                """for (${JsSyntaxScope().run { reference.declare(Constant) }} iof $collection) {
+                """for (${JsSyntaxScope().run { reference.declare(Const) }} of $collection) {
                     $scope
                 }""".trimIndent()
             )

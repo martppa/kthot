@@ -158,7 +158,7 @@ console.log(boolean_5 && (boolean_6 || boolean_4))
 
 ## Collections
 
-Declare collections and iterate them
+Declaring collections
 
 ```kotlin
 fun main(vararg args: String) {

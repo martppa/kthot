@@ -2,18 +2,11 @@ package net.asere.kotlin.js.dsl.syntax
 
 import net.asere.kotlin.js.dsl.JsElement
 import net.asere.kotlin.js.dsl.callable.*
-import net.asere.kotlin.js.dsl.declaration.Constant
-import net.asere.kotlin.js.dsl.declaration.DeclarationType
-import net.asere.kotlin.js.dsl.declaration.JsConstantDeclaration
-import net.asere.kotlin.js.dsl.declaration.JsMutableDeclaration
-import net.asere.kotlin.js.dsl.declaration.Mutable
+import net.asere.kotlin.js.dsl.declaration.*
 import net.asere.kotlin.js.dsl.reference.*
 import net.asere.kotlin.js.dsl.toLine
 import net.asere.kotlin.js.dsl.toSyntax
 import net.asere.kotlin.js.dsl.type.js
-import net.asere.kotlin.js.dsl.value.JsBooleanValue
-import net.asere.kotlin.js.dsl.value.JsNumberValue
-import net.asere.kotlin.js.dsl.value.JsStringValue
 import net.asere.kotlin.js.dsl.value.JsValue
 
 abstract class JsScriptScope {
@@ -45,8 +38,9 @@ abstract class JsScriptScope {
 
     fun <T : JsDeclarableReference<*>> T.declare(type: DeclarationType): JsSyntaxBuilder<T> {
         val syntax = when (type) {
-            Constant -> JsConstantDeclaration(this)
-            Mutable -> JsMutableDeclaration(this)
+            Const -> JsConstantDeclaration(this)
+            Let -> JsLetDeclaration(this)
+            Var -> JsVarDeclaration(this)
         }
         val builder = JsSyntaxBuilder(this)
         builder.append(syntax)
@@ -67,6 +61,27 @@ abstract class JsScriptScope {
     fun <T : JsReference<*>> JsSyntaxBuilder<T>.assign(value: String) = assign(element = value.js)
     fun <T : JsReference<*>> JsSyntaxBuilder<T>.assign(value: Number) = assign(element = value.js)
     fun <T : JsReference<*>> JsSyntaxBuilder<T>.assign(value: Boolean) = assign(element = value.js)
+
+    private fun <T : JsReference<C>, C : JsValue> JsSyntaxBuilder<T>.render(): T {
+        this@JsScriptScope.append(toLine())
+        return value
+    }
+
+    infix fun <T : JsReference<C>, C : JsValue> JsSyntaxBuilder<T>.`=`(
+        value: Boolean
+    ): T = assign(element = value.js).render()
+
+    infix fun <T : JsReference<C>, C : JsValue> JsSyntaxBuilder<T>.`=`(
+        value: Number
+    ): JsReference<C> = assign(element = value.js).render()
+
+    infix fun <T : JsReference<C>, C : JsValue> JsSyntaxBuilder<T>.`=`(
+        value: String
+    ): JsReference<C> = assign(element = value.js).render()
+
+    infix fun <T : JsReference<C>, C : JsValue> JsSyntaxBuilder<T>.`=`(
+        value: JsElement
+    ) = assign(element = value).render()
 }
 
 fun js(block: JsSyntaxScope.() -> Unit): JsSyntax {
