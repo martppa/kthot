@@ -1,6 +1,7 @@
 package net.asere.kotlin.js.dsl.type
 
 import net.asere.kotlin.js.dsl.reference.JsNumberRef
+import net.asere.kotlin.js.dsl.syntax.JsScriptScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.ArithmeticalComparable
 import net.asere.kotlin.js.dsl.value.JsValue
