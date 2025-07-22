@@ -3,12 +3,6 @@ package net.asere.kotlin.js.dsl.reference
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.value.JsValue
 
-class JsRawFunctionRef(
-    name: String? = null,
-) : JsFunctionRefCommons(name) {
-    operator fun invoke(vararg params: JsValue) = JsSyntax("$this(${params.joinToString(", ")})")
-}
-
 class JsFunction5Ref<
         Param1 : JsValue,
         Param2 : JsValue,
@@ -47,7 +41,7 @@ class JsFunction1Ref<Param1 : JsValue>(
     operator fun invoke(param: Param1) = JsSyntax("$this($param)")
 }
 
-class JsFunctionRef(
+class JsFunction0Ref(
     name: String? = null,
 ) : JsFunctionRefCommons(name) {
     operator fun invoke() = JsSyntax("$this()")
@@ -55,8 +49,6 @@ class JsFunctionRef(
 
 abstract class JsFunctionRefCommons(
     name: String? = null,
-) : JsReference<JsValue> by JsValueRef(
-    name = name ?: "function_${JsReference.nextRefInt()}"
-) {
+) : JsObjectRef(name ?: "function_${JsReference.nextRefInt()}") {
     override fun toString(): String = present()
 }

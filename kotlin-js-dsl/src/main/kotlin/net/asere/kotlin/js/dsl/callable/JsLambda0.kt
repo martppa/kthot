@@ -3,13 +3,16 @@ package net.asere.kotlin.js.dsl.callable
 import net.asere.kotlin.js.dsl.JsElement
 import net.asere.kotlin.js.dsl.extension.unaryPlus
 import net.asere.kotlin.js.dsl.reference.*
+import net.asere.kotlin.js.dsl.syntax.JsScriptScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxBuilder
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
+import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.type.JsObject
 import net.asere.kotlin.js.dsl.value.JsValue
 
-fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Param5 : JsValue> JsLambda.Companion.value(
+@JsDsl
+fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Param5 : JsValue> JsScriptScope.Lambda(
     param1: JsReference<Param1>,
     param2: JsReference<Param2>,
     param3: JsReference<Param3>,
@@ -22,7 +25,7 @@ fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Par
         JsReference<Param4>,
         JsReference<Param5>
     ) -> Unit,
-) = JsLambda5(
+) = +JsLambda5(
     param1 = param1,
     param2 = param2,
     param3 = param3,
@@ -60,7 +63,8 @@ class JsLambda5<
     companion object
 }
 
-fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue> JsLambda.Companion.value(
+@JsDsl
+fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue> JsScriptScope.Lambda(
     param1: JsReference<Param1>,
     param2: JsReference<Param2>,
     param3: JsReference<Param3>,
@@ -71,7 +75,7 @@ fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue> JsL
         JsReference<Param3>,
         JsReference<Param4>
     ) -> Unit,
-) = JsLambda4(
+) = +JsLambda4(
     param1 = param1,
     param2 = param2,
     param3 = param3,
@@ -101,7 +105,8 @@ class JsLambda4<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : J
     companion object
 }
 
-fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue> JsLambda.Companion.value(
+@JsDsl
+fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue> JsScriptScope.Lambda(
     param1: JsReference<Param1>,
     param2: JsReference<Param2>,
     param3: JsReference<Param3>,
@@ -137,7 +142,8 @@ class JsLambda3<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue>(
     companion object
 }
 
-fun <Param1 : JsValue, Param2 : JsValue> JsLambda.Companion.value(
+@JsDsl
+fun <Param1 : JsValue, Param2 : JsValue> JsScriptScope.Lambda(
     param1: JsReference<Param1>,
     param2: JsReference<Param2>,
     definition: JsSyntaxScope.(
@@ -169,7 +175,8 @@ class JsLambda2<Param1 : JsValue, Param2 : JsValue>(
     companion object
 }
 
-fun <Param1 : JsValue> JsLambda.Companion.value(
+@JsDsl
+fun <Param1 : JsValue> JsScriptScope.Lambda(
     param: JsReference<Param1>,
     definition: JsSyntaxScope.(JsReference<Param1>) -> Unit,
 ) = JsLambda1(
@@ -191,7 +198,10 @@ class JsLambda1<Param1 : JsValue>(
     companion object
 }
 
-class JsLambda(
+@JsDsl
+fun JsScriptScope.Lambda(definition: JsSyntaxScope.() -> Unit) = JsLambda0(definition)
+
+class JsLambda0(
     private val definition: JsSyntaxScope.() -> Unit,
 ) : JsLambdaCommons() {
     override fun buildScopeParameters() = InnerScopeParameters(scope = JsSyntaxScope().apply(definition))

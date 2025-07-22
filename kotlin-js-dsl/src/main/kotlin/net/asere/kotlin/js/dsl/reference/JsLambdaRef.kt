@@ -4,7 +4,7 @@ import net.asere.kotlin.js.dsl.callable.*
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.value.JsValue
 
-fun JsLambda.Companion.ref(name: String? = null) = JsLambdaRef(name)
+fun JsLambda0.Companion.ref(name: String? = null) = JsLambdaRef(name)
 
 fun <Param1 : JsValue> JsLambda1.Companion.ref(name: String? = null) = JsLambda1Ref<Param1>(name)
 

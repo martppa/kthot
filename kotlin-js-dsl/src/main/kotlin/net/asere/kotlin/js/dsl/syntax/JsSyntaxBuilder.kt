@@ -3,7 +3,7 @@ package net.asere.kotlin.js.dsl.syntax
 import net.asere.kotlin.js.dsl.JsElement
 
 open class JsSyntaxBuilder<T>(
-    val value: T,
+    val innerObject: T,
 ) : JsElement {
 
     private val stringBuilder = StringBuilder()

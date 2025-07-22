@@ -11,4 +11,6 @@ open class JsSyntax(
     override fun present(): String = value
 
     override fun toString(): String = present()
+
+    operator fun plus(syntax: JsSyntax) = JsSyntax("$this $syntax")
 }

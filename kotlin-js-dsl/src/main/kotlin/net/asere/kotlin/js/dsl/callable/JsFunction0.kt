@@ -3,40 +3,21 @@
 package net.asere.kotlin.js.dsl.callable
 
 import net.asere.kotlin.js.dsl.extension.unaryPlus
-import net.asere.kotlin.js.dsl.reference.JsFunction1Ref
-import net.asere.kotlin.js.dsl.reference.JsFunction2Ref
-import net.asere.kotlin.js.dsl.reference.JsFunction3Ref
-import net.asere.kotlin.js.dsl.reference.JsFunction4Ref
-import net.asere.kotlin.js.dsl.reference.JsFunction5Ref
-import net.asere.kotlin.js.dsl.reference.JsRawFunctionRef
-import net.asere.kotlin.js.dsl.reference.JsFunctionRef
-import net.asere.kotlin.js.dsl.reference.JsFunctionRefCommons
-import net.asere.kotlin.js.dsl.reference.JsValueRef
-import net.asere.kotlin.js.dsl.reference.JsReference
+import net.asere.kotlin.js.dsl.reference.*
+import net.asere.kotlin.js.dsl.syntax.JsScriptScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxBuilder
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
+import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.value.JsValue
 
-class JsRawFunction(
-    name: String? = null,
-    private vararg val params: JsReference<*>,
-    private val definition: JsSyntaxScope.() -> Unit,
-) : JsFunctionCommons<JsRawFunctionRef>(name) {
-
-    override val functionRef: JsRawFunctionRef = JsRawFunctionRef(name)
-    override fun buildScopeParameters() = InnerScopeParameters(
-        scope = JsSyntaxScope().apply { definition(this) },
-        invocationParameters = params.toList(),
-    )
-}
-
+@JsDsl
 fun <Param1 : JsValue,
         Param2 : JsValue,
         Param3 : JsValue,
         Param4 : JsValue,
-        Param5 : JsValue> JsFunction(
-    name: String? = null,
+        Param5 : JsValue> JsScriptScope.Function(
+    name: String = "function_${JsReference.nextRefInt()}",
     param1: JsReference<Param1>,
     param2: JsReference<Param2>,
     param3: JsReference<Param3>,
@@ -49,7 +30,7 @@ fun <Param1 : JsValue,
         Param4,
         Param5
     ) -> Unit
-) = JsFunction5(
+) = +JsFunction5(
     name = name,
     param1 = param1,
     param2 = param2,
@@ -65,7 +46,7 @@ class JsFunction5<
         Param3 : JsValue,
         Param4 : JsValue,
         Param5 : JsValue>(
-    name: String? = null,
+    name: String,
     private val param1: JsReference<Param1>,
     private val param2: JsReference<Param2>,
     private val param3: JsReference<Param3>,
@@ -91,8 +72,9 @@ class JsFunction5<
 
 }
 
-fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue> JsFunction(
-    name: String? = null,
+@JsDsl
+fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue> JsScriptScope.Function(
+    name: String = "function_${JsReference.nextRefInt()}",
     param1: JsReference<Param1>,
     param2: JsReference<Param2>,
     param3: JsReference<Param3>,
@@ -103,7 +85,7 @@ fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue> JsF
         Param3,
         Param4
     ) -> Unit
-) = JsFunction4(
+) = +JsFunction4(
     name = name,
     param1 = param1,
     param2 = param2,
@@ -113,7 +95,7 @@ fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue> JsF
 )
 
 class JsFunction4<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue>(
-    name: String? = null,
+    name: String,
     private val param1: JsReference<Param1>,
     private val param2: JsReference<Param2>,
     private val param3: JsReference<Param3>,
@@ -136,8 +118,9 @@ class JsFunction4<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 :
     )
 }
 
-fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue> JsFunction(
-    name: String? = null,
+@JsDsl
+fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue> JsScriptScope.Function(
+    name: String = "function_${JsReference.nextRefInt()}",
     param1: JsReference<Param1>,
     param2: JsReference<Param2>,
     param3: JsReference<Param3>,
@@ -146,7 +129,7 @@ fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue> JsFunction(
         Param2,
         Param3
     ) -> Unit
-) = JsFunction3(
+) = +JsFunction3(
     name = name,
     param1 = param1,
     param2 = param2,
@@ -155,7 +138,7 @@ fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue> JsFunction(
 )
 
 class JsFunction3<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue>(
-    name: String? = null,
+    name: String,
     private val param1: JsReference<Param1>,
     private val param2: JsReference<Param2>,
     private val param3: JsReference<Param3>,
@@ -176,14 +159,15 @@ class JsFunction3<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue>(
     )
 }
 
-fun <Param1 : JsValue, Param2 : JsValue> JsFunction(
-    name: String? = null,
+@JsDsl
+fun <Param1 : JsValue, Param2 : JsValue> JsScriptScope.Function(
+    name: String = "function_${JsReference.nextRefInt()}",
     param1: JsReference<Param1>,
     param2: JsReference<Param2>,
     definition: JsSyntaxScope.(
         Param1, Param2
     ) -> Unit
-) = JsFunction2(
+) = +JsFunction2(
     name = name,
     param1 = param1,
     param2 = param2,
@@ -191,7 +175,7 @@ fun <Param1 : JsValue, Param2 : JsValue> JsFunction(
 )
 
 class JsFunction2<Param1 : JsValue, Param2 : JsValue>(
-    name: String? = null,
+    name: String,
     private val param1: JsReference<Param1>,
     private val param2: JsReference<Param2>,
     private val definition: JsSyntaxScope.(
@@ -210,18 +194,19 @@ class JsFunction2<Param1 : JsValue, Param2 : JsValue>(
     )
 }
 
-fun <Param1 : JsValue> JsFunction(
-    name: String? = null,
+@JsDsl
+fun <Param1 : JsValue> JsScriptScope.Function(
+    name: String = "function_${JsReference.nextRefInt()}",
     param: JsReference<Param1>,
     definition: JsSyntaxScope.(Param1) -> Unit
-) = JsFunction1(
+) = +JsFunction1(
     name = name,
     param = param,
     definition = definition
 )
 
 class JsFunction1<Param1 : JsValue>(
-    name: String? = null,
+    name: String,
     private val param: JsReference<Param1>,
     private val definition: JsSyntaxScope.(Param1) -> Unit,
 ) : JsFunctionCommons<JsFunction1Ref<Param1>>(name) {
@@ -235,18 +220,27 @@ class JsFunction1<Param1 : JsValue>(
     )
 }
 
-class JsFunction(
-    name: String? = null,
-    private val definition: JsSyntaxScope.() -> Unit,
-) : JsFunctionCommons<JsFunctionRef>(name) {
+@JsDsl
+fun JsScriptScope.Function(
+    name: String = "function_${JsReference.nextRefInt()}",
+    definition: JsSyntaxScope.() -> Unit
+) = +JsFunction0(
+    name = name,
+    definition = definition
+)
 
-    override val functionRef: JsFunctionRef = JsFunctionRef(name)
+class JsFunction0(
+    name: String,
+    private val definition: JsSyntaxScope.() -> Unit,
+) : JsFunctionCommons<JsFunction0Ref>(name) {
+
+    override val functionRef: JsFunction0Ref = JsFunction0Ref(name)
     override fun buildScopeParameters() = InnerScopeParameters(scope = JsSyntaxScope().apply(definition))
 }
 
 abstract class JsFunctionCommons<FunctionRef : JsFunctionRefCommons>(
-    name: String? = null,
-) : JsValueRef<JsValue>(name ?: "function_${JsReference.nextRefInt()}") {
+    name: String,
+) : JsObjectRef(name) {
 
     protected abstract val functionRef: FunctionRef
     protected abstract fun buildScopeParameters(): InnerScopeParameters

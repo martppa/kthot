@@ -9,6 +9,7 @@ class JsSyntaxScope : JsScriptScope(), JsElement {
     private val syntaxBuilder: JsSyntaxBuilder<JsReference<*>> = JsSyntaxBuilder(JsObjectRef())
 
     override fun append(syntax: JsSyntax) {
+        super.append(syntax)
         syntaxBuilder.append(syntax)
     }
 

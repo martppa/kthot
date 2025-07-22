@@ -7,7 +7,10 @@ import net.asere.kotlin.js.dsl.syntax.JsSyntax
 open class JsUnsafeScriptScope(
     private val unsafe: Unsafe
 ) : JsScriptScope() {
-    override fun append(syntax: JsSyntax) = unsafe.raw(syntax.present())
+    override fun append(syntax: JsSyntax) {
+        super.append(syntax)
+        unsafe.raw(syntax.present())
+    }
 }
 
 fun FlowContent.jsScript(block: JsUnsafeScriptScope.() -> Unit) = script {

@@ -2,7 +2,7 @@ package net.asere.kotlin.js.dsl
 
 import kotlinx.html.*
 import kotlinx.html.stream.createHTML
-import net.asere.kotlin.js.dsl.callable.JsFunction
+import net.asere.kotlin.js.dsl.callable.Function
 import net.asere.kotlin.js.dsl.dom.reference.JsWindow
 import net.asere.kotlin.js.dsl.html.jsScript
 import net.asere.kotlin.js.dsl.reference.JsFunction1Ref
@@ -15,7 +15,7 @@ fun main(vararg args: String) {
     val result = createHTML().html {
         head {
             jsScript {
-                +JsFunction(name = "showAlert", JsString.ref()) {
+                Function(name = "showAlert", JsString.ref()) {
                     +JsWindow.alert(it)
                 }
             }

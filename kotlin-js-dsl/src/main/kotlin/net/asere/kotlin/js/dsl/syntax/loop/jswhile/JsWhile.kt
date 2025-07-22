@@ -1,14 +1,17 @@
 package net.asere.kotlin.js.dsl.syntax.loop.jswhile
 
 import net.asere.kotlin.js.dsl.syntax.*
+import net.asere.kotlin.js.dsl.syntax.loop.JsLoopSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.Operable
 import net.asere.kotlin.js.dsl.tag.JsDsl
+
+class JsWhileSyntax(value: String) : JsLoopSyntax(value)
 
 @JsDsl
 fun JsScriptScope.While(
     comparable: Operable,
     block: JsSyntaxScope.() -> Unit
-) = jsWhile(
+) = +jsWhile(
     comparable = comparable,
     block = block
 )
@@ -16,16 +19,12 @@ fun JsScriptScope.While(
 fun jsWhile(
     comparable: Operable,
     block: JsSyntaxScope.() -> Unit
-): JsSyntaxBuilder<Unit> {
+): JsWhileSyntax {
     val scope = JsSyntaxScope()
     block(scope)
-    return JsSyntaxBuilder(Unit).apply {
-        append(
-            JsLine(
-                """while ($comparable) {
-                    $scope
-                }""".trimIndent()
-            )
-        )
-    }
+    return JsWhileSyntax(
+        """while ($comparable) {
+            $scope
+        }""".trimIndent()
+    )
 }

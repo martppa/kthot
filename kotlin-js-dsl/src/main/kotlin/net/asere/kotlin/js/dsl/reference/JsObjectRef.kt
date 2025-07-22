@@ -1,13 +1,10 @@
 package net.asere.kotlin.js.dsl.reference
 
-import net.asere.kotlin.js.dsl.type.JsNumber
 import net.asere.kotlin.js.dsl.type.JsObject
 
 open class JsObjectRef internal constructor(
     name: String? = null
-) : JsObject, JsDeclarableReference<JsNumber> by JsValueRef(
-    name = name ?: "object_${JsReference.nextRefInt()}"
-) {
+) : JsValueRef<JsObject>(name ?: "object_${JsReference.nextRefInt()}"), JsObject, JsDeclarableReference<JsObject> {
     override fun toString(): String = present()
 }
 

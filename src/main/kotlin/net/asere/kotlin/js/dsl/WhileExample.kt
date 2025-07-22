@@ -21,7 +21,7 @@ fun main(vararg args: String) {
         jsScript {
             val counter = Let { JsNumber.ref("counter") } `=` 0
             While(counter lt 5.js) {
-                counter.postInc()
+                +counter.postInc()
                 Log(counter)
             }
 
