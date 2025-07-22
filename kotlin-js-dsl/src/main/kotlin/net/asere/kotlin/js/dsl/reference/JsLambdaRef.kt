@@ -4,32 +4,37 @@ import net.asere.kotlin.js.dsl.callable.*
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.value.JsValue
 
-fun JsLambda0.Companion.ref(name: String? = null) = JsLambdaRef(name)
+fun JsLambda0.Companion.ref(name: String = "lambda_${JsReference.nextRefInt()}") = JsLambdaRef(name)
 
-fun <Param1 : JsValue> JsLambda1.Companion.ref(name: String? = null) = JsLambda1Ref<Param1>(name)
+fun <Param1 : JsValue> JsLambda1.Companion.ref(
+    name: String = "lambda_${JsReference.nextRefInt()}"
+): JsLambda1Ref<Param1> = JsLambda1Ref(name)
 
-fun <Param1 : JsValue, Param2 : JsValue> JsLambda2.Companion.ref(name: String? = null) =
-    JsLambda2Ref<Param1, Param2>(name)
+fun <Param1 : JsValue, Param2 : JsValue> JsLambda2.Companion.ref(
+    name: String = "lambda_${JsReference.nextRefInt()}"
+) = JsLambda2Ref<Param1, Param2>(name)
 
-fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue> JsLambda3.Companion.ref(name: String? = null) =
-    JsLambda3Ref<Param1, Param2, Param3>(name)
+fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue> JsLambda3.Companion.ref(
+    name: String = "lambda_${JsReference.nextRefInt()}"
+) = JsLambda3Ref<Param1, Param2, Param3>(name)
 
 fun <Param1 : JsValue,
         Param2 : JsValue,
         Param3 : JsValue,
-        Param4 : JsValue> JsLambda4.Companion.ref(name: String? = null) =
+        Param4 : JsValue> JsLambda4.Companion.ref(name: String) =
     JsLambda4Ref<Param1, Param2, Param3, Param4>(name)
 
 fun <Param1 : JsValue,
         Param2 : JsValue,
         Param3 : JsValue,
         Param4 : JsValue,
-        Param5 : JsValue> JsLambda5.Companion.ref(name: String? = null) =
-    JsLambda5Ref<Param1, Param2, Param3, Param4, Param5>(name)
+        Param5 : JsValue> JsLambda5.Companion.ref(
+    name: String = "lambda_${JsReference.nextRefInt()}"
+) = JsLambda5Ref<Param1, Param2, Param3, Param4, Param5>(name)
 
 class JsLambda5Ref<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Param5 : JsValue>(
-    name: String? = null,
-) : JsLambdaRefCommons(name) {
+    name: String,
+) : JsLambdaRefCommons<JsLambda5<Param1, Param2, Param3, Param4, Param5>, JsLambda5Ref<Param1, Param2, Param3, Param4, Param5>>(name) {
 
     operator fun invoke(
         param1: Param1,
@@ -41,8 +46,8 @@ class JsLambda5Ref<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 
 }
 
 class JsLambda4Ref<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue>(
-    name: String? = null,
-) : JsLambdaRefCommons(name) {
+    name: String,
+) : JsLambdaRefCommons<JsLambda4<Param1, Param2, Param3, Param4>, JsLambda4Ref<Param1, Param2, Param3, Param4>>(name) {
 
     operator fun invoke(
         param1: Param1,
@@ -53,14 +58,14 @@ class JsLambda4Ref<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 
 }
 
 class JsLambda3Ref<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue>(
-    name: String? = null,
-) : JsLambdaRefCommons(name) {
+    name: String,
+) : JsLambdaRefCommons<JsLambda3<Param1, Param2, Param3>, JsLambda3Ref<Param1, Param2, Param3>>(name) {
 
     operator fun invoke(param1: Param1, param2: Param2, param3: Param3) = JsSyntax("$this($param1, $param2, $param3)")
 }
 
 class JsLambda2Ref<Param1 : JsValue, Param2 : JsValue>(
-    name: String? = null,
+    name: String,
 ) : JsValueRef<JsValue>(name) {
 
     operator fun invoke(param1: Param1, param2: Param2) = JsSyntax("$this($param1, $param2)")
@@ -69,20 +74,20 @@ class JsLambda2Ref<Param1 : JsValue, Param2 : JsValue>(
 }
 
 class JsLambda1Ref<Param1 : JsValue>(
-    name: String? = null,
-) : JsLambdaRefCommons(name) {
+    name: String,
+) : JsLambdaRefCommons<JsLambda1<Param1>, JsLambda1Ref<Param1>>(name) {
     operator fun invoke(param: Param1) = JsSyntax("$this($param)")
 }
 
 class JsLambdaRef(
-    name: String? = null
-) : JsLambdaRefCommons(name) {
+    name: String
+) : JsLambdaRefCommons<JsLambda0, JsLambdaRef>(name) {
 
     operator fun invoke() = JsSyntax("$this()")
 }
 
-abstract class JsLambdaRefCommons(
-    name: String? = null
-) : JsValueRef<JsValue>(name ?: "lambda_${JsReference.nextRefInt()}") {
+abstract class JsLambdaRefCommons<Lambda: JsLambdaCommons, Reference : JsValue>(
+    name: String
+) : JsValueRef<Reference>(name) {
     override fun toString(): String = present()
 }

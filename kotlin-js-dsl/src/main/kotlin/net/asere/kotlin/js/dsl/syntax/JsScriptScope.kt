@@ -3,6 +3,7 @@ package net.asere.kotlin.js.dsl.syntax
 import net.asere.kotlin.js.dsl.JsElement
 import net.asere.kotlin.js.dsl.callable.JsFunction0
 import net.asere.kotlin.js.dsl.callable.JsFunctionCommons
+import net.asere.kotlin.js.dsl.callable.JsLambdaCommons
 import net.asere.kotlin.js.dsl.declaration.*
 import net.asere.kotlin.js.dsl.reference.*
 import net.asere.kotlin.js.dsl.syntax.operation.AssignmentOperation
@@ -33,8 +34,9 @@ abstract class JsScriptScope {
         return innerObject
     }
 
-    operator fun JsSyntax.unaryPlus() {
+    operator fun <T : JsLambdaCommons> JsLambdaSyntax<T>.unaryPlus(): T {
         appendLine(this)
+        return innerObject
     }
 
     operator fun JsValueRef<*>.unaryPlus() = append(toLine())
