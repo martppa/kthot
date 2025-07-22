@@ -6,6 +6,7 @@ import net.asere.kotlin.js.dsl.declaration.*
 import net.asere.kotlin.js.dsl.reference.*
 import net.asere.kotlin.js.dsl.syntax.operation.AssignmentOperation
 import net.asere.kotlin.js.dsl.syntax.operation.Operable
+import net.asere.kotlin.js.dsl.syntax.operation.Operation
 import net.asere.kotlin.js.dsl.syntax.value.JsObjectSyntax
 import net.asere.kotlin.js.dsl.toLine
 import net.asere.kotlin.js.dsl.toSyntax
@@ -83,6 +84,10 @@ abstract class JsScriptScope {
 
     infix fun <T : JsReference<C>, C : JsValue> JsSyntaxBuilder<T>.`=`(
         value: JsElement
+    ): T = assign(element = value).render()
+
+    infix fun <T : JsReference<C>, C : JsValue> JsSyntaxBuilder<T>.`=`(
+        value: Operation
     ): T = assign(element = value).render()
 }
 

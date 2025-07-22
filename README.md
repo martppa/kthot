@@ -16,6 +16,10 @@ The DSL is currently capable of offering some basic functionalities
 
 ### Definition
 
+Currently, there are two ways to declare (and assign) a variable, the fancy and the conventional way.
+
+**Conventional:**
+
 Define a basic string variable. `JsString` is the Kotlin representation for the `String` type in Javascript. Use the `js` function to generate the syntax. `js` function will pack all instructions and return them as a single `JsSyntax` object. Use the unary plus (+) operator to "print" any `JsElement` on the scope of `js` function's lambda. 
 The `declare` function will write the variable declaration, it could be mutable or constant.
 
@@ -36,7 +40,7 @@ When no `name` argument is provided to `ref()` build extension function, a defau
 
 ### Assign values to declared references
 
-In order to assign values to a JavaScript object use the `assign` extension function. In this case in the example the `js` extension val is used to turn the `String` into a `JsString` accepted by the `assign` function.
+In order to assign values to a JavaScript object use the `assign` extension function. In this case in the example the `js` extension `val` is used to turn the `String` into a `JsString` accepted by the `assign` function.
 
 ```kotlin
 val syntax = js {
@@ -45,6 +49,25 @@ val syntax = js {
 println(syntax) // --> let string_1 = "Juan"
 ```
 
+**Fancy:"**
+
+The "idiomatic" (fancier) way looks simpler and closer to what JavaScript syntax would look like.
+
+```kotlin
+val constBoolean = Const { JsBoolean.ref() } `=` true
+val letBoolean = Let { JsBoolean.ref() } `=` true
+val varBoolean = Var { JsBoolean.ref() } `=` false
+```
+
+You still can declare variables without assigning them:
+
+```kotlin
+val letBoolean = +Let { JsBoolean.ref() }
+val varBoolean = +Var { JsBoolean.ref() }
+```
+
+Since declaration functions (`Var`, `Let`, `Const`) return `JsSyntaxBuilder` we need to use unary plus (+) to write the JavaScript code.
+
 ### Referencing objects in Kotlin
 
 Every object reference (e.g `JsString.ref()`) can be assigned to a Kotlin object to interact with it. In the example below the `JsString` reference is stored in `stringValue`, then the first character of 'Juan' is printed.
@@ -52,7 +75,11 @@ Every object reference (e.g `JsString.ref()`) can be assigned to a Kotlin object
 ```kotlin
 val syntax = js {
     val stringValue = +JsString.ref().declare(Mutable).assign("Juan".js)
-    +jsLog(stringValue.charAt(0.js))
+    Log(stringValue.charAt(0.js))
+    
+    // The fancy way
+    val fancyStringValue = Let { JsString.ref() } `=` "Juan"
+    Log(fancyStringValue.charAt(0.js))
 }
 println(syntax)
 ```
@@ -60,6 +87,9 @@ Output:
 ```javascript
     let string_1 = "Juan"
     console.log(string_1.charAt(0))
+    
+    let string_2 = "Juan"
+    console.log(string_2)
 ```
 
 ## Operators
@@ -70,9 +100,9 @@ Arithmetical operators are overloaded in Kotlin so you can use them like you wou
 
 ```kotlin
 val syntax = js {
-    val result = +JsNumber.ref("result").declare(Constant).assign((5.js - 3.js) * (10.js + 2.js))
-    val text = +JsString.ref("text").declare(Constant).assign("The result is: ".js + result)
-    +jsLog(text)
+    val result = Const { JsNumber.ref("result") } `=` (5.js - 3.js) * (10.js + 2.js)
+    val text = Const { JsString.ref("text") } `=` "The result is: ".js + result
+    Log(text)
 }
 println(syntax)
 ```
@@ -96,10 +126,10 @@ Logical operators can be applied using infix functions to emulate them:
 
 ```kotlin
 val syntax = js {
-    val bool0 = +JsBoolean.ref().declare(Constant).assign(true)
-    val bool1 = +JsBoolean.ref().declare(Constant).assign(false)
-    val result = +JsBoolean.ref("result").declare(Constant).assign(bool0 and bool1)
-    +jsLog(result)
+    val bool0 = Const { JsBoolean.ref() } `=` true
+    val bool1 = Const { JsBoolean.ref() } `=` false
+    val result = Const { JsBoolean.ref("result") } `=` bool0 and bool1
+    Log(result)
 }
 println(syntax)
 ```
@@ -124,8 +154,8 @@ console.log(result)
 
 ```kotlin
 val syntax = js {
-    val result = +JsBoolean.ref("result").declare(Constant).assign(5.js eq 5.js)
-    +jsLog(result)
+    val result = Const { JsBoolean.ref("result") } `=` (5.js eq 5.js)
+    Log(result)
 }
 println(syntax)
 ```
@@ -158,29 +188,73 @@ console.log(boolean_5 && (boolean_6 || boolean_4))
 
 ## Collections
 
-Declaring collections
+Declaring collections. Please note as `collection.forEach` does return a `JsSyntaxBuilder` you need to apply the unary plus (+) to make it print the function in JavaScript.
 
 ```kotlin
-fun main(vararg args: String) {
-    val syntax = js {
-        val collection = +JsCollection.ref<JsNumber>().declare(Constant).assign(
-            JsCollection.value(0.js, 1.js, 2.js, 3.js, 4.js)
-        )
-        +collection.forEach(JsLambda.value(JsNumber.ref()) { number1 ->
-            +jsLog(number1)
-        })
-    }
-    println(syntax)
-    
-    // Output:
-    // const collection_1 = [0, 1, 2, 3]
-    // collection_1.forEach((number_2) => {
-    //     console.log(number_2)
-    // })    
+val syntax = js {
+    val collection = Const { JsCollection.ref<JsNumber>() } `=` JsCollection.value(0.js, 1.js, 2.js, 3.js, 4.js)
+    +collection.forEach(JsLambda.value(JsNumber.ref()) { number1 ->
+        Log(number1)
+    })
+
+    // Fancy way
+    For (collection, JsLambda.value(JsNumber.ref()) { number2 ->
+        Log(number2)
+    })
+}
+println(syntax)
+```
+
+Output:
+```javascript
+const collection_1 = [0, 1, 2, 3]
+collection_1.forEach((number_2) => {
+    console.log(number_2)
+})    
+```
+
+## If statements
+
+You can declare `if` statements using the `If` dsl function inside a `jsScript` scope:
+
+```kotlin
+val bool0 = Const { JsBoolean.ref() } `=` true
+val bool1 = Const { JsBoolean.ref() } `=` false
+val bool2 = Const { JsBoolean.ref() } `=` true
+
+If ((!bool0 and bool1) or (bool1 and bool2)) {
+    Log("and!")
+}.jsElseIf(bool0 or (bool1 or bool2)) {
+    Log("or!")
+}.jsElseIf((bool0 or bool1) or bool2) {
+    Log("or!")
+}.jsElse {
+    Log("else!")
 }
 ```
 
-### Declare functions
+## Loops
+
+There's support for loops statements too!
+
+### For loops
+
+**Classic i counter**: Define the classic FOR loop giving 3 parameters to the `For` dsl function. Define the counter named "i" in this case, then create the evaluation and the operation for each iteration
+
+```kotlin
+val syntax = js {
+    val collection = Const { JsCollection.ref<JsNumber>() } `=` JsCollection.value(0.js, 1.js, 2.js, 3.js)
+    For ({ Let { JsNumber.ref("i") } `=` 0 }, { it lt collection.getLength() }, { it.postInc() }) {
+        Log(it)
+        If (it lt 2) {
+            Break
+        }
+    }
+}
+println(syntax)
+```
+
+## Declare functions
 
 Declare functions and call them any time
 ```kotlin

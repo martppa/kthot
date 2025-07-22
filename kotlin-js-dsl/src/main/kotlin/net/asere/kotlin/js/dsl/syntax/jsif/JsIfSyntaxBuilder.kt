@@ -7,6 +7,11 @@ import net.asere.kotlin.js.dsl.syntax.operation.Operable
 
 class JsIfSyntaxBuilder : JsSyntaxBuilder<Unit>(Unit)
 
+infix fun JsIfSyntaxBuilder.ElseIf(param: Pair<Operable, JsSyntaxScope.() -> Unit>) = jsElseIf(
+    comparable = param.first,
+    block = param.second,
+)
+
 fun JsIfSyntaxBuilder.jsElseIf(comparable: Operable, block: JsSyntaxScope.() -> Unit): JsIfSyntaxBuilder {
     return apply {
         append(

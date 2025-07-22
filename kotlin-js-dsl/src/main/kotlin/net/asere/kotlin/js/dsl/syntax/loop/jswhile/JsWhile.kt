@@ -8,14 +8,24 @@ import net.asere.kotlin.js.dsl.tag.JsDsl
 fun JsScriptScope.While(
     comparable: Operable,
     block: JsSyntaxScope.() -> Unit
-) {
+) = jsWhile(
+    comparable = comparable,
+    block = block
+)
+
+fun jsWhile(
+    comparable: Operable,
+    block: JsSyntaxScope.() -> Unit
+): JsSyntaxBuilder<Unit> {
     val scope = JsSyntaxScope()
     block(scope)
-    append(
-        JsLine(
-            """while ($comparable) {
+    return JsSyntaxBuilder(Unit).apply {
+        append(
+            JsLine(
+                """while ($comparable) {
                     $scope
                 }""".trimIndent()
+            )
         )
-    )
+    }
 }
