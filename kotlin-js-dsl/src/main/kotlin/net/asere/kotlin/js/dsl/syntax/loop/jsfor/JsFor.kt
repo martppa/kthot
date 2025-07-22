@@ -1,6 +1,7 @@
 package net.asere.kotlin.js.dsl.syntax.loop.jsfor
 
 import net.asere.kotlin.js.dsl.callable.JsLambda1
+import net.asere.kotlin.js.dsl.reference.JsLambda1Ref
 import net.asere.kotlin.js.dsl.reference.JsReference
 import net.asere.kotlin.js.dsl.syntax.*
 import net.asere.kotlin.js.dsl.syntax.loop.JsLoopSyntax
@@ -102,5 +103,5 @@ fun <T : JsReference<*>> jsFor(
 @JsDsl
 fun <T : JsValue> JsScriptScope.For(
     collection: JsCollection<T>,
-    lambda: JsLambda1<T>,
+    lambda: JsLambda1Ref<T>,
 ) = +collection.forEach(lambda)

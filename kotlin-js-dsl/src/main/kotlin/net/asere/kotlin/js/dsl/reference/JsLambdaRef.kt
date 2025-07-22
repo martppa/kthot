@@ -21,8 +21,9 @@ fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue> JsLambda3.Companion.r
 fun <Param1 : JsValue,
         Param2 : JsValue,
         Param3 : JsValue,
-        Param4 : JsValue> JsLambda4.Companion.ref(name: String) =
-    JsLambda4Ref<Param1, Param2, Param3, Param4>(name)
+        Param4 : JsValue> JsLambda4.Companion.ref(
+    name: String = "lambda_${JsReference.nextRefInt()}"
+) = JsLambda4Ref<Param1, Param2, Param3, Param4>(name)
 
 fun <Param1 : JsValue,
         Param2 : JsValue,
@@ -66,7 +67,7 @@ class JsLambda3Ref<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue>(
 
 class JsLambda2Ref<Param1 : JsValue, Param2 : JsValue>(
     name: String,
-) : JsValueRef<JsValue>(name) {
+) : JsLambdaRefCommons<JsLambda2Ref<Param1, Param2>>(name) {
 
     operator fun invoke(param1: Param1, param2: Param2) = JsSyntax("$this($param1, $param2)")
 

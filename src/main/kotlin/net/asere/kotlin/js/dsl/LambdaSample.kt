@@ -34,7 +34,7 @@ fun main(vararg args: String) {
                 callback("button".js)
             }
             setOnClick(Lambda(JsString.ref("sender")) {
-
+                Log("Event emitted by " + +it)
             })
         }
     }

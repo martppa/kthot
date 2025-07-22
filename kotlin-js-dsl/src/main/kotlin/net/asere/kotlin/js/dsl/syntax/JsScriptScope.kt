@@ -34,7 +34,7 @@ abstract class JsScriptScope {
         return innerObject
     }
 
-    operator fun <T : JsLambdaCommons> JsLambdaSyntax<T>.unaryPlus(): T {
+    operator fun <Reference : JsLambdaRefCommons<Reference>, Lambda : JsLambdaCommons> JsLambdaSyntax<Reference, Lambda>.unaryPlus(): Reference {
         appendLine(this)
         return innerObject
     }
