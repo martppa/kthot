@@ -30,7 +30,7 @@ fun main(vararg args: String) {
             }
             Log(sum(5.js, 4.js))
 
-            val setOnClick = Function("setOnClick", JsLambda1Ref<JsString>("sender")) { callback ->
+            val setOnClick = Function("setOnClick", JsLambda1.ref<JsString>("sender")) { callback ->
                 callback("button".js)
             }
             setOnClick(Lambda(JsString.ref("sender")) {

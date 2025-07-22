@@ -34,7 +34,7 @@ fun <Param1 : JsValue,
 
 class JsLambda5Ref<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Param5 : JsValue>(
     name: String,
-) : JsLambdaRefCommons<JsLambda5<Param1, Param2, Param3, Param4, Param5>, JsLambda5Ref<Param1, Param2, Param3, Param4, Param5>>(name) {
+) : JsLambdaRefCommons<JsLambda5Ref<Param1, Param2, Param3, Param4, Param5>>(name) {
 
     operator fun invoke(
         param1: Param1,
@@ -47,7 +47,7 @@ class JsLambda5Ref<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 
 
 class JsLambda4Ref<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue>(
     name: String,
-) : JsLambdaRefCommons<JsLambda4<Param1, Param2, Param3, Param4>, JsLambda4Ref<Param1, Param2, Param3, Param4>>(name) {
+) : JsLambdaRefCommons<JsLambda4Ref<Param1, Param2, Param3, Param4>>(name) {
 
     operator fun invoke(
         param1: Param1,
@@ -59,7 +59,7 @@ class JsLambda4Ref<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 
 
 class JsLambda3Ref<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue>(
     name: String,
-) : JsLambdaRefCommons<JsLambda3<Param1, Param2, Param3>, JsLambda3Ref<Param1, Param2, Param3>>(name) {
+) : JsLambdaRefCommons<JsLambda3Ref<Param1, Param2, Param3>>(name) {
 
     operator fun invoke(param1: Param1, param2: Param2, param3: Param3) = JsSyntax("$this($param1, $param2, $param3)")
 }
@@ -75,19 +75,19 @@ class JsLambda2Ref<Param1 : JsValue, Param2 : JsValue>(
 
 class JsLambda1Ref<Param1 : JsValue>(
     name: String,
-) : JsLambdaRefCommons<JsLambda1<Param1>, JsLambda1Ref<Param1>>(name) {
+) : JsLambdaRefCommons<JsLambda1Ref<Param1>>(name) {
     operator fun invoke(param: Param1) = JsSyntax("$this($param)")
 }
 
 class JsLambdaRef(
     name: String
-) : JsLambdaRefCommons<JsLambda0, JsLambdaRef>(name) {
+) : JsLambdaRefCommons<JsLambdaRef>(name) {
 
     operator fun invoke() = JsSyntax("$this()")
 }
 
-abstract class JsLambdaRefCommons<Lambda: JsLambdaCommons, Reference : JsValue>(
+abstract class JsLambdaRefCommons<T : JsValue>(
     name: String
-) : JsValueRef<Reference>(name) {
+) : JsValueRef<T>(name) {
     override fun toString(): String = present()
 }

@@ -8,9 +8,7 @@ import net.asere.kotlin.js.dsl.html.jsScript
 import net.asere.kotlin.js.dsl.log.Log
 import net.asere.kotlin.js.dsl.reference.ref
 import net.asere.kotlin.js.dsl.syntax.operation.plus
-import net.asere.kotlin.js.dsl.type.JsNumber
 import net.asere.kotlin.js.dsl.type.JsString
-import net.asere.kotlin.js.dsl.type.js
 import net.asere.kotlin.js.dsl.value.value
 
 fun main(vararg args: String) {
@@ -23,12 +21,10 @@ fun main(vararg args: String) {
 
             val word1 = Const { JsString.ref("word1") } `=` JsString.value("Hello ")
             val word2 = Const { JsString.ref("word2") } `=` JsString.value("World")
-
-
-            val greet = Function(name = "greet", JsString.ref(), JsString.ref(), JsNumber.ref()) { string1, string2, number ->
-                Log(string1 + string2 + number)
+            val greet = Function(name = "greet", JsString.ref(), JsString.ref()) { pWord1, pWord2 ->
+                Log(pWord1 + pWord2)
             }
-            +greet("Hello, ".js, "World".js, 5.js)
+            +greet(word1, word2)
         }
     }
     println(result)
