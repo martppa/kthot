@@ -1,4 +1,4 @@
-# kotlin-js-dsl ![](https://img.shields.io/badge/maven_central-0.0.2-004475)
+# kotlin-js-dsl ![](https://img.shields.io/badge/maven_central-0.0.3-004475)
 This semi-typed DSL is intended to help kotlin developers write, reuse and interact with Javascript without [WASM](https://kotlinlang.org/docs/wasm-overview.html).
 
 ## Motivation
