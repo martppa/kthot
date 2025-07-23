@@ -9,7 +9,7 @@ import net.asere.kotlin.js.dsl.type.JsObject
 import net.asere.kotlin.js.dsl.value.JsValue
 
 @JsDsl
-fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Param5 : JsValue> JsScriptScope.Lambda(
+fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Param5 : JsValue> Lambda(
     param1: JsReference<Param1>,
     param2: JsReference<Param2>,
     param3: JsReference<Param3>,
@@ -22,21 +22,18 @@ fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Par
         JsReference<Param4>,
         JsReference<Param5>
     ) -> Unit,
-) = with(
-    JsLambda5(
-        param1 = param1,
-        param2 = param2,
-        param3 = param3,
-        param4 = param4,
-        param5 = param5,
-        definition = definition,
-    )
-) {
-    +JsLambdaSyntax(
-        reference = JsLambda5.ref<Param1, Param2, Param3, Param4, Param5>("$this"),
-        lambda = this,
-    )
-}
+) = JsLambda5.ref<Param1, Param2, Param3, Param4, Param5>(
+    "${
+        JsLambda5(
+            param1 = param1,
+            param2 = param2,
+            param3 = param3,
+            param4 = param4,
+            param5 = param5,
+            definition = definition,
+        )
+    }"
+)
 
 class JsLambda5<
         Param1 : JsValue,
@@ -68,7 +65,7 @@ class JsLambda5<
 }
 
 @JsDsl
-fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue> JsScriptScope.Lambda(
+fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue> Lambda(
     param1: JsReference<Param1>,
     param2: JsReference<Param2>,
     param3: JsReference<Param3>,
@@ -79,20 +76,17 @@ fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue> JsS
         JsReference<Param3>,
         JsReference<Param4>
     ) -> Unit,
-) = with(
-    JsLambda4(
-        param1 = param1,
-        param2 = param2,
-        param3 = param3,
-        param4 = param4,
-        definition = definition,
-    )
-) {
-    +JsLambdaSyntax(
-        reference = JsLambda4.ref<Param1, Param2, Param3, Param4>("$this"),
-        lambda = this,
-    )
-}
+) = JsLambda4.ref<Param1, Param2, Param3, Param4>(
+    "${
+        JsLambda4(
+            param1 = param1,
+            param2 = param2,
+            param3 = param3,
+            param4 = param4,
+            definition = definition,
+        )
+    }"
+)
 
 class JsLambda4<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue>(
     private val param1: JsReference<Param1>,
@@ -117,7 +111,7 @@ class JsLambda4<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : J
 }
 
 @JsDsl
-fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue> JsScriptScope.Lambda(
+fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue> Lambda(
     param1: JsReference<Param1>,
     param2: JsReference<Param2>,
     param3: JsReference<Param3>,
@@ -126,19 +120,16 @@ fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue> JsScriptScope.Lambda(
         JsReference<Param2>,
         JsReference<Param3>
     ) -> Unit,
-) = with(
-    JsLambda3(
-        param1 = param1,
-        param2 = param2,
-        param3 = param3,
-        definition = definition,
-    )
-) {
-    +JsLambdaSyntax(
-        reference = JsLambda3.ref<Param1, Param2, Param3>("$this"),
-        lambda = this,
-    )
-}
+) = JsLambda3.ref<Param1, Param2, Param3>(
+    "${
+        JsLambda3(
+            param1 = param1,
+            param2 = param2,
+            param3 = param3,
+            definition = definition,
+        )
+    }"
+)
 
 class JsLambda3<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue>(
     private val param1: JsReference<Param1>,
@@ -161,25 +152,18 @@ class JsLambda3<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue>(
 }
 
 @JsDsl
-fun <Param1 : JsValue, Param2 : JsValue> JsScriptScope.Lambda(
-    param1: JsReference<Param1>,
-    param2: JsReference<Param2>,
-    definition: JsSyntaxScope.(
-        JsReference<Param1>,
-        JsReference<Param2>
-    ) -> Unit,
-) = with(
-    JsLambda2(
-        param1 = param1,
-        param2 = param2,
-        definition = definition,
-    )
-) {
-    +JsLambdaSyntax(
-        reference = JsLambda2.ref<Param1, Param2>("$this"),
-        lambda = this,
-    )
-}
+fun <Param1 : JsValue, Param2 : JsValue> Lambda(
+    param1: JsReference<Param1>, param2: JsReference<Param2>,
+    definition: JsSyntaxScope.(JsReference<Param1>, JsReference<Param2>) -> Unit,
+) = JsLambda2.ref<Param1, Param2>(
+    "${
+        JsLambda2(
+            param1 = param1,
+            param2 = param2,
+            definition = definition
+        )
+    }"
+)
 
 class JsLambda2<Param1 : JsValue, Param2 : JsValue>(
     private val param1: JsReference<Param1>,
@@ -201,20 +185,17 @@ class JsLambda2<Param1 : JsValue, Param2 : JsValue>(
 }
 
 @JsDsl
-fun <Param1 : JsValue> JsScriptScope.Lambda(
+fun <Param1 : JsValue> Lambda(
     param: JsReference<Param1>,
     definition: JsSyntaxScope.(JsReference<Param1>) -> Unit,
-) = with(
-    JsLambda1(
-        param = param,
-        definition = definition
-    )
-) {
-    +JsLambdaSyntax(
-        reference = JsLambda1.ref<Param1>("$this"),
-        lambda = this
-    )
-}
+) = JsLambda1.ref<Param1>(
+    "${
+        JsLambda1(
+            param = param,
+            definition = definition
+        )
+    }"
+)
 
 class JsLambda1<Param1 : JsValue>(
     private val param: JsReference<Param1>,
@@ -231,12 +212,15 @@ class JsLambda1<Param1 : JsValue>(
 }
 
 @JsDsl
-fun JsScriptScope.Lambda(definition: JsSyntaxScope.() -> Unit) = with(JsLambda0(definition)) {
-    +JsLambdaSyntax(
-        reference = JsLambda0.ref("$this"),
-        lambda = this
-    )
-}
+fun Lambda(
+    definition: JsSyntaxScope.() -> Unit,
+) = JsLambda0.ref(
+    "${
+        JsLambda0(
+            definition = definition
+        )
+    }"
+)
 
 class JsLambda0(
     private val definition: JsSyntaxScope.() -> Unit,

@@ -2,10 +2,7 @@ package net.asere.kotlin.js.dsl
 
 import kotlinx.html.body
 import kotlinx.html.stream.createHTML
-import net.asere.kotlin.js.dsl.callable.Function
-import net.asere.kotlin.js.dsl.callable.JsLambda1
-import net.asere.kotlin.js.dsl.callable.JsLambda2
-import net.asere.kotlin.js.dsl.callable.Lambda
+import net.asere.kotlin.js.dsl.callable.*
 import net.asere.kotlin.js.dsl.declaration.Const
 import net.asere.kotlin.js.dsl.html.jsScript
 import net.asere.kotlin.js.dsl.log.Log
@@ -21,10 +18,6 @@ import net.asere.kotlin.js.dsl.value.value
 fun main(vararg args: String) {
     val result = createHTML().body {
         jsScript {
-            Lambda {
-                Log("Inside a lambda")
-            }
-
             val sum = Const { JsLambda2.ref<JsNumber, JsNumber>() } `=` Lambda(
                 JsString.ref("first"),
                 JsString.ref("second")
@@ -37,7 +30,7 @@ fun main(vararg args: String) {
                 +callback("button".js)
             }
             +setOnClick(Lambda(JsString.ref("sender")) {
-                Log("Event emitted by $it")
+                Log("Event emitted by".js + it)
             })
 
             val printItem = Const { JsLambda1.ref<JsNumber>("printItem") } `=` Lambda(

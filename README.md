@@ -1,5 +1,8 @@
-# kotlin-js-dsl ![](https://img.shields.io/badge/jsDsl_version-0.0.2-004475)
-This semi-typed DSL is intended to help kotlin developers write, reuse and interact with Javascript without [WASM](https://kotlinlang.org/docs/wasm-overview.html). It was born under the need to help developers of [Kotlin Html Dsl](https://kotlinlang.org/docs/typesafe-html-dsl.html) write JS code while staying in Kotlin. If what you are looking for is writing entire projects in JS using Kotlin, [WASM](https://kotlinlang.org/docs/wasm-overview.html) is your tool. This tool is currently under development, and it's in an experimental stage. 
+# kotlin-js-dsl ![](https://img.shields.io/badge/maven_central-0.0.2-004475)
+This semi-typed DSL is intended to help kotlin developers write, reuse and interact with Javascript without [WASM](https://kotlinlang.org/docs/wasm-overview.html).
+
+## Motivation
+As Kotlin developers and users of [Kotlin Html Dsl](https://kotlinlang.org/docs/typesafe-html-dsl.html) we may want to write JS code while staying in Kotlin. This tool is meant for scripts, so, if what you are looking for is writing entire projects in JS using Kotlin, [WASM](https://kotlinlang.org/docs/wasm-overview.html) is your tool. This Dsl is currently under development, and it's in experimental stage.
 
 > **Important:** This readme file does not cover the whole code, therefore, it might not explain every aspect of this DSL. If you find this repo interesting and wanna give it a try, please open an issue requesting the documentation.
 
@@ -11,15 +14,19 @@ dependencies {
 }
 ```
 
-The DSL is currently capable of offering some basic functionalities
+## Overview
+The DSL is currently capable of offering some basic functionalities. Its main goal is to allow developers write JavaScript scripts while staying in Kotlin. There are two kind of syntax builders: 
+
+- **Dsl builders:** These builders in most cases will write the JavaScript code for you. These are the equivalent to reserved words (`for`, `when`, `if`, etc.). They mostly return references to JS objects and values.
+- **Regular builders:** These builders in most cases return syntax and syntax-builder objects. For this kind of builders, you must use the unary plus operator (+) to add the JS syntax to the scope.
 
 ## Variable 
 
 ### Definition
 
-Currently, there are two ways to declare (and assign) a variable, the fancy and the conventional way.
+As for most statements, you can define them using both kind of builders
 
-**Conventional:**
+**Regular builders:**
 
 Define a basic string variable. `JsString` is the Kotlin representation for the `String` type in Javascript. Use the `js` function to generate the syntax. `js` function will pack all instructions and return them as a single `JsSyntax` object. Use the unary plus (+) operator to "print" any `JsElement` on the scope of `js` function's lambda. 
 The `declare` function will write the variable declaration, it could be mutable or constant.
@@ -50,9 +57,9 @@ val syntax = js {
 println(syntax) // --> let string_1 = "Juan"
 ```
 
-**Fancy:**
+**Dsl builders:**
 
-The fancy way looks simpler and closer to what JavaScript syntax would look like.
+This way looks simpler and closer to what JavaScript syntax would look like.
 
 ```kotlin
 val constBoolean = Const { JsBoolean.ref() } `=` true
@@ -78,7 +85,7 @@ val syntax = js {
     val stringValue = +JsString.ref().declare(Let).assign("Juan".js)
     Log(stringValue.charAt(0.js))
     
-    // The fancy way
+    // Using DSL builders
     val fancyStringValue = Let { JsString.ref() } `=` "Juan"
     Log(fancyStringValue.charAt(0.js))
 }
@@ -363,7 +370,8 @@ Lambdas behave similar to functions except that these have no name. Still, they 
 **No argument lambda**
 
 ```kotlin
-Lambda {
+// Usage of unary plus to force the rendering in sake of documentation
++Lambda {
     Log("Inside a lambda")
 }
 ```
