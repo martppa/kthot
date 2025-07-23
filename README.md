@@ -1,12 +1,13 @@
 # kotlin-js-dsl ![](https://img.shields.io/badge/jsDsl_version-0.0.2-004475)
 This semi-typed DSL is intended to help kotlin developers write, reuse and interact with Javascript without [WASM](https://kotlinlang.org/docs/wasm-overview.html). It was born under the need to help developers of [Kotlin Html Dsl](https://kotlinlang.org/docs/typesafe-html-dsl.html) write JS code while staying in Kotlin. If what you are looking for is writing entire projects in JS using Kotlin, [WASM](https://kotlinlang.org/docs/wasm-overview.html) is your tool. This tool is currently under development, and it's in an experimental stage. 
 
+> **Important:** This readme file does not cover the whole code, therefore, it might not explain every aspect of this DSL. If you find this repo interesting and wanna give it a try, please open an issue requesting the documentation.
+
 ## Installation
 In order to include the DSL, add the following dependencies to your project build.gradle file:
 ```groovy
 dependencies {
     implementation "net.asere.kotlin:js-dsl:$version"
-    implementation "net.asere.kotlin:js-dsl-html:$version"
 }
 ```
 
@@ -25,7 +26,7 @@ The `declare` function will write the variable declaration, it could be mutable 
 
 ```kotlin
 val syntax = js {
-    +JsString.ref().declare(Mutable)        
+    +JsString.ref().declare(Let)        
 }
 println(syntax)
 ```
@@ -44,14 +45,14 @@ In order to assign values to a JavaScript object use the `assign` extension func
 
 ```kotlin
 val syntax = js {
-    +JsString.ref().declare(Mutable).assign("Juan".js)
+    +JsString.ref().declare(Let).assign("Juan".js)
 }
 println(syntax) // --> let string_1 = "Juan"
 ```
 
-**Fancy:"**
+**Fancy:**
 
-The "idiomatic" (fancier) way looks simpler and closer to what JavaScript syntax would look like.
+The fancy way looks simpler and closer to what JavaScript syntax would look like.
 
 ```kotlin
 val constBoolean = Const { JsBoolean.ref() } `=` true
@@ -66,7 +67,7 @@ val letBoolean = +Let { JsBoolean.ref() }
 val varBoolean = +Var { JsBoolean.ref() }
 ```
 
-Since declaration functions (`Var`, `Let`, `Const`) return `JsSyntaxBuilder` we need to use unary plus (+) to write the JavaScript code.
+Since declaration functions (`Var`, `Let`, `Const`) return `JsSyntax` we need to use unary plus (+) to write the JavaScript code.
 
 ### Referencing objects in Kotlin
 
@@ -74,7 +75,7 @@ Every object reference (e.g `JsString.ref()`) can be assigned to a Kotlin object
 
 ```kotlin
 val syntax = js {
-    val stringValue = +JsString.ref().declare(Mutable).assign("Juan".js)
+    val stringValue = +JsString.ref().declare(Let).assign("Juan".js)
     Log(stringValue.charAt(0.js))
     
     // The fancy way
@@ -170,9 +171,9 @@ You can use parenthesis to group expressions just like you would do it in Kotlin
 
 ```kotlin
 val syntax = js {
-    val bool0 = +JsBoolean.ref().declare(Constant).assign(5.js eq 5.js)
-    val bool1 = +JsBoolean.ref().declare(Constant).assign(false)
-    val bool2 = +JsBoolean.ref().declare(Constant).assign(true)
+    val bool0 = +JsBoolean.ref().declare(Const).assign(5.js eq 5.js)
+    val bool1 = +JsBoolean.ref().declare(Const).assign(false)
+    val bool2 = +JsBoolean.ref().declare(Const).assign(true)
     +jsLog(bool1 and (bool2 or bool0))
 }
 println(syntax)
@@ -188,7 +189,7 @@ console.log(boolean_5 && (boolean_6 || boolean_4))
 
 ## Collections
 
-Declaring collections. Please note as `collection.forEach` does return a `JsSyntaxBuilder` you need to apply the unary plus (+) to make it print the function in JavaScript.
+Declaring collections. Please note as `collection.forEach` does return a `JsSyntax` you need to apply the unary plus (+) to make it print the function in JavaScript.
 
 ```kotlin
 val syntax = js {
@@ -222,7 +223,7 @@ val bool0 = Const { JsBoolean.ref() } `=` true
 val bool1 = Const { JsBoolean.ref() } `=` false
 val bool2 = Const { JsBoolean.ref() } `=` true
 
-If ((!bool0 and bool1) or (bool1 and bool2)) {
++jsIf((!bool0 and bool1) or (bool1 and bool2)) {
     Log("and!")
 }.jsElseIf(bool0 or (bool1 or bool2)) {
     Log("or!")
@@ -230,6 +231,36 @@ If ((!bool0 and bool1) or (bool1 and bool2)) {
     Log("or!")
 }.jsElse {
     Log("else!")
+}
+
+// Fancy way
+If ((!bool0 and bool1) or (bool1 and bool2)) {
+    Log("and!")
+}
+ElseIf (bool0 or (bool1 or bool2)) {
+    Log("or!")
+}
+ElseIf((bool0 or bool1) or bool2) {
+    Log("or!")
+}
+Else {
+    Log("else!")
+}
+```
+
+Output:
+```javascript
+if ((!boolean_0 && boolean_1) || (boolean_1 && boolean_2)) {
+    console.log('and!')
+}
+else if (boolean_0 || (boolean_1 || boolean_2)) {
+   console.log('or!')
+}
+else if ((boolean_0 || boolean_1) || boolean_2) {
+   console.log('or!')
+}
+else {
+   console.log('else!')
 }
 ```
 
@@ -239,7 +270,7 @@ There's support for loops statements too!
 
 ### For loops
 
-**Classic i counter**: Define the classic FOR loop giving 3 parameters to the `For` dsl function. Define the counter named "i" in this case, then create the evaluation and the operation for each iteration
+**Classic i counter:** Define the classic FOR loop giving 3 parameters to the `For` dsl function. Define the counter named "i" in this case, then create the evaluation and the operation for each iteration
 
 ```kotlin
 val syntax = js {
@@ -254,25 +285,183 @@ val syntax = js {
 println(syntax)
 ```
 
+**Object key iteration:** Define key iteration for loop
+
+```kotlin
+val obj = Const { JsObject.ref("obj") } `=` JsSyntax("{ a: 5 }")
+For ({ Const { JsObject.ref("key") } }, obj) {
+    Log(obj[it])
+}
+```
+
+Output:
+```javascript
+const obj = { a: 5 }
+for (const key in obj) {
+    console.log(obj[key])
+}
+```
+
+**Collection iteration:** Define the for loop to iterate a collection
+
+```kotlin
+val collection = Const { JsCollection.ref<JsNumber>() } `=` JsCollection.value(0.js, 1.js, 2.js, 3.js)
+For ({ Const { JsNumber.ref() } }, collection) {
+    Log(it)
+    If (it eq 5.js) {
+        Continue
+    }
+}
+```
+
 ## Declare functions
 
-Declare functions and call them any time
+### No argument functions
+
+Function declaration is designed to be as close as possible to Javascript and Kotlin syntax. In the code below we define a function with no arguments. Please note we use the unary plus (+) operator to invoke the function. Function invocation returns a `JsSyntax`.
+
+```kotlin
+val simpleFunction = Function {
+    Log("We called the function!")
+}
++simpleFunction()
+```
+
+Output:
+```javascript
+function function_0() {
+    console.log('We called the function!')
+}
+function_0()
+```
+
+### Functions with arguments
+
+To define functions with arguments call the overloaded `Function` and specify the arguments using value references
+
 ```kotlin
 val syntax = js {
-    val greet = +JsFunction(name = "greet", JsString.ref(), JsString.ref()) { string1, string2 ->
-        +jsLog(string1 + string2)
+    val greet = Function(name = "greet", JsString.ref(), JsString.ref(), JsNumber.ref()) { string1, string2, number ->
+        Log(string1 + string2 + number)
     }
-    +greet("Hello, ".js, "World".js)
+    +greet("Hello, ".js, "World".js, 5.js)
 }
 println(syntax)
-
-// Output:
-// function greet(string_1, string_2) {
-//     console.log(string_1 + string_2)
-// }
-// greet("Hello, ", "World")
 ```
+Output:
+```javascript
+function greet(string_2, string_3, number_4) {
+    console.log((string_2 + string_3) + number_4)
+}
+greet('Hello, ', 'World', 5)
+```
+
+### Lambdas
+
+Lambdas behave similar to functions except that these have no name. Still, they can be referenced to declarable objects. To declare lambdas use the `Lambda` function
+
+**No argument lambda**
+
+```kotlin
+Lambda {
+    Log("Inside a lambda")
+}
+```
+
+Output:
+```javascript
+() => {
+    console.log('Inside a lambda')
+}
+```
+
+**Multiple arguments lambda**
+
+```kotlin
+Lambda(
+    JsString.ref(),
+    JsString.ref()
+) { first, second ->
+    Return(first + second)
+}
+```
+
+Output:
+
+```javascript
+(string_3, string_4) => {
+    return string_3 + string_4
+}
+```
+
+As mentioned before, lambdas can be referenced using lambda reference objects. You can invoke lambdas using there objects anytime.
+
+```kotlin
+val sum = Const { JsLambda2.ref<JsNumber, JsNumber>() } `=` Lambda(
+    JsString.ref("first"),
+    JsString.ref("second")
+) { first, second ->
+    Return(first + second)
+}
+Log(sum(5.js, 4.js))
+```
+
+Output:
+```javascript
+const lambda_2 = (first, second) => {
+    return first + second
+}
+console.log(lambda_2(5, 4))
+```
+
+**Define a function that accepts lambda as parameter**
+
+You can define lambda as parameter types. For example, when passing it to a function or a class. Also, it can used inline.
+
+```kotlin
+val setOnClick = Function("setOnClick", JsLambda1.ref<JsString>("sender")) { callback ->
+    callback("button".js)
+}
+// Then call it later
+setOnClick(Lambda(JsString.ref("sender")) {
+    Log("Event emitted by " + +it)
+})
+```
+> The number in function and lambda names refers to the amount of parameters it accepts.
+
+**References as parameters:**
+
+Created lambda references can be also used as parameters
+
+```kotlin
+val printItem = Const { JsLambda1.ref<JsNumber>("printItem") } `=` Lambda(
+    JsString.ref("item"),
+) { item ->
+    Log(item)
+}
+val numberCollection = Const { JsCollection.ref<JsNumber>("numberCollection") } `=` JsCollection.value(100.js, 200.js, 300.js)
++numberCollection.forEach(printItem)
+```
+
+Output:
+```javascript
+const printItem = (item) => {
+    console.log(item)
+}
+const numberCollection = [100, 200, 300]
+numberCollection.forEach(printItem)
+```
+
 ## Integrate with Html DSL
+
+### Installation
+
+In order to include the DSL support for Kotlin Html DSL, add the following dependencies to your project build.gradle file:
+```groovy
+dependencies {
+    implementation "net.asere.kotlin:js-dsl-html:$version"
+}
+```
 
 Javascript code can be integrated with the Html DSL using `jsScript` function
 
@@ -294,22 +483,28 @@ val html = createHTML().html {
     }
 }
 println(html)
-
-// Output:
-// <html>
-// <head>
-//  <script>
-//      function showAlert(string_0) {
-//          window.alert(string_0)
-//      }
-//  </script>
-// </head>
-// <body>
-//  <button onclick="showAlert('Hello World!')">Click me</button>
-// </body>
-// </html>
-
 ```
+
+Output:
+
+```html
+<html>
+<head>
+ <script>
+     function showAlert(string_0) {
+         window.alert(string_0)
+     }
+ </script>
+</head>
+<body>
+ <button onclick="showAlert('Hello World!')">Click me</button>
+</body>
+</html>
+```
+
+# Known issues
+
+- Indentation generated by the DSL in some cases may not follow the expected spacing. It does not affect the code itself.
 
 # License - MIT
 
