@@ -3,27 +3,28 @@ package net.asere.kotlin.js.dsl.types.value.lambda
 import net.asere.kotlin.js.dsl.types.reference.JsReference
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
+import net.asere.kotlin.js.dsl.types.definition.JsDefinition
 import net.asere.kotlin.js.dsl.types.type.lambda.JsLambda5
 import net.asere.kotlin.js.dsl.types.value.JsValue
 
 class JsLambda5Value<
-        Param1 : JsValue,
-        Param2 : JsValue,
-        Param3 : JsValue,
-        Param4 : JsValue,
-        Param5 : JsValue> internal constructor(
-    private val param1: JsReference<Param1>,
-    private val param2: JsReference<Param2>,
-    private val param3: JsReference<Param3>,
-    private val param4: JsReference<Param4>,
-    private val param5: JsReference<Param5>,
-    private val definition: JsSyntaxScope.(JsReference<Param1>, JsReference<Param2>, JsReference<Param3>, JsReference<Param4>, JsReference<Param5>) -> Unit,
+        Param1Ref: JsReference<Param1>, Param1 : JsValue,
+        Param2Ref: JsReference<Param2>, Param2 : JsValue,
+        Param3Ref: JsReference<Param3>, Param3 : JsValue,
+        Param4Ref: JsReference<Param4>, Param4 : JsValue,
+        Param5Ref: JsReference<Param5>, Param5 : JsValue> internal constructor(
+    private val param1: JsDefinition<Param1Ref, Param1>,
+    private val param2: JsDefinition<Param2Ref, Param2>,
+    private val param3: JsDefinition<Param3Ref, Param3>,
+    private val param4: JsDefinition<Param4Ref, Param4>,
+    private val param5: JsDefinition<Param5Ref, Param5>,
+    private val definition: JsSyntaxScope.(Param1Ref, Param2Ref, Param3Ref, Param4Ref, Param5Ref) -> Unit,
 ) : JsLambdaValueCommons(), JsLambda5<Param1, Param2, Param3, Param4, Param5> {
     override fun buildScopeParameters() = InnerScopeParameters(
         scope = JsSyntaxScope().apply {
-            definition(this, param1, param2, param3, param4, param5)
+            definition(this, param1.reference, param2.reference, param3.reference, param4.reference, param5.reference)
         },
-        invocationParameters = listOf(param1, param2, param3, param4, param5)
+        invocationParameters = listOf(param1.reference, param2.reference, param3.reference, param4.reference, param5.reference)
     )
 
     override operator fun invoke(param1: Param1, param2: Param2, param3: Param3, param4: Param4, param5: Param5) = JsSyntax("($this)($param1, $param2, $param3, $param4, $param5)")
@@ -31,13 +32,18 @@ class JsLambda5Value<
     companion object
 }
 
-fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Param5 : JsValue> jsLambda(
-    param1: JsReference<Param1>,
-    param2: JsReference<Param2>,
-    param3: JsReference<Param3>,
-    param4: JsReference<Param4>,
-    param5: JsReference<Param5>,
-    definition: JsSyntaxScope.(JsReference<Param1>, JsReference<Param2>, JsReference<Param3>, JsReference<Param4>, JsReference<Param5>) -> Unit,
+fun <
+        Param1Ref: JsReference<Param1>, Param1 : JsValue,
+        Param2Ref: JsReference<Param2>, Param2 : JsValue,
+        Param3Ref: JsReference<Param3>, Param3 : JsValue,
+        Param4Ref: JsReference<Param4>, Param4 : JsValue,
+        Param5Ref: JsReference<Param5>, Param5 : JsValue> jsLambda(
+    param1: JsDefinition<Param1Ref, Param1>,
+    param2: JsDefinition<Param2Ref, Param2>,
+    param3: JsDefinition<Param3Ref, Param3>,
+    param4: JsDefinition<Param4Ref, Param4>,
+    param5: JsDefinition<Param5Ref, Param5>,
+    definition: JsSyntaxScope.(Param1Ref, Param2Ref, Param3Ref, Param4Ref, Param5Ref) -> Unit,
 ): JsLambda5<Param1, Param2, Param3, Param4, Param5> = JsLambda5Value(
     param1 = param1,
     param2 = param2,

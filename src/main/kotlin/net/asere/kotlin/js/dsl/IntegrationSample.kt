@@ -6,7 +6,7 @@ import net.asere.kotlin.js.dsl.callable.Function
 import net.asere.kotlin.js.dsl.dom.reference.JsWindow
 import net.asere.kotlin.js.dsl.html.jsScript
 import net.asere.kotlin.js.dsl.types.reference.JsFunction1Ref
-import net.asere.kotlin.js.dsl.types.reference.lambda.ref
+import net.asere.kotlin.js.dsl.types.reference.def
 import net.asere.kotlin.js.dsl.types.type.JsString
 import net.asere.kotlin.js.dsl.types.type.js
 
@@ -15,7 +15,7 @@ fun main(vararg args: String) {
     val result = createHTML().html {
         head {
             jsScript {
-                Function(name = "showAlert", JsString.ref()) {
+                Function(name = "showAlert", JsString.def()) {
                     +JsWindow.alert(it)
                 }
             }

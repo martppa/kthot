@@ -6,6 +6,7 @@ import net.asere.kotlin.js.dsl.types.reference.lambda.ref
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxBuilder
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
+import net.asere.kotlin.js.dsl.types.reference.ref
 import net.asere.kotlin.js.dsl.types.type.JsObject
 import net.asere.kotlin.js.dsl.types.value.JsValue
 

@@ -4,18 +4,18 @@ import kotlinx.html.body
 import kotlinx.html.stream.createHTML
 import net.asere.kotlin.js.dsl.declaration.Let
 import net.asere.kotlin.js.dsl.html.jsScript
-import net.asere.kotlin.js.dsl.types.reference.lambda.ref
 import net.asere.kotlin.js.dsl.log.Log
 import net.asere.kotlin.js.dsl.syntax.loop.jswhile.DoWhile
-import net.asere.kotlin.js.dsl.syntax.operation.*
-import net.asere.kotlin.js.dsl.type.*
+import net.asere.kotlin.js.dsl.syntax.operation.lt
+import net.asere.kotlin.js.dsl.syntax.operation.postInc
+import net.asere.kotlin.js.dsl.types.reference.def
 import net.asere.kotlin.js.dsl.types.type.JsNumber
 import net.asere.kotlin.js.dsl.types.type.js
 
 fun main(vararg args: String) {
     val result = createHTML().body {
         jsScript {
-            val counter = Let { JsNumber.ref("counter") } `=` 0
+            val counter = Let { JsNumber.def("counter") } `=` 0
             DoWhile(counter lt 5.js) {
                 counter.postInc()
                 Log(counter)
