@@ -1,8 +1,8 @@
 package net.asere.kotlin.js.dsl.syntax
 
 import net.asere.kotlin.js.dsl.JsElement
-import net.asere.kotlin.js.dsl.reference.JsObjectRef
-import net.asere.kotlin.js.dsl.reference.JsReference
+import net.asere.kotlin.js.dsl.types.reference.JsObjectRef
+import net.asere.kotlin.js.dsl.types.reference.JsReference
 
 class JsSyntaxScope : JsScriptScope(), JsElement {
 

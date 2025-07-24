@@ -2,7 +2,7 @@ package net.asere.kotlin.js.dsl.syntax.operation
 
 import net.asere.kotlin.js.dsl.JsElement
 import net.asere.kotlin.js.dsl.syntax.operation.operator.Increment
-import net.asere.kotlin.js.dsl.type.JsNumber
+import net.asere.kotlin.js.dsl.types.type.JsNumber
 
 class PostIncrementOperation(
     number: JsNumber,

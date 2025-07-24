@@ -1,15 +1,17 @@
 package net.asere.kotlin.js.dsl.dom.type
 
 import net.asere.kotlin.js.dsl.dom.reference.JsDomObjectRef
-import net.asere.kotlin.js.dsl.reference.JsLambda1Ref
+import net.asere.kotlin.js.dsl.types.reference.lambda.JsLambda1Ref
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.value.JsBooleanSyntax
 import net.asere.kotlin.js.dsl.syntax.value.JsDomCollectionSyntax
 import net.asere.kotlin.js.dsl.syntax.value.JsDomObjectSyntax
 import net.asere.kotlin.js.dsl.syntax.value.JsStringSyntax
-import net.asere.kotlin.js.dsl.type.JsString
-import net.asere.kotlin.js.dsl.type.js
-import net.asere.kotlin.js.dsl.value.JsValue
+import net.asere.kotlin.js.dsl.types.definition.JsDefinition
+import net.asere.kotlin.js.dsl.types.reference.JsStringRef
+import net.asere.kotlin.js.dsl.types.type.JsString
+import net.asere.kotlin.js.dsl.types.type.js
+import net.asere.kotlin.js.dsl.types.value.JsValue
 
 interface JsDomObject : JsValue {
     fun getInnerHTML(): JsStringSyntax = JsStringSyntax("${this}.innerHTML")
@@ -88,6 +90,4 @@ interface JsDomObject : JsValue {
 
     companion object
 }
-
-fun JsDomObject.Companion.ref(name: String? = null) = JsDomObjectRef(name)
 

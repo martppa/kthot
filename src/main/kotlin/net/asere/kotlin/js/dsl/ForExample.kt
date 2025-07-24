@@ -6,7 +6,7 @@ import net.asere.kotlin.js.dsl.declaration.Const
 import net.asere.kotlin.js.dsl.declaration.Let
 import net.asere.kotlin.js.dsl.html.jsScript
 import net.asere.kotlin.js.dsl.log.Log
-import net.asere.kotlin.js.dsl.reference.ref
+import net.asere.kotlin.js.dsl.types.reference.lambda.ref
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.jsif.If
 import net.asere.kotlin.js.dsl.syntax.loop.jsfor.For
@@ -15,39 +15,41 @@ import net.asere.kotlin.js.dsl.syntax.loop.jswhile.Continue
 import net.asere.kotlin.js.dsl.syntax.operation.eq
 import net.asere.kotlin.js.dsl.syntax.operation.lt
 import net.asere.kotlin.js.dsl.syntax.operation.postInc
-import net.asere.kotlin.js.dsl.type.JsCollection
-import net.asere.kotlin.js.dsl.type.JsNumber
-import net.asere.kotlin.js.dsl.type.JsObject
-import net.asere.kotlin.js.dsl.type.js
-import net.asere.kotlin.js.dsl.value.get
-import net.asere.kotlin.js.dsl.value.jsLambda
-import net.asere.kotlin.js.dsl.value.value
+import net.asere.kotlin.js.dsl.types.reference.def
+import net.asere.kotlin.js.dsl.types.reference.ref
+import net.asere.kotlin.js.dsl.types.type.JsCollection
+import net.asere.kotlin.js.dsl.types.type.JsNumber
+import net.asere.kotlin.js.dsl.types.type.JsObject
+import net.asere.kotlin.js.dsl.types.type.js
+import net.asere.kotlin.js.dsl.types.value.get
+import net.asere.kotlin.js.dsl.types.value.lambda.jsLambda
+import net.asere.kotlin.js.dsl.types.value.value
 
 fun main(vararg args: String) {
     val result = createHTML().body {
         jsScript {
-            val collection = Const { JsCollection.ref<JsNumber>() } `=` JsCollection.value(0.js, 1.js, 2.js, 3.js)
-            For ({ Let { JsNumber.ref("i") } `=` 0 }, { it lt collection.getLength() }, { it.postInc() }) {
+            val collection = Const { JsCollection.def<JsNumber>() } `=` JsCollection.value(0.js, 1.js, 2.js, 3.js)
+            For ({ Let { JsNumber.def("i") } `=` 0 }, { it lt collection.getLength() }, { it.postInc() }) {
                 Log(it)
                 If (it lt 2) {
                     Break
                 }
             }
 
-            val obj = Const { JsObject.ref("obj") } `=` JsSyntax("{ a: 5 }")
-            For ({ Const { JsObject.ref("key") } }, obj) {
+            val obj = Const { JsObject.def("obj") } `=` JsSyntax("{ a: 5 }")
+            For ({ Const { JsObject.def("key") } }, obj) {
                 Log(obj[it])
             }
 
 
-            For ({ Const { JsNumber.ref() } }, collection) {
+            For ({ Const { JsNumber.def() } }, collection) {
                 Log(it)
                 If (it eq 5.js) {
                     Continue
                 }
             }
 
-            For (collection, jsLambda(JsNumber.ref()) { number1 ->
+            For (collection, jsLambda(JsNumber.def()) { number1 ->
                 Log(number1)
             })
         }

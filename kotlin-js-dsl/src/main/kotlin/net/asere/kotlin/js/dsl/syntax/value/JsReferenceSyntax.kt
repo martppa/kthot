@@ -1,8 +1,8 @@
 package net.asere.kotlin.js.dsl.syntax.value
 
-import net.asere.kotlin.js.dsl.reference.JsReference
+import net.asere.kotlin.js.dsl.types.reference.JsReference
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
-import net.asere.kotlin.js.dsl.value.JsValue
+import net.asere.kotlin.js.dsl.types.value.JsValue
 
 abstract class JsReferenceSyntax<T : JsValue>(value: String) : JsSyntax(value), JsReference<T> {
     override val name: String get() = value

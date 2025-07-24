@@ -3,15 +3,20 @@ package net.asere.kotlin.js.dsl.syntax
 import net.asere.kotlin.js.dsl.JsElement
 import net.asere.kotlin.js.dsl.callable.JsFunction0
 import net.asere.kotlin.js.dsl.callable.JsFunctionCommons
-import net.asere.kotlin.js.dsl.value.JsLambdaValueCommons
 import net.asere.kotlin.js.dsl.declaration.*
-import net.asere.kotlin.js.dsl.reference.*
 import net.asere.kotlin.js.dsl.syntax.operation.AssignmentOperation
 import net.asere.kotlin.js.dsl.syntax.operation.Operation
 import net.asere.kotlin.js.dsl.toLine
 import net.asere.kotlin.js.dsl.toSyntax
-import net.asere.kotlin.js.dsl.type.js
-import net.asere.kotlin.js.dsl.value.JsValue
+import net.asere.kotlin.js.dsl.types.definition.JsDefinition
+import net.asere.kotlin.js.dsl.types.reference.JsFunction0Ref
+import net.asere.kotlin.js.dsl.types.reference.JsFunctionRefCommons
+import net.asere.kotlin.js.dsl.types.reference.JsReference
+import net.asere.kotlin.js.dsl.types.reference.JsValueRef
+import net.asere.kotlin.js.dsl.types.reference.lambda.JsLambdaRefCommons
+import net.asere.kotlin.js.dsl.types.type.js
+import net.asere.kotlin.js.dsl.types.value.JsValue
+import net.asere.kotlin.js.dsl.types.value.lambda.JsLambdaValueCommons
 import java.util.*
 
 abstract class JsScriptScope {
@@ -60,14 +65,14 @@ abstract class JsScriptScope {
         return builder.innerObject
     }
 
-    fun <T : JsReference<*>> T.declare(type: DeclarationType): JsDeclarationSyntax<T> {
+    fun <T : JsDefinition<C, Q>, C : JsReference<Q>, Q : JsValue> T.declare(type: DeclarationType): JsDeclarationSyntax<C> {
         val syntax = when (type) {
-            Const -> JsConstantDeclaration(this)
-            Let -> JsLetDeclaration(this)
-            Var -> JsVarDeclaration(this)
+            Const -> JsConstantDeclaration(this.reference)
+            Let -> JsLetDeclaration(this.reference)
+            Var -> JsVarDeclaration(this.reference)
         }
         return JsDeclarationSyntax(
-            innerObject = this,
+            innerObject = this.reference,
             syntax = syntax
         )
     }

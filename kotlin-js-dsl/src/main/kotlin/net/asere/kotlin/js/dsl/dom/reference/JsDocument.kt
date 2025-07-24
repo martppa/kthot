@@ -1,7 +1,7 @@
 package net.asere.kotlin.js.dsl.dom.reference
 
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
-import net.asere.kotlin.js.dsl.value.JsStringValue
+import net.asere.kotlin.js.dsl.types.value.JsStringValue
 
 object JsDocument : JsDomObjectRef("document") {
     fun getElementById(id: JsStringValue): JsSyntax = JsSyntax("${this}.getElementById($id)")

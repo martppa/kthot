@@ -9,7 +9,8 @@ import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxBuilder
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.tag.JsDsl
-import net.asere.kotlin.js.dsl.value.JsValue
+import net.asere.kotlin.js.dsl.types.reference.*
+import net.asere.kotlin.js.dsl.types.value.JsValue
 
 @JsDsl
 fun <Param1 : JsValue,

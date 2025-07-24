@@ -5,10 +5,10 @@ import kotlinx.html.stream.createHTML
 import net.asere.kotlin.js.dsl.callable.Function
 import net.asere.kotlin.js.dsl.dom.reference.JsWindow
 import net.asere.kotlin.js.dsl.html.jsScript
-import net.asere.kotlin.js.dsl.reference.JsFunction1Ref
-import net.asere.kotlin.js.dsl.reference.ref
-import net.asere.kotlin.js.dsl.type.JsString
-import net.asere.kotlin.js.dsl.type.js
+import net.asere.kotlin.js.dsl.types.reference.JsFunction1Ref
+import net.asere.kotlin.js.dsl.types.reference.lambda.ref
+import net.asere.kotlin.js.dsl.types.type.JsString
+import net.asere.kotlin.js.dsl.types.type.js
 
 fun main(vararg args: String) {
     val showAlert = JsFunction1Ref<JsString>("showAlert")
