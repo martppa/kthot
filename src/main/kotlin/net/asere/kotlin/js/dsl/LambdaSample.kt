@@ -9,16 +9,14 @@ import net.asere.kotlin.js.dsl.log.Log
 import net.asere.kotlin.js.dsl.reference.ref
 import net.asere.kotlin.js.dsl.syntax.Return
 import net.asere.kotlin.js.dsl.syntax.operation.plus
-import net.asere.kotlin.js.dsl.type.JsCollection
-import net.asere.kotlin.js.dsl.type.JsNumber
-import net.asere.kotlin.js.dsl.type.JsString
-import net.asere.kotlin.js.dsl.type.js
+import net.asere.kotlin.js.dsl.type.*
+import net.asere.kotlin.js.dsl.value.jsLambda
 import net.asere.kotlin.js.dsl.value.value
 
 fun main(vararg args: String) {
     val result = createHTML().body {
         jsScript {
-            val sum = Const { JsLambda2.ref<JsNumber, JsNumber>() } `=` Lambda(
+            val sum = Const { JsLambda2.ref<JsNumber, JsNumber>() } `=` jsLambda(
                 JsString.ref("first"),
                 JsString.ref("second")
             ) { first, second ->
@@ -29,11 +27,11 @@ fun main(vararg args: String) {
             val setOnClick = Function("setOnClick", JsLambda1.ref<JsString>("sender")) { callback ->
                 +callback("button".js)
             }
-            +setOnClick(Lambda(JsString.ref("sender")) {
+            +setOnClick(jsLambda(JsString.ref("sender")) {
                 Log("Event emitted by".js + it)
             })
 
-            val printItem = Const { JsLambda1.ref<JsNumber>("printItem") } `=` Lambda(
+            val printItem = Const { JsLambda1.ref<JsNumber>("printItem") } `=` jsLambda(
                 JsString.ref("item"),
             ) { item ->
                 Log(item)

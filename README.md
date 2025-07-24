@@ -201,7 +201,7 @@ Declaring collections. Please note as `collection.forEach` does return a `JsSynt
 ```kotlin
 val syntax = js {
     val collection = Const { JsCollection.ref<JsNumber>() } `=` JsCollection.value(0.js, 1.js, 2.js, 3.js, 4.js)
-    +collection.forEach(JsLambda.value(JsNumber.ref()) { number1 ->
+    +collection.forEach(jsLambda(JsNumber.ref()) { number1 ->
         Log(number1)
     })
 
@@ -371,7 +371,7 @@ Lambdas behave similar to functions except that these have no name. Still, they 
 
 ```kotlin
 // Usage of unary plus to force the rendering in sake of documentation
-+Lambda {
++jsLambda {
     Log("Inside a lambda")
 }
 ```
@@ -386,7 +386,7 @@ Output:
 **Multiple arguments lambda**
 
 ```kotlin
-Lambda(
+jsLambda(
     JsString.ref(),
     JsString.ref()
 ) { first, second ->
@@ -405,7 +405,7 @@ Output:
 As mentioned before, lambdas can be referenced using lambda reference objects. You can invoke lambdas using there objects anytime.
 
 ```kotlin
-val sum = Const { JsLambda2.ref<JsNumber, JsNumber>() } `=` Lambda(
+val sum = Const { JsLambda2.ref<JsNumber, JsNumber>() } `=` jsLambda(
     JsString.ref("first"),
     JsString.ref("second")
 ) { first, second ->
@@ -431,7 +431,7 @@ val setOnClick = Function("setOnClick", JsLambda1.ref<JsString>("sender")) { cal
     callback("button".js)
 }
 // Then call it later
-setOnClick(Lambda(JsString.ref("sender")) {
+setOnClick(jsLambda(JsString.ref("sender")) {
     Log("Event emitted by " + +it)
 })
 ```
@@ -442,7 +442,7 @@ setOnClick(Lambda(JsString.ref("sender")) {
 Created lambda references can be also used as parameters
 
 ```kotlin
-val printItem = Const { JsLambda1.ref<JsNumber>("printItem") } `=` Lambda(
+val printItem = Const { JsLambda1.ref<JsNumber>("printItem") } `=` jsLambda(
     JsString.ref("item"),
 ) { item ->
     Log(item)

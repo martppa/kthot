@@ -10,6 +10,6 @@ abstract class JsReferenceSyntax<T : JsValue>(value: String) : JsSyntax(value), 
     override fun toString(): String = present()
 
     companion object {
-        fun <T : JsValue> of(value: String): JsReference<T> = object : JsReferenceSyntax<T>(value) {}
+        fun <T : JsValue> of(value: String): JsReferenceSyntax<T> = object : JsReferenceSyntax<T>(value) {}
     }
 }
