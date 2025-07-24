@@ -1,18 +1,18 @@
 package net.asere.kotlin.js.dsl.syntax
 
 import net.asere.kotlin.js.dsl.JsElement
-import net.asere.kotlin.js.dsl.callable.JsFunction0
-import net.asere.kotlin.js.dsl.callable.JsFunctionCommons
+import net.asere.kotlin.js.dsl.types.type.function.JsFunction0
+import net.asere.kotlin.js.dsl.types.type.function.JsFunctionCommons
 import net.asere.kotlin.js.dsl.declaration.*
 import net.asere.kotlin.js.dsl.syntax.operation.AssignmentOperation
 import net.asere.kotlin.js.dsl.syntax.operation.Operation
 import net.asere.kotlin.js.dsl.toLine
 import net.asere.kotlin.js.dsl.toSyntax
 import net.asere.kotlin.js.dsl.types.definition.JsDefinition
-import net.asere.kotlin.js.dsl.types.reference.JsFunction0Ref
-import net.asere.kotlin.js.dsl.types.reference.JsFunctionRefCommons
+import net.asere.kotlin.js.dsl.types.reference.function.JsFunctionRef
 import net.asere.kotlin.js.dsl.types.reference.JsReference
 import net.asere.kotlin.js.dsl.types.reference.JsValueRef
+import net.asere.kotlin.js.dsl.types.reference.function.JsFunctionRefCommons
 import net.asere.kotlin.js.dsl.types.reference.lambda.JsLambdaRefCommons
 import net.asere.kotlin.js.dsl.types.type.js
 import net.asere.kotlin.js.dsl.types.value.JsValue
@@ -53,7 +53,7 @@ abstract class JsScriptScope {
         return innerObject
     }
 
-    operator fun JsFunction0.unaryPlus(): JsFunction0Ref {
+    operator fun JsFunction0.unaryPlus(): JsFunctionRef {
         val builder = buildSyntax()
         this@JsScriptScope.append(builder.toSyntax())
         return builder.innerObject

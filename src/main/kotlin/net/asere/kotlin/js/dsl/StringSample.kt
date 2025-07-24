@@ -1,6 +1,6 @@
 package net.asere.kotlin.js.dsl
 
-import net.asere.kotlin.js.dsl.callable.Function
+import net.asere.kotlin.js.dsl.types.type.function.Function
 import net.asere.kotlin.js.dsl.log.Log
 import net.asere.kotlin.js.dsl.syntax.js
 import net.asere.kotlin.js.dsl.syntax.operation.plus

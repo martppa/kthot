@@ -2,21 +2,20 @@ package net.asere.kotlin.js.dsl
 
 import kotlinx.html.body
 import kotlinx.html.stream.createHTML
-import net.asere.kotlin.js.dsl.callable.*
 import net.asere.kotlin.js.dsl.declaration.Const
 import net.asere.kotlin.js.dsl.html.jsScript
 import net.asere.kotlin.js.dsl.log.Log
-import net.asere.kotlin.js.dsl.types.reference.lambda.ref
 import net.asere.kotlin.js.dsl.syntax.Return
 import net.asere.kotlin.js.dsl.syntax.operation.plus
 import net.asere.kotlin.js.dsl.types.reference.def
 import net.asere.kotlin.js.dsl.types.reference.lambda.def
-import net.asere.kotlin.js.dsl.types.type.lambda.JsLambda1
-import net.asere.kotlin.js.dsl.types.type.lambda.JsLambda2
 import net.asere.kotlin.js.dsl.types.type.JsCollection
 import net.asere.kotlin.js.dsl.types.type.JsNumber
 import net.asere.kotlin.js.dsl.types.type.JsString
+import net.asere.kotlin.js.dsl.types.type.function.Function
 import net.asere.kotlin.js.dsl.types.type.js
+import net.asere.kotlin.js.dsl.types.type.lambda.JsLambda1
+import net.asere.kotlin.js.dsl.types.type.lambda.JsLambda2
 import net.asere.kotlin.js.dsl.types.value.lambda.jsLambda
 import net.asere.kotlin.js.dsl.types.value.value
 

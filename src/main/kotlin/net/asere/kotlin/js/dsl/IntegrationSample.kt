@@ -2,11 +2,11 @@ package net.asere.kotlin.js.dsl
 
 import kotlinx.html.*
 import kotlinx.html.stream.createHTML
-import net.asere.kotlin.js.dsl.callable.Function
+import net.asere.kotlin.js.dsl.types.type.function.Function
 import net.asere.kotlin.js.dsl.dom.reference.JsWindow
 import net.asere.kotlin.js.dsl.html.jsScript
-import net.asere.kotlin.js.dsl.types.reference.JsFunction1Ref
 import net.asere.kotlin.js.dsl.types.reference.def
+import net.asere.kotlin.js.dsl.types.reference.function.JsFunction1Ref
 import net.asere.kotlin.js.dsl.types.type.JsString
 import net.asere.kotlin.js.dsl.types.type.js
 
