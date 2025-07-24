@@ -1,14 +1,14 @@
 package net.asere.kotlin.js.dsl.dom.reference
 
-import net.asere.kotlin.js.dsl.dom.type.JsDomObject
+import net.asere.kotlin.js.dsl.dom.type.JsHistory
 import net.asere.kotlin.js.dsl.reference.JsDeclarableReference
 import net.asere.kotlin.js.dsl.reference.JsReference
 import net.asere.kotlin.js.dsl.reference.JsValueRef
 
-open class JsDomObjectRef internal constructor(
-    name: String? = null,
-) : JsValueRef<JsDomObject>(
-    name ?: "dom_object_${JsReference.nextRefInt()}"
-), JsDomObject, JsDeclarableReference<JsDomObject> {
+class JsHistoryRef internal constructor(
+    name: String? = null
+) : JsValueRef<JsHistory>(
+    name ?: "history_${JsReference.nextRefInt()}"
+), JsHistory, JsDeclarableReference<JsHistory> {
     override fun toString(): String = present()
 }

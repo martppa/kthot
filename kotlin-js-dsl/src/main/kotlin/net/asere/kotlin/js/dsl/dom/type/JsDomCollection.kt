@@ -10,7 +10,7 @@ import net.asere.kotlin.js.dsl.type.JsString
 import net.asere.kotlin.js.dsl.type.js
 import net.asere.kotlin.js.dsl.value.JsValue
 
-interface JsDomCollection : JsValue {
+interface JsDomCollection : JsObject {
     fun getByIndex(index: JsNumber): JsSyntax = JsSyntax("${this}[$index]")
     fun getLength(): JsNumberSyntax = JsNumberSyntax("${this}.length")
     fun getItem(index: JsNumber): JsDomObjectSyntax = JsDomObjectSyntax("${this}.item($index)")

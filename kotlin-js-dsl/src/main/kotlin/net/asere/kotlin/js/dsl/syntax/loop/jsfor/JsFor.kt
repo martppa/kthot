@@ -1,13 +1,15 @@
 package net.asere.kotlin.js.dsl.syntax.loop.jsfor
 
-import net.asere.kotlin.js.dsl.callable.JsLambda1
-import net.asere.kotlin.js.dsl.reference.JsLambda1Ref
 import net.asere.kotlin.js.dsl.reference.JsReference
-import net.asere.kotlin.js.dsl.syntax.*
+import net.asere.kotlin.js.dsl.syntax.JsDeclarationSyntax
+import net.asere.kotlin.js.dsl.syntax.JsScriptScope
+import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.syntax.loop.JsLoopSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.Operation
+import net.asere.kotlin.js.dsl.syntax.run
 import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.type.JsCollection
+import net.asere.kotlin.js.dsl.type.JsLambda1
 import net.asere.kotlin.js.dsl.value.JsValue
 
 class JsForSyntax(value: String) : JsLoopSyntax(value)
@@ -103,5 +105,5 @@ fun <T : JsReference<*>> jsFor(
 @JsDsl
 fun <T : JsValue> JsScriptScope.For(
     collection: JsCollection<T>,
-    lambda: JsLambda1Ref<T>,
+    lambda: JsLambda1<T>,
 ) = +collection.forEach(lambda)

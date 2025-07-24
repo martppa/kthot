@@ -1,12 +1,12 @@
-package net.asere.kotlin.js.dsl.dom.reference
+package net.asere.kotlin.js.dsl.dom.type
 
-import net.asere.kotlin.js.dsl.reference.JsObjectRef
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.value.JsStringSyntax
+import net.asere.kotlin.js.dsl.type.JsObject
 import net.asere.kotlin.js.dsl.type.JsString
 import net.asere.kotlin.js.dsl.type.js
 
-object JsLocation : JsObjectRef("location") {
+interface JsLocation : JsObject {
     fun getHref(): JsStringSyntax = JsStringSyntax("${this}.href")
     fun setHref(url: JsString): JsSyntax = JsSyntax("${this}.href = $url")
     fun setHref(url: String): JsSyntax = setHref(url.js)

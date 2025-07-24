@@ -1,16 +1,12 @@
 package net.asere.kotlin.js.dsl.type
 
-import net.asere.kotlin.js.dsl.callable.JsLambda1
-import net.asere.kotlin.js.dsl.callable.JsLambda2
-import net.asere.kotlin.js.dsl.reference.JsLambda1Ref
-import net.asere.kotlin.js.dsl.reference.JsNumberRef
 import net.asere.kotlin.js.dsl.reference.JsReference
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.value.JsNumberSyntax
 import net.asere.kotlin.js.dsl.syntax.value.JsReferenceSyntax
 import net.asere.kotlin.js.dsl.value.JsValue
 
-interface JsCollection<T : JsValue> : JsValue {
+interface JsCollection<T : JsValue> : JsObject {
 
     companion object
 
@@ -23,7 +19,7 @@ interface JsCollection<T : JsValue> : JsValue {
         return JsNumberSyntax("${this}.push($args)")
     }
 
-    fun pop(): JsReference<T> = JsReferenceSyntax.of("${this}.pop()")
+    fun pop(): JsReferenceSyntax<T> = JsReferenceSyntax.of("${this}.pop()")
 
     fun shift(): JsNumberSyntax = JsNumberSyntax("${this}.shift()")
 
@@ -32,9 +28,9 @@ interface JsCollection<T : JsValue> : JsValue {
         return JsNumberSyntax("${this}.unshift($args)")
     }
 
-    fun forEach(lambda: JsLambda1Ref<T>): JsSyntax = JsSyntax("${this}.forEach(${lambda})")
+    fun forEach(lambda: JsLambda1<T>): JsSyntax = JsSyntax("${this}.forEach(${lambda})")
 
-    fun map(lambda: JsLambda1Ref<T>): JsSyntax = JsSyntax("${this}.map(${lambda})")
+    fun map(lambda: JsLambda1<T>): JsSyntax = JsSyntax("${this}.map(${lambda})")
 
-    fun mapIndexed(lambda: JsLambda2<T, JsNumberRef>): JsSyntax = JsSyntax("${this}.map(${lambda})")
+    fun mapIndexed(lambda: JsLambda2<T, JsNumber>): JsSyntax = JsSyntax("${this}.map(${lambda})")
 }

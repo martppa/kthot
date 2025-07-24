@@ -2,8 +2,6 @@ package net.asere.kotlin.js.dsl
 
 import kotlinx.html.body
 import kotlinx.html.stream.createHTML
-import net.asere.kotlin.js.dsl.callable.JsLambda0
-import net.asere.kotlin.js.dsl.callable.Lambda
 import net.asere.kotlin.js.dsl.declaration.Const
 import net.asere.kotlin.js.dsl.declaration.Let
 import net.asere.kotlin.js.dsl.html.jsScript
@@ -22,6 +20,7 @@ import net.asere.kotlin.js.dsl.type.JsNumber
 import net.asere.kotlin.js.dsl.type.JsObject
 import net.asere.kotlin.js.dsl.type.js
 import net.asere.kotlin.js.dsl.value.get
+import net.asere.kotlin.js.dsl.value.jsLambda
 import net.asere.kotlin.js.dsl.value.value
 
 fun main(vararg args: String) {
@@ -48,7 +47,7 @@ fun main(vararg args: String) {
                 }
             }
 
-            For (collection, Lambda(JsNumber.ref()) { number1 ->
+            For (collection, jsLambda(JsNumber.ref()) { number1 ->
                 Log(number1)
             })
         }

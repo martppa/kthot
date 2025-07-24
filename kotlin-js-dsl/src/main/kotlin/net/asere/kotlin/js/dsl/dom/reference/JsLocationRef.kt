@@ -1,14 +1,14 @@
 package net.asere.kotlin.js.dsl.dom.reference
 
-import net.asere.kotlin.js.dsl.dom.type.JsDomObject
+import net.asere.kotlin.js.dsl.dom.type.JsLocation
 import net.asere.kotlin.js.dsl.reference.JsDeclarableReference
 import net.asere.kotlin.js.dsl.reference.JsReference
 import net.asere.kotlin.js.dsl.reference.JsValueRef
 
-open class JsDomObjectRef internal constructor(
-    name: String? = null,
-) : JsValueRef<JsDomObject>(
-    name ?: "dom_object_${JsReference.nextRefInt()}"
-), JsDomObject, JsDeclarableReference<JsDomObject> {
+class JsLocationRef internal constructor(
+    name: String? = null
+) : JsValueRef<JsLocation>(
+    name ?: "location_${JsReference.nextRefInt()}"
+), JsLocation, JsDeclarableReference<JsLocation> {
     override fun toString(): String = present()
 }
