@@ -1,0 +1,59 @@
+package net.asere.kotlin.js.dsl.dom.type
+
+import net.asere.kotlin.js.dsl.syntax.value.JsNumberSyntax
+import net.asere.kotlin.js.dsl.types.type.JsNumber
+import net.asere.kotlin.js.dsl.types.type.JsObject
+
+/**
+ * Represents the JavaScript `Screen` object, which contains information about the user's screen.
+ *
+ * This object is typically accessed via `window.screen`.
+ */
+interface JsScreen : JsObject {
+    /**
+     * Returns the width of the user's screen in pixels as a [JsNumber] object.
+     * This value includes the operating system's taskbar, if any.
+     *
+     * In JavaScript, this corresponds to `screen.width`.
+     */
+    val width: JsNumber get() = JsNumberSyntax("${this}.width")
+
+    /**
+     * Returns the height of the user's screen in pixels as a [JsNumber] object.
+     * This value includes the operating system's taskbar, if any.
+     *
+     * In JavaScript, this corresponds to `screen.height`.
+     */
+    val height: JsNumber get() = JsNumberSyntax("${this}.height")
+
+    /**
+     * Returns the width of the available screen space in pixels as a [JsNumber] object.
+     * This value excludes permanent or semi-permanent user interface features like the operating system's taskbar.
+     *
+     * In JavaScript, this corresponds to `screen.availWidth`.
+     */
+    val availWidth: JsNumber get() = JsNumberSyntax("${this}.availWidth")
+
+    /**
+     * Returns the height of the available screen space in pixels as a [JsNumber] object.
+     * This value excludes permanent or semi-permanent user interface features like the operating system's taskbar.
+     *
+     * In JavaScript, this corresponds to `screen.availHeight`.
+     */
+    val availHeight: JsNumber get() = JsNumberSyntax("${this}.availHeight")
+
+    /**
+     * Returns the color depth of the screen in bits per pixel as a [JsNumber] object.
+     *
+     * In JavaScript, this corresponds to `screen.colorDepth`.
+     */
+    val colorDepth: JsNumber get() = JsNumberSyntax("${this}.colorDepth")
+
+    /**
+     * Returns the pixel depth of the screen in bits per pixel as a [JsNumber] object.
+     * This is typically the same as `colorDepth`.
+     *
+     * In JavaScript, this corresponds to `screen.pixelDepth`.
+     */
+    val pixelDepth: JsNumber get() = JsNumberSyntax("${this}.pixelDepth")
+}

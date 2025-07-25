@@ -1,9 +1,10 @@
 package net.asere.kotlin.js.dsl.dom.reference
 
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
+import net.asere.kotlin.js.dsl.types.type.JsObject
 import net.asere.kotlin.js.dsl.types.value.JsStringValue
 
-object JsDocument : JsDomObjectRef("document") {
+interface JsDocument : JsObject {
     fun getElementById(id: JsStringValue): JsSyntax = JsSyntax("${this}.getElementById($id)")
     fun querySelector(selector: JsStringValue): JsSyntax = JsSyntax("${this}.querySelector($selector)")
     fun querySelectorAll(selector: JsStringValue): JsSyntax = JsSyntax("${this}.querySelectorAll($selector)")
@@ -15,3 +16,5 @@ object JsDocument : JsDomObjectRef("document") {
     fun createComment(text: JsStringValue): JsSyntax = JsSyntax("${this}.createComment($text)")
     fun createDocumentFragment(): JsSyntax = JsSyntax("${this}.createDocumentFragment()")
 }
+
+object jsDocument : JsDomObjectRef("document"), JsDocument

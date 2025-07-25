@@ -6,19 +6,130 @@ import net.asere.kotlin.js.dsl.types.type.JsObject
 import net.asere.kotlin.js.dsl.types.type.JsString
 import net.asere.kotlin.js.dsl.types.type.js
 
+/**
+ * Represents the JavaScript `Location` object, which contains information about the current URL
+ * and provides methods for navigating the browser window.
+ *
+ * This object is typically accessed via `window.location`.
+ */
 interface JsLocation : JsObject {
-    fun getHref(): JsStringSyntax = JsStringSyntax("${this}.href")
+    /**
+     * Returns the entire URL as a [JsString] object.
+     *
+     * In JavaScript, this corresponds to `window.location.href`.
+     */
+    fun getHref(): JsString = JsStringSyntax("${this}.href")
+
+    /**
+     * Sets the entire URL, causing the browser to navigate to the new URL.
+     *
+     * In JavaScript, this corresponds to `window.location.href = url`.
+     * @param url The new URL as a [JsString] object.
+     * @return A [JsSyntax] object representing the JavaScript assignment.
+     */
     fun setHref(url: JsString): JsSyntax = JsSyntax("${this}.href = $url")
+
+    /**
+     * Sets the entire URL, causing the browser to navigate to the new URL.
+     *
+     * This is a convenience overload for [setHref] that accepts a Kotlin [String].
+     * @param url The new URL as a Kotlin [String].
+     * @return A [JsSyntax] object representing the JavaScript assignment.
+     */
     fun setHref(url: String): JsSyntax = setHref(url.js)
-    fun getHostname(): JsStringSyntax = JsStringSyntax("${this}.hostname")
-    fun getPathname(): JsStringSyntax = JsStringSyntax("${this}.pathname")
-    fun getSearch(): JsStringSyntax = JsStringSyntax("${this}.search")
-    fun getHash(): JsStringSyntax = JsStringSyntax("${this}.hash")
-    fun getPort(): JsStringSyntax = JsStringSyntax("${this}.port")
-    fun getProtocol(): JsStringSyntax = JsStringSyntax("${this}.protocol")
+
+    /**
+     * Returns the hostname (e.g., "www.example.com") of the current URL as a [JsString] object.
+     *
+     * In JavaScript, this corresponds to `window.location.hostname`.
+     */
+    val hostname: JsString get() = JsStringSyntax("${this}.hostname")
+
+    /**
+     * Returns the pathname (e.g., "/path/to/page.html") of the current URL as a [JsString] object.
+     * Includes the leading '/'.
+     *
+     * In JavaScript, this corresponds to `window.location.pathname`.
+     */
+    val pathname: JsString get() = JsStringSyntax("${this}.pathname")
+
+    /**
+     * Returns the query string (e.g., "?param1=value1&param2=value2") of the current URL as a [JsString] object.
+     * Includes the leading '?'.
+     *
+     * In JavaScript, this corresponds to `window.location.search`.
+     */
+    val search: JsString get() = JsStringSyntax("${this}.search")
+
+    /**
+     * Returns the fragment identifier (e.g., "#section1") of the current URL as a [JsString] object.
+     * Includes the leading '#'.
+     *
+     * In JavaScript, this corresponds to `window.location.hash`.
+     */
+    val hash: JsString get() = JsStringSyntax("${this}.hash")
+
+    /**
+     * Returns the port number (e.g., "8080") of the current URL as a [JsString] object.
+     * Returns an empty string if no port is specified.
+     *
+     * In JavaScript, this corresponds to `window.location.port`.
+     */
+    val port: JsString get() = JsStringSyntax("${this}.port")
+
+    /**
+     * Returns the protocol (e.g., "http:", "https:") of the current URL as a [JsString] object.
+     * Includes the trailing ':'.
+     *
+     * In JavaScript, this corresponds to `window.location.protocol`.
+     */
+    val protocol: JsString get() = JsStringSyntax("${this}.protocol")
+
+    /**
+     * Loads a new document at the specified URL.
+     * This method adds the new URL to the browser's history.
+     *
+     * In JavaScript, this corresponds to `window.location.assign(url)`.
+     * @param url The URL to navigate to as a [JsString] object.
+     * @return A [JsSyntax] object representing the JavaScript method call.
+     */
     fun assign(url: JsString): JsSyntax = JsSyntax("${this}.assign($url)")
+
+    /**
+     * Loads a new document at the specified URL.
+     * This is a convenience overload for [assign] that accepts a Kotlin [String].
+     *
+     * @param url The URL to navigate to as a Kotlin [String].
+     * @return A [JsSyntax] object representing the JavaScript method call.
+     */
     fun assign(url: String): JsSyntax = assign(url.js)
+
+    /**
+     * Reloads the current document.
+     *
+     * In JavaScript, this corresponds to `window.location.reload()`.
+     * @return A [JsSyntax] object representing the JavaScript method call.
+     */
     fun reload(): JsSyntax = JsSyntax("${this}.reload()")
+
+    /**
+     * Replaces the current document in the browser's history with a new one.
+     * This means the current page will not be accessible via the "back" button.
+     *
+     * In JavaScript, this corresponds to `window.location.replace(url)`.
+     * @param url The URL to replace the current document with as a [JsString] object.
+     * @return A [JsSyntax] object representing the JavaScript method call.
+     */
+    fun replace(url: JsString): JsSyntax = JsSyntax("${this}.replace($url)")
+
+    /**
+     * Replaces the current document in the browser's history with a new one.
+     * This is a convenience overload for [replace] that accepts a Kotlin [String].
+     *
+     * @param url The URL to replace the current document with as a Kotlin [String].
+     * @return A [JsSyntax] object representing the JavaScript method call.
+     */
+    fun replace(url: String): JsSyntax = replace(url.js)
 
     companion object
 }

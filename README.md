@@ -33,7 +33,7 @@ The `declare` function will write the variable declaration, it could be mutable 
 
 ```kotlin
 val syntax = js {
-    +JsString.ref().declare(Let)        
+    +JsString.def().declare(Let)        
 }
 println(syntax)
 ```
@@ -44,7 +44,7 @@ The code above is translated to:
     let string_1
 ```
 
-When no `name` argument is provided to `ref()` build extension function, a default name to the object reference is given.
+When no `name` argument is provided to `def()` build extension function, a default name to the object reference is given.
 
 ### Assign values to declared references
 
@@ -62,31 +62,31 @@ println(syntax) // --> let string_1 = "Juan"
 This way looks simpler and closer to what JavaScript syntax would look like.
 
 ```kotlin
-val constBoolean = Const { JsBoolean.ref() } `=` true
-val letBoolean = Let { JsBoolean.ref() } `=` true
-val varBoolean = Var { JsBoolean.ref() } `=` false
+val constBoolean = Const { JsBoolean.def() } `=` true
+val letBoolean = Let { JsBoolean.def() } `=` true
+val varBoolean = Var { JsBoolean.def() } `=` false
 ```
 
 You still can declare variables without assigning them:
 
 ```kotlin
-val letBoolean = +Let { JsBoolean.ref() }
-val varBoolean = +Var { JsBoolean.ref() }
+val letBoolean = +Let { JsBoolean.def() }
+val varBoolean = +Var { JsBoolean.def() }
 ```
 
 Since declaration functions (`Var`, `Let`, `Const`) return `JsSyntax` we need to use unary plus (+) to write the JavaScript code.
 
 ### Referencing objects in Kotlin
 
-Every object reference (e.g `JsString.ref()`) can be assigned to a Kotlin object to interact with it. In the example below the `JsString` reference is stored in `stringValue`, then the first character of 'Juan' is printed.
+Use object's definitions to declare them (e.g `JsString.def()`). Definitions are references, every object reference (e.g `JsString.ref()`) can be assigned to a Kotlin object to interact with it. In the example below the `JsString` definition is stored in `stringValue`, then the first character of 'Juan' is printed.
 
 ```kotlin
 val syntax = js {
-    val stringValue = +JsString.ref().declare(Let).assign("Juan".js)
+    val stringValue = +JsString.def().declare(Let).assign("Juan".js)
     Log(stringValue.charAt(0.js))
     
     // Using DSL builders
-    val fancyStringValue = Let { JsString.ref() } `=` "Juan"
+    val fancyStringValue = Let { JsString.def() } `=` "Juan"
     Log(fancyStringValue.charAt(0.js))
 }
 println(syntax)
@@ -108,8 +108,8 @@ Arithmetical operators are overloaded in Kotlin so you can use them like you wou
 
 ```kotlin
 val syntax = js {
-    val result = Const { JsNumber.ref("result") } `=` (5.js - 3.js) * (10.js + 2.js)
-    val text = Const { JsString.ref("text") } `=` "The result is: ".js + result
+    val result = Const { JsNumber.def("result") } `=` (5.js - 3.js) * (10.js + 2.js)
+    val text = Const { JsString.def("text") } `=` "The result is: ".js + result
     Log(text)
 }
 println(syntax)
@@ -134,9 +134,9 @@ Logical operators can be applied using infix functions to emulate them:
 
 ```kotlin
 val syntax = js {
-    val bool0 = Const { JsBoolean.ref() } `=` true
-    val bool1 = Const { JsBoolean.ref() } `=` false
-    val result = Const { JsBoolean.ref("result") } `=` bool0 and bool1
+    val bool0 = Const { JsBoolean.def() } `=` true
+    val bool1 = Const { JsBoolean.def() } `=` false
+    val result = Const { JsBoolean.def("result") } `=` bool0 and bool1
     Log(result)
 }
 println(syntax)
@@ -162,7 +162,7 @@ console.log(result)
 
 ```kotlin
 val syntax = js {
-    val result = Const { JsBoolean.ref("result") } `=` (5.js eq 5.js)
+    val result = Const { JsBoolean.def("result") } `=` (5.js eq 5.js)
     Log(result)
 }
 println(syntax)
@@ -178,9 +178,9 @@ You can use parenthesis to group expressions just like you would do it in Kotlin
 
 ```kotlin
 val syntax = js {
-    val bool0 = +JsBoolean.ref().declare(Const).assign(5.js eq 5.js)
-    val bool1 = +JsBoolean.ref().declare(Const).assign(false)
-    val bool2 = +JsBoolean.ref().declare(Const).assign(true)
+    val bool0 = +JsBoolean.def().declare(Const).assign(5.js eq 5.js)
+    val bool1 = +JsBoolean.def().declare(Const).assign(false)
+    val bool2 = +JsBoolean.def().declare(Const).assign(true)
     +jsLog(bool1 and (bool2 or bool0))
 }
 println(syntax)
@@ -201,12 +201,12 @@ Declaring collections. Please note as `collection.forEach` does return a `JsSynt
 ```kotlin
 val syntax = js {
     val collection = Const { JsCollection.ref<JsNumber>() } `=` JsCollection.value(0.js, 1.js, 2.js, 3.js, 4.js)
-    +collection.forEach(jsLambda(JsNumber.ref()) { number1 ->
+    +collection.forEach(jsLambda(JsNumber.def()) { number1 ->
         Log(number1)
     })
 
     // Fancy way
-    For (collection, JsLambda.value(JsNumber.ref()) { number2 ->
+    For (collection, JsLambda.value(JsNumber.def()) { number2 ->
         Log(number2)
     })
 }
@@ -226,9 +226,9 @@ collection_1.forEach((number_2) => {
 You can declare `if` statements using the `If` dsl function inside a `jsScript` scope:
 
 ```kotlin
-val bool0 = Const { JsBoolean.ref() } `=` true
-val bool1 = Const { JsBoolean.ref() } `=` false
-val bool2 = Const { JsBoolean.ref() } `=` true
+val bool0 = Const { JsBoolean.def() } `=` true
+val bool1 = Const { JsBoolean.def() } `=` false
+val bool2 = Const { JsBoolean.def() } `=` true
 
 +jsIf((!bool0 and bool1) or (bool1 and bool2)) {
     Log("and!")
@@ -282,7 +282,7 @@ There's support for loops statements too!
 ```kotlin
 val syntax = js {
     val collection = Const { JsCollection.ref<JsNumber>() } `=` JsCollection.value(0.js, 1.js, 2.js, 3.js)
-    For ({ Let { JsNumber.ref("i") } `=` 0 }, { it lt collection.getLength() }, { it.postInc() }) {
+    For ({ Let { JsNumber.def("i") } `=` 0 }, { it lt collection.getLength() }, { it.postInc() }) {
         Log(it)
         If (it lt 2) {
             Break
@@ -295,8 +295,8 @@ println(syntax)
 **Object key iteration:** Define key iteration for loop
 
 ```kotlin
-val obj = Const { JsObject.ref("obj") } `=` JsSyntax("{ a: 5 }")
-For ({ Const { JsObject.ref("key") } }, obj) {
+val obj = Const { JsObject.def("obj") } `=` JsSyntax("{ a: 5 }")
+For ({ Const { JsObject.def("key") } }, obj) {
     Log(obj[it])
 }
 ```
@@ -313,7 +313,7 @@ for (const key in obj) {
 
 ```kotlin
 val collection = Const { JsCollection.ref<JsNumber>() } `=` JsCollection.value(0.js, 1.js, 2.js, 3.js)
-For ({ Const { JsNumber.ref() } }, collection) {
+For ({ Const { JsNumber.def() } }, collection) {
     Log(it)
     If (it eq 5.js) {
         Continue
@@ -348,7 +348,7 @@ To define functions with arguments call the overloaded `Function` and specify th
 
 ```kotlin
 val syntax = js {
-    val greet = Function(name = "greet", JsString.ref(), JsString.ref(), JsNumber.ref()) { string1, string2, number ->
+    val greet = Function(name = "greet", JsString.def(), JsString.def(), JsNumber.def()) { string1, string2, number ->
         Log(string1 + string2 + number)
     }
     +greet("Hello, ".js, "World".js, 5.js)
@@ -365,7 +365,7 @@ greet('Hello, ', 'World', 5)
 
 ### Lambdas
 
-Lambdas behave similar to functions except that these have no name. Still, they can be referenced to declarable objects. To declare lambdas use the `Lambda` function
+Lambdas behave similar to functions except that these have no name. Still, they can be referenced to declarable objects. To declare lambdas use the `jsLambda` function
 
 **No argument lambda**
 
@@ -387,8 +387,8 @@ Output:
 
 ```kotlin
 jsLambda(
-    JsString.ref(),
-    JsString.ref()
+    JsString.def(),
+    JsString.def()
 ) { first, second ->
     Return(first + second)
 }
@@ -406,8 +406,8 @@ As mentioned before, lambdas can be referenced using lambda reference objects. Y
 
 ```kotlin
 val sum = Const { JsLambda2.ref<JsNumber, JsNumber>() } `=` jsLambda(
-    JsString.ref("first"),
-    JsString.ref("second")
+    JsString.def("first"),
+    JsString.def("second")
 ) { first, second ->
     Return(first + second)
 }
@@ -427,11 +427,11 @@ console.log(lambda_2(5, 4))
 You can define lambda as parameter types. For example, when passing it to a function or a class. Also, it can used inline.
 
 ```kotlin
-val setOnClick = Function("setOnClick", JsLambda1.ref<JsString>("sender")) { callback ->
+val setOnClick = Function("setOnClick", JsLambda1.def<JsString>("sender")) { callback ->
     callback("button".js)
 }
 // Then call it later
-setOnClick(jsLambda(JsString.ref("sender")) {
+setOnClick(jsLambda(JsString.def("sender")) {
     Log("Event emitted by " + +it)
 })
 ```
@@ -442,7 +442,7 @@ setOnClick(jsLambda(JsString.ref("sender")) {
 Created lambda references can be also used as parameters
 
 ```kotlin
-val printItem = Const { JsLambda1.ref<JsNumber>("printItem") } `=` jsLambda(
+val printItem = Const { JsLambda1.def<JsNumber>("printItem") } `=` jsLambda(
     JsString.ref("item"),
 ) { item ->
     Log(item)
@@ -478,7 +478,7 @@ val showAlert = JsFunction1Ref<JsString>("showAlert")
 val html = createHTML().html {
     head {
         jsScript {
-            +JsFunction(name = "showAlert", JsString.ref()) {
+            +JsFunction(name = "showAlert", JsString.def()) {
                 +JsWindowObjectRef.alert(it)
             }
         }
