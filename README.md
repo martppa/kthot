@@ -1,5 +1,5 @@
-# kotlin-js-dsl ![](https://img.shields.io/badge/maven_central-0.0.3-004475)
-This semi-typed DSL is intended to help kotlin developers write, reuse and interact with Javascript without [WASM](https://kotlinlang.org/docs/wasm-overview.html).
+# Kotlin Typesafe JS DSL ![](https://img.shields.io/badge/maven_central-0.0.4-004475)
+Typesafe JS DSL is intended to help kotlin developers write, reuse and interact with Javascript without [WASM](https://kotlinlang.org/docs/wasm-overview.html).
 
 ## Motivation
 As Kotlin developers and users of [Kotlin Html Dsl](https://kotlinlang.org/docs/typesafe-html-dsl.html) we may want to write JS code while staying in Kotlin. This tool is meant for scripts, so, if what you are looking for is writing entire projects in JS using Kotlin, [WASM](https://kotlinlang.org/docs/wasm-overview.html) is your tool. This Dsl is currently under development, and it's in experimental stage.
@@ -479,7 +479,7 @@ val html = createHTML().html {
     head {
         jsScript {
             +JsFunction(name = "showAlert", JsString.def()) {
-                +JsWindowObjectRef.alert(it)
+                +Window.alert(it)
             }
         }
     }

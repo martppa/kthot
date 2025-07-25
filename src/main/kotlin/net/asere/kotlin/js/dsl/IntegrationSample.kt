@@ -2,8 +2,8 @@ package net.asere.kotlin.js.dsl
 
 import kotlinx.html.*
 import kotlinx.html.stream.createHTML
+import net.asere.kotlin.js.dsl.dom.reference.Window
 import net.asere.kotlin.js.dsl.types.type.function.Function
-import net.asere.kotlin.js.dsl.dom.reference.JsWindow
 import net.asere.kotlin.js.dsl.html.jsScript
 import net.asere.kotlin.js.dsl.types.reference.def
 import net.asere.kotlin.js.dsl.types.reference.function.JsFunction1Ref
@@ -16,7 +16,7 @@ fun main(vararg args: String) {
         head {
             jsScript {
                 Function(name = "showAlert", JsString.def()) {
-                    +JsWindow.alert(it)
+                    +Window.alert(it)
                 }
             }
         }
