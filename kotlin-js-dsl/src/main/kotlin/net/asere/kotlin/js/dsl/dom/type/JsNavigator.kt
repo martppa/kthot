@@ -1,6 +1,7 @@
 package net.asere.kotlin.js.dsl.dom.type
 
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
+import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.syntax.value.JsBooleanSyntax
 import net.asere.kotlin.js.dsl.syntax.value.JsObjectSyntax
 import net.asere.kotlin.js.dsl.syntax.value.JsStringSyntax
@@ -58,7 +59,7 @@ interface JsNavigator : JsObject {
      *
      * In JavaScript, this corresponds to `navigator.javaEnabled()`.
      */
-    fun javaEnabled(): JsBoolean = JsBooleanSyntax(ChainOperation(this, "javaEnabled()"))
+    fun javaEnabled(): JsBoolean = JsBooleanSyntax(ChainOperation(this, InvocationOperation("javaEnabled")))
 
     /**
      * Returns a [JsObject] representing the Geolocation API, allowing access to the device's location.

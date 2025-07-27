@@ -2,6 +2,7 @@ package net.asere.kotlin.js.dsl.dom.type
 
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
+import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.syntax.value.JsStringSyntax
 import net.asere.kotlin.js.dsl.types.type.JsObject
 import net.asere.kotlin.js.dsl.types.type.JsString
@@ -19,7 +20,7 @@ interface JsLocation : JsObject {
      *
      * In JavaScript, this corresponds to `window.location.href`.
      */
-    fun getHref(): JsString = JsStringSyntax(ChainOperation(this, "href"))
+    val href: JsString get() = JsStringSyntax(ChainOperation(this, "href"))
 
     /**
      * Sets the entire URL, causing the browser to navigate to the new URL.
@@ -95,7 +96,7 @@ interface JsLocation : JsObject {
      * @param url The URL to navigate to as a [JsString] object.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun assign(url: JsString): JsSyntax = JsSyntax(ChainOperation(this, "assign($url)"))
+    fun assign(url: JsString): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("assign", url)))
 
     /**
      * Loads a new document at the specified URL.
@@ -112,7 +113,7 @@ interface JsLocation : JsObject {
      * In JavaScript, this corresponds to `window.location.reload()`.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun reload(): JsSyntax = JsSyntax(ChainOperation(this, "reload()"))
+    fun reload(): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("reload")))
 
     /**
      * Replaces the current document in the browser's history with a new one.
@@ -122,7 +123,7 @@ interface JsLocation : JsObject {
      * @param url The URL to replace the current document with as a [JsString] object.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun replace(url: JsString): JsSyntax = JsSyntax(ChainOperation(this, "replace($url)"))
+    fun replace(url: JsString): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("replace", url)))
 
     /**
      * Replaces the current document in the browser's history with a new one.

@@ -2,6 +2,7 @@ package net.asere.kotlin.js.dsl.dom.type
 
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
+import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.syntax.value.JsBooleanSyntax
 import net.asere.kotlin.js.dsl.syntax.value.JsNumberSyntax
 import net.asere.kotlin.js.dsl.syntax.value.JsStringSyntax
@@ -29,7 +30,7 @@ interface JsDomTokenList : JsObject {
      * @param index The zero-based index of the token to retrieve as a [JsNumber] object.
      * @return A [JsString] object representing the token at the specified index.
      */
-    fun item(index: JsNumber): JsString = JsStringSyntax(ChainOperation(this, "item(${index.present()})"))
+    fun item(index: JsNumber): JsString = JsStringSyntax(ChainOperation(this, InvocationOperation("item", index)))
     fun item(index: Int): JsString = item(index.js)
 
     /**
@@ -40,7 +41,7 @@ interface JsDomTokenList : JsObject {
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
     fun add(vararg tokens: JsString): JsSyntax =
-        JsSyntax(ChainOperation(this, "add(${tokens.joinToString { it.present() }})"))
+        JsSyntax(ChainOperation(this, InvocationOperation("add", *tokens)))
     fun add(vararg tokens: String): JsSyntax = add(*tokens.map { it.js }.toTypedArray())
 
     /**
@@ -52,7 +53,7 @@ interface JsDomTokenList : JsObject {
      */
     fun remove(vararg tokens: JsString): JsSyntax = JsSyntax(
         ChainOperation(this,
-            "remove(${tokens.joinToString { it.present() }})")
+            InvocationOperation("remove", *tokens))
     )
     fun remove(vararg tokens: String): JsSyntax = remove(*tokens.map { it.js }.toTypedArray())
 
@@ -66,7 +67,7 @@ interface JsDomTokenList : JsObject {
      */
     fun toggle(token: JsString, force: JsBoolean? = null): JsBoolean =
         JsBooleanSyntax(ChainOperation(this,
-            "toggle(${token.present()}${force?.let { ", ${it.present()}" } ?: ""})")
+            InvocationOperation("toggle", token, force ?: undefined))
         )
     fun toggle(token: String, force: Boolean? = null): JsBoolean = toggle(token.js, force?.js)
 
@@ -78,7 +79,7 @@ interface JsDomTokenList : JsObject {
      * @return A [JsBoolean] object indicating whether the token is present in the list.
      */
     fun contains(token: JsString): JsBoolean =
-        JsBooleanSyntax(ChainOperation(this, "contains(${token.present()})"))
+        JsBooleanSyntax(ChainOperation(this, InvocationOperation("contains", token)))
     fun contains(token: String): JsBoolean = contains(token.js)
 
     /**
@@ -91,7 +92,7 @@ interface JsDomTokenList : JsObject {
      */
     fun replace(oldToken: JsString, newToken: JsString): JsBoolean =
         JsBooleanSyntax(ChainOperation(this,
-            "replace(${oldToken.present()}, ${newToken.present()})")
+            InvocationOperation("replace", oldToken, newToken))
         )
     fun replace(oldToken: String, newToken: String): JsBoolean = replace(oldToken.js, newToken.js)
 
@@ -101,7 +102,7 @@ interface JsDomTokenList : JsObject {
      * In JavaScript, this corresponds to `tokenList.entries()`.
      * @return A [JsSyntax] object representing the JavaScript method call that returns an Iterator.
      */
-    fun entries(): JsSyntax = JsSyntax(ChainOperation(this, "entries()"))
+    fun entries(): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("entries")))
 
     /**
      * Returns a new `Iterator` object that contains the keys (indices) for each token in the list.
@@ -109,7 +110,7 @@ interface JsDomTokenList : JsObject {
      * In JavaScript, this corresponds to `tokenList.keys()`.
      * @return A [JsSyntax] object representing the JavaScript method call that returns an Iterator.
      */
-    fun keys(): JsSyntax = JsSyntax(ChainOperation(this, "keys()"))
+    fun keys(): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("keys")))
 
     /**
      * Returns a new `Iterator` object that contains the values (tokens) for each token in the list.
@@ -117,7 +118,7 @@ interface JsDomTokenList : JsObject {
      * In JavaScript, this corresponds to `tokenList.values()`.
      * @return A [JsSyntax] object representing the JavaScript method call that returns an Iterator.
      */
-    fun values(): JsSyntax = JsSyntax(ChainOperation(this, "values()"))
+    fun values(): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("values")))
 
     /**
      * Executes a provided function once for each token in the list.
@@ -128,7 +129,7 @@ interface JsDomTokenList : JsObject {
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
     fun forEach(callback: JsLambda1Ref<JsDomObject>): JsSyntax =
-        JsSyntax(ChainOperation(this, "forEach(${callback.present()})"))
+        JsSyntax(ChainOperation(this, InvocationOperation("forEach", callback)))
 
     companion object
 }

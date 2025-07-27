@@ -4,6 +4,7 @@ import net.asere.kotlin.js.dsl.dom.syntax.media.JsMediaStreamSyntax
 import net.asere.kotlin.js.dsl.dom.syntax.media.JsMediaStreamTrackSyntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
+import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.syntax.value.JsArraySyntax
 import net.asere.kotlin.js.dsl.syntax.value.JsBooleanSyntax
 import net.asere.kotlin.js.dsl.syntax.value.JsStringSyntax
@@ -37,7 +38,7 @@ interface JsMediaStream : JsObject {
      * @return A [JsArray] of [JsMediaStreamTrack] objects.
      */
     fun getAudioTracks(): JsArray<JsMediaStreamTrack> =
-        JsArraySyntax(ChainOperation(this, "getAudioTracks()"))
+        JsArraySyntax(ChainOperation(this, InvocationOperation("getAudioTracks")))
 
     /**
      * Returns a [JsArray] of all `MediaStreamTrack` objects in the stream that have `kind` set to "video".
@@ -46,7 +47,7 @@ interface JsMediaStream : JsObject {
      * @return A [JsArray] of [JsMediaStreamTrack] objects.
      */
     fun getVideoTracks(): JsArray<JsMediaStreamTrack> =
-        JsArraySyntax(ChainOperation(this, "getVideoTracks()"))
+        JsArraySyntax(ChainOperation(this, InvocationOperation("getVideoTracks")))
 
     /**
      * Returns a [JsArray] of all `MediaStreamTrack` objects in the stream, regardless of their kind.
@@ -55,7 +56,7 @@ interface JsMediaStream : JsObject {
      * @return A [JsArray] of [JsMediaStreamTrack] objects.
      */
     fun getTracks(): JsArray<JsMediaStreamTrack> =
-        JsArraySyntax(ChainOperation(this, "getTracks()"))
+        JsArraySyntax(ChainOperation(this, InvocationOperation("getTracks")))
 
     /**
      * Returns a single `MediaStreamTrack` from the stream whose `id` matches the given string.
@@ -65,7 +66,7 @@ interface JsMediaStream : JsObject {
      * @return A [JsMediaStreamTrack] object if found, otherwise `null`.
      */
     fun getTrackById(trackId: JsString): JsMediaStreamTrack =
-        JsMediaStreamTrackSyntax(ChainOperation(this, "getTrackById($trackId)"))
+        JsMediaStreamTrackSyntax(ChainOperation(this, InvocationOperation("getTrackById", trackId)))
 
     fun getTrackById(trackId: String): JsMediaStreamTrack = getTrackById(trackId.js)
 
@@ -76,7 +77,8 @@ interface JsMediaStream : JsObject {
      * @param track The [JsMediaStreamTrack] to add to the stream.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun addTrack(track: JsMediaStreamTrack): JsSyntax = JsSyntax(ChainOperation(this, "addTrack($track)"))
+    fun addTrack(track: JsMediaStreamTrack): JsSyntax =
+        JsSyntax(ChainOperation(this, InvocationOperation("addTrack", track)))
 
     /**
      * Removes a `MediaStreamTrack` from the stream.
@@ -85,7 +87,8 @@ interface JsMediaStream : JsObject {
      * @param track The [JsMediaStreamTrack] to remove from the stream.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun removeTrack(track: JsMediaStreamTrack): JsSyntax = JsSyntax(ChainOperation(this, "removeTrack($track)"))
+    fun removeTrack(track: JsMediaStreamTrack): JsSyntax =
+        JsSyntax(ChainOperation(this, InvocationOperation("removeTrack", track)))
 
     /**
      * Clones the `MediaStream`. All its `MediaStreamTrack`s are also cloned.
@@ -93,5 +96,6 @@ interface JsMediaStream : JsObject {
      * In JavaScript, this corresponds to `stream.clone()`.
      * @return A new [JsMediaStream] object that is a clone of the original.
      */
-    fun clone(): JsMediaStream = JsMediaStreamSyntax(ChainOperation(this, "clone()"))
+    fun clone(): JsMediaStream =
+        JsMediaStreamSyntax(ChainOperation(this, InvocationOperation("clone")))
 }

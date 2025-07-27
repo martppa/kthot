@@ -6,6 +6,7 @@ import net.asere.kotlin.js.dsl.dom.syntax.JsDomTokenListSyntax
 import net.asere.kotlin.js.dsl.dom.type.event.JsDomEvent
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
+import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.syntax.value.*
 import net.asere.kotlin.js.dsl.types.type.JsBoolean
 import net.asere.kotlin.js.dsl.types.type.JsString
@@ -25,7 +26,7 @@ interface JsDomObject : JsValue {
      *
      * In JavaScript, this corresponds to `element.innerHTML`.
      */
-    fun getInnerHTML(): JsString = JsStringSyntax(ChainOperation(this, "innerHTML"))
+    val innerHTML: JsString get() = JsStringSyntax(ChainOperation(this, "innerHTML"))
 
     /**
      * Sets the HTML content inside the element.
@@ -34,7 +35,7 @@ interface JsDomObject : JsValue {
      * @param html The new HTML content as a [JsString] object.
      * @return A [JsSyntax] object representing the JavaScript assignment.
      */
-    fun setInnerHTML(html: JsString): JsSyntax = JsSyntax("${ChainOperation(this, "innerHTML")} = ${html.present()}")
+    fun setInnerHTML(html: JsString): JsSyntax = JsSyntax("${ChainOperation(this, "innerHTML")} = $html")
 
     /**
      * Sets the HTML content inside the element.
@@ -51,7 +52,7 @@ interface JsDomObject : JsValue {
      *
      * In JavaScript, this corresponds to `element.textContent`.
      */
-    fun getTextContent(): JsString = JsStringSyntax(ChainOperation(this, "textContent"))
+    val textContent: JsString get() = JsStringSyntax(ChainOperation(this, "textContent"))
 
     /**
      * Sets the text content of the element, replacing any existing children.
@@ -80,7 +81,7 @@ interface JsDomObject : JsValue {
      * @return A [JsDomObject] representing the appended child (for chaining).
      */
     fun appendChild(child: JsDomObject): JsDomObject =
-        JsDomObjectSyntax(ChainOperation(this, "appendChild(${child.present()})"))
+        JsDomObjectSyntax(ChainOperation(this, InvocationOperation("appendChild", child)))
 
     /**
      * Removes a specified child [JsDomObject] from the current element.
@@ -90,7 +91,7 @@ interface JsDomObject : JsValue {
      * @return A [JsDomObject] representing the removed child.
      */
     fun removeChild(child: JsDomObject): JsDomObject =
-        JsDomObjectSyntax(ChainOperation(this, "removeChild(${child.present()})"))
+        JsDomObjectSyntax(ChainOperation(this, InvocationOperation("removeChild", child)))
 
     /**
      * Replaces an existing child [JsDomObject] with a new one.
@@ -101,7 +102,7 @@ interface JsDomObject : JsValue {
      * @return A [JsDomObject] representing the replaced child.
      */
     fun replaceChild(newChild: JsDomObject, oldChild: JsDomObject): JsDomObject =
-        JsDomObjectSyntax(ChainOperation(this, "replaceChild(${newChild.present()}, ${oldChild.present()})"))
+        JsDomObjectSyntax(ChainOperation(this, InvocationOperation("replaceChild", newChild, oldChild)))
 
     /**
      * Inserts a new child [JsDomObject] before a specified reference child.
@@ -116,7 +117,7 @@ interface JsDomObject : JsValue {
         JsDomObjectSyntax(
             ChainOperation(
                 this,
-                "insertBefore(${newNode.present()}, ${referenceNode?.present() ?: JsSyntax(undefined)})"
+                InvocationOperation("insertBefore", newNode, referenceNode ?: undefined)
             )
         )
 
@@ -126,7 +127,7 @@ interface JsDomObject : JsValue {
      * In JavaScript, this corresponds to `element.remove()`.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun remove(): JsSyntax = JsSyntax(ChainOperation(this, "remove()"))
+    fun remove(): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("remove")))
 
     /**
      * Returns the `DOMTokenList` object for the element's `class` attribute.
@@ -150,7 +151,8 @@ interface JsDomObject : JsValue {
      * @param name The name of the attribute to retrieve as a [JsString] object.
      * @return A [JsString] object representing the attribute's value.
      */
-    fun getAttribute(name: JsString): JsString = JsStringSyntax(ChainOperation(this, "getAttribute(${name.present()})"))
+    fun getAttribute(name: JsString): JsString =
+        JsStringSyntax(ChainOperation(this, InvocationOperation("getAttribute", name)))
 
     /**
      * Returns the value of a specified attribute on the element.
@@ -171,7 +173,7 @@ interface JsDomObject : JsValue {
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
     fun setAttribute(name: JsString, value: JsString): JsSyntax =
-        JsSyntax(ChainOperation(this, "setAttribute(${name.present()}, ${value.present()})"))
+        JsSyntax(ChainOperation(this, InvocationOperation("setAttribute", name, value)))
 
     /**
      * Sets the value of a specified attribute on the element.
@@ -202,7 +204,7 @@ interface JsDomObject : JsValue {
      * @return A [JsBoolean] object representing the JavaScript boolean result.
      */
     fun hasAttribute(name: JsString): JsBoolean =
-        JsBooleanSyntax(ChainOperation(this, "hasAttribute(${name.present()})"))
+        JsBooleanSyntax(ChainOperation(this, InvocationOperation("hasAttribute", name)))
 
     /**
      * Checks if the element has a specified attribute.
@@ -221,7 +223,7 @@ interface JsDomObject : JsValue {
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
     fun removeAttribute(name: JsString): JsSyntax =
-        JsSyntax(ChainOperation(this, "removeAttribute(${name.present()})"))
+        JsSyntax(ChainOperation(this, InvocationOperation("removeAttribute", name)))
 
     /**
      * Removes a specified attribute from the element.
@@ -243,7 +245,7 @@ interface JsDomObject : JsValue {
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
     fun addEventListener(event: JsString, handler: JsLambda1<JsDomEvent>): JsSyntax =
-        JsSyntax(ChainOperation(this, "addEventListener(${event.present()}, ${handler.present()})"))
+        JsSyntax(ChainOperation(this, InvocationOperation("addEventListener", event, handler)))
 
     /**
      * Attaches an event listener to the element.
@@ -265,7 +267,7 @@ interface JsDomObject : JsValue {
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
     fun removeEventListener(event: JsString, handler: JsLambda1<JsDomEvent>): JsSyntax =
-        JsSyntax(ChainOperation(this, "removeEventListener(${event.present()}, ${handler.present()})"))
+        JsSyntax(ChainOperation(this, InvocationOperation("removeEventListener", event, handler)))
 
     /**
      * Removes an event listener from the element.
@@ -283,7 +285,7 @@ interface JsDomObject : JsValue {
      *
      * In JavaScript, this corresponds to `element.id`.
      */
-    fun getId(): JsString = JsStringSyntax(ChainOperation(this, "id"))
+    val id: JsString get() = JsStringSyntax(ChainOperation(this, "id"))
 
     /**
      * Sets the `id` attribute of the element.
@@ -292,7 +294,7 @@ interface JsDomObject : JsValue {
      * @param id The new `id` as a [JsString] object.
      * @return A [JsSyntax] object representing the JavaScript assignment.
      */
-    fun setId(id: JsString): JsSyntax = JsSyntax("${ChainOperation(this, "id")} = ${id.present()}")
+    fun setId(id: JsString): JsSyntax = JsSyntax("${ChainOperation(this, "id")} = $id")
 
     /**
      * Sets the `id` attribute of the element.
@@ -310,7 +312,7 @@ interface JsDomObject : JsValue {
      *
      * In JavaScript, this corresponds to `element.className`.
      */
-    fun getClassName(): JsString = JsStringSyntax(ChainOperation(this, "className"))
+    val className: JsString get() = JsStringSyntax(ChainOperation(this, "className"))
 
     /**
      * Sets the `className` attribute of the element. This will overwrite all existing classes.
@@ -425,7 +427,7 @@ interface JsDomObject : JsValue {
      * @return A [JsSyntax] object representing the JavaScript assignment.
      */
     fun setStyle(propertyName: JsString, value: JsString): JsSyntax =
-        JsSyntax("${ChainOperation(this, "style[${propertyName.present()}]")} = ${value.present()}")
+        JsSyntax("${ChainOperation(this, "style[$propertyName]")} = $value")
 
     /**
      * Sets the value of a specific inline CSS style property of the element.
@@ -456,7 +458,7 @@ interface JsDomObject : JsValue {
      * @return A [JsDomObject] representing the first matching element, or `null` if no match is found.
      */
     fun querySelector(selector: JsString): JsDomObject =
-        JsDomObjectSyntax(ChainOperation(this, "querySelector(${selector.present()})"))
+        JsDomObjectSyntax(ChainOperation(this, InvocationOperation("querySelector", selector)))
 
     /**
      * Returns the first `Element` within the document that matches the specified CSS selector(s).
@@ -476,7 +478,7 @@ interface JsDomObject : JsValue {
      * @return A [JsDomArray] containing all matching elements.
      */
     fun querySelectorAll(selector: JsString): JsDomArray =
-        JsDomArraySyntax(ChainOperation(this, "querySelectorAll(${selector.present()})"))
+        JsDomArraySyntax(ChainOperation(this, InvocationOperation("querySelectorAll", selector)))
 
     /**
      * Returns a `NodeList` (a static `JsDomCollection`) of all elements within the document

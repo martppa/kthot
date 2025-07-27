@@ -4,6 +4,7 @@ import net.asere.kotlin.js.dsl.dom.syntax.JsDomObjectSyntax
 import net.asere.kotlin.js.dsl.dom.type.JsDomObject
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
+import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.syntax.value.JsBooleanSyntax
 import net.asere.kotlin.js.dsl.syntax.value.JsNumberSyntax
 import net.asere.kotlin.js.dsl.syntax.value.JsStringSyntax
@@ -79,7 +80,7 @@ interface JsDomEvent : JsObject {
      * In JavaScript, this corresponds to `event.preventDefault()`.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun preventDefault(): JsSyntax = JsSyntax(ChainOperation(this, "preventDefault()"))
+    fun preventDefault(): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("preventDefault")))
 
     /**
      * Stops the propagation of the event up the DOM tree.
@@ -88,7 +89,7 @@ interface JsDomEvent : JsObject {
      * In JavaScript, this corresponds to `event.stopPropagation()`.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun stopPropagation(): JsSyntax = JsSyntax(ChainOperation(this, "stopPropagation()"))
+    fun stopPropagation(): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("stopPropagation")))
 
     /**
      * Stops the propagation of the event up the DOM tree and prevents any other event listeners
@@ -97,7 +98,8 @@ interface JsDomEvent : JsObject {
      * In JavaScript, this corresponds to `event.stopImmediatePropagation()`.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun stopImmediatePropagation(): JsSyntax = JsSyntax(ChainOperation(this, "stopImmediatePropagation()"))
+    fun stopImmediatePropagation(): JsSyntax =
+        JsSyntax(ChainOperation(this, InvocationOperation("stopImmediatePropagation")))
 
     companion object {
         // --- Common DOM Event Names ---
@@ -123,7 +125,7 @@ interface JsDomEvent : JsObject {
         /** Event type constant: Fired when a key is released. */
         const val EVENT_KEYUP = "keyup"
         /** Event type constant: Fired when a key is pressed (generates a character). */
-        const val EVENT_KEYPRESS = "keypress" // Deprecated for new code, but still common.
+        const val EVENT_KEYPRESS = "keypress"
         /** Event type constant: Fired when an element gains focus. */
         const val EVENT_FOCUS = "focus"
         /** Event type constant: Fired when an element loses focus. */

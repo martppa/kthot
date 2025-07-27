@@ -4,6 +4,7 @@ import net.asere.kotlin.js.dsl.dom.syntax.media.JsMediaStreamTrackSyntax
 import net.asere.kotlin.js.dsl.dom.type.event.JsDomEvent
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
+import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.syntax.value.JsBooleanSyntax
 import net.asere.kotlin.js.dsl.syntax.value.JsStringSyntax
 import net.asere.kotlin.js.dsl.types.type.JsBoolean
@@ -48,7 +49,9 @@ interface JsMediaStreamTrack : JsObject {
      * In JavaScript, this corresponds to `mediaStreamTrack.enabled`.
      */
     fun getEnabled(): JsBoolean = JsBooleanSyntax(ChainOperation(this, "enabled"))
-    fun setEnabled(value: JsBoolean): JsSyntax = JsSyntax("${ChainOperation(this, "enabled")} = $value")
+    fun setEnabled(value: JsBoolean): JsSyntax =
+        JsSyntax("${ChainOperation(this, "enabled")} = $value")
+
     fun setEnabled(value: Boolean): JsSyntax = setEnabled(value.js)
 
     /**
@@ -73,7 +76,7 @@ interface JsMediaStreamTrack : JsObject {
      * In JavaScript, this corresponds to `mediaStreamTrack.stop()`.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun stop(): JsSyntax = JsSyntax(ChainOperation(this, "stop()"))
+    fun stop(): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("stop")))
 
     /**
      * Clones the `MediaStreamTrack`. The cloned track will have a new unique ID.
@@ -81,7 +84,8 @@ interface JsMediaStreamTrack : JsObject {
      * In JavaScript, this corresponds to `mediaStreamTrack.clone()`.
      * @return A [JsMediaStreamTrack] representing the cloned track.
      */
-    fun clone(): JsMediaStreamTrack = JsMediaStreamTrackSyntax(ChainOperation(this, "clone()"))
+    fun clone(): JsMediaStreamTrack =
+        JsMediaStreamTrackSyntax(ChainOperation(this, InvocationOperation("clone")))
 
     /**
      * Attaches an event listener to the track.
@@ -92,7 +96,7 @@ interface JsMediaStreamTrack : JsObject {
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
     fun addEventListener(event: JsString, handler: JsLambda1<JsDomEvent>): JsSyntax =
-        JsSyntax(ChainOperation(this, "addEventListener($event, $handler)"))
+        JsSyntax(ChainOperation(this, InvocationOperation("addEventListener", event, handler)))
 
     fun addEventListener(event: String, handler: JsLambda1<JsDomEvent>): JsSyntax = addEventListener(event.js, handler)
 
@@ -104,7 +108,7 @@ interface JsMediaStreamTrack : JsObject {
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
     fun removeEventListener(event: JsString, handler: JsLambda1<JsDomEvent>): JsSyntax =
-        JsSyntax(ChainOperation(this, "removeEventListener($event, $handler)"))
+        JsSyntax(ChainOperation(this, InvocationOperation("removeEventListener", event, handler)))
 
     fun removeEventListener(event: String, handler: JsLambda1<JsDomEvent>): JsSyntax =
         removeEventListener(event.js, handler)

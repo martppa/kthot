@@ -31,7 +31,7 @@ object Window : JsObjectRef("window") {
      * @param text The message to display in the alert box as a [JsString] object.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun alert(text: JsString): JsSyntax = JsSyntax(ChainOperation(this, "alert(${text.present()})"))
+    fun alert(text: JsString): JsSyntax = JsSyntax(ChainOperation(this, "alert($text)"))
 
     /**
      * Displays an alert box with a specified message and an OK button.
@@ -49,7 +49,7 @@ object Window : JsObjectRef("window") {
      * @param text The message to display in the confirmation box as a [JsString] object.
      * @return A [JsBoolean] object representing the JavaScript boolean result (`true` if OK, `false` if Cancel).
      */
-    fun confirm(text: JsString): JsBoolean = JsBooleanSyntax(ChainOperation(this, "confirm(${text.present()})"))
+    fun confirm(text: JsString): JsBoolean = JsBooleanSyntax(ChainOperation(this, "confirm($text)"))
 
     /**
      * Displays a confirmation box with a specified message, an OK button, and a Cancel button.
@@ -69,7 +69,7 @@ object Window : JsObjectRef("window") {
      * @return A [JsString] object representing the user's input, or `null` if the user cancels the dialog.
      */
     fun prompt(text: JsString, defaultValue: JsString? = null): JsString =
-        JsStringSyntax(ChainOperation(this, "prompt(${text.present()}${defaultValue?.let { ", ${it.present()}" } ?: ""})"))
+        JsStringSyntax(ChainOperation(this, "prompt(${text.present()}${defaultValue?.let { ", $it" } ?: ""})"))
 
     /**
      * Displays a dialog box that prompts the user for input.
@@ -90,7 +90,8 @@ object Window : JsObjectRef("window") {
      * @param delay The time, in milliseconds, the timer should wait before the specified function is executed, as a [JsNumber] object.
      * @return A [JsNumber] object representing the ID of the timer. This ID can be used with [clearTimeout].
      */
-    fun setTimeout(handler: JsLambda, delay: JsNumber): JsNumber = JsNumberSyntax(ChainOperation(this, "setTimeout(${handler.present()}, ${delay.present()})"))
+    fun setTimeout(handler: JsLambda, delay: JsNumber): JsNumber =
+        JsNumberSyntax(ChainOperation(this, "setTimeout($handler, $delay)"))
 
     /**
      * Sets a timer which executes a function or specified piece of code once after the timer expires.
@@ -109,7 +110,7 @@ object Window : JsObjectRef("window") {
      * @param timeoutId The ID of the timer to clear as a [JsNumber] object.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun clearTimeout(timeoutId: JsNumber): JsSyntax = JsSyntax(ChainOperation(this, "clearTimeout(${timeoutId.present()})"))
+    fun clearTimeout(timeoutId: JsNumber): JsSyntax = JsSyntax(ChainOperation(this, "clearTimeout($timeoutId)"))
 
     /**
      * Clears a timer set with [setTimeout].
@@ -128,7 +129,8 @@ object Window : JsObjectRef("window") {
      * @param delay The time, in milliseconds, the timer should wait between executions, as a [JsNumber] object.
      * @return A [JsNumber] object representing the ID of the interval. This ID can be used with [clearInterval].
      */
-    fun setInterval(handler: JsLambda, delay: JsNumber): JsNumber = JsNumberSyntax(ChainOperation(this, "setInterval(${handler.present()}, ${delay.present()})"))
+    fun setInterval(handler: JsLambda, delay: JsNumber): JsNumber =
+        JsNumberSyntax(ChainOperation(this, "setInterval($handler, $delay)"))
 
     /**
      * Repeatedly calls a function or executes a code snippet.
@@ -147,7 +149,7 @@ object Window : JsObjectRef("window") {
      * @param intervalId The ID of the interval to clear as a [JsNumber] object.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun clearInterval(intervalId: JsNumber): JsSyntax = JsSyntax(ChainOperation(this, "clearInterval(${intervalId.present()})"))
+    fun clearInterval(intervalId: JsNumber): JsSyntax = JsSyntax(ChainOperation(this, "clearInterval($intervalId)"))
 
     /**
      * Clears an interval set with [setInterval].
@@ -210,7 +212,7 @@ object Window : JsObjectRef("window") {
      * @param y The pixel along the vertical axis of the document to scroll to as a [JsNumber] object.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun scrollTo(x: JsNumber, y: JsNumber): JsSyntax = JsSyntax(ChainOperation(this, "scrollTo(${x.present()}, ${y.present()})"))
+    fun scrollTo(x: JsNumber, y: JsNumber): JsSyntax = JsSyntax(ChainOperation(this, "scrollTo($x, $y)"))
 
     /**
      * Scrolls the document to the specified coordinates.
@@ -230,7 +232,7 @@ object Window : JsObjectRef("window") {
      * @param y The amount to scroll vertically as a [JsNumber] object.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun scrollBy(x: JsNumber, y: JsNumber): JsSyntax = JsSyntax(ChainOperation(this, "scrollBy(${x.present()}, ${y.present()})"))
+    fun scrollBy(x: JsNumber, y: JsNumber): JsSyntax = JsSyntax(ChainOperation(this, "scrollBy($x, $y)"))
 
     /**
      * Scrolls the document by the specified amount.
@@ -256,7 +258,7 @@ object Window : JsObjectRef("window") {
      * @param name The new name as a [JsString] object.
      * @return A [JsSyntax] object representing the JavaScript assignment.
      */
-    fun setName(name: JsString): JsSyntax = JsSyntax("${ChainOperation(this, "name")} = ${name.present()}")
+    fun setName(name: JsString): JsSyntax = JsSyntax("${ChainOperation(this, "name")} = $name")
 
     /**
      * Sets the name of the window.
@@ -292,7 +294,10 @@ object Window : JsObjectRef("window") {
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
     fun open(url: JsString? = null, windowName: JsString? = null, features: JsString? = null): JsSyntax =
-        JsSyntax(ChainOperation(this, "open(${url?.present() ?: "''"}${windowName?.let { ", ${it.present()}" } ?: ""}${features?.let { ", ${it.present()}" } ?: ""})"))
+        JsSyntax(
+            ChainOperation(
+                this,
+                "open(${url ?: "''"}${windowName?.let { ", $it" } ?: ""}${features?.let { ", $it" } ?: ""})"))
 
     /**
      * Opens a new browser window or tab.
@@ -354,7 +359,8 @@ object Window : JsObjectRef("window") {
      * The function typically receives a [JsDomEvent] object as its first argument.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun addEventListener(event: JsString, handler: JsLambda1<JsDomEvent>): JsSyntax = JsSyntax(ChainOperation(this, "addEventListener(${event.present()}, ${handler.present()})"))
+    fun addEventListener(event: JsString, handler: JsLambda1<JsDomEvent>): JsSyntax =
+        JsSyntax(ChainOperation(this, "addEventListener($event, $handler)"))
 
     /**
      * Attaches an event listener to the window.
@@ -375,7 +381,8 @@ object Window : JsObjectRef("window") {
      * @param handler A [JsLambda1] representing the JavaScript function that was previously added.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun removeEventListener(event: JsString, handler: JsLambda1<JsDomEvent>): JsSyntax = JsSyntax(ChainOperation(this, "removeEventListener(${event.present()}, ${handler.present()})"))
+    fun removeEventListener(event: JsString, handler: JsLambda1<JsDomEvent>): JsSyntax =
+        JsSyntax(ChainOperation(this, "removeEventListener($event, $handler)"))
 
     /**
      * Removes an event listener from the window.
@@ -385,5 +392,6 @@ object Window : JsObjectRef("window") {
      * @param handler A [JsLambda1] representing the JavaScript function that was previously added.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun removeEventListener(event: String, handler: JsLambda1<JsDomEvent>): JsSyntax = removeEventListener(event.js, handler)
+    fun removeEventListener(event: String, handler: JsLambda1<JsDomEvent>): JsSyntax =
+        removeEventListener(event.js, handler)
 }

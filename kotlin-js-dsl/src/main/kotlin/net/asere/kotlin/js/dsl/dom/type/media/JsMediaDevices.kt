@@ -2,6 +2,8 @@ package net.asere.kotlin.js.dsl.dom.type.media
 
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
+import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
+import net.asere.kotlin.js.dsl.syntax.value.JsObjectSyntax
 import net.asere.kotlin.js.dsl.syntax.value.JsPromiseSyntax
 import net.asere.kotlin.js.dsl.types.type.JsArray
 import net.asere.kotlin.js.dsl.types.type.JsObject
@@ -41,5 +43,5 @@ interface JsMediaDevices : JsObject {
      * @param constraints A [JsSyntax] object representing [JsMediaStreamConstraint] for the requested display media.
      * @return A [JsPromise] that resolves with a [JsMediaStream] or rejects with an error.
      */
-    fun getDisplayMedia(constraints: JsSyntax): JsPromise<JsMediaStream> = JsPromiseSyntax(ChainOperation(this, "getDisplayMedia(${constraints})"))
+    fun getDisplayMedia(constraints: JsMediaStreamConstraint): JsPromise<JsMediaStream> = JsPromiseSyntax(ChainOperation(this, InvocationOperation("getDisplayMedia", constraints)))
 }
