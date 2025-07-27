@@ -5,14 +5,17 @@ import net.asere.kotlin.js.dsl.types.type.JsArray
 import net.asere.kotlin.js.dsl.types.value.JsValue
 
 class JsArrayRef<T : JsValue> internal constructor(
-    name: String? = null
+    name: String? = null,
+    isNullable: Boolean = false
 ) : JsArray<T>, JsReference<JsArray<T>> by JsValueRef(
-    name = name ?: "collection_${JsReference.nextRefInt()}"
+    name = name ?: "collection_${JsReference.nextRefInt()}",
+    isNullable = isNullable,
 ) {
     override fun toString(): String = present()
 }
 
-fun <T : JsValue> JsArray.Companion.ref(name: String? = null): JsArrayRef<T> = JsArrayRef(name)
+fun <T : JsValue> JsArray.Companion.ref(name: String? = null, isNullable: Boolean = false): JsArrayRef<T> =
+    JsArrayRef(name, isNullable)
 
 fun <T : JsValue> JsArray.Companion.def(name: String? = null) = object :
     JsPrintableDefinition<JsArrayRef<T>, JsArray<T>>() {

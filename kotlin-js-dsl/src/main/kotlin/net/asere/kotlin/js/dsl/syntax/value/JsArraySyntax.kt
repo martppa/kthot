@@ -1,9 +1,9 @@
 package net.asere.kotlin.js.dsl.syntax.value
 
 import net.asere.kotlin.js.dsl.JsElement
-import net.asere.kotlin.js.dsl.types.type.JsPromise
+import net.asere.kotlin.js.dsl.types.type.JsArray
 import net.asere.kotlin.js.dsl.types.value.JsValue
 
-class JsPromiseSyntax<T : JsValue>(value: String) : JsReferenceSyntax<JsPromise<T>>(value), JsPromise<T> {
+class JsArraySyntax<T : JsValue>(value: String) : JsReferenceSyntax<JsArray<T>>(value), JsArray<T> {
     constructor(value: JsElement) : this("$value")
 }

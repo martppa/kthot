@@ -4,7 +4,9 @@ import net.asere.kotlin.js.dsl.JsElement
 
 open class JsSyntax(
     value: String? = null
-) : JsElement {
+) : JsElement  {
+
+    constructor(value: JsElement) : this("$value")
 
     protected open val value: String = value.orEmpty()
 

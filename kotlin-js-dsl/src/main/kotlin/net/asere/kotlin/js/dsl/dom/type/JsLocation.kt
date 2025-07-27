@@ -1,6 +1,7 @@
 package net.asere.kotlin.js.dsl.dom.type
 
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
+import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.value.JsStringSyntax
 import net.asere.kotlin.js.dsl.types.type.JsObject
 import net.asere.kotlin.js.dsl.types.type.JsString
@@ -18,7 +19,7 @@ interface JsLocation : JsObject {
      *
      * In JavaScript, this corresponds to `window.location.href`.
      */
-    fun getHref(): JsString = JsStringSyntax("${this}.href")
+    fun getHref(): JsString = JsStringSyntax(ChainOperation(this, "href"))
 
     /**
      * Sets the entire URL, causing the browser to navigate to the new URL.
@@ -27,12 +28,13 @@ interface JsLocation : JsObject {
      * @param url The new URL as a [JsString] object.
      * @return A [JsSyntax] object representing the JavaScript assignment.
      */
-    fun setHref(url: JsString): JsSyntax = JsSyntax("${this}.href = $url")
+    fun setHref(url: JsString): JsSyntax = JsSyntax("${ChainOperation(this, "href")} = $url")
 
     /**
      * Sets the entire URL, causing the browser to navigate to the new URL.
      *
      * This is a convenience overload for [setHref] that accepts a Kotlin [String].
+     *
      * @param url The new URL as a Kotlin [String].
      * @return A [JsSyntax] object representing the JavaScript assignment.
      */
@@ -43,7 +45,7 @@ interface JsLocation : JsObject {
      *
      * In JavaScript, this corresponds to `window.location.hostname`.
      */
-    val hostname: JsString get() = JsStringSyntax("${this}.hostname")
+    val hostname: JsString get() = JsStringSyntax(ChainOperation(this, "hostname"))
 
     /**
      * Returns the pathname (e.g., "/path/to/page.html") of the current URL as a [JsString] object.
@@ -51,7 +53,7 @@ interface JsLocation : JsObject {
      *
      * In JavaScript, this corresponds to `window.location.pathname`.
      */
-    val pathname: JsString get() = JsStringSyntax("${this}.pathname")
+    val pathname: JsString get() = JsStringSyntax(ChainOperation(this, "pathname"))
 
     /**
      * Returns the query string (e.g., "?param1=value1&param2=value2") of the current URL as a [JsString] object.
@@ -59,7 +61,7 @@ interface JsLocation : JsObject {
      *
      * In JavaScript, this corresponds to `window.location.search`.
      */
-    val search: JsString get() = JsStringSyntax("${this}.search")
+    val search: JsString get() = JsStringSyntax(ChainOperation(this, "search"))
 
     /**
      * Returns the fragment identifier (e.g., "#section1") of the current URL as a [JsString] object.
@@ -67,7 +69,7 @@ interface JsLocation : JsObject {
      *
      * In JavaScript, this corresponds to `window.location.hash`.
      */
-    val hash: JsString get() = JsStringSyntax("${this}.hash")
+    val hash: JsString get() = JsStringSyntax(ChainOperation(this, "hash"))
 
     /**
      * Returns the port number (e.g., "8080") of the current URL as a [JsString] object.
@@ -75,7 +77,7 @@ interface JsLocation : JsObject {
      *
      * In JavaScript, this corresponds to `window.location.port`.
      */
-    val port: JsString get() = JsStringSyntax("${this}.port")
+    val port: JsString get() = JsStringSyntax(ChainOperation(this, "port"))
 
     /**
      * Returns the protocol (e.g., "http:", "https:") of the current URL as a [JsString] object.
@@ -83,7 +85,7 @@ interface JsLocation : JsObject {
      *
      * In JavaScript, this corresponds to `window.location.protocol`.
      */
-    val protocol: JsString get() = JsStringSyntax("${this}.protocol")
+    val protocol: JsString get() = JsStringSyntax(ChainOperation(this, "protocol"))
 
     /**
      * Loads a new document at the specified URL.
@@ -93,7 +95,7 @@ interface JsLocation : JsObject {
      * @param url The URL to navigate to as a [JsString] object.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun assign(url: JsString): JsSyntax = JsSyntax("${this}.assign($url)")
+    fun assign(url: JsString): JsSyntax = JsSyntax(ChainOperation(this, "assign($url)"))
 
     /**
      * Loads a new document at the specified URL.
@@ -110,7 +112,7 @@ interface JsLocation : JsObject {
      * In JavaScript, this corresponds to `window.location.reload()`.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun reload(): JsSyntax = JsSyntax("${this}.reload()")
+    fun reload(): JsSyntax = JsSyntax(ChainOperation(this, "reload()"))
 
     /**
      * Replaces the current document in the browser's history with a new one.
@@ -120,7 +122,7 @@ interface JsLocation : JsObject {
      * @param url The URL to replace the current document with as a [JsString] object.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun replace(url: JsString): JsSyntax = JsSyntax("${this}.replace($url)")
+    fun replace(url: JsString): JsSyntax = JsSyntax(ChainOperation(this, "replace($url)"))
 
     /**
      * Replaces the current document in the browser's history with a new one.

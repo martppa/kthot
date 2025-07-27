@@ -7,14 +7,16 @@ import net.asere.kotlin.js.dsl.types.reference.JsReference
 import net.asere.kotlin.js.dsl.types.reference.JsValueRef
 
 class JsKeyboardEventRef internal constructor(
-    name: String? = null
+    name: String? = null,
+    isNullable: Boolean = false
 ) : JsValueRef<JsKeyboardEvent>(
-    name ?: "keyboard_event_${JsReference.nextRefInt()}"
+    name ?: "keyboard_event_${JsReference.nextRefInt()}",
+    isNullable = isNullable,
 ), JsKeyboardEvent, JsReference<JsKeyboardEvent> {
     override fun toString(): String = present()
 }
 
-fun JsKeyboardEvent.Companion.ref(name: String? = null) = JsKeyboardEventRef(name)
+fun JsKeyboardEvent.Companion.ref(name: String? = null, isNullable: Boolean = false) = JsKeyboardEventRef(name, isNullable)
 
 fun JsKeyboardEvent.Companion.def(name: String? = null) = object :
     JsPrintableDefinition<JsKeyboardEventRef, JsKeyboardEvent>() {

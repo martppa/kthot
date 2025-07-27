@@ -7,14 +7,17 @@ import net.asere.kotlin.js.dsl.types.reference.JsReference
 import net.asere.kotlin.js.dsl.types.reference.JsValueRef
 
 class JsGeolocationPositionRef internal constructor(
-    name: String? = null
+    name: String? = null,
+    isNullable: Boolean = false
 ) : JsValueRef<JsGeolocationPosition>(
-    name ?: "geolocation_position_${JsReference.nextRefInt()}"
+    name ?: "geolocation_position_${JsReference.nextRefInt()}",
+    isNullable = isNullable,
 ), JsGeolocationPosition, JsReference<JsGeolocationPosition> {
     override fun toString(): String = present()
 }
 
-fun JsGeolocationPosition.Companion.ref(name: String? = null) = JsGeolocationPositionRef(name)
+fun JsGeolocationPosition.Companion.ref(name: String? = null, isNullable: Boolean = false) =
+    JsGeolocationPositionRef(name, isNullable)
 
 fun JsGeolocationPosition.Companion.def(name: String? = null) = object :
     JsPrintableDefinition<JsGeolocationPositionRef, JsGeolocationPosition>() {

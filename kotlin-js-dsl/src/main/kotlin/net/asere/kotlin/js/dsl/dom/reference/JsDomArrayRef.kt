@@ -6,9 +6,11 @@ import net.asere.kotlin.js.dsl.types.reference.JsReference
 import net.asere.kotlin.js.dsl.types.reference.JsValueRef
 
 class JsDomArrayRef internal constructor(
-    name: String? = null
+    name: String? = null,
+    isNullable: Boolean = false,
 ) : JsValueRef<JsDomArray>(
-name ?: "dom_collection_object_${JsReference.nextRefInt()}"
+name ?: "dom_collection_object_${JsReference.nextRefInt()}",
+    isNullable = isNullable,
 ), JsDomArray, JsReference<JsDomArray> {
     override fun toString(): String = present()
 }

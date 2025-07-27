@@ -3,7 +3,8 @@ package net.asere.kotlin.js.dsl.types.reference
 import net.asere.kotlin.js.dsl.types.value.JsValue
 
 open class JsValueRef<T : JsValue>(
-    name: String? = null
+    name: String? = null,
+    val isNullable: Boolean
 ) : JsReference<T> {
 
     override val name: String = name ?: "value_${JsReference.nextRefInt()}"

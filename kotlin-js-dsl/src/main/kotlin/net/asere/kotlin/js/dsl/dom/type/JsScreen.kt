@@ -1,5 +1,6 @@
 package net.asere.kotlin.js.dsl.dom.type
 
+import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.value.JsNumberSyntax
 import net.asere.kotlin.js.dsl.types.type.JsNumber
 import net.asere.kotlin.js.dsl.types.type.JsObject
@@ -16,7 +17,7 @@ interface JsScreen : JsObject {
      *
      * In JavaScript, this corresponds to `screen.width`.
      */
-    val width: JsNumber get() = JsNumberSyntax("${this}.width")
+    val width: JsNumber get() = JsNumberSyntax(ChainOperation(this, "width"))
 
     /**
      * Returns the height of the user's screen in pixels as a [JsNumber] object.
@@ -24,7 +25,7 @@ interface JsScreen : JsObject {
      *
      * In JavaScript, this corresponds to `screen.height`.
      */
-    val height: JsNumber get() = JsNumberSyntax("${this}.height")
+    val height: JsNumber get() = JsNumberSyntax(ChainOperation(this, "height"))
 
     /**
      * Returns the width of the available screen space in pixels as a [JsNumber] object.
@@ -32,7 +33,7 @@ interface JsScreen : JsObject {
      *
      * In JavaScript, this corresponds to `screen.availWidth`.
      */
-    val availWidth: JsNumber get() = JsNumberSyntax("${this}.availWidth")
+    val availWidth: JsNumber get() = JsNumberSyntax(ChainOperation(this, "availWidth"))
 
     /**
      * Returns the height of the available screen space in pixels as a [JsNumber] object.
@@ -40,14 +41,14 @@ interface JsScreen : JsObject {
      *
      * In JavaScript, this corresponds to `screen.availHeight`.
      */
-    val availHeight: JsNumber get() = JsNumberSyntax("${this}.availHeight")
+    val availHeight: JsNumber get() = JsNumberSyntax(ChainOperation(this, "availHeight"))
 
     /**
      * Returns the color depth of the screen in bits per pixel as a [JsNumber] object.
      *
      * In JavaScript, this corresponds to `screen.colorDepth`.
      */
-    val colorDepth: JsNumber get() = JsNumberSyntax("${this}.colorDepth")
+    val colorDepth: JsNumber get() = JsNumberSyntax(ChainOperation(this, "colorDepth"))
 
     /**
      * Returns the pixel depth of the screen in bits per pixel as a [JsNumber] object.
@@ -55,5 +56,5 @@ interface JsScreen : JsObject {
      *
      * In JavaScript, this corresponds to `screen.pixelDepth`.
      */
-    val pixelDepth: JsNumber get() = JsNumberSyntax("${this}.pixelDepth")
+    val pixelDepth: JsNumber get() = JsNumberSyntax(ChainOperation(this, "pixelDepth"))
 }

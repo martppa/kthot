@@ -7,7 +7,8 @@ import net.asere.kotlin.js.dsl.types.value.JsValue
 
 class JsLambda5Ref<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Param5 : JsValue>(
     name: String,
-) : JsLambdaRefCommons<JsLambda5<Param1, Param2, Param3, Param4, Param5>>(name),
+    isNullable: Boolean = false
+) : JsLambdaRefCommons<JsLambda5<Param1, Param2, Param3, Param4, Param5>>(name, isNullable),
     JsLambda5<Param1, Param2, Param3, Param4, Param5>
 
 fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Param5 : JsValue> JsLambda5.Companion.ref(

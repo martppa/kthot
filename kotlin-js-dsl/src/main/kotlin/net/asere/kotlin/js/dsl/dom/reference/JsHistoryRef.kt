@@ -7,14 +7,16 @@ import net.asere.kotlin.js.dsl.types.reference.JsReference
 import net.asere.kotlin.js.dsl.types.reference.JsValueRef
 
 class JsHistoryRef internal constructor(
-    name: String? = null
+    name: String? = null,
+    isNullable: Boolean = false
 ) : JsValueRef<JsHistory>(
-    name ?: "history_${JsReference.nextRefInt()}"
+    name ?: "history_${JsReference.nextRefInt()}",
+    isNullable = isNullable,
 ), JsHistory, JsReference<JsHistory> {
     override fun toString(): String = present()
 }
 
-fun JsHistory.Companion.ref(name: String? = null) = JsHistoryRef(name)
+fun JsHistory.Companion.ref(name: String? = null, isNullable: Boolean = false) = JsHistoryRef(name, isNullable)
 
 fun JsHistory.Companion.def(name: String? = null) = object : JsPrintableDefinition<JsHistoryRef, JsHistory>() {
     override val reference: JsHistoryRef = JsHistoryRef(name)

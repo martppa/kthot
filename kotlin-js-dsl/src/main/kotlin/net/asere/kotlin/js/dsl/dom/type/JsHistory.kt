@@ -1,6 +1,7 @@
 package net.asere.kotlin.js.dsl.dom.type
 
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
+import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.value.JsNumberSyntax
 import net.asere.kotlin.js.dsl.types.type.JsNumber
 import net.asere.kotlin.js.dsl.types.type.JsObject
@@ -8,12 +9,12 @@ import net.asere.kotlin.js.dsl.types.type.JsString
 import net.asere.kotlin.js.dsl.types.type.js
 
 /**
- * Represents the JavaScript `History` object, which provides access to the browser's session history.
- * It allows manipulation of the browser session history, as well as navigation back and forth
- * through the history.
- *
- * This object is typically accessed via `window.history`.
- */
+* Represents the JavaScript `History` object, which provides access to the browser's session history.
+* It allows manipulation of the browser session history, as well as navigation back and forth
+* through the history.
+*
+* This object is typically accessed via `window.history`.
+*/
 interface JsHistory : JsObject {
     /**
      * Returns the number of entries in the session history, including the currently loaded page,
@@ -21,7 +22,7 @@ interface JsHistory : JsObject {
      *
      * In JavaScript, this corresponds to `window.history.length`.
      */
-    val length: JsNumber get() = JsNumberSyntax("${this}.length")
+    val length: JsNumber get() = JsNumberSyntax(ChainOperation(this, "length"))
 
     /**
      * Navigates back one step in the browser's history.
@@ -30,7 +31,7 @@ interface JsHistory : JsObject {
      * In JavaScript, this corresponds to `window.history.back()`.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun back(): JsSyntax = JsSyntax("${this}.back()")
+    fun back(): JsSyntax = JsSyntax(ChainOperation(this, "back()"))
 
     /**
      * Navigates forward one step in the browser's history.
@@ -39,7 +40,7 @@ interface JsHistory : JsObject {
      * In JavaScript, this corresponds to `window.history.forward()`.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun forward(): JsSyntax = JsSyntax("${this}.forward()")
+    fun forward(): JsSyntax = JsSyntax(ChainOperation(this, "forward()"))
 
     /**
      * Navigates to a specific entry in the browser's history relative to the current page.
@@ -49,7 +50,7 @@ interface JsHistory : JsObject {
      * @param delta The number of steps to go forward or backward as a [JsNumber] object.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun go(delta: JsNumber): JsSyntax = JsSyntax("${this}.go($delta)")
+    fun go(delta: JsNumber): JsSyntax = JsSyntax(ChainOperation(this, "go($delta)"))
 
     /**
      * Navigates to a specific entry in the browser's history relative to the current page.
@@ -70,7 +71,8 @@ interface JsHistory : JsObject {
      * @param url The new URL for the history entry as an optional [JsString] object. If `null`, the current URL is used.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun pushState(state: JsSyntax, title: JsString, url: JsString? = null): JsSyntax = JsSyntax("${this}.pushState($state, $title${url?.let { ", $it" } ?: ""})")
+    fun pushState(state: JsSyntax, title: JsString, url: JsString? = null): JsSyntax =
+        JsSyntax(ChainOperation(this, "pushState($state, $title${url?.let { ", $it" } ?: ""})"))
 
     /**
      * Pushes a new state onto the browser's session history stack.
@@ -93,7 +95,8 @@ interface JsHistory : JsObject {
      * @param url The new URL for the history entry as an optional [JsString] object. If `null`, the current URL is used.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun replaceState(state: JsSyntax, title: JsString, url: JsString? = null): JsSyntax = JsSyntax("${this}.replaceState($state, $title${url?.let { ", $it" } ?: ""})")
+    fun replaceState(state: JsSyntax, title: JsString, url: JsString? = null): JsSyntax =
+        JsSyntax(ChainOperation(this, "replaceState($state, $title${url?.let { ", $it" } ?: ""})"))
 
     /**
      * Modifies the current entry in the browser's session history stack.

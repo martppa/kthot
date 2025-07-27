@@ -11,7 +11,7 @@ abstract class CompoundOperation : Operation() {
     override val value: String get() {
         val stringBuilder = StringBuilder()
         stringBuilder.append("$leftHand")
-        stringBuilder.append(" $operator ")
+        stringBuilder.append("$operator")
         stringBuilder.append("$rightHand")
         return stringBuilder.toString()
     }

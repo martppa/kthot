@@ -1,9 +1,7 @@
 package net.asere.kotlin.js.dsl.dom.type.media
 
-import net.asere.kotlin.js.dsl.JsElement
-import net.asere.kotlin.js.dsl.syntax.JsSyntax
+import net.asere.kotlin.js.dsl.dom.syntax.media.JsMediaStreamConstraintSyntax
 import net.asere.kotlin.js.dsl.types.type.JsBoolean
-import net.asere.kotlin.js.dsl.types.type.JsObject
 import net.asere.kotlin.js.dsl.types.type.helper.JsObjectBuilder
 import net.asere.kotlin.js.dsl.types.value.JsValue
 import net.asere.kotlin.js.dsl.types.value.value
@@ -24,13 +22,15 @@ class JsMediaStreamConstraintsBuilder {
         audio = if (block != null) JsObjectBuilder().apply(block).build() else JsBoolean.value(enabled)
     }
 
-    fun build(): JsObject {
+    fun build(): JsMediaStreamConstraint {
         val objectBuilder = JsObjectBuilder()
         video?.let { objectBuilder.property("video", it) }
         audio?.let { objectBuilder.property("audio", it) }
-        return objectBuilder.build()
+        return JsMediaStreamConstraintSyntax(objectBuilder.build())
     }
 }
 
-fun mediaStreamConstraints(block: JsMediaStreamConstraintsBuilder.() -> Unit): JsObject =
+fun JsMediaStreamConstraint.Companion.build(
+    block: JsMediaStreamConstraintsBuilder.() -> Unit
+): JsMediaStreamConstraint =
     JsMediaStreamConstraintsBuilder().apply(block).build()

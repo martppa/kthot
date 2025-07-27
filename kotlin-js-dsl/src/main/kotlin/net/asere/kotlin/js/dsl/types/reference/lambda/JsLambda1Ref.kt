@@ -7,7 +7,8 @@ import net.asere.kotlin.js.dsl.types.value.JsValue
 
 class JsLambda1Ref<Param1 : JsValue>(
     name: String,
-) : JsLambdaRefCommons<JsLambda1<Param1>>(name), JsLambda1<Param1>
+    isNullable: Boolean = false,
+) : JsLambdaRefCommons<JsLambda1<Param1>>(name, isNullable), JsLambda1<Param1>
 
 fun <Param1 : JsValue> JsLambda1.Companion.ref(
     name: String = "lambda_${JsReference.nextRefInt()}"

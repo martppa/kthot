@@ -1,7 +1,8 @@
 package net.asere.kotlin.js.dsl.dom.type
 
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
-import net.asere.kotlin.js.dsl.syntax.value.JsDomObjectSyntax
+import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
+import net.asere.kotlin.js.dsl.dom.syntax.JsDomObjectSyntax
 import net.asere.kotlin.js.dsl.syntax.value.JsNumberSyntax
 import net.asere.kotlin.js.dsl.types.reference.lambda.JsLambda1Ref
 import net.asere.kotlin.js.dsl.types.type.JsNumber
@@ -22,7 +23,7 @@ interface JsDomArray : JsObject {
      *
      * In JavaScript, this corresponds to `collection.length`.
      */
-    val length: JsNumber get() = JsNumberSyntax("${this}.length")
+    val length: JsNumber get() = JsNumberSyntax(ChainOperation(this, "length"))
 
     /**
      * Allows accessing an element in the collection using the Kotlin array-access operator `[]`.
@@ -31,7 +32,7 @@ interface JsDomArray : JsObject {
      * @param index The zero-based index of the element to retrieve as a [JsNumber] object.
      * @return A [JsDomObject] representing the DOM element at the specified index.
      */
-    operator fun get(index: JsNumber): JsDomObject = JsDomObjectSyntax("${this}[$index]")
+    operator fun get(index: JsNumber): JsDomObject = JsDomObjectSyntax("${this.present()}[${index.present()}]")
 
     /**
      * Allows accessing an element in the collection using the Kotlin array-access operator `[]`.
@@ -49,7 +50,7 @@ interface JsDomArray : JsObject {
      * @param index The zero-based index of the element to retrieve as a [JsNumber] object.
      * @return A [JsDomObject] representing the DOM element at the specified index.
      */
-    fun getItem(index: JsNumber): JsDomObject = JsDomObjectSyntax("${this}.item($index)")
+    fun getItem(index: JsNumber): JsDomObject = JsDomObjectSyntax(ChainOperation(this, "item(${index.present()})"))
 
     /**
      * Returns an element in the collection using the `item()` method.
@@ -68,7 +69,7 @@ interface JsDomArray : JsObject {
      * @param name The `id` or `name` of the element to retrieve as a [JsString] object.
      * @return A [JsDomObject] representing the found DOM element, or `null` if not found.
      */
-    fun namedItem(name: JsString): JsDomObject = JsDomObjectSyntax("${this}.namedItem($name)")
+    fun namedItem(name: JsString): JsDomObject = JsDomObjectSyntax(ChainOperation(this, "namedItem(${name.present()})"))
 
     /**
      * Returns the first element in the collection that has the specified `id` or `name` attribute.
@@ -87,7 +88,7 @@ interface JsDomArray : JsObject {
      * The function typically receives the current element as its first argument.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun forEach(callback: JsLambda1Ref<JsDomObject>): JsSyntax = JsSyntax("${this}.forEach($callback)")
+    fun forEach(callback: JsLambda1Ref<JsDomObject>): JsSyntax = JsSyntax(ChainOperation(this, "forEach(${callback.present()})"))
 
     /**
      * Returns a new `Iterator` object that contains the `[index, element]` pairs for each element in the collection.
@@ -95,7 +96,7 @@ interface JsDomArray : JsObject {
      * In JavaScript, this corresponds to `collection.entries()`.
      * @return A [JsSyntax] object representing the JavaScript method call that returns an Iterator.
      */
-    fun entries(): JsSyntax = JsSyntax("${this}.entries()")
+    fun entries(): JsSyntax = JsSyntax(ChainOperation(this, "entries()"))
 
     /**
      * Returns a new `Iterator` object that contains the keys (indices) for each element in the collection.
@@ -103,7 +104,7 @@ interface JsDomArray : JsObject {
      * In JavaScript, this corresponds to `collection.keys()`.
      * @return A [JsSyntax] object representing the JavaScript method call that returns an Iterator.
      */
-    fun keys(): JsSyntax = JsSyntax("${this}.keys()")
+    fun keys(): JsSyntax = JsSyntax(ChainOperation(this, "keys()"))
 
     /**
      * Returns a new `Iterator` object that contains the values (elements) for each element in the collection.
@@ -111,7 +112,7 @@ interface JsDomArray : JsObject {
      * In JavaScript, this corresponds to `collection.values()`.
      * @return A [JsSyntax] object representing the JavaScript method call that returns an Iterator.
      */
-    fun values(): JsSyntax = JsSyntax("${this}.values()")
+    fun values(): JsSyntax = JsSyntax(ChainOperation(this, "values()"))
 
     companion object
 }

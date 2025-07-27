@@ -1,5 +1,6 @@
 package net.asere.kotlin.js.dsl.dom.type.event
 
+import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.value.JsBooleanSyntax
 import net.asere.kotlin.js.dsl.syntax.value.JsNumberSyntax
 import net.asere.kotlin.js.dsl.syntax.value.JsStringSyntax
@@ -18,7 +19,7 @@ interface JsKeyboardEvent : JsDomEvent {
      *
      * In JavaScript, this corresponds to `event.key`.
      */
-    val key: JsString get() = JsStringSyntax("${this}.key")
+    val key: JsString get() = JsStringSyntax(ChainOperation(this, "key"))
 
     /**
      * Returns a physical key code that identifies the physical key pressed,
@@ -26,7 +27,7 @@ interface JsKeyboardEvent : JsDomEvent {
      *
      * In JavaScript, this corresponds to `event.code`.
      */
-    val code: JsString get() = JsStringSyntax("${this}.code")
+    val code: JsString get() = JsStringSyntax(ChainOperation(this, "code"))
 
     /**
      * Returns a boolean indicating whether the key is being held down such that it is auto-repeating
@@ -34,7 +35,7 @@ interface JsKeyboardEvent : JsDomEvent {
      *
      * In JavaScript, this corresponds to `event.repeat`.
      */
-    val repeat: JsBoolean get() = JsBooleanSyntax("${this}.repeat")
+    val repeat: JsBoolean get() = JsBooleanSyntax(ChainOperation(this, "repeat"))
 
     /**
      * Returns a boolean indicating whether the event is part of a composition session
@@ -42,7 +43,7 @@ interface JsKeyboardEvent : JsDomEvent {
      *
      * In JavaScript, this corresponds to `event.isComposing`.
      */
-    val isComposing: JsBoolean get() = JsBooleanSyntax("${this}.isComposing")
+    val isComposing: JsBoolean get() = JsBooleanSyntax(ChainOperation(this, "isComposing"))
 
     /**
      * Returns a boolean indicating if the `Alt` key was pressed when the event occurred
@@ -50,7 +51,7 @@ interface JsKeyboardEvent : JsDomEvent {
      *
      * In JavaScript, this corresponds to `event.altKey`.
      */
-    val altKey: JsBoolean get() = JsBooleanSyntax("${this}.altKey")
+    val altKey: JsBoolean get() = JsBooleanSyntax(ChainOperation(this, "altKey"))
 
     /**
      * Returns a boolean indicating if the `Control` key was pressed when the event occurred
@@ -58,7 +59,7 @@ interface JsKeyboardEvent : JsDomEvent {
      *
      * In JavaScript, this corresponds to `event.ctrlKey`.
      */
-    val ctrlKey: JsBoolean get() = JsBooleanSyntax("${this}.ctrlKey")
+    val ctrlKey: JsBoolean get() = JsBooleanSyntax(ChainOperation(this, "ctrlKey"))
 
     /**
      * Returns a boolean indicating if the `Shift` key was pressed when the event occurred
@@ -66,7 +67,7 @@ interface JsKeyboardEvent : JsDomEvent {
      *
      * In JavaScript, this corresponds to `event.shiftKey`.
      */
-    val shiftKey: JsBoolean get() = JsBooleanSyntax("${this}.shiftKey")
+    val shiftKey: JsBoolean get() = JsBooleanSyntax(ChainOperation(this, "shiftKey"))
 
     /**
      * Returns a boolean indicating if the `Meta` key (e.g., Command key on Mac, Windows key on Windows)
@@ -74,7 +75,7 @@ interface JsKeyboardEvent : JsDomEvent {
      *
      * In JavaScript, this corresponds to `event.metaKey`.
      */
-    val metaKey: JsBoolean get() = JsBooleanSyntax("${this}.metaKey")
+    val metaKey: JsBoolean get() = JsBooleanSyntax(ChainOperation(this, "metaKey"))
 
     /**
      * Returns the Unicode value of the character key pressed (for `keypress` events) as a [JsNumber] object.
@@ -82,7 +83,7 @@ interface JsKeyboardEvent : JsDomEvent {
      *
      * In JavaScript, this corresponds to `event.charCode`.
      */
-    val charCode: JsNumber get() = JsNumberSyntax("${this}.charCode")
+    val charCode: JsNumber get() = JsNumberSyntax(ChainOperation(this, "charCode"))
 
     /**
      * Returns the Unicode value of the key pressed (for `keydown` and `keyup` events) as a [JsNumber] object.
@@ -90,7 +91,7 @@ interface JsKeyboardEvent : JsDomEvent {
      *
      * In JavaScript, this corresponds to `event.keyCode`.
      */
-    val keyCode: JsNumber get() = JsNumberSyntax("${this}.keyCode")
+    val keyCode: JsNumber get() = JsNumberSyntax(ChainOperation(this, "keyCode"))
 
     /**
      * Returns the `keyCode` of the key that was pressed. This property is deprecated;
@@ -98,7 +99,14 @@ interface JsKeyboardEvent : JsDomEvent {
      *
      * In JavaScript, this corresponds to `event.which`.
      */
-    val which: JsNumber get() = JsNumberSyntax("${this}.which")
+    val which: JsNumber get() = JsNumberSyntax(ChainOperation(this, "which"))
 
-    companion object
+    companion object {
+        /** Event type constant: Fired when a key is pressed down. */
+        const val EVENT_KEYDOWN = "keydown"
+        /** Event type constant: Fired when a key is released. */
+        const val EVENT_KEYUP = "keyup"
+        /** Event type constant: Fired when a key is pressed (generates a character). */
+        const val EVENT_KEYPRESS = "keypress" // Deprecated for new code, but still common.
+    }
 }
