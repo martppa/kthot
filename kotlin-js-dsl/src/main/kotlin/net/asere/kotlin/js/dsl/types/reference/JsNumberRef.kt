@@ -6,7 +6,7 @@ import net.asere.kotlin.js.dsl.types.type.JsNumber
 class JsNumberRef internal constructor(
     name: String? = null,
     isNullable: Boolean = false
-) : JsNumber, JsReference<JsNumber> by JsValueRef(
+) : JsNumber, JsValueRef<JsNumber>(
     name = name ?: "number_${JsReference.nextRefInt()}",
     isNullable = isNullable,
 ) {
@@ -16,6 +16,7 @@ class JsNumberRef internal constructor(
 fun JsNumber.Companion.ref(name: String? = null, isNullable: Boolean = false): JsNumberRef =
     JsNumberRef(name, isNullable)
 
-fun JsNumber.Companion.def(name: String? = null) = object : JsPrintableDefinition<JsNumberRef, JsNumber>() {
-    override val reference: JsNumberRef = JsNumberRef(name)
-}
+fun JsNumber.Companion.def(name: String? = null, isNullable: Boolean = false) =
+    object : JsPrintableDefinition<JsNumberRef, JsNumber>() {
+        override val reference: JsNumberRef = JsNumberRef(name, isNullable)
+    }

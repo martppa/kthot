@@ -9,7 +9,7 @@ open class JsObjectRef internal constructor(
 ) : JsValueRef<JsObject>(
     name = name ?: "object_${JsReference.nextRefInt()}",
     isNullable = isNullable
-), JsObject, JsReference<JsObject> {
+), JsObject {
     override fun toString(): String = present()
 }
 

@@ -6,7 +6,7 @@ import net.asere.kotlin.js.dsl.types.type.JsString
 class JsStringRef internal constructor(
     name: String? = null,
     isNullable: Boolean = false
-) : JsString, JsReference<JsString> by JsValueRef(
+) : JsString, JsValueRef<JsString>(
     name = name ?: "string_${JsReference.nextRefInt()}",
     isNullable = isNullable,
 ) {

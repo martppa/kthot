@@ -6,7 +6,7 @@ import net.asere.kotlin.js.dsl.types.type.JsBoolean
 class JsBooleanRef(
     name: String? = null,
     isNullable: Boolean = false
-) : JsBoolean, JsReference<JsBoolean> by JsValueRef(
+) : JsBoolean, JsValueRef<JsBoolean>(
     name = name ?: "boolean_${JsReference.nextRefInt()}",
     isNullable = isNullable,
 ) {

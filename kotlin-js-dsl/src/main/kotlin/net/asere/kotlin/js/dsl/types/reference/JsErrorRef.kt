@@ -6,7 +6,7 @@ import net.asere.kotlin.js.dsl.types.type.JsError
 class JsErrorRef internal constructor(
     name: String? = null,
     isNullable: Boolean = false
-) : JsError, JsReference<JsError> by JsValueRef(
+) : JsError, JsValueRef<JsError>(
     name = name ?: "error_${JsReference.nextRefInt()}",
     isNullable = isNullable,
 ) {

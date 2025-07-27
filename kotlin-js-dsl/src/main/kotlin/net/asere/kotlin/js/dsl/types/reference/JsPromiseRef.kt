@@ -7,7 +7,7 @@ import net.asere.kotlin.js.dsl.types.value.JsValue
 class JsPromiseRef<T : JsValue> internal constructor(
     name: String? = null,
     isNullable: Boolean = false
-) : JsPromise<T>, JsReference<JsPromise<T>> by JsValueRef(
+) : JsPromise<T>, JsValueRef<JsPromise<T>>(
     name = name ?: "promise_${JsReference.nextRefInt()}",
     isNullable = isNullable,
 ) {

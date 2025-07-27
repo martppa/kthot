@@ -2,12 +2,13 @@ package net.asere.kotlin.js.dsl.types.reference
 
 import net.asere.kotlin.js.dsl.types.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.types.type.JsArray
+import net.asere.kotlin.js.dsl.types.type.JsNumber
 import net.asere.kotlin.js.dsl.types.value.JsValue
 
 class JsArrayRef<T : JsValue> internal constructor(
     name: String? = null,
     isNullable: Boolean = false
-) : JsArray<T>, JsReference<JsArray<T>> by JsValueRef(
+) : JsArray<T>, JsValueRef<JsArray<T>>(
     name = name ?: "collection_${JsReference.nextRefInt()}",
     isNullable = isNullable,
 ) {
