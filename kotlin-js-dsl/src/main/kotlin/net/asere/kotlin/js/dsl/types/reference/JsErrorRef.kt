@@ -7,7 +7,7 @@ class JsErrorRef internal constructor(
     name: String? = null,
     isNullable: Boolean = false
 ) : JsError, JsValueRef<JsError>(
-    name = name ?: "error_${JsReference.nextRefInt()}",
+    name = name ?: "error_${ReferenceId.nextRefInt()}",
     isNullable = isNullable,
 ) {
     override fun toString(): String = present()

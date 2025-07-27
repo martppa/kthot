@@ -7,7 +7,7 @@ class JsBooleanRef(
     name: String? = null,
     isNullable: Boolean = false
 ) : JsBoolean, JsValueRef<JsBoolean>(
-    name = name ?: "boolean_${JsReference.nextRefInt()}",
+    name = name ?: "boolean_${ReferenceId.nextRefInt()}",
     isNullable = isNullable,
 ) {
     override fun toString(): String = present()

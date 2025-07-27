@@ -9,7 +9,7 @@ class JsArrayRef<T : JsValue> internal constructor(
     name: String? = null,
     isNullable: Boolean = false
 ) : JsArray<T>, JsValueRef<JsArray<T>>(
-    name = name ?: "collection_${JsReference.nextRefInt()}",
+    name = name ?: "collection_${ReferenceId.nextRefInt()}",
     isNullable = isNullable,
 ) {
     override fun toString(): String = present()

@@ -5,12 +5,13 @@ import net.asere.kotlin.js.dsl.types.definition.JsDefinition
 import net.asere.kotlin.js.dsl.types.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.types.reference.JsReference
 import net.asere.kotlin.js.dsl.types.reference.JsValueRef
+import net.asere.kotlin.js.dsl.types.reference.ReferenceId
 
 class JsGeolocationPositionRef internal constructor(
     name: String? = null,
     isNullable: Boolean = false
 ) : JsValueRef<JsGeolocationPosition>(
-    name ?: "geolocation_position_${JsReference.nextRefInt()}",
+    name ?: "geolocation_position_${ReferenceId.nextRefInt()}",
     isNullable = isNullable,
 ), JsGeolocationPosition, JsReference<JsGeolocationPosition> {
     override fun toString(): String = present()

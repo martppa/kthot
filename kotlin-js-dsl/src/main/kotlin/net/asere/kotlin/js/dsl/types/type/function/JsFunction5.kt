@@ -7,6 +7,7 @@ import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.types.definition.JsDefinition
 import net.asere.kotlin.js.dsl.types.reference.JsReference
+import net.asere.kotlin.js.dsl.types.reference.ReferenceId
 import net.asere.kotlin.js.dsl.types.reference.function.JsFunction5Ref
 import net.asere.kotlin.js.dsl.types.value.JsValue
 
@@ -17,7 +18,7 @@ fun <
         Param3Ref: JsReference<Param3>, Param3 : JsValue,
         Param4Ref: JsReference<Param4>, Param4 : JsValue,
         Param5Ref: JsReference<Param5>, Param5 : JsValue> JsScriptScope.Function(
-    name: String = "function_${JsReference.nextRefInt()}",
+    name: String = "function_${ReferenceId.nextRefInt()}",
     param1: JsDefinition<Param1Ref, Param1>,
     param2: JsDefinition<Param2Ref, Param2>,
     param3: JsDefinition<Param3Ref, Param3>,

@@ -7,7 +7,7 @@ class JsStringRef internal constructor(
     name: String? = null,
     isNullable: Boolean = false
 ) : JsString, JsValueRef<JsString>(
-    name = name ?: "string_${JsReference.nextRefInt()}",
+    name = name ?: "string_${ReferenceId.nextRefInt()}",
     isNullable = isNullable,
 ) {
     override fun toString(): String = present()

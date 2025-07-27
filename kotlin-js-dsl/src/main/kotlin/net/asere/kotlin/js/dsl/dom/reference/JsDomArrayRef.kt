@@ -4,12 +4,13 @@ import net.asere.kotlin.js.dsl.dom.type.JsDomArray
 import net.asere.kotlin.js.dsl.types.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.types.reference.JsReference
 import net.asere.kotlin.js.dsl.types.reference.JsValueRef
+import net.asere.kotlin.js.dsl.types.reference.ReferenceId
 
 class JsDomArrayRef internal constructor(
     name: String? = null,
     isNullable: Boolean = false,
 ) : JsValueRef<JsDomArray>(
-name ?: "dom_collection_object_${JsReference.nextRefInt()}",
+name ?: "dom_collection_object_${ReferenceId.nextRefInt()}",
     isNullable = isNullable,
 ), JsDomArray, JsReference<JsDomArray> {
     override fun toString(): String = present()

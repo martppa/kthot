@@ -4,12 +4,13 @@ import net.asere.kotlin.js.dsl.dom.type.event.JsDomEvent
 import net.asere.kotlin.js.dsl.types.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.types.reference.JsReference
 import net.asere.kotlin.js.dsl.types.reference.JsValueRef
+import net.asere.kotlin.js.dsl.types.reference.ReferenceId
 
 class JsDomEventRef internal constructor(
     name: String? = null,
     isNullable: Boolean = false
 ) : JsValueRef<JsDomEvent>(
-    name ?: "dom_event_${JsReference.nextRefInt()}",
+    name ?: "dom_event_${ReferenceId.nextRefInt()}",
     isNullable = isNullable,
 ), JsDomEvent, JsReference<JsDomEvent> {
     override fun toString(): String = present()

@@ -8,7 +8,7 @@ class JsPromiseRef<T : JsValue> internal constructor(
     name: String? = null,
     isNullable: Boolean = false
 ) : JsPromise<T>, JsValueRef<JsPromise<T>>(
-    name = name ?: "promise_${JsReference.nextRefInt()}",
+    name = name ?: "promise_${ReferenceId.nextRefInt()}",
     isNullable = isNullable,
 ) {
     override fun toString(): String = present()

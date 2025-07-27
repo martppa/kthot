@@ -4,12 +4,13 @@ import net.asere.kotlin.js.dsl.dom.type.event.JsMouseEvent
 import net.asere.kotlin.js.dsl.types.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.types.reference.JsReference
 import net.asere.kotlin.js.dsl.types.reference.JsValueRef
+import net.asere.kotlin.js.dsl.types.reference.ReferenceId
 
 class JsMouseEventRef internal constructor(
     name: String? = null,
     isNullable: Boolean = false
 ) : JsValueRef<JsMouseEvent>(
-    name ?: "mouse_event_${JsReference.nextRefInt()}",
+    name ?: "mouse_event_${ReferenceId.nextRefInt()}",
     isNullable = isNullable
 ), JsMouseEvent, JsReference<JsMouseEvent> {
     override fun toString(): String = present()

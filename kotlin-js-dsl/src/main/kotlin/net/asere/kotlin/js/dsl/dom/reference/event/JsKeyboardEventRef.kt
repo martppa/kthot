@@ -5,12 +5,13 @@ import net.asere.kotlin.js.dsl.types.definition.JsDefinition
 import net.asere.kotlin.js.dsl.types.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.types.reference.JsReference
 import net.asere.kotlin.js.dsl.types.reference.JsValueRef
+import net.asere.kotlin.js.dsl.types.reference.ReferenceId
 
 class JsKeyboardEventRef internal constructor(
     name: String? = null,
     isNullable: Boolean = false
 ) : JsValueRef<JsKeyboardEvent>(
-    name ?: "keyboard_event_${JsReference.nextRefInt()}",
+    name ?: "keyboard_event_${ReferenceId.nextRefInt()}",
     isNullable = isNullable,
 ), JsKeyboardEvent, JsReference<JsKeyboardEvent> {
     override fun toString(): String = present()

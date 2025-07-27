@@ -5,12 +5,13 @@ import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.types.definition.JsDefinition
 import net.asere.kotlin.js.dsl.types.reference.JsReference
+import net.asere.kotlin.js.dsl.types.reference.ReferenceId
 import net.asere.kotlin.js.dsl.types.reference.function.JsFunction1Ref
 import net.asere.kotlin.js.dsl.types.value.JsValue
 
 @JsDsl
 fun <Param1Ref: JsReference<Param1>, Param1 : JsValue> JsScriptScope.Function(
-    name: String = "function_${JsReference.nextRefInt()}",
+    name: String = "function_${ReferenceId.nextRefInt()}",
     param1: JsDefinition<Param1Ref, Param1>,
     definition: JsSyntaxScope.(
         Param1

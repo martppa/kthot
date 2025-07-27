@@ -4,12 +4,13 @@ import net.asere.kotlin.js.dsl.dom.type.JsLocation
 import net.asere.kotlin.js.dsl.types.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.types.reference.JsReference
 import net.asere.kotlin.js.dsl.types.reference.JsValueRef
+import net.asere.kotlin.js.dsl.types.reference.ReferenceId
 
 class JsLocationRef internal constructor(
     name: String? = null,
     isNullable: Boolean = false
 ) : JsValueRef<JsLocation>(
-    name ?: "location_${JsReference.nextRefInt()}",
+    name ?: "location_${ReferenceId.nextRefInt()}",
     isNullable = isNullable,
 ), JsLocation, JsReference<JsLocation> {
     override fun toString(): String = present()
