@@ -3,6 +3,7 @@ package net.asere.kotlin.js.dsl.dom.type
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.dom.syntax.JsDomObjectSyntax
+import net.asere.kotlin.js.dsl.syntax.operation.AccessOperation
 import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.syntax.value.JsNumberSyntax
 import net.asere.kotlin.js.dsl.types.reference.lambda.JsLambda1Ref
@@ -33,7 +34,7 @@ interface JsDomArray : JsObject {
      * @param index The zero-based index of the element to retrieve as a [JsNumber] object.
      * @return A [JsDomObject] representing the DOM element at the specified index.
      */
-    operator fun get(index: JsNumber): JsDomObject = JsDomObjectSyntax("${this.present()}[${index.present()}]")
+    operator fun get(index: JsNumber): JsDomObject = JsDomObjectSyntax(AccessOperation(this, index))
 
     /**
      * Allows accessing an element in the collection using the Kotlin array-access operator `[]`.

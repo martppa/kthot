@@ -5,6 +5,7 @@ import net.asere.kotlin.js.dsl.dom.syntax.JsDomObjectSyntax
 import net.asere.kotlin.js.dsl.dom.syntax.JsDomTokenListSyntax
 import net.asere.kotlin.js.dsl.dom.type.event.JsDomEvent
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
+import net.asere.kotlin.js.dsl.syntax.operation.AccessOperation
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.syntax.value.*
@@ -62,7 +63,7 @@ interface JsDomObject : JsValue {
      * @return A [JsSyntax] object representing the JavaScript assignment.
      */
     fun setTextContent(text: JsString): JsSyntax =
-        JsSyntax("${ChainOperation(this, "textContent")} = ${text.present()}")
+        JsSyntax("${ChainOperation(this, "textContent")} = $text")
 
     /**
      * Sets the text content of the element, replacing any existing children.
@@ -322,7 +323,7 @@ interface JsDomObject : JsValue {
      * @return A [JsSyntax] object representing the JavaScript assignment.
      */
     fun setClassName(className: JsString): JsSyntax =
-        JsSyntax("${ChainOperation(this, "className")} = ${className.present()}")
+        JsSyntax("${ChainOperation(this, "className")} = $className")
 
     /**
      * Sets the `className` attribute of the element.
@@ -407,7 +408,7 @@ interface JsDomObject : JsValue {
      * @return A [JsString] object representing the style value.
      */
     fun getStyle(propertyName: JsString): JsString =
-        JsStringSyntax(ChainOperation(this, "style[${propertyName.present()}]"))
+        JsStringSyntax(ChainOperation(this, AccessOperation("style", propertyName)))
 
     /**
      * Returns the value of a specific inline CSS style property of the element.
@@ -427,7 +428,7 @@ interface JsDomObject : JsValue {
      * @return A [JsSyntax] object representing the JavaScript assignment.
      */
     fun setStyle(propertyName: JsString, value: JsString): JsSyntax =
-        JsSyntax("${ChainOperation(this, "style[$propertyName]")} = $value")
+        JsSyntax("${ChainOperation(this, AccessOperation("style", propertyName))} = $value")
 
     /**
      * Sets the value of a specific inline CSS style property of the element.
