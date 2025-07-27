@@ -3,7 +3,7 @@ package net.asere.kotlin.js.dsl.dom.type
 import net.asere.kotlin.js.dsl.dom.type.event.JsDomEvent
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.value.JsBooleanSyntax
-import net.asere.kotlin.js.dsl.syntax.value.JsDomCollectionSyntax
+import net.asere.kotlin.js.dsl.syntax.value.JsDomArraySyntax
 import net.asere.kotlin.js.dsl.syntax.value.JsDomObjectSyntax
 import net.asere.kotlin.js.dsl.syntax.value.JsStringSyntax
 import net.asere.kotlin.js.dsl.types.type.JsBoolean
@@ -399,11 +399,11 @@ interface JsDomObject : JsValue {
 
     /**
      * Returns a live `HTMLCollection` of the child elements of the current element
-     * as a [JsDomCollectionSyntax] object.
+     * as a [JsDomArraySyntax] object.
      *
      * In JavaScript, this corresponds to `element.children`.
      */
-    val children: JsDomCollectionSyntax get() = JsDomCollectionSyntax("${this}.children")
+    val children: JsDomArraySyntax get() = JsDomArraySyntax("${this}.children")
 
     /**
      * Returns the first child `Element` of the current element as a [JsDomObjectSyntax] object.
@@ -506,9 +506,9 @@ interface JsDomObject : JsValue {
      *
      * In JavaScript, this corresponds to `element.querySelectorAll(selector)`.
      * @param selector A [JsString] object containing one or more CSS selectors to match.
-     * @return A [JsDomCollection] containing all matching elements.
+     * @return A [JsDomArray] containing all matching elements.
      */
-    fun querySelectorAll(selector: JsString): JsDomCollection = JsDomCollectionSyntax("${this}.querySelectorAll($selector)")
+    fun querySelectorAll(selector: JsString): JsDomArray = JsDomArraySyntax("${this}.querySelectorAll($selector)")
 
     /**
      * Returns a `NodeList` (a static `JsDomCollection`) of all elements within the document
@@ -516,9 +516,9 @@ interface JsDomObject : JsValue {
      * This is a convenience overload for [querySelectorAll] that accepts a Kotlin [String].
      *
      * @param selector A Kotlin [String] containing one or more CSS selectors to match.
-     * @return A [JsDomCollection] containing all matching elements.
+     * @return A [JsDomArray] containing all matching elements.
      */
-    fun querySelectorAll(selector: String): JsDomCollection = querySelectorAll(selector.js)
+    fun querySelectorAll(selector: String): JsDomArray = querySelectorAll(selector.js)
 
     companion object
 }

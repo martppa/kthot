@@ -5,6 +5,8 @@ import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.value.JsNumberSyntax
 import net.asere.kotlin.js.dsl.types.type.JsNumber
 import net.asere.kotlin.js.dsl.types.type.JsObject
+import net.asere.kotlin.js.dsl.types.type.helper.JsObjectBuilder
+import net.asere.kotlin.js.dsl.types.type.js
 
 /**
  * Represents the `GeolocationPosition` object, containing the device's geographical position.
@@ -50,11 +52,11 @@ class JsPositionOptionsBuilder {
      * Builds the [JsPositionOptions] representation of the `PositionOptions` object.
      */
     fun build(): JsPositionOptions {
-        val properties = mutableListOf<String>()
-        enableHighAccuracy?.let { properties.add("enableHighAccuracy: $it") }
-        timeout?.let { properties.add("timeout: $it") }
-        maximumAge?.let { properties.add("maximumAge: $it") }
-        return JsPositionOptionsSyntax("{ ${properties.joinToString(", ")} }")
+        val objectBuilder = JsObjectBuilder()
+        enableHighAccuracy?.let { objectBuilder.property("enableHighAccuracy", it.js) }
+        timeout?.let { objectBuilder.property("timeout", it.js) }
+        maximumAge?.let { objectBuilder.property("maximumAge", it.js) }
+        return JsPositionOptionsSyntax("${objectBuilder.build()}")
     }
 }
 

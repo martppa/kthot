@@ -9,7 +9,7 @@ import net.asere.kotlin.js.dsl.syntax.Return
 import net.asere.kotlin.js.dsl.syntax.operation.plus
 import net.asere.kotlin.js.dsl.types.reference.def
 import net.asere.kotlin.js.dsl.types.reference.lambda.def
-import net.asere.kotlin.js.dsl.types.type.JsCollection
+import net.asere.kotlin.js.dsl.types.type.JsArray
 import net.asere.kotlin.js.dsl.types.type.JsNumber
 import net.asere.kotlin.js.dsl.types.type.JsString
 import net.asere.kotlin.js.dsl.types.type.function.Function
@@ -42,7 +42,7 @@ fun main(vararg args: String) {
             ) { item ->
                 Log(item)
             }
-            val numberCollection = Const { JsCollection.def<JsNumber>("numberCollection") } `=` JsCollection.value(100.js, 200.js, 300.js)
+            val numberCollection = Const { JsArray.def<JsNumber>("numberCollection") } `=` JsArray.value(100.js, 200.js, 300.js)
             +numberCollection.forEach(printItem)
         }
     }

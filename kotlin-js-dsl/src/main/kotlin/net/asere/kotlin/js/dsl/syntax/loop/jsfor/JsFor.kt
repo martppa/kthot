@@ -8,7 +8,7 @@ import net.asere.kotlin.js.dsl.syntax.loop.JsLoopSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.Operation
 import net.asere.kotlin.js.dsl.syntax.run
 import net.asere.kotlin.js.dsl.tag.JsDsl
-import net.asere.kotlin.js.dsl.types.type.JsCollection
+import net.asere.kotlin.js.dsl.types.type.JsArray
 import net.asere.kotlin.js.dsl.types.type.lambda.JsLambda1
 import net.asere.kotlin.js.dsl.types.value.JsValue
 
@@ -78,7 +78,7 @@ fun <T : JsReference<*>> jsFor(
 @JsDsl
 fun <T : JsReference<*>> JsScriptScope.For(
     definition: JsSyntaxScope.() -> JsDeclarationSyntax<T>,
-    obj: JsCollection<*>,
+    obj: JsArray<*>,
     block: JsSyntaxScope.(T) -> Unit,
 ) = +jsFor(
     definition = definition,
@@ -88,7 +88,7 @@ fun <T : JsReference<*>> JsScriptScope.For(
 
 fun <T : JsReference<*>> jsFor(
     definition: JsSyntaxScope.() -> JsDeclarationSyntax<T>,
-    obj: JsCollection<*>,
+    obj: JsArray<*>,
     block: JsSyntaxScope.(T) -> Unit,
 ): JsForSyntax {
     val definitionScope = JsSyntaxScope()
@@ -104,6 +104,6 @@ fun <T : JsReference<*>> jsFor(
 
 @JsDsl
 fun <T : JsValue> JsScriptScope.For(
-    collection: JsCollection<T>,
+    collection: JsArray<T>,
     lambda: JsLambda1<T>,
 ) = +collection.forEach(lambda)

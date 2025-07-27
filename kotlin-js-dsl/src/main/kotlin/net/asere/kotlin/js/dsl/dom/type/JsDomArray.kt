@@ -16,7 +16,7 @@ import net.asere.kotlin.js.dsl.types.type.js
  * This interface provides properties and methods for accessing and iterating over the elements
  * within the collection.
  */
-interface JsDomCollection : JsObject {
+interface JsDomArray : JsObject {
     /**
      * Returns the number of elements in the collection as a [JsNumber] object.
      *

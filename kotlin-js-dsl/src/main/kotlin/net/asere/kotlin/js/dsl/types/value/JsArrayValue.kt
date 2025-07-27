@@ -1,11 +1,11 @@
 package net.asere.kotlin.js.dsl.types.value
 
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
-import net.asere.kotlin.js.dsl.types.type.JsCollection
+import net.asere.kotlin.js.dsl.types.type.JsArray
 
-class JsCollectionValue<T : JsValue> private constructor(
+class JsArrayValue<T : JsValue> private constructor(
     val value: JsSyntax
-) : JsCollection<T>, JsRawValue<JsCollection<T>> {
+) : JsArray<T>, JsRawValue<JsArray<T>> {
 
     internal constructor(vararg values: T) : this(
         JsSyntax("[${values.joinToString(", ")}]")
@@ -22,5 +22,5 @@ class JsCollectionValue<T : JsValue> private constructor(
     companion object
 }
 
-fun <T : JsValue> JsCollection.Companion.value(vararg values: T): JsCollection<T> = JsCollectionValue(*values)
-fun <T : JsValue> JsCollection.Companion.value(values: List<T>): JsCollection<T> = JsCollectionValue(values)
+fun <T : JsValue> JsArray.Companion.value(vararg values: T): JsArray<T> = JsArrayValue(*values)
+fun <T : JsValue> JsArray.Companion.value(values: List<T>): JsArray<T> = JsArrayValue(values)

@@ -6,7 +6,6 @@ import net.asere.kotlin.js.dsl.declaration.Const
 import net.asere.kotlin.js.dsl.declaration.Let
 import net.asere.kotlin.js.dsl.html.jsScript
 import net.asere.kotlin.js.dsl.log.Log
-import net.asere.kotlin.js.dsl.types.reference.lambda.ref
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.jsif.If
 import net.asere.kotlin.js.dsl.syntax.loop.jsfor.For
@@ -16,8 +15,7 @@ import net.asere.kotlin.js.dsl.syntax.operation.eq
 import net.asere.kotlin.js.dsl.syntax.operation.lt
 import net.asere.kotlin.js.dsl.syntax.operation.postInc
 import net.asere.kotlin.js.dsl.types.reference.def
-import net.asere.kotlin.js.dsl.types.reference.ref
-import net.asere.kotlin.js.dsl.types.type.JsCollection
+import net.asere.kotlin.js.dsl.types.type.JsArray
 import net.asere.kotlin.js.dsl.types.type.JsNumber
 import net.asere.kotlin.js.dsl.types.type.JsObject
 import net.asere.kotlin.js.dsl.types.type.js
@@ -28,7 +26,7 @@ import net.asere.kotlin.js.dsl.types.value.value
 fun main(vararg args: String) {
     val result = createHTML().body {
         jsScript {
-            val collection = Const { JsCollection.def<JsNumber>() } `=` JsCollection.value(0.js, 1.js, 2.js, 3.js)
+            val collection = Const { JsArray.def<JsNumber>() } `=` JsArray.value(0.js, 1.js, 2.js, 3.js)
             For ({ Let { JsNumber.def("i") } `=` 0 }, { it lt collection.getLength() }, { it.postInc() }) {
                 Log(it)
                 If (it lt 2) {

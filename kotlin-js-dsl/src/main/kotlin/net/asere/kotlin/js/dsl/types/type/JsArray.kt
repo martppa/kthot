@@ -8,7 +8,7 @@ import net.asere.kotlin.js.dsl.types.type.lambda.JsLambda1
 import net.asere.kotlin.js.dsl.types.type.lambda.JsLambda2
 import net.asere.kotlin.js.dsl.types.value.JsValue
 
-interface JsCollection<T : JsValue> : JsObject {
+interface JsArray<T : JsValue> : JsObject {
 
     companion object
 
