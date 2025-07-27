@@ -1,4 +1,4 @@
-# Kotlin Typesafe JS DSL ![](https://img.shields.io/badge/maven_central-0.0.4-004475)
+# Kotlin Typesafe JS DSL ![](https://img.shields.io/badge/maven_central-0.0.5-004475)
 Typesafe JS DSL is intended to help kotlin developers write, reuse and interact with Javascript without [WASM](https://kotlinlang.org/docs/wasm-overview.html).
 
 ## Motivation
@@ -200,7 +200,7 @@ Declaring collections. Please note as `collection.forEach` does return a `JsSynt
 
 ```kotlin
 val syntax = js {
-    val collection = Const { JsCollection.ref<JsNumber>() } `=` JsCollection.value(0.js, 1.js, 2.js, 3.js, 4.js)
+    val collection = Const { JsArray.ref<JsNumber>() } `=` JsArray.value(0.js, 1.js, 2.js, 3.js, 4.js)
     +collection.forEach(jsLambda(JsNumber.def()) { number1 ->
         Log(number1)
     })
@@ -281,7 +281,7 @@ There's support for loops statements too!
 
 ```kotlin
 val syntax = js {
-    val collection = Const { JsCollection.ref<JsNumber>() } `=` JsCollection.value(0.js, 1.js, 2.js, 3.js)
+    val collection = Const { JsArray.ref<JsNumber>() } `=` JsArray.value(0.js, 1.js, 2.js, 3.js)
     For ({ Let { JsNumber.def("i") } `=` 0 }, { it lt collection.getLength() }, { it.postInc() }) {
         Log(it)
         If (it lt 2) {
@@ -312,7 +312,7 @@ for (const key in obj) {
 **Collection iteration:** Define the for loop to iterate a collection
 
 ```kotlin
-val collection = Const { JsCollection.ref<JsNumber>() } `=` JsCollection.value(0.js, 1.js, 2.js, 3.js)
+val collection = Const { JsArray.ref<JsNumber>() } `=` JsArray.value(0.js, 1.js, 2.js, 3.js)
 For ({ Const { JsNumber.def() } }, collection) {
     Log(it)
     If (it eq 5.js) {
@@ -447,7 +447,7 @@ val printItem = Const { JsLambda1.def<JsNumber>("printItem") } `=` jsLambda(
 ) { item ->
     Log(item)
 }
-val numberCollection = Const { JsCollection.ref<JsNumber>("numberCollection") } `=` JsCollection.value(100.js, 200.js, 300.js)
+val numberCollection = Const { JsArray.ref<JsNumber>("numberCollection") } `=` JsArray.value(100.js, 200.js, 300.js)
 +numberCollection.forEach(printItem)
 ```
 
