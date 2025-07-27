@@ -1,6 +1,6 @@
 package net.asere.kotlin.js.dsl.types.reference.lambda
 
-import net.asere.kotlin.js.dsl.types.definition.JsDefinition
+import net.asere.kotlin.js.dsl.types.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.types.reference.JsReference
 import net.asere.kotlin.js.dsl.types.type.lambda.JsLambda3
 import net.asere.kotlin.js.dsl.types.value.JsValue
@@ -15,6 +15,6 @@ fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue> JsLambda3.Companion.r
 
 fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue> JsLambda3.Companion.def(
     name: String = "lambda_${JsReference.nextRefInt()}"
-) = object : JsDefinition<JsLambda3Ref<Param1, Param2, Param3>, JsLambda3<Param1, Param2, Param3>> {
+) = object : JsPrintableDefinition<JsLambda3Ref<Param1, Param2, Param3>, JsLambda3<Param1, Param2, Param3>>() {
     override val reference: JsLambda3Ref<Param1, Param2, Param3> = JsLambda3Ref(name)
 }

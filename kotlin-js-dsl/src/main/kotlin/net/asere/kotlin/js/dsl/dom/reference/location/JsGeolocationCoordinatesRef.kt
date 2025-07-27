@@ -2,6 +2,7 @@ package net.asere.kotlin.js.dsl.dom.reference.location
 
 import net.asere.kotlin.js.dsl.dom.type.location.JsGeolocationCoordinates
 import net.asere.kotlin.js.dsl.types.definition.JsDefinition
+import net.asere.kotlin.js.dsl.types.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.types.reference.JsReference
 import net.asere.kotlin.js.dsl.types.reference.JsValueRef
 
@@ -15,6 +16,7 @@ class JsGeolocationCoordinatesRef internal constructor(
 
 fun JsGeolocationCoordinates.Companion.ref(name: String? = null) = JsGeolocationCoordinatesRef(name)
 
-fun JsGeolocationCoordinates.Companion.def(name: String? = null) = object : JsDefinition<JsGeolocationCoordinatesRef, JsGeolocationCoordinates> {
+fun JsGeolocationCoordinates.Companion.def(name: String? = null) = object :
+    JsPrintableDefinition<JsGeolocationCoordinatesRef, JsGeolocationCoordinates>() {
     override val reference: JsGeolocationCoordinatesRef = JsGeolocationCoordinatesRef(name)
 }

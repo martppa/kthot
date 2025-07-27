@@ -478,7 +478,7 @@ val showAlert = JsFunction1Ref<JsString>("showAlert")
 val html = createHTML().html {
     head {
         jsScript {
-            +JsFunction(name = "showAlert", JsString.def()) {
+            Function(name = "showAlert", JsString.def()) {
                 +Window.alert(it)
             }
         }

@@ -1,6 +1,6 @@
 package net.asere.kotlin.js.dsl.types.reference
 
-import net.asere.kotlin.js.dsl.types.definition.JsDefinition
+import net.asere.kotlin.js.dsl.types.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.types.type.JsBoolean
 
 class JsBooleanRef(
@@ -13,6 +13,6 @@ class JsBooleanRef(
 
 fun JsBoolean.Companion.ref(name: String? = null) = JsBooleanRef(name)
 
-fun JsBoolean.Companion.def(name: String? = null) = object : JsDefinition<JsBooleanRef, JsBoolean> {
+fun JsBoolean.Companion.def(name: String? = null) = object : JsPrintableDefinition<JsBooleanRef, JsBoolean>() {
     override val reference: JsBooleanRef = JsBooleanRef(name)
 }

@@ -1,6 +1,6 @@
 package net.asere.kotlin.js.dsl.types.reference
 
-import net.asere.kotlin.js.dsl.types.definition.JsDefinition
+import net.asere.kotlin.js.dsl.types.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.types.type.JsNumber
 
 class JsNumberRef internal constructor(
@@ -13,6 +13,6 @@ class JsNumberRef internal constructor(
 
 fun JsNumber.Companion.ref(name: String? = null): JsNumberRef = JsNumberRef(name)
 
-fun JsNumber.Companion.def(name: String? = null) = object : JsDefinition<JsNumberRef, JsNumber> {
+fun JsNumber.Companion.def(name: String? = null) = object : JsPrintableDefinition<JsNumberRef, JsNumber>() {
     override val reference: JsNumberRef = JsNumberRef(name)
 }

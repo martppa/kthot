@@ -2,6 +2,7 @@ package net.asere.kotlin.js.dsl.dom.reference.event
 
 import net.asere.kotlin.js.dsl.dom.type.event.JsMouseEvent
 import net.asere.kotlin.js.dsl.types.definition.JsDefinition
+import net.asere.kotlin.js.dsl.types.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.types.reference.JsReference
 import net.asere.kotlin.js.dsl.types.reference.JsValueRef
 
@@ -15,6 +16,6 @@ class JsMouseEventRef internal constructor(
 
 fun JsMouseEvent.Companion.ref(name: String? = null) = JsMouseEventRef(name)
 
-fun JsMouseEvent.Companion.def(name: String? = null) = object : JsDefinition<JsMouseEventRef, JsMouseEvent> {
+fun JsMouseEvent.Companion.def(name: String? = null) = object : JsPrintableDefinition<JsMouseEventRef, JsMouseEvent>() {
     override val reference: JsMouseEventRef = JsMouseEventRef(name)
 }

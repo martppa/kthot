@@ -1,7 +1,6 @@
 package net.asere.kotlin.js.dsl.types.reference
 
-import net.asere.kotlin.js.dsl.types.definition.JsDefinition
-import net.asere.kotlin.js.dsl.types.type.JsObject
+import net.asere.kotlin.js.dsl.types.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.types.type.JsString
 
 class JsStringRef internal constructor(
@@ -14,6 +13,6 @@ class JsStringRef internal constructor(
 
 fun JsString.Companion.ref(name: String? = null): JsStringRef = JsStringRef(name)
 
-fun JsString.Companion.def(name: String? = null) = object : JsDefinition<JsStringRef, JsString> {
+fun JsString.Companion.def(name: String? = null) = object : JsPrintableDefinition<JsStringRef, JsString>() {
     override val reference: JsStringRef = JsStringRef(name)
 }
