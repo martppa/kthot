@@ -52,7 +52,7 @@ In order to assign values to a JavaScript object use the `assign` extension func
 
 ```kotlin
 val syntax = js {
-    +JsString.ref().declare(Let).assign("Juan".js)
+    +JsString.def().declare(Let).assign("Juan".js)
 }
 println(syntax) // --> let string_1 = "Juan"
 ```
@@ -78,7 +78,7 @@ Since declaration functions (`Var`, `Let`, `Const`) return `JsSyntax` we need to
 
 ### Referencing objects in Kotlin
 
-Use object's definitions to declare them (e.g `JsString.def()`). Definitions are references, every object reference (e.g `JsString.ref()`) can be assigned to a Kotlin object to interact with it. In the example below the `JsString` definition is stored in `stringValue`, then the first character of 'Juan' is printed.
+Use object's definitions to declare them (e.g `JsString.def()`). Definitions are references, every object reference (e.g `JsString.def()`) can be assigned to a Kotlin object to interact with it. In the example below the `JsString` definition is stored in `stringValue`, then the first character of 'Juan' is printed.
 
 ```kotlin
 val syntax = js {
@@ -200,7 +200,7 @@ Declaring collections. Please note as `collection.forEach` does return a `JsSynt
 
 ```kotlin
 val syntax = js {
-    val collection = Const { JsArray.ref<JsNumber>() } `=` JsArray.value(0.js, 1.js, 2.js, 3.js, 4.js)
+    val collection = Const { JsArray.def<JsNumber>() } `=` JsArray.value(0.js, 1.js, 2.js, 3.js, 4.js)
     +collection.forEach(jsLambda(JsNumber.def()) { number1 ->
         Log(number1)
     })
@@ -281,7 +281,7 @@ There's support for loops statements too!
 
 ```kotlin
 val syntax = js {
-    val collection = Const { JsArray.ref<JsNumber>() } `=` JsArray.value(0.js, 1.js, 2.js, 3.js)
+    val collection = Const { JsArray.def<JsNumber>() } `=` JsArray.value(0.js, 1.js, 2.js, 3.js)
     For ({ Let { JsNumber.def("i") } `=` 0 }, { it lt collection.getLength() }, { it.postInc() }) {
         Log(it)
         If (it lt 2) {
@@ -312,7 +312,7 @@ for (const key in obj) {
 **Collection iteration:** Define the for loop to iterate a collection
 
 ```kotlin
-val collection = Const { JsArray.ref<JsNumber>() } `=` JsArray.value(0.js, 1.js, 2.js, 3.js)
+val collection = Const { JsArray.def<JsNumber>() } `=` JsArray.value(0.js, 1.js, 2.js, 3.js)
 For ({ Const { JsNumber.def() } }, collection) {
     Log(it)
     If (it eq 5.js) {
@@ -405,7 +405,7 @@ Output:
 As mentioned before, lambdas can be referenced using lambda reference objects. You can invoke lambdas using there objects anytime.
 
 ```kotlin
-val sum = Const { JsLambda2.ref<JsNumber, JsNumber>() } `=` jsLambda(
+val sum = Const { JsLambda2.def<JsNumber, JsNumber>() } `=` jsLambda(
     JsString.def("first"),
     JsString.def("second")
 ) { first, second ->
@@ -443,11 +443,11 @@ Created lambda references can be also used as parameters
 
 ```kotlin
 val printItem = Const { JsLambda1.def<JsNumber>("printItem") } `=` jsLambda(
-    JsString.ref("item"),
+    JsString.def("item"),
 ) { item ->
     Log(item)
 }
-val numberCollection = Const { JsArray.ref<JsNumber>("numberCollection") } `=` JsArray.value(100.js, 200.js, 300.js)
+val numberCollection = Const { JsArray.def<JsNumber>("numberCollection") } `=` JsArray.value(100.js, 200.js, 300.js)
 +numberCollection.forEach(printItem)
 ```
 

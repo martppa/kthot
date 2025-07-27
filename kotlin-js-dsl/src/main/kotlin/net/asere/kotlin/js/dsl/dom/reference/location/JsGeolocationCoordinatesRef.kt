@@ -20,7 +20,7 @@ class JsGeolocationCoordinatesRef internal constructor(
 fun JsGeolocationCoordinates.Companion.ref(name: String? = null, isNullable: Boolean = false) =
     JsGeolocationCoordinatesRef(name, isNullable)
 
-fun JsGeolocationCoordinates.Companion.def(name: String? = null) = object :
+fun JsGeolocationCoordinates.Companion.def(name: String? = null, isNullable: Boolean = false) = object :
     JsPrintableDefinition<JsGeolocationCoordinatesRef, JsGeolocationCoordinates>() {
-    override val reference: JsGeolocationCoordinatesRef = JsGeolocationCoordinatesRef(name)
+    override val reference: JsGeolocationCoordinatesRef = JsGeolocationCoordinatesRef(name, isNullable)
 }

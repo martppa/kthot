@@ -15,6 +15,7 @@ open class JsObjectRef internal constructor(
 
 fun JsObject.Companion.ref(name: String? = null, isNullable: Boolean = false) = JsObjectRef(name, isNullable)
 
-fun JsObject.Companion.def(name: String? = null) = object : JsPrintableDefinition<JsObjectRef, JsObject>() {
-    override val reference: JsObjectRef = JsObjectRef(name)
-}
+fun JsObject.Companion.def(name: String? = null, isNullable: Boolean = false) =
+    object : JsPrintableDefinition<JsObjectRef, JsObject>() {
+        override val reference: JsObjectRef = JsObjectRef(name, isNullable)
+    }

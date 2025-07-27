@@ -12,11 +12,12 @@ class JsLambda1Ref<Param1 : JsValue>(
 ) : JsLambdaRefCommons<JsLambda1<Param1>>(name, isNullable), JsLambda1<Param1>
 
 fun <Param1 : JsValue> JsLambda1.Companion.ref(
-    name: String = "lambda_${ReferenceId.nextRefInt()}"
-): JsLambda1Ref<Param1> = JsLambda1Ref(name)
+    name: String = "lambda_${ReferenceId.nextRefInt()}",
+    isNullable: Boolean = false
+): JsLambda1Ref<Param1> = JsLambda1Ref(name, isNullable)
 
 fun <Param1 : JsValue> JsLambda1.Companion.def(
-    name: String = "lambda_${ReferenceId.nextRefInt()}"
+    name: String = "lambda_${ReferenceId.nextRefInt()}", isNullable: Boolean = false
 ) = object : JsPrintableDefinition<JsLambda1Ref<Param1>, JsLambda1<Param1>>() {
-    override val reference: JsLambda1Ref<Param1> = JsLambda1Ref(name)
+    override val reference: JsLambda1Ref<Param1> = JsLambda1Ref(name, isNullable)
 }

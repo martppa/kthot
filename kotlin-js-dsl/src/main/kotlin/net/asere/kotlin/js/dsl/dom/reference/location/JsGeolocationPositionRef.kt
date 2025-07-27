@@ -20,7 +20,7 @@ class JsGeolocationPositionRef internal constructor(
 fun JsGeolocationPosition.Companion.ref(name: String? = null, isNullable: Boolean = false) =
     JsGeolocationPositionRef(name, isNullable)
 
-fun JsGeolocationPosition.Companion.def(name: String? = null) = object :
+fun JsGeolocationPosition.Companion.def(name: String? = null, isNullable: Boolean = false) = object :
     JsPrintableDefinition<JsGeolocationPositionRef, JsGeolocationPosition>() {
-    override val reference: JsGeolocationPositionRef = JsGeolocationPositionRef(name)
+    override val reference: JsGeolocationPositionRef = JsGeolocationPositionRef(name, isNullable)
 }

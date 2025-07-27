@@ -19,7 +19,7 @@ class JsKeyboardEventRef internal constructor(
 
 fun JsKeyboardEvent.Companion.ref(name: String? = null, isNullable: Boolean = false) = JsKeyboardEventRef(name, isNullable)
 
-fun JsKeyboardEvent.Companion.def(name: String? = null) = object :
+fun JsKeyboardEvent.Companion.def(name: String? = null, isNullable: Boolean = false) = object :
     JsPrintableDefinition<JsKeyboardEventRef, JsKeyboardEvent>() {
-    override val reference: JsKeyboardEventRef = JsKeyboardEventRef(name)
+    override val reference: JsKeyboardEventRef = JsKeyboardEventRef(name, isNullable)
 }

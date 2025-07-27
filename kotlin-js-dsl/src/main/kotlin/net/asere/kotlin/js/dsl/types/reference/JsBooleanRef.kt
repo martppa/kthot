@@ -15,6 +15,7 @@ class JsBooleanRef(
 
 fun JsBoolean.Companion.ref(name: String? = null, isNullable: Boolean = false) = JsBooleanRef(name, isNullable)
 
-fun JsBoolean.Companion.def(name: String? = null) = object : JsPrintableDefinition<JsBooleanRef, JsBoolean>() {
-    override val reference: JsBooleanRef = JsBooleanRef(name)
-}
+fun JsBoolean.Companion.def(name: String? = null, isNullable: Boolean = false) =
+    object : JsPrintableDefinition<JsBooleanRef, JsBoolean>() {
+        override val reference: JsBooleanRef = JsBooleanRef(name, isNullable)
+    }

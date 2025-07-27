@@ -12,11 +12,11 @@ class JsLambda3Ref<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue>(
 ) : JsLambdaRefCommons<JsLambda3<Param1, Param2, Param3>>(name, isNullable), JsLambda3<Param1, Param2, Param3>
 
 fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue> JsLambda3.Companion.ref(
-    name: String = "lambda_${ReferenceId.nextRefInt()}"
-): JsLambda3Ref<Param1, Param2, Param3> = JsLambda3Ref(name)
+    name: String = "lambda_${ReferenceId.nextRefInt()}", isNullable: Boolean = false
+): JsLambda3Ref<Param1, Param2, Param3> = JsLambda3Ref(name, isNullable)
 
 fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue> JsLambda3.Companion.def(
-    name: String = "lambda_${ReferenceId.nextRefInt()}"
+    name: String = "lambda_${ReferenceId.nextRefInt()}", isNullable: Boolean = false
 ) = object : JsPrintableDefinition<JsLambda3Ref<Param1, Param2, Param3>, JsLambda3<Param1, Param2, Param3>>() {
-    override val reference: JsLambda3Ref<Param1, Param2, Param3> = JsLambda3Ref(name)
+    override val reference: JsLambda3Ref<Param1, Param2, Param3> = JsLambda3Ref(name, isNullable)
 }

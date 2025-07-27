@@ -13,8 +13,10 @@ class JsStringRef internal constructor(
     override fun toString(): String = present()
 }
 
-fun JsString.Companion.ref(name: String? = null, isNullable: Boolean = false): JsStringRef = JsStringRef(name, isNullable)
+fun JsString.Companion.ref(name: String? = null, isNullable: Boolean = false): JsStringRef =
+    JsStringRef(name, isNullable)
 
-fun JsString.Companion.def(name: String? = null) = object : JsPrintableDefinition<JsStringRef, JsString>() {
-    override val reference: JsStringRef = JsStringRef(name)
-}
+fun JsString.Companion.def(name: String? = null, isNullable: Boolean = false) =
+    object : JsPrintableDefinition<JsStringRef, JsString>() {
+        override val reference: JsStringRef = JsStringRef(name, isNullable)
+    }

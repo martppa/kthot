@@ -18,6 +18,6 @@ class JsDomEventRef internal constructor(
 
 fun JsDomEvent.Companion.ref(name: String? = null, isNullable: Boolean = false) = JsDomEventRef(name, isNullable)
 
-fun JsDomEvent.Companion.def(name: String? = null) = object : JsPrintableDefinition<JsDomEventRef, JsDomEvent>() {
-    override val reference: JsDomEventRef = JsDomEventRef(name)
+fun JsDomEvent.Companion.def(name: String? = null, isNullable: Boolean = false) = object : JsPrintableDefinition<JsDomEventRef, JsDomEvent>() {
+    override val reference: JsDomEventRef = JsDomEventRef(name, isNullable)
 }

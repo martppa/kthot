@@ -16,9 +16,9 @@ name ?: "dom_collection_object_${ReferenceId.nextRefInt()}",
     override fun toString(): String = present()
 }
 
-fun JsDomArray.Companion.ref(name: String? = null) = JsDomArrayRef(name)
+fun JsDomArray.Companion.ref(name: String? = null, isNullable: Boolean = false) = JsDomArrayRef(name, isNullable)
 
-fun JsDomArray.Companion.def(name: String? = null) = object :
+fun JsDomArray.Companion.def(name: String? = null, isNullable: Boolean = false) = object :
     JsPrintableDefinition<JsDomArrayRef, JsDomArray>() {
-    override val reference: JsDomArrayRef = JsDomArrayRef(name)
+    override val reference: JsDomArrayRef = JsDomArrayRef(name, isNullable)
 }

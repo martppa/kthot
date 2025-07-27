@@ -15,6 +15,7 @@ class JsErrorRef internal constructor(
 
 fun JsError.Companion.ref(name: String? = null, isNullable: Boolean = false): JsError = JsErrorRef(name, isNullable)
 
-fun JsError.Companion.def(name: String? = null) = object : JsPrintableDefinition<JsErrorRef, JsError>() {
-    override val reference: JsErrorRef = JsErrorRef(name)
-}
+fun JsError.Companion.def(name: String? = null, isNullable: Boolean = false) =
+    object : JsPrintableDefinition<JsErrorRef, JsError>() {
+        override val reference: JsErrorRef = JsErrorRef(name, isNullable)
+    }

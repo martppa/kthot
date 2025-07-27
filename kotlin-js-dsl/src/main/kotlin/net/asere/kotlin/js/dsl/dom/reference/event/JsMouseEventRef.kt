@@ -18,6 +18,6 @@ class JsMouseEventRef internal constructor(
 
 fun JsMouseEvent.Companion.ref(name: String? = null, isNullable: Boolean = false) = JsMouseEventRef(name, isNullable)
 
-fun JsMouseEvent.Companion.def(name: String? = null) = object : JsPrintableDefinition<JsMouseEventRef, JsMouseEvent>() {
-    override val reference: JsMouseEventRef = JsMouseEventRef(name)
+fun JsMouseEvent.Companion.def(name: String? = null, isNullable: Boolean = false) = object : JsPrintableDefinition<JsMouseEventRef, JsMouseEvent>() {
+    override val reference: JsMouseEventRef = JsMouseEventRef(name, isNullable)
 }

@@ -18,6 +18,7 @@ class JsLocationRef internal constructor(
 
 fun JsLocation.Companion.ref(name: String? = null, isNullable: Boolean = false) = JsLocationRef(name, isNullable)
 
-fun JsLocation.Companion.def(name: String? = null) = object : JsPrintableDefinition<JsLocationRef, JsLocation>() {
-    override val reference: JsLocationRef = JsLocationRef(name)
-}
+fun JsLocation.Companion.def(name: String? = null, isNullable: Boolean = false) =
+    object : JsPrintableDefinition<JsLocationRef, JsLocation>() {
+        override val reference: JsLocationRef = JsLocationRef(name, isNullable)
+    }

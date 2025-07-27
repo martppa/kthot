@@ -18,7 +18,7 @@ class JsArrayRef<T : JsValue> internal constructor(
 fun <T : JsValue> JsArray.Companion.ref(name: String? = null, isNullable: Boolean = false): JsArrayRef<T> =
     JsArrayRef(name, isNullable)
 
-fun <T : JsValue> JsArray.Companion.def(name: String? = null) = object :
+fun <T : JsValue> JsArray.Companion.def(name: String? = null, isNullable: Boolean = false) = object :
     JsPrintableDefinition<JsArrayRef<T>, JsArray<T>>() {
-    override val reference: JsArrayRef<T> = JsArrayRef(name)
+    override val reference: JsArrayRef<T> = JsArrayRef(name, isNullable)
 }

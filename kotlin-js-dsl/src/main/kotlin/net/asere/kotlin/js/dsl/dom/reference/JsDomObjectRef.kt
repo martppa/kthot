@@ -18,6 +18,7 @@ open class JsDomObjectRef internal constructor(
 
 fun JsDomObject.Companion.ref(name: String? = null, isNullable: Boolean = false) = JsDomObjectRef(name, isNullable)
 
-fun JsDomObject.Companion.def(name: String? = null) = object : JsPrintableDefinition<JsDomObjectRef, JsDomObject>() {
-    override val reference: JsDomObjectRef = JsDomObjectRef(name = name)
-}
+fun JsDomObject.Companion.def(name: String? = null, isNullable: Boolean = false) =
+    object : JsPrintableDefinition<JsDomObjectRef, JsDomObject>() {
+        override val reference: JsDomObjectRef = JsDomObjectRef(name = name, isNullable)
+    }

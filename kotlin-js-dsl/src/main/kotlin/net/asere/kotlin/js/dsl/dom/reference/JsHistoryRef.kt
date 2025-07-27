@@ -19,6 +19,7 @@ class JsHistoryRef internal constructor(
 
 fun JsHistory.Companion.ref(name: String? = null, isNullable: Boolean = false) = JsHistoryRef(name, isNullable)
 
-fun JsHistory.Companion.def(name: String? = null) = object : JsPrintableDefinition<JsHistoryRef, JsHistory>() {
-    override val reference: JsHistoryRef = JsHistoryRef(name)
-}
+fun JsHistory.Companion.def(name: String? = null, isNullable: Boolean = false) =
+    object : JsPrintableDefinition<JsHistoryRef, JsHistory>() {
+        override val reference: JsHistoryRef = JsHistoryRef(name, isNullable)
+    }

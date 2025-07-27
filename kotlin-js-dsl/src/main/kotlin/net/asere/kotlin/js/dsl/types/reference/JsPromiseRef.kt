@@ -17,7 +17,7 @@ class JsPromiseRef<T : JsValue> internal constructor(
 fun <T : JsValue> JsPromise.Companion.ref(name: String? = null, isNullable: Boolean = false): JsPromise<T> =
     JsPromiseRef(name, isNullable)
 
-fun <T : JsValue> JsPromise.Companion.def(name: String? = null) = object :
+fun <T : JsValue> JsPromise.Companion.def(name: String? = null, isNullable: Boolean = false) = object :
     JsPrintableDefinition<JsPromiseRef<T>, JsPromise<T>>() {
-    override val reference: JsPromiseRef<T> = JsPromiseRef(name)
+    override val reference: JsPromiseRef<T> = JsPromiseRef(name, isNullable)
 }
