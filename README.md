@@ -1,4 +1,4 @@
-# Kotlin Typesafe JS DSL ![](https://img.shields.io/badge/maven_central-0.0.5-004475)
+# Kotlin Typesafe JS DSL ![](https://img.shields.io/badge/maven_central-0.0.6-004475)
 Typesafe JS DSL is intended to help kotlin developers write, reuse and interact with Javascript without [WASM](https://kotlinlang.org/docs/wasm-overview.html).
 
 ## Motivation
