@@ -15,5 +15,6 @@ abstract class JsReferenceSyntax<T : JsValue>(value: String) : JsSyntax(value), 
 
     companion object {
         fun <T : JsValue> of(value: String): JsReferenceSyntax<T> = object : JsReferenceSyntax<T>(value) {}
+        fun <T : JsValue> of(value: JsElement): JsReferenceSyntax<T> = object : JsReferenceSyntax<T>(value) {}
     }
 }

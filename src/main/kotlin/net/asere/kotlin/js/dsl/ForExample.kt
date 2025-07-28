@@ -9,8 +9,8 @@ import net.asere.kotlin.js.dsl.log.Log
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.jsif.If
 import net.asere.kotlin.js.dsl.syntax.loop.jsfor.For
-import net.asere.kotlin.js.dsl.syntax.loop.jswhile.Break
-import net.asere.kotlin.js.dsl.syntax.loop.jswhile.Continue
+import net.asere.kotlin.js.dsl.syntax.loop.Break
+import net.asere.kotlin.js.dsl.syntax.loop.Continue
 import net.asere.kotlin.js.dsl.syntax.operation.eq
 import net.asere.kotlin.js.dsl.syntax.operation.lt
 import net.asere.kotlin.js.dsl.syntax.operation.postInc

@@ -2,56 +2,163 @@ package net.asere.kotlin.js.dsl.types.type
 
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.ArithmeticalComparable
+import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
+import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
+import net.asere.kotlin.js.dsl.syntax.value.JsBooleanSyntax
+import net.asere.kotlin.js.dsl.syntax.value.JsNumberSyntax
+import net.asere.kotlin.js.dsl.syntax.value.JsStringSyntax
 import net.asere.kotlin.js.dsl.types.reference.JsNumberRef
 import net.asere.kotlin.js.dsl.types.value.JsValue
 import net.asere.kotlin.js.dsl.types.value.value
 
+/**
+ * Represents a JavaScript number primitive value.
+ * This interface extends [JsValue] and [ArithmeticalComparable], allowing arithmetic operations and comparisons.
+ */
 interface JsNumber : JsValue, ArithmeticalComparable {
 
-    fun toExponential(fractionDigits: JsNumber? = null): JsSyntax {
-        val arg = fractionDigits?.let { "$it" } ?: ""
-        return JsSyntax("${this}.toExponential($arg)")
+    /**
+     * Returns a string representing the [JsNumber] object in exponential notation.
+     *
+     * In JavaScript, this corresponds to `number.toExponential(fractionDigits)`.
+     * @param fractionDigits An optional [JsNumber] specifying the number of digits after the decimal point.
+     * @return A [JsString] object representing the JavaScript method call that returns a string.
+     */
+    fun toExponential(fractionDigits: JsNumber? = null): JsString {
+        return JsStringSyntax(ChainOperation(this, InvocationOperation("toExponential", fractionDigits ?: undefined)))
     }
 
-    fun toFixed(digits: JsNumber? = null): JsSyntax {
-        val arg = digits?.let { "$it" } ?: ""
-        return JsSyntax("${this}.toFixed($arg)")
+    /**
+     * Returns a string representing the [JsNumber] object in fixed-point notation.
+     *
+     * In JavaScript, this corresponds to `number.toFixed(digits)`.
+     * @param digits An optional [JsNumber] specifying the number of digits to appear after the decimal point.
+     * @return A [JsNumber] object representing the JavaScript method call that returns a string.
+     */
+    fun toFixed(digits: JsNumber? = null): JsNumber {
+        return JsNumberSyntax(ChainOperation(this, InvocationOperation("toFixed", digits ?: undefined)))
     }
 
-    fun toLocaleString(locales: JsSyntax? = null, options: JsSyntax? = null): JsSyntax {
-        val localesArg = locales?.let { "$it" } ?: ""
-        val optionsArg = options?.let { ", $it" } ?: ""
-        return JsSyntax("${this}.toLocaleString($localesArg$optionsArg)")
+    /**
+     * Returns a string with a language-sensitive representation of this number.
+     *
+     * In JavaScript, this corresponds to `number.toLocaleString(locales, options)`.
+     * @param locales An optional [JsValue] representing a BCP 47 language tag or an array of such tags.
+     * @param options An optional [JsValue] representing an object with configuration properties.
+     * @return A [JsSyntax] object representing the JavaScript method call that returns a localized string.
+     */
+    fun toLocaleString(locales: JsValue? = null, options: JsValue? = null): JsSyntax {
+        return JsSyntax(ChainOperation(this, InvocationOperation("toLocaleString", locales ?: undefined, options ?: undefined)))
     }
 
-    fun toPrecision(precision: JsNumber? = null): JsSyntax {
-        val arg = precision?.let { "$it" } ?: ""
-        return JsSyntax("${this}.toPrecision($arg)")
+    /**
+     * Returns a string representing the [JsNumber] object to a specified precision.
+     *
+     * In JavaScript, this corresponds to `number.toPrecision(precision)`.
+     * @param precision An optional [JsNumber] specifying the number of significant digits.
+     * @return A [JsNumber] object representing the JavaScript method call that returns a string.
+     */
+    fun toPrecision(precision: JsNumber? = null): JsNumber {
+        return JsNumberSyntax(ChainOperation(this, InvocationOperation("toPrecision", precision ?: undefined)))
     }
 
-    fun toJsString(radix: JsNumber? = null): JsSyntax {
-        val arg = radix?.let { "$it" } ?: ""
-        return JsSyntax("${this}.toString($arg)")
+    /**
+     * Returns a string representing the [JsNumber] object.
+     *
+     * In JavaScript, this corresponds to `number.toString(radix)`.
+     * @param radix An optional [JsNumber] specifying the base (from 2 to 36) to use for representing numeric values.
+     * @return A [JsString] object representing the JavaScript method call that returns a string.
+     */
+    fun toJsString(radix: JsNumber? = null): JsString {
+        return JsStringSyntax(ChainOperation(this, InvocationOperation("toString", radix ?: undefined)))
     }
 
-    fun valueOf(): JsSyntax = JsSyntax("${this}.valueOf()")
+    /**
+     * Returns the primitive value of the [JsNumber] object.
+     *
+     * In JavaScript, this corresponds to `number.valueOf()`.
+     * @return A [JsNumber] object representing the JavaScript method call that returns the primitive value.
+     */
+    fun valueOf(): JsNumber = JsNumberSyntax(ChainOperation(this, InvocationOperation("valueOf")))
 
     companion object {
-        fun isFinite(value: JsNumber): JsSyntax = JsSyntax("Number.isFinite($value)")
+        /**
+         * Determines whether the passed value is a finite number.
+         *
+         * In JavaScript, this corresponds to `Number.isFinite(value)`.
+         * @param value The [JsNumber] to be tested.
+         * @return A [JsBoolean] object representing the JavaScript method call that returns a boolean.
+         */
+        fun isFinite(value: JsNumber): JsBoolean = JsBooleanSyntax(
+            ChainOperation(JsStringSyntax("Number"), InvocationOperation("isFinite", value))
+        )
 
-        fun isInteger(value: JsNumber): JsSyntax = JsSyntax("Number.isInteger($value)")
+        /**
+         * Determines whether the passed value is an integer.
+         *
+         * In JavaScript, this corresponds to `Number.isInteger(value)`.
+         * @param value The [JsNumber] to be tested.
+         * @return A [JsBoolean] object representing the JavaScript method call that returns a boolean.
+         */
+        fun isInteger(value: JsNumber): JsBoolean = JsBooleanSyntax(
+            ChainOperation(JsStringSyntax("Number"), InvocationOperation("isInteger", value))
+        )
 
-        fun isNaN(value: JsNumber): JsSyntax = JsSyntax("Number.isNaN($value)")
+        /**
+         * Determines whether the passed value is `NaN` (Not-a-Number).
+         *
+         * In JavaScript, this corresponds to `Number.isNaN(value)`.
+         * @param value The [JsNumber] to be tested.
+         * @return A [JsBoolean] object representing the JavaScript method call that returns a boolean.
+         */
+        fun isNaN(value: JsNumber): JsBoolean = JsBooleanSyntax(
+            ChainOperation(JsStringSyntax("Number"), InvocationOperation("isNaN", value))
+        )
 
-        fun isSafeInteger(value: JsNumber): JsSyntax = JsSyntax("Number.isSafeInteger($value)")
+        /**
+         * Determines whether the passed value is a safe integer.
+         *
+         * In JavaScript, this corresponds to `Number.isSafeInteger(value)`.
+         * @param value The [JsNumber] to be tested.
+         * @return A [JsBoolean] object representing the JavaScript method call that returns a boolean.
+         */
+        fun isSafeInteger(value: JsNumber): JsBoolean = JsBooleanSyntax(
+            ChainOperation(JsStringSyntax("Number"), InvocationOperation("isSafeInteger", value))
+        )
 
-        fun parseFloat(string: JsString): JsSyntax = JsSyntax("Number.parseFloat($string)")
+        /**
+         * Parses a string argument and returns a floating-point number.
+         *
+         * In JavaScript, this corresponds to `Number.parseFloat(string)`.
+         * @param string The [JsString] to be parsed.
+         * @return A [JsNumber] object representing the JavaScript method call that returns a number.
+         */
+        fun parseFloat(string: JsString): JsNumber =
+            JsNumberSyntax(
+                ChainOperation(JsStringSyntax("Number"),
+                    InvocationOperation("parseFloat", string)))
 
-        fun parseInt(string: JsString, radix: JsNumberRef? = null): JsSyntax {
-            val radixArg = radix?.let { ", $it" } ?: ""
-            return JsSyntax("Number.parseInt($string$radixArg)")
+        /**
+         * Parses a string argument and returns an integer of the specified radix (base).
+         *
+         * In JavaScript, this corresponds to `Number.parseInt(string, radix)`.
+         * @param string The [JsString] to be parsed.
+         * @param radix An optional [JsNumberRef] specifying the base of the number in the string.
+         * @return A [JsNumber] object representing the JavaScript method call that returns an integer.
+         */
+        fun parseInt(string: JsString, radix: JsNumberRef? = null): JsNumber {
+            return JsNumberSyntax(
+                ChainOperation(
+                    JsStringSyntax("Number"),
+                    InvocationOperation("parseInt", string, radix ?: undefined)
+                )
+            )
         }
     }
 }
 
+/**
+ * Extension property to convert a Kotlin [Number] to a [JsNumber] instance.
+ * This provides a convenient way to use Kotlin numbers directly in JavaScript DSL.
+ */
 val Number.js: JsNumber get() = JsNumber.value(this)
