@@ -4,12 +4,11 @@ import net.asere.kotlin.js.dsl.JsElement
 import net.asere.kotlin.js.dsl.types.reference.JsObjectRef
 import net.asere.kotlin.js.dsl.types.reference.JsReference
 
-class JsSyntaxScope : JsScriptScope(), JsElement {
+open class JsSyntaxScope : JsScriptScope(), JsElement {
 
     private val syntaxBuilder: JsSyntaxBuilder<JsReference<*>> = JsSyntaxBuilder(JsObjectRef())
 
     override fun append(syntax: JsSyntax) {
-        super.append(syntax)
         syntaxBuilder.append(syntax)
     }
 

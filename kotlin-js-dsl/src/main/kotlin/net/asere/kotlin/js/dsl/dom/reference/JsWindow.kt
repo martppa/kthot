@@ -1,9 +1,6 @@
 package net.asere.kotlin.js.dsl.dom.reference
 
-import net.asere.kotlin.js.dsl.dom.syntax.JsDomObjectSyntax
-import net.asere.kotlin.js.dsl.dom.syntax.JsHistorySyntax
-import net.asere.kotlin.js.dsl.dom.syntax.JsNavigatorSyntax
-import net.asere.kotlin.js.dsl.dom.syntax.JsScreenSyntax
+import net.asere.kotlin.js.dsl.dom.syntax.*
 import net.asere.kotlin.js.dsl.dom.syntax.location.JsLocationSyntax
 import net.asere.kotlin.js.dsl.dom.type.*
 import net.asere.kotlin.js.dsl.dom.type.event.JsDomEvent
@@ -328,8 +325,8 @@ object Window : JsObjectRef("window") {
     /**
      * Returns the [JsDomObject] representing the `document` object, which is the root of the DOM tree.
      */
-    val document: JsDomObject
-        get() = JsDomObjectSyntax(ChainOperation(this, "document"))
+    val document: JsDocument
+        get() = JsDocumentSyntax(ChainOperation(this, "document"))
 
     /**
      * Returns the [JsHistory] object, which provides access to the browser's session history.

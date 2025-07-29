@@ -1,9 +1,7 @@
-package net.asere.kotlin.js.dsl.dom.reference
+package net.asere.kotlin.js.dsl.dom.type
 
 import net.asere.kotlin.js.dsl.dom.syntax.JsDomArraySyntax
 import net.asere.kotlin.js.dsl.dom.syntax.JsDomObjectSyntax
-import net.asere.kotlin.js.dsl.dom.type.JsDomArray
-import net.asere.kotlin.js.dsl.dom.type.JsDomObject
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.types.type.JsString
@@ -15,7 +13,7 @@ import net.asere.kotlin.js.dsl.types.type.js
  *
  * This object is typically accessed via `window.document` or simply `document` in global scope.
  */
-object Document : JsDomObjectRef("document") {
+interface JsDocument : JsDomObject {
 
     /**
      * Returns a reference to the element by its ID.
@@ -112,4 +110,6 @@ object Document : JsDomObjectRef("document") {
      */
     fun createDocumentFragment(): JsDomObject =
         JsDomObjectSyntax(ChainOperation(this, InvocationOperation("createDocumentFragment")))
+
+    companion object
 }

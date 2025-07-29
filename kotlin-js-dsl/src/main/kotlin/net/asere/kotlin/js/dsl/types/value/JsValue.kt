@@ -11,9 +11,7 @@ import net.asere.kotlin.js.dsl.syntax.operation.operator.ChainingOperator
 import net.asere.kotlin.js.dsl.types.type.JsNumber
 import net.asere.kotlin.js.dsl.types.type.JsString
 
-interface JsValue : JsElement, Operable {
-    val chainOperator: ChainingOperator get() = Chain
-}
+interface JsValue : JsElement, Operable
 
 fun JsValue.raw(syntax: JsSyntax) = JsSyntax(ChainOperation(this, "$syntax"))
 fun JsValue.raw(syntax: String) = JsSyntax(ChainOperation(this, syntax))
