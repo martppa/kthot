@@ -5,7 +5,7 @@ import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxBuilder
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.type.`object`.JsObjectRef
-import net.asere.kotlin.js.dsl.type.reference.function.JsFunctionRefCommons
+import net.asere.kotlin.js.dsl.type.function.JsFunctionRefCommons
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 abstract class JsFunctionCommons<FunctionRef : JsFunctionRefCommons>(

@@ -1,12 +1,12 @@
-package net.asere.kotlin.js.dsl.type.function
+package net.asere.kotlin.js.dsl.type.function.f1
 
 import net.asere.kotlin.js.dsl.syntax.JsScriptScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.type.definition.JsDefinition
+import net.asere.kotlin.js.dsl.type.function.JsFunctionCommons
 import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.type.reference.ReferenceId
-import net.asere.kotlin.js.dsl.type.reference.function.JsFunction1Ref
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 /**

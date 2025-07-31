@@ -10,7 +10,8 @@ import net.asere.kotlin.js.dsl.syntax.operation.plus
 import net.asere.kotlin.js.dsl.type.array.JsArray
 import net.asere.kotlin.js.dsl.type.array.def
 import net.asere.kotlin.js.dsl.type.array.value
-import net.asere.kotlin.js.dsl.type.function.Function
+import net.asere.kotlin.js.dsl.type.function.f0.Function
+import net.asere.kotlin.js.dsl.type.function.f1.Function
 import net.asere.kotlin.js.dsl.type.lambda.JsLambda1
 import net.asere.kotlin.js.dsl.type.lambda.l2.JsLambda2
 import net.asere.kotlin.js.dsl.type.lambda.l2.def

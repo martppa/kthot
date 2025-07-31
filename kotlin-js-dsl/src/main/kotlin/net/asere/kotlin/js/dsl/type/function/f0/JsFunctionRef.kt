@@ -1,7 +1,8 @@
-package net.asere.kotlin.js.dsl.type.reference.function
+package net.asere.kotlin.js.dsl.type.function.f0
 
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
+import net.asere.kotlin.js.dsl.type.function.JsFunctionRefCommons
 
 /**
  * Represents a reference to a JavaScript function that takes no parameters.

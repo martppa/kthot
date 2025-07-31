@@ -9,12 +9,12 @@ import net.asere.kotlin.js.dsl.toSyntax
 import net.asere.kotlin.js.dsl.type.definition.JsDefinition
 import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.type.reference.JsValueRef
-import net.asere.kotlin.js.dsl.type.reference.function.JsFunctionRef
-import net.asere.kotlin.js.dsl.type.reference.function.JsFunctionRefCommons
+import net.asere.kotlin.js.dsl.type.function.JsFunctionRefCommons
 import net.asere.kotlin.js.dsl.type.lambda.JsLambdaRefCommons
 import net.asere.kotlin.js.dsl.type.function.JsFunctionCommons
 import net.asere.kotlin.js.dsl.type.bool.js
-import net.asere.kotlin.js.dsl.type.function.JsFunction0
+import net.asere.kotlin.js.dsl.type.function.f0.JsFunction0
+import net.asere.kotlin.js.dsl.type.function.f0.JsFunctionRef
 import net.asere.kotlin.js.dsl.type.number.js
 import net.asere.kotlin.js.dsl.type.string.js
 import net.asere.kotlin.js.dsl.type.value.JsValue

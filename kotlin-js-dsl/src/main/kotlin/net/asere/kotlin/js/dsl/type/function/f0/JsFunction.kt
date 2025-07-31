@@ -1,12 +1,11 @@
 @file:Suppress("UNCHECKED_CAST")
 
-package net.asere.kotlin.js.dsl.type.function
+package net.asere.kotlin.js.dsl.type.function.f0
 
 import net.asere.kotlin.js.dsl.syntax.JsScriptScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.type.reference.ReferenceId
-import net.asere.kotlin.js.dsl.type.reference.function.JsFunctionRef
 
 /**
  * Defines a JavaScript function with no parameters.
@@ -34,7 +33,7 @@ fun JsScriptScope.Function(
 
 /**
  * Represents a JavaScript function that takes no parameters.
- * This class is used internally by the [Function] DSL extension to build the JavaScript syntax for the function.
+ * This class is used internally by the [net.asere.kotlin.js.dsl.type.function.f1.Function] DSL extension to build the JavaScript syntax for the function.
  *
  * @param name The name of the function.
  * @param definition A lambda that defines the content of the function's body.
@@ -42,7 +41,7 @@ fun JsScriptScope.Function(
 class JsFunction0(
     name: String,
     private val definition: JsSyntaxScope.() -> Unit,
-) : JsFunctionCommons<JsFunctionRef>(name) {
+) : net.asere.kotlin.js.dsl.type.function.JsFunctionCommons<JsFunctionRef>(name) {
 
     /**
      * The [JsFunctionRef] instance that refers to this function.
