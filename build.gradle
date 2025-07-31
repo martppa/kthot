@@ -1,8 +1,9 @@
 import groovy.json.JsonSlurper
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '2.1.10'
-    id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
+    id 'org.jetbrains.kotlin.jvm' version '2.2.0'
+    id "io.github.gradle-nexus.publish-plugin" version "2.0.0"
+    id "com.google.devtools.ksp" version "2.2.0-2.0.2"
 }
 
 group = 'net.asere.kotlin'
@@ -15,6 +16,8 @@ repositories {
 dependencies {
     implementation project(path: ':kotlin-js-dsl-html')
     implementation project(path: ':kotlin-js-dsl')
+    implementation project(path: ':kotlin-js-dsl-ksp')
+    ksp project(path: ':kotlin-js-dsl-ksp')
     implementation "io.ktor:ktor-server-html-builder:3.0.3"
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }

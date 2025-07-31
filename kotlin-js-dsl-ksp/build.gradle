@@ -1,0 +1,23 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '2.2.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+group = 'net.asere.kotlin'
+version = '0.0.6'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.google.devtools.ksp:symbol-processing-api:2.2.0-2.0.2'
+    testImplementation 'org.jetbrains.kotlin:kotlin-test'
+}
+
+test {
+    useJUnitPlatform()
+}
