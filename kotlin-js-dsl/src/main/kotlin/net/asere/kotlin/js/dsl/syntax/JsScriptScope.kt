@@ -6,17 +6,17 @@ import net.asere.kotlin.js.dsl.syntax.operation.AssignmentOperation
 import net.asere.kotlin.js.dsl.syntax.operation.Operation
 import net.asere.kotlin.js.dsl.toLine
 import net.asere.kotlin.js.dsl.toSyntax
-import net.asere.kotlin.js.dsl.types.definition.JsDefinition
-import net.asere.kotlin.js.dsl.types.reference.JsReference
-import net.asere.kotlin.js.dsl.types.reference.JsValueRef
-import net.asere.kotlin.js.dsl.types.reference.function.JsFunctionRef
-import net.asere.kotlin.js.dsl.types.reference.function.JsFunctionRefCommons
-import net.asere.kotlin.js.dsl.types.reference.lambda.JsLambdaRefCommons
-import net.asere.kotlin.js.dsl.types.type.function.JsFunction0
-import net.asere.kotlin.js.dsl.types.type.function.JsFunctionCommons
-import net.asere.kotlin.js.dsl.types.type.js
-import net.asere.kotlin.js.dsl.types.value.JsValue
-import net.asere.kotlin.js.dsl.types.value.lambda.JsLambdaValueCommons
+import net.asere.kotlin.js.dsl.type.definition.JsDefinition
+import net.asere.kotlin.js.dsl.type.reference.JsReference
+import net.asere.kotlin.js.dsl.type.reference.JsValueRef
+import net.asere.kotlin.js.dsl.type.reference.function.JsFunctionRef
+import net.asere.kotlin.js.dsl.type.reference.function.JsFunctionRefCommons
+import net.asere.kotlin.js.dsl.type.reference.lambda.JsLambdaRefCommons
+import net.asere.kotlin.js.dsl.type.function.JsFunction0
+import net.asere.kotlin.js.dsl.type.function.JsFunctionCommons
+import net.asere.kotlin.js.dsl.type.bool.js
+import net.asere.kotlin.js.dsl.type.value.JsValue
+import net.asere.kotlin.js.dsl.type.value.lambda.JsLambdaValueCommons
 
 abstract class JsScriptScope {
 

@@ -7,17 +7,17 @@ import net.asere.kotlin.js.dsl.html.jsScript
 import net.asere.kotlin.js.dsl.log.Log
 import net.asere.kotlin.js.dsl.syntax.Return
 import net.asere.kotlin.js.dsl.syntax.operation.plus
-import net.asere.kotlin.js.dsl.types.reference.def
-import net.asere.kotlin.js.dsl.types.reference.lambda.def
-import net.asere.kotlin.js.dsl.types.type.JsArray
-import net.asere.kotlin.js.dsl.types.type.JsNumber
-import net.asere.kotlin.js.dsl.types.type.JsString
-import net.asere.kotlin.js.dsl.types.type.function.Function
-import net.asere.kotlin.js.dsl.types.type.js
-import net.asere.kotlin.js.dsl.types.type.lambda.JsLambda1
-import net.asere.kotlin.js.dsl.types.type.lambda.JsLambda2
-import net.asere.kotlin.js.dsl.types.value.lambda.jsLambda
-import net.asere.kotlin.js.dsl.types.value.value
+import net.asere.kotlin.js.dsl.type.array.def
+import net.asere.kotlin.js.dsl.type.reference.lambda.def
+import net.asere.kotlin.js.dsl.type.array.JsArray
+import net.asere.kotlin.js.dsl.type.number.JsNumber
+import net.asere.kotlin.js.dsl.type.string.JsString
+import net.asere.kotlin.js.dsl.type.function.Function
+import net.asere.kotlin.js.dsl.type.bool.js
+import net.asere.kotlin.js.dsl.type.lambda.JsLambda1
+import net.asere.kotlin.js.dsl.type.lambda.JsLambda2
+import net.asere.kotlin.js.dsl.type.value.lambda.jsLambda
+import net.asere.kotlin.js.dsl.type.array.value
 
 fun main(vararg args: String) {
     val result = createHTML().body {

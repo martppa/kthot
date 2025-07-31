@@ -1,6 +1,6 @@
 package net.asere.kotlin.js.dsl.syntax.loop.jsfor
 
-import net.asere.kotlin.js.dsl.types.reference.JsReference
+import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.syntax.JsDeclarationSyntax
 import net.asere.kotlin.js.dsl.syntax.JsScriptScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
@@ -8,9 +8,9 @@ import net.asere.kotlin.js.dsl.syntax.loop.JsLoopSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.Operation
 import net.asere.kotlin.js.dsl.syntax.run
 import net.asere.kotlin.js.dsl.tag.JsDsl
-import net.asere.kotlin.js.dsl.types.type.JsArray
-import net.asere.kotlin.js.dsl.types.type.lambda.JsLambda1
-import net.asere.kotlin.js.dsl.types.value.JsValue
+import net.asere.kotlin.js.dsl.type.array.JsArray
+import net.asere.kotlin.js.dsl.type.lambda.JsLambda1
+import net.asere.kotlin.js.dsl.type.value.JsValue
 
 class JsForSyntax(value: String) : JsLoopSyntax(value)
 

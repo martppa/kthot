@@ -1,6 +1,6 @@
 package net.asere.kotlin.js.dsl.syntax
 
-import net.asere.kotlin.js.dsl.types.value.JsValue
+import net.asere.kotlin.js.dsl.type.value.JsValue
 
 class JsDeclarationSyntax<T : JsValue>(
     innerObject: T,

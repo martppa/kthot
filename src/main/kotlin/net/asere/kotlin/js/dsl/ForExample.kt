@@ -14,14 +14,14 @@ import net.asere.kotlin.js.dsl.syntax.loop.Continue
 import net.asere.kotlin.js.dsl.syntax.operation.eq
 import net.asere.kotlin.js.dsl.syntax.operation.lt
 import net.asere.kotlin.js.dsl.syntax.operation.postInc
-import net.asere.kotlin.js.dsl.types.reference.def
-import net.asere.kotlin.js.dsl.types.type.JsArray
-import net.asere.kotlin.js.dsl.types.type.JsNumber
-import net.asere.kotlin.js.dsl.types.type.JsObject
-import net.asere.kotlin.js.dsl.types.type.js
-import net.asere.kotlin.js.dsl.types.value.get
-import net.asere.kotlin.js.dsl.types.value.lambda.jsLambda
-import net.asere.kotlin.js.dsl.types.value.value
+import net.asere.kotlin.js.dsl.type.array.def
+import net.asere.kotlin.js.dsl.type.array.JsArray
+import net.asere.kotlin.js.dsl.type.number.JsNumber
+import net.asere.kotlin.js.dsl.type.`object`.JsObject
+import net.asere.kotlin.js.dsl.type.bool.js
+import net.asere.kotlin.js.dsl.type.value.get
+import net.asere.kotlin.js.dsl.type.value.lambda.jsLambda
+import net.asere.kotlin.js.dsl.type.array.value
 
 fun main(vararg args: String) {
     val result = createHTML().body {

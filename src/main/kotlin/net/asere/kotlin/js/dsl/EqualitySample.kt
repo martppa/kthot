@@ -4,9 +4,9 @@ import net.asere.kotlin.js.dsl.declaration.Const
 import net.asere.kotlin.js.dsl.log.Console
 import net.asere.kotlin.js.dsl.syntax.js
 import net.asere.kotlin.js.dsl.syntax.operation.eq
-import net.asere.kotlin.js.dsl.types.reference.def
-import net.asere.kotlin.js.dsl.types.type.JsBoolean
-import net.asere.kotlin.js.dsl.types.type.js
+import net.asere.kotlin.js.dsl.type.array.def
+import net.asere.kotlin.js.dsl.type.bool.JsBoolean
+import net.asere.kotlin.js.dsl.type.bool.js
 
 fun main(vararg args: String) {
     val syntax = js {

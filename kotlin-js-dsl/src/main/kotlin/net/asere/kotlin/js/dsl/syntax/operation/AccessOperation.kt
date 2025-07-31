@@ -2,8 +2,8 @@ package net.asere.kotlin.js.dsl.syntax.operation
 
 import net.asere.kotlin.js.dsl.isNullable
 import net.asere.kotlin.js.dsl.syntax.operation.operator.*
-import net.asere.kotlin.js.dsl.syntax.value.JsObjectSyntax
-import net.asere.kotlin.js.dsl.types.value.JsValue
+import net.asere.kotlin.js.dsl.type.`object`.JsObjectSyntax
+import net.asere.kotlin.js.dsl.type.value.JsValue
 
 class AccessOperation(
     internal val operable: JsValue,

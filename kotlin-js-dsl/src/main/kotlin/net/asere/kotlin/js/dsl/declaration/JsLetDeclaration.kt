@@ -1,12 +1,11 @@
 package net.asere.kotlin.js.dsl.declaration
 
-import net.asere.kotlin.js.dsl.types.reference.JsReference
+import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.syntax.JsDeclarationSyntax
 import net.asere.kotlin.js.dsl.syntax.JsScriptScope
-import net.asere.kotlin.js.dsl.syntax.JsSyntaxBuilder
 import net.asere.kotlin.js.dsl.tag.JsDsl
-import net.asere.kotlin.js.dsl.types.definition.JsDefinition
-import net.asere.kotlin.js.dsl.types.value.JsValue
+import net.asere.kotlin.js.dsl.type.definition.JsDefinition
+import net.asere.kotlin.js.dsl.type.value.JsValue
 
 class JsLetDeclaration(
     jsObject: JsReference<*>,

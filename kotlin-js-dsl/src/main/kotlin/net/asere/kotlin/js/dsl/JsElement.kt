@@ -2,8 +2,7 @@ package net.asere.kotlin.js.dsl
 
 import net.asere.kotlin.js.dsl.syntax.JsLine
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
-import net.asere.kotlin.js.dsl.types.reference.JsReference
-import net.asere.kotlin.js.dsl.types.reference.JsValueRef
+import net.asere.kotlin.js.dsl.type.reference.JsValueRef
 
 interface JsElement {
     fun present(): String

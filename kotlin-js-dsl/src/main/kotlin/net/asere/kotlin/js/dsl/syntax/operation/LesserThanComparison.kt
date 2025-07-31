@@ -3,7 +3,6 @@ package net.asere.kotlin.js.dsl.syntax.operation
 import net.asere.kotlin.js.dsl.syntax.operation.operator.ArithmeticalOperator
 import net.asere.kotlin.js.dsl.syntax.operation.operator.LesserThan
 import net.asere.kotlin.js.dsl.syntax.value.JsNumberSyntax
-import net.asere.kotlin.js.dsl.types.type.JsNumber
 
 class LesserThanComparison(
     override val leftHand: Operable,
