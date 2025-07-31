@@ -1,8 +1,8 @@
 package net.asere.kotlin.js.dsl.dom.type.screen
 
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
-import net.asere.kotlin.js.dsl.syntax.value.JsNumberSyntax
 import net.asere.kotlin.js.dsl.type.number.JsNumber
+import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
 import net.asere.kotlin.js.dsl.type.`object`.JsObject
 
 /**

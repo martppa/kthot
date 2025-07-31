@@ -5,12 +5,12 @@ import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.AccessOperation
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
-import net.asere.kotlin.js.dsl.syntax.value.JsNumberSyntax
 import net.asere.kotlin.js.dsl.syntax.JsReferenceSyntax
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.`object`.JsObject
 import net.asere.kotlin.js.dsl.type.lambda.JsLambda1
-import net.asere.kotlin.js.dsl.type.lambda.JsLambda2
+import net.asere.kotlin.js.dsl.type.lambda.l2.JsLambda2
+import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 /**

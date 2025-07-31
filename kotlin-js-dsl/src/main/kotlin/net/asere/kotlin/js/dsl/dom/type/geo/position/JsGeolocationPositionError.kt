@@ -1,12 +1,12 @@
 package net.asere.kotlin.js.dsl.dom.type.geo.position
 
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
-import net.asere.kotlin.js.dsl.syntax.value.JsNumberSyntax
 import net.asere.kotlin.js.dsl.type.string.JsStringSyntax
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.`object`.JsObject
 import net.asere.kotlin.js.dsl.type.string.JsString
-import net.asere.kotlin.js.dsl.type.array.value
+import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
+import net.asere.kotlin.js.dsl.type.number.value
 
 /**
  * Represents the `GeolocationPositionError` object, providing details about a geolocation error.
@@ -37,14 +37,14 @@ interface JsGeolocationPositionError : JsObject {
         /**
          * Error code constant: The user denied permission to access location.
          */
-        val PERMISSION_DENIED: JsNumber get() = value(1)
+        val PERMISSION_DENIED: JsNumber get() = JsNumber.value(1)
         /**
          * Error code constant: The position of the device could not be determined.
          */
-        val POSITION_UNAVAILABLE: JsNumber get() = value(2)
+        val POSITION_UNAVAILABLE: JsNumber get() = JsNumber.value(2)
         /**
          * Error code constant: The request timed out.
          */
-        val TIMEOUT: JsNumber get() = value(3)
+        val TIMEOUT: JsNumber get() = JsNumber.value(3)
     }
 }

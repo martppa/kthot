@@ -2,6 +2,7 @@ package net.asere.kotlin.js.dsl.type.error
 
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.type.number.js
+import net.asere.kotlin.js.dsl.type.string.js
 import net.asere.kotlin.js.dsl.type.value.JsRawValue
 
 class JsErrorValue internal constructor(

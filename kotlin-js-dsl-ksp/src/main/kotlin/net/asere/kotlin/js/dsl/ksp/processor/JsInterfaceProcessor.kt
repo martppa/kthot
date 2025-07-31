@@ -12,6 +12,7 @@ import net.asere.kotlin.js.dsl.ksp.extension.fullName
 import net.asere.kotlin.js.dsl.ksp.extension.name
 import net.asere.kotlin.js.dsl.ksp.extension.typeFullName
 import net.asere.kotlin.js.dsl.ksp.extension.typeName
+import net.asere.kotlin.js.dsl.ksp.extension.typePackage
 import java.io.OutputStreamWriter
 
 class JsInterfaceProcessor(
@@ -66,6 +67,7 @@ class JsInterfaceProcessor(
         codeBuilder.append("import ${declaration.fullName}\n")
         declaration.getAllProperties().filter { it.getVisibility() == Visibility.PUBLIC }.forEach { property ->
             codeBuilder.append("import ${property.typeFullName}\n")
+            codeBuilder.append("import ${property.typePackage}.ref\n")
         }
         codeBuilder.append("\n")
     }

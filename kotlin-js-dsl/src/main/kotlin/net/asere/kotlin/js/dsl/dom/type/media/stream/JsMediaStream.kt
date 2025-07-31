@@ -6,14 +6,13 @@ import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.array.JsArraySyntax
-import net.asere.kotlin.js.dsl.syntax.value.JsBooleanSyntax
 import net.asere.kotlin.js.dsl.type.string.JsStringSyntax
 import net.asere.kotlin.js.dsl.type.array.JsArray
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
+import net.asere.kotlin.js.dsl.type.bool.JsBooleanSyntax
 import net.asere.kotlin.js.dsl.type.`object`.JsObject
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.js
-import net.asere.kotlin.js.dsl.type.type.*
 
 /**
  * Represents a JavaScript `MediaStream` object, which is a stream of media content.

@@ -2,10 +2,10 @@ package net.asere.kotlin.js.dsl.dom.type.event.mouse
 
 import net.asere.kotlin.js.dsl.dom.type.event.dom.JsDomEvent
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
-import net.asere.kotlin.js.dsl.syntax.value.JsBooleanSyntax
-import net.asere.kotlin.js.dsl.syntax.value.JsNumberSyntax
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
+import net.asere.kotlin.js.dsl.type.bool.JsBooleanSyntax
 import net.asere.kotlin.js.dsl.type.number.JsNumber
+import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
 
 /**
  * Represents a JavaScript `MouseEvent` object, which is dispatched when a mouse event occurs

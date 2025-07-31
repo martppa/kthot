@@ -1,13 +1,12 @@
-package net.asere.kotlin.js.dsl.type.value.lambda
+package net.asere.kotlin.js.dsl.type.lambda
 
 import net.asere.kotlin.js.dsl.extension.unaryPlus
-import net.asere.kotlin.js.dsl.type.`object`.JsObjectRef
-import net.asere.kotlin.js.dsl.type.reference.lambda.ref
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxBuilder
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
-import net.asere.kotlin.js.dsl.type.array.ref
 import net.asere.kotlin.js.dsl.type.`object`.JsObject
+import net.asere.kotlin.js.dsl.type.`object`.JsObjectRef
+import net.asere.kotlin.js.dsl.type.`object`.ref
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 abstract class JsLambdaValueCommons : JsValue {

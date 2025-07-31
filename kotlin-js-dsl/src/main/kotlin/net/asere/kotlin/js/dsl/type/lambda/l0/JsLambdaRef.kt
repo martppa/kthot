@@ -1,10 +1,9 @@
-package net.asere.kotlin.js.dsl.type.reference.lambda
+package net.asere.kotlin.js.dsl.type.lambda.l0
 
 import net.asere.kotlin.js.dsl.type.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.type.reference.ReferenceId
-import net.asere.kotlin.js.dsl.type.lambda.JsLambda
 import net.asere.kotlin.js.dsl.type.lambda.JsLambda1
-import net.asere.kotlin.js.dsl.type.value.lambda.JsLambdaValue
+import net.asere.kotlin.js.dsl.type.lambda.JsLambdaRefCommons
 
 fun JsLambdaValue.Companion.ref(name: String = "lambda_${ReferenceId.nextRefInt()}") = JsLambdaRef(name)
 

@@ -43,7 +43,7 @@ fun <Param1Ref: JsReference<Param1>, Param1 : JsValue> JsScriptScope.Function(
 
 /**
  * Represents a JavaScript function that takes one parameter.
- * This class is used internally by the [Function] DSL extension to build the JavaScript syntax for the function.
+ * This class is used internally by the [net.asere.kotlin.js.dsl.type.lambda.l0.Function] DSL extension to build the JavaScript syntax for the function.
  *
  * @param Param1Ref The type of the [JsReference] for the first parameter.
  * @param Param1 The type of the first parameter's value.

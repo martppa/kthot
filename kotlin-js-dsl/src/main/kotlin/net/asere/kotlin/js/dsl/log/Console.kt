@@ -3,6 +3,7 @@ package net.asere.kotlin.js.dsl.log
 import net.asere.kotlin.js.dsl.JsElement
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
+import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.`object`.JsObjectRef
 import net.asere.kotlin.js.dsl.type.array.JsArray
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
@@ -10,6 +11,7 @@ import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.bool.js
 import net.asere.kotlin.js.dsl.type.value.JsValue
 import net.asere.kotlin.js.dsl.type.array.value
+import net.asere.kotlin.js.dsl.type.string.js
 
 /**
  * Represents the JavaScript `console` object, providing access to the browser's debugging console.
@@ -23,7 +25,7 @@ object Console : JsObjectRef("console") {
      * @param element The [JsElement] object to log.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun log(element: JsElement) = JsSyntax(ChainOperation(this, "log(${element.present()})"))
+    fun log(element: JsElement) = JsSyntax(ChainOperation(this, "log($element)"))
 
     /**
      * Outputs a message to the web console.
@@ -32,7 +34,7 @@ object Console : JsObjectRef("console") {
      * @param text The [String] to log.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun log(text: String) = JsSyntax(ChainOperation(this, "log(${text.js.present()})"))
+    fun log(text: String) = JsSyntax(ChainOperation(this, "log(${text.js})"))
 
     /**
      * Outputs a warning message to the web console.
@@ -41,7 +43,7 @@ object Console : JsObjectRef("console") {
      * @param message The [JsValue] object to log as a warning.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun warn(message: JsValue) = JsSyntax(ChainOperation(this, "warn(${message.present()})"))
+    fun warn(message: JsValue) = JsSyntax(ChainOperation(this, "warn($message)"))
 
     /**
      * Outputs a warning message to the web console.
@@ -59,7 +61,7 @@ object Console : JsObjectRef("console") {
      * @param message The [JsValue] object to log as an error.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun error(message: JsValue) = JsSyntax(ChainOperation(this, "error(${message.present()})"))
+    fun error(message: JsValue) = JsSyntax(ChainOperation(this, "error($message)"))
 
     /**
      * Outputs an error message to the web console.
@@ -77,7 +79,7 @@ object Console : JsObjectRef("console") {
      * @param message The [JsValue] object to log as info.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun info(message: JsValue) = JsSyntax(ChainOperation(this, "info(${message.present()})"))
+    fun info(message: JsValue) = JsSyntax(ChainOperation(this, "info($message)"))
 
     /**
      * Outputs an informational message to the web console.
@@ -95,7 +97,7 @@ object Console : JsObjectRef("console") {
      * @param message The [JsValue] object to log as debug.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun debug(message: JsValue) = JsSyntax(ChainOperation(this, "debug(${message.present()})"))
+    fun debug(message: JsValue) = JsSyntax(ChainOperation(this, "debug($message)"))
 
     /**
      * Outputs a debug message to the web console.
@@ -122,7 +124,7 @@ object Console : JsObjectRef("console") {
      * @param label The label for the timer as a [JsString] object.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun time(label: JsString) = JsSyntax(ChainOperation(this, "time(${label.present()})"))
+    fun time(label: JsString) = JsSyntax(ChainOperation(this, "time($label)"))
     fun time(label: String) = time(label.js)
 
     /**
@@ -132,7 +134,7 @@ object Console : JsObjectRef("console") {
      * @param label The label of the timer to stop as a [JsString] object.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun timeEnd(label: JsString) = JsSyntax(ChainOperation(this, "timeEnd(${label.present()})"))
+    fun timeEnd(label: JsString) = JsSyntax(ChainOperation(this, "timeEnd($label)"))
     fun timeEnd(label: String) = timeEnd(label.js)
 
     /**
@@ -144,7 +146,7 @@ object Console : JsObjectRef("console") {
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
     fun assert(condition: JsBoolean, message: JsValue) =
-        JsSyntax(ChainOperation(this, "assert(${condition.present()}, ${message.present()})"))
+        JsSyntax(ChainOperation(this, "assert($condition, $message)"))
 
     fun assert(condition: Boolean, message: String) = assert(condition.js, message.js)
 
@@ -157,7 +159,8 @@ object Console : JsObjectRef("console") {
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
     fun group(label: JsString? = null) =
-        JsSyntax(ChainOperation(this, "group(${label?.present() ?: ""})"))
+        JsSyntax(ChainOperation(this, "group(${label ?: ""})"))
+
     fun group(label: String) = group(label.js)
 
     /**
@@ -166,7 +169,7 @@ object Console : JsObjectRef("console") {
      * In JavaScript, this corresponds to `console.groupEnd()`.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun groupEnd() = JsSyntax(ChainOperation(this, "groupEnd()"))
+    fun groupEnd() = JsSyntax(ChainOperation(this, InvocationOperation("groupEnd")))
 
     /**
      * Creates a new inline group in the console that is initially collapsed.
@@ -176,7 +179,7 @@ object Console : JsObjectRef("console") {
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
     fun groupCollapsed(label: JsString? = null) =
-        JsSyntax(ChainOperation(this, "groupCollapsed(${label?.present() ?: ""})"))
+        JsSyntax(ChainOperation(this, "groupCollapsed(${label ?: ""})"))
 
     fun groupCollapsed(label: String) = groupCollapsed(label.js)
 
@@ -189,8 +192,10 @@ object Console : JsObjectRef("console") {
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
     fun table(data: JsValue, properties: JsArray<JsString>? = null) =
-        JsSyntax(ChainOperation(leftHand = this,
-            rightHand = "table(${data.present()}${properties?.let { ", ${it.present()}" } ?: ""})"))
+        JsSyntax(
+            ChainOperation(
+                leftHand = this,
+            rightHand = "table($data${properties?.let { ", $it" } ?: ""})"))
 
     fun table(data: JsValue, vararg properties: String) =
         table(data, JsArray.value(*properties.map { it.js }.toTypedArray()))

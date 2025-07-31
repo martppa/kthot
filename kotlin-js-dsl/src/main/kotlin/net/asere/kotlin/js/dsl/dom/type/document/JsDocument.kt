@@ -7,7 +7,7 @@ import net.asere.kotlin.js.dsl.dom.type.`object`.JsDomObjectSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.string.JsString
-import net.asere.kotlin.js.dsl.type.bool.js
+import net.asere.kotlin.js.dsl.type.string.js
 
 /**
  * Represents the JavaScript `document` object, which serves as the entry point into the web page's

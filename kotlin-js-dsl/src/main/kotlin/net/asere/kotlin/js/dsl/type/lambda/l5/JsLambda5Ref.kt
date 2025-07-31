@@ -1,8 +1,8 @@
-package net.asere.kotlin.js.dsl.type.reference.lambda
+package net.asere.kotlin.js.dsl.type.lambda.l5
 
 import net.asere.kotlin.js.dsl.type.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.type.reference.ReferenceId
-import net.asere.kotlin.js.dsl.type.lambda.JsLambda5
+import net.asere.kotlin.js.dsl.type.lambda.JsLambdaRefCommons
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 class JsLambda5Ref<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Param5 : JsValue>(

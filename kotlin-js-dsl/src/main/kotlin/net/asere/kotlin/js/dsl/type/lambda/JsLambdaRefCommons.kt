@@ -1,4 +1,4 @@
-package net.asere.kotlin.js.dsl.type.reference.lambda
+package net.asere.kotlin.js.dsl.type.lambda
 
 import net.asere.kotlin.js.dsl.type.reference.JsValueRef
 import net.asere.kotlin.js.dsl.type.value.JsValue

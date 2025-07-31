@@ -2,7 +2,7 @@ package net.asere.kotlin.js.dsl.syntax.operation
 
 import net.asere.kotlin.js.dsl.syntax.operation.operator.ArithmeticalOperator
 import net.asere.kotlin.js.dsl.syntax.operation.operator.GreaterThan
-import net.asere.kotlin.js.dsl.syntax.value.JsNumberSyntax
+import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
 
 class GreaterThanComparison(
     override val leftHand: Operable,

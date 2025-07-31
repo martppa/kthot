@@ -3,12 +3,12 @@ package net.asere.kotlin.js.dsl.type.string
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.array.JsArraySyntax
-import net.asere.kotlin.js.dsl.syntax.value.JsBooleanSyntax
-import net.asere.kotlin.js.dsl.syntax.value.JsNumberSyntax
 import net.asere.kotlin.js.dsl.type.array.JsArray
 import net.asere.kotlin.js.dsl.type.value.JsValue
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
+import net.asere.kotlin.js.dsl.type.bool.JsBooleanSyntax
 import net.asere.kotlin.js.dsl.type.number.JsNumber
+import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
 import net.asere.kotlin.js.dsl.type.undefined
 
 /**

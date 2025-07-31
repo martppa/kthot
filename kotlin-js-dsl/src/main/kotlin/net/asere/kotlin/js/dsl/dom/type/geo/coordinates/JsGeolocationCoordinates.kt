@@ -1,10 +1,10 @@
 package net.asere.kotlin.js.dsl.dom.type.geo.coordinates
 
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
-import net.asere.kotlin.js.dsl.syntax.value.JsNumberSyntax
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.`object`.JsObject
 import net.asere.kotlin.js.dsl.dom.type.geo.position.JsGeolocationPosition
+import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
 
 /**
  * Represents the `GeolocationCoordinates` object, containing the detailed geographical coordinates.

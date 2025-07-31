@@ -6,7 +6,9 @@ import net.asere.kotlin.js.dsl.syntax.js
 import net.asere.kotlin.js.dsl.syntax.operation.eq
 import net.asere.kotlin.js.dsl.type.array.def
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
+import net.asere.kotlin.js.dsl.type.bool.def
 import net.asere.kotlin.js.dsl.type.bool.js
+import net.asere.kotlin.js.dsl.type.number.js
 
 fun main(vararg args: String) {
     val syntax = js {

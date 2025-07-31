@@ -7,6 +7,7 @@ import net.asere.kotlin.js.dsl.type.string.JsStringSyntax
 import net.asere.kotlin.js.dsl.type.`object`.JsObject
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.bool.js
+import net.asere.kotlin.js.dsl.type.string.js
 
 /**
  * Represents the JavaScript `Location` object, which contains information about the current URL

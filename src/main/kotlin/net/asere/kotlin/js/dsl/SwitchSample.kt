@@ -9,6 +9,8 @@ import net.asere.kotlin.js.dsl.syntax.loop.Break
 import net.asere.kotlin.js.dsl.type.array.def
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.bool.js
+import net.asere.kotlin.js.dsl.type.number.def
+import net.asere.kotlin.js.dsl.type.number.js
 
 fun main(vararg args: String) {
     val syntax = js {

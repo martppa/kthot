@@ -6,10 +6,12 @@ import net.asere.kotlin.js.dsl.syntax.js
 import net.asere.kotlin.js.dsl.syntax.operation.minus
 import net.asere.kotlin.js.dsl.syntax.operation.plus
 import net.asere.kotlin.js.dsl.syntax.operation.times
-import net.asere.kotlin.js.dsl.type.array.def
 import net.asere.kotlin.js.dsl.type.number.JsNumber
+import net.asere.kotlin.js.dsl.type.number.def
+import net.asere.kotlin.js.dsl.type.number.js
 import net.asere.kotlin.js.dsl.type.string.JsString
-import net.asere.kotlin.js.dsl.type.bool.js
+import net.asere.kotlin.js.dsl.type.string.def
+import net.asere.kotlin.js.dsl.type.string.js
 
 fun main(vararg args: String) {
     val syntax = js {

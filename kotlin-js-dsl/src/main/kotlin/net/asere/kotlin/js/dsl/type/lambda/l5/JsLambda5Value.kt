@@ -1,11 +1,11 @@
-package net.asere.kotlin.js.dsl.type.value.lambda
+package net.asere.kotlin.js.dsl.type.lambda.l5
 
 import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.type.definition.JsDefinition
-import net.asere.kotlin.js.dsl.type.lambda.JsLambda5
 import net.asere.kotlin.js.dsl.type.value.JsValue
+import net.asere.kotlin.js.dsl.type.lambda.JsLambdaValueCommons
 
 class JsLambda5Value<
         Param1Ref: JsReference<Param1>, Param1 : JsValue,

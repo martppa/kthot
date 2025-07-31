@@ -5,6 +5,7 @@ import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.type.definition.JsDefinition
 import net.asere.kotlin.js.dsl.type.lambda.JsLambda1
+import net.asere.kotlin.js.dsl.type.lambda.JsLambdaValueCommons
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 class JsLambda1Value<Param1Ref: JsReference<Param1>, Param1 : JsValue> internal constructor(

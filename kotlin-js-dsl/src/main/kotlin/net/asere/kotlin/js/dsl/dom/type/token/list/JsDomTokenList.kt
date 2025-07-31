@@ -4,18 +4,17 @@ import net.asere.kotlin.js.dsl.dom.type.`object`.JsDomObject
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
-import net.asere.kotlin.js.dsl.syntax.value.JsBooleanSyntax
-import net.asere.kotlin.js.dsl.syntax.value.JsNumberSyntax
 import net.asere.kotlin.js.dsl.type.string.JsStringSyntax
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
+import net.asere.kotlin.js.dsl.type.bool.JsBooleanSyntax
 import net.asere.kotlin.js.dsl.type.bool.js
 import net.asere.kotlin.js.dsl.type.number.JsNumber
+import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
 import net.asere.kotlin.js.dsl.type.number.js
 import net.asere.kotlin.js.dsl.type.`object`.JsObject
 import net.asere.kotlin.js.dsl.type.reference.lambda.JsLambda1Ref
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.js
-import net.asere.kotlin.js.dsl.type.type.*
 import net.asere.kotlin.js.dsl.type.undefined
 
 /**
@@ -75,8 +74,11 @@ interface JsDomTokenList : JsObject {
      * @return A [net.asere.kotlin.js.dsl.type.bool.JsBoolean] object indicating whether the token is now present in the list.
      */
     fun toggle(token: JsString, force: JsBoolean? = null): JsBoolean =
-        JsBooleanSyntax(ChainOperation(this,
-            InvocationOperation("toggle", token, force ?: undefined))
+        JsBooleanSyntax(
+            ChainOperation(
+                this,
+                InvocationOperation("toggle", token, force ?: undefined)
+            )
         )
     fun toggle(token: String, force: Boolean? = null): JsBoolean = toggle(token.js, force?.js)
 

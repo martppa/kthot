@@ -7,17 +7,21 @@ import net.asere.kotlin.js.dsl.html.jsScript
 import net.asere.kotlin.js.dsl.log.Log
 import net.asere.kotlin.js.dsl.syntax.Return
 import net.asere.kotlin.js.dsl.syntax.operation.plus
-import net.asere.kotlin.js.dsl.type.array.def
-import net.asere.kotlin.js.dsl.type.reference.lambda.def
 import net.asere.kotlin.js.dsl.type.array.JsArray
-import net.asere.kotlin.js.dsl.type.number.JsNumber
-import net.asere.kotlin.js.dsl.type.string.JsString
-import net.asere.kotlin.js.dsl.type.function.Function
-import net.asere.kotlin.js.dsl.type.bool.js
-import net.asere.kotlin.js.dsl.type.lambda.JsLambda1
-import net.asere.kotlin.js.dsl.type.lambda.JsLambda2
-import net.asere.kotlin.js.dsl.type.value.lambda.jsLambda
+import net.asere.kotlin.js.dsl.type.array.def
 import net.asere.kotlin.js.dsl.type.array.value
+import net.asere.kotlin.js.dsl.type.function.Function
+import net.asere.kotlin.js.dsl.type.lambda.JsLambda1
+import net.asere.kotlin.js.dsl.type.lambda.l2.JsLambda2
+import net.asere.kotlin.js.dsl.type.lambda.l2.def
+import net.asere.kotlin.js.dsl.type.lambda.l2.jsLambda
+import net.asere.kotlin.js.dsl.type.number.JsNumber
+import net.asere.kotlin.js.dsl.type.number.js
+import net.asere.kotlin.js.dsl.type.reference.lambda.def
+import net.asere.kotlin.js.dsl.type.string.JsString
+import net.asere.kotlin.js.dsl.type.string.def
+import net.asere.kotlin.js.dsl.type.string.js
+import net.asere.kotlin.js.dsl.type.value.lambda.jsLambda
 
 fun main(vararg args: String) {
     val result = createHTML().body {
@@ -42,7 +46,8 @@ fun main(vararg args: String) {
             ) { item ->
                 Log(item)
             }
-            val numberCollection = Const { JsArray.def<JsNumber>("numberCollection") } `=` JsArray.value(100.js, 200.js, 300.js)
+            val numberCollection =
+                Const { JsArray.def<JsNumber>("numberCollection") } `=` JsArray.value(100.js, 200.js, 300.js)
             +numberCollection.forEach(printItem)
         }
     }

@@ -26,7 +26,6 @@ import net.asere.kotlin.js.dsl.dom.type.screen.JsScreen
 import net.asere.kotlin.js.dsl.dom.type.screen.JsScreenSyntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
-import net.asere.kotlin.js.dsl.syntax.value.JsNumberSyntax
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
 import net.asere.kotlin.js.dsl.type.bool.JsBooleanSyntax
 import net.asere.kotlin.js.dsl.type.number.JsNumber
@@ -35,9 +34,9 @@ import net.asere.kotlin.js.dsl.type.`object`.JsObjectRef
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.JsStringSyntax
 import net.asere.kotlin.js.dsl.type.string.js
-import net.asere.kotlin.js.dsl.type.type.*
-import net.asere.kotlin.js.dsl.type.lambda.JsLambda
+import net.asere.kotlin.js.dsl.type.lambda.l0.JsLambda
 import net.asere.kotlin.js.dsl.type.lambda.JsLambda1
+import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
 
 /**
  * Represents the JavaScript `window` object, which is the global object in client-side JavaScript.
