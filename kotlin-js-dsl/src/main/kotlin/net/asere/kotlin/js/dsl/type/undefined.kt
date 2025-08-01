@@ -1,7 +1,7 @@
 package net.asere.kotlin.js.dsl.type
 
 import net.asere.kotlin.js.dsl.tag.JsDsl
-import net.asere.kotlin.js.dsl.type.`object`.JsObjectSyntax
+import net.asere.kotlin.js.dsl.type.obj.JsObjectSyntax
 
 /**
  * Represents the JavaScript `undefined` primitive value.

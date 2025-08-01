@@ -5,7 +5,7 @@ import net.asere.kotlin.js.dsl.dom.type.geo.coordinates.JsGeolocationCoordinates
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
-import net.asere.kotlin.js.dsl.type.`object`.JsObject
+import net.asere.kotlin.js.dsl.type.obj.JsObject
 
 /**
  * Represents the `GeolocationPosition` object, containing the device's geographical position.

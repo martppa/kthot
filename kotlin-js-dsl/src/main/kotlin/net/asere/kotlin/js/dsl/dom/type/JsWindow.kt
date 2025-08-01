@@ -30,7 +30,7 @@ import net.asere.kotlin.js.dsl.type.bool.JsBoolean
 import net.asere.kotlin.js.dsl.type.bool.JsBooleanSyntax
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.js
-import net.asere.kotlin.js.dsl.type.`object`.JsObjectRef
+import net.asere.kotlin.js.dsl.type.obj.JsObjectRef
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.JsStringSyntax
 import net.asere.kotlin.js.dsl.type.string.js
@@ -346,7 +346,7 @@ object Window : JsObjectRef("window") {
         get() = JsLocationSyntax(ChainOperation(this, "location"))
 
     /**
-     * Returns the [net.asere.kotlin.js.dsl.dom.type.object.JsDomObject] representing the `document` object, which is the root of the DOM tree.
+     * Returns the [net.asere.kotlin.js.dsl.dom.type.obj.JsDomObject] representing the `document` object, which is the root of the DOM tree.
      */
     val document: JsDocument
         get() = JsDocumentSyntax(ChainOperation(this, "document"))

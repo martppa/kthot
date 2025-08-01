@@ -2,7 +2,7 @@ package net.asere.kotlin.js.dsl.syntax.operation
 
 import net.asere.kotlin.js.dsl.isNullable
 import net.asere.kotlin.js.dsl.syntax.operation.operator.*
-import net.asere.kotlin.js.dsl.type.`object`.JsObjectSyntax
+import net.asere.kotlin.js.dsl.type.obj.JsObjectSyntax
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 class AccessOperation(

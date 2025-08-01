@@ -4,7 +4,7 @@ import net.asere.kotlin.js.dsl.isNullable
 import net.asere.kotlin.js.dsl.syntax.operation.operator.Chain
 import net.asere.kotlin.js.dsl.syntax.operation.operator.ChainingOperator
 import net.asere.kotlin.js.dsl.syntax.operation.operator.OptionalChain
-import net.asere.kotlin.js.dsl.type.`object`.JsObjectSyntax
+import net.asere.kotlin.js.dsl.type.obj.JsObjectSyntax
 
 class ChainOperation(
     override val leftHand: Operable,

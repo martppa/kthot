@@ -1,4 +1,4 @@
-package net.asere.kotlin.js.dsl.dom.type.`object`
+package net.asere.kotlin.js.dsl.dom.type.obj
 
 import net.asere.kotlin.js.dsl.dom.type.array.JsDomArray
 import net.asere.kotlin.js.dsl.dom.type.array.JsDomArraySyntax

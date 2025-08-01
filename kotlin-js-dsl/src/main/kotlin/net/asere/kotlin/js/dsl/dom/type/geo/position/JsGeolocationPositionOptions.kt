@@ -1,6 +1,6 @@
 package net.asere.kotlin.js.dsl.dom.type.geo.position
 
-import net.asere.kotlin.js.dsl.type.`object`.JsObject
+import net.asere.kotlin.js.dsl.type.obj.JsObject
 
 /**
  * Represents the JavaScript `PositionOptions` object, used to configure geolocation requests.

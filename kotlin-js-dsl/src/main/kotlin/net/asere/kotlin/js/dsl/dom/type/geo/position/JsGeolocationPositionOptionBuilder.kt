@@ -1,7 +1,7 @@
 package net.asere.kotlin.js.dsl.dom.type.geo.position
 
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
-import net.asere.kotlin.js.dsl.type.`object`.JsObjectBuilder
+import net.asere.kotlin.js.dsl.type.obj.JsObjectBuilder
 import net.asere.kotlin.js.dsl.type.bool.js
 import net.asere.kotlin.js.dsl.type.number.js
 

@@ -1,9 +1,9 @@
 package net.asere.kotlin.js.dsl.dom.type.document
 
 import net.asere.kotlin.js.dsl.dom.type.array.JsDomArray
-import net.asere.kotlin.js.dsl.dom.type.`object`.JsDomObject
+import net.asere.kotlin.js.dsl.dom.type.obj.JsDomObject
 import net.asere.kotlin.js.dsl.dom.type.array.JsDomArraySyntax
-import net.asere.kotlin.js.dsl.dom.type.`object`.JsDomObjectSyntax
+import net.asere.kotlin.js.dsl.dom.type.obj.JsDomObjectSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.string.JsString

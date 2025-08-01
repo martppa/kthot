@@ -1,4 +1,4 @@
-package net.asere.kotlin.js.dsl.type.`object`
+package net.asere.kotlin.js.dsl.type.obj
 
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.type.value.JsRawValue

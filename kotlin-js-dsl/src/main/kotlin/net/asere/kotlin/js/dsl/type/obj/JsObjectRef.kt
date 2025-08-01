@@ -1,4 +1,4 @@
-package net.asere.kotlin.js.dsl.type.`object`
+package net.asere.kotlin.js.dsl.type.obj
 
 import net.asere.kotlin.js.dsl.type.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.type.reference.JsValueRef

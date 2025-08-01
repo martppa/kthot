@@ -4,7 +4,7 @@ import net.asere.kotlin.js.dsl.isNullable
 import net.asere.kotlin.js.dsl.syntax.operation.operator.Invocation
 import net.asere.kotlin.js.dsl.syntax.operation.operator.Operator
 import net.asere.kotlin.js.dsl.syntax.operation.operator.OptionalInvocation
-import net.asere.kotlin.js.dsl.type.`object`.JsObjectSyntax
+import net.asere.kotlin.js.dsl.type.obj.JsObjectSyntax
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 class InvocationOperation(

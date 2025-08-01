@@ -8,7 +8,7 @@ import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.promise.JsPromiseSyntax
 import net.asere.kotlin.js.dsl.type.array.JsArray
-import net.asere.kotlin.js.dsl.type.`object`.JsObject
+import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.promise.JsPromise
 
 /**

@@ -17,12 +17,12 @@ import net.asere.kotlin.js.dsl.syntax.operation.postInc
 import net.asere.kotlin.js.dsl.type.array.def
 import net.asere.kotlin.js.dsl.type.array.JsArray
 import net.asere.kotlin.js.dsl.type.number.JsNumber
-import net.asere.kotlin.js.dsl.type.`object`.JsObject
+import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.value.get
 import net.asere.kotlin.js.dsl.type.array.value
 import net.asere.kotlin.js.dsl.type.number.def
 import net.asere.kotlin.js.dsl.type.number.js
-import net.asere.kotlin.js.dsl.type.`object`.def
+import net.asere.kotlin.js.dsl.type.obj.def
 import net.asere.kotlin.js.dsl.type.value.lambda.jsLambda
 
 fun main(vararg args: String) {

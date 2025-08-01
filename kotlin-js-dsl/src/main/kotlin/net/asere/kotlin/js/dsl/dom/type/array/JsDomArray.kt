@@ -1,7 +1,7 @@
 package net.asere.kotlin.js.dsl.dom.type.array
 
-import net.asere.kotlin.js.dsl.dom.type.`object`.JsDomObject
-import net.asere.kotlin.js.dsl.dom.type.`object`.JsDomObjectSyntax
+import net.asere.kotlin.js.dsl.dom.type.obj.JsDomObject
+import net.asere.kotlin.js.dsl.dom.type.obj.JsDomObjectSyntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.AccessOperation
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
@@ -9,7 +9,7 @@ import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
 import net.asere.kotlin.js.dsl.type.number.js
-import net.asere.kotlin.js.dsl.type.`object`.JsObject
+import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.reference.lambda.JsLambda1Ref
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.js

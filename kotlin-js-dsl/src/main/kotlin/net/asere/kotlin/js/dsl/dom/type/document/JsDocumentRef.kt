@@ -1,7 +1,7 @@
 package net.asere.kotlin.js.dsl.dom.type.document
 
-import net.asere.kotlin.js.dsl.dom.type.`object`.JsDomObject
-import net.asere.kotlin.js.dsl.dom.type.`object`.JsDomObjectRef
+import net.asere.kotlin.js.dsl.dom.type.obj.JsDomObject
+import net.asere.kotlin.js.dsl.dom.type.obj.JsDomObjectRef
 import net.asere.kotlin.js.dsl.type.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.type.reference.JsValueRef

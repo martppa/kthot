@@ -4,6 +4,7 @@ import net.asere.kotlin.js.dsl.JsElement
 import net.asere.kotlin.js.dsl.declaration.*
 import net.asere.kotlin.js.dsl.syntax.operation.AssignmentOperation
 import net.asere.kotlin.js.dsl.syntax.operation.Operation
+import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.toLine
 import net.asere.kotlin.js.dsl.toSyntax
 import net.asere.kotlin.js.dsl.type.definition.JsDefinition
@@ -73,19 +74,19 @@ abstract class JsScriptScope {
         )
     }
 
-    fun <T : JsReference<*>> T.assign(element: JsElement): JsAssignationSyntax<T> {
+    @JsDsl infix fun <T : JsReference<*>> T.assign(element: JsElement): JsAssignationSyntax<T> {
         val assignOperation = AssignmentOperation(this, element.toOperable())
         return JsAssignationSyntax(this, assignOperation)
     }
 
-    fun <T : JsReference<*>> JsResultSyntax<T>.assign(element: JsElement): JsAssignationSyntax<T> {
+    @JsDsl infix fun <T : JsReference<*>> JsResultSyntax<T>.assign(element: JsElement): JsAssignationSyntax<T> {
         val assignOperation = AssignmentOperation(this.toOperable(), element.toOperable())
         return JsAssignationSyntax(innerObject, assignOperation)
     }
 
-    fun <T : JsReference<*>> JsResultSyntax<T>.assign(value: String) = assign(element = value.js)
-    fun <T : JsReference<*>> JsResultSyntax<T>.assign(value: Number) = assign(element = value.js)
-    fun <T : JsReference<*>> JsResultSyntax<T>.assign(value: Boolean) = assign(element = value.js)
+     @JsDsl infix fun <T : JsReference<*>> JsResultSyntax<T>.assign(value: String) = assign(element = value.js)
+     @JsDsl infix fun <T : JsReference<*>> JsResultSyntax<T>.assign(value: Number) = assign(element = value.js)
+     @JsDsl infix fun <T : JsReference<*>> JsResultSyntax<T>.assign(value: Boolean) = assign(element = value.js)
 
     private fun <T : JsReference<*>> JsAssignationSyntax<T>.render(): T {
         this@JsScriptScope.append(toLine())
