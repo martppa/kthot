@@ -22,13 +22,14 @@ import net.asere.kotlin.js.dsl.type.value.get
 import net.asere.kotlin.js.dsl.type.array.value
 import net.asere.kotlin.js.dsl.type.number.def
 import net.asere.kotlin.js.dsl.type.number.js
+import net.asere.kotlin.js.dsl.type.number.syntax
 import net.asere.kotlin.js.dsl.type.obj.def
 import net.asere.kotlin.js.dsl.type.value.lambda.jsLambda
 
 fun main(vararg args: String) {
     val result = createHTML().body {
         jsScript {
-            val collection = Const { JsArray.def<JsNumber>() } `=` JsArray.value(0.js, 1.js, 2.js, 3.js)
+            val collection = Const { JsArray.def(JsNumber::syntax) } `=` JsArray.value(0.js, 1.js, 2.js, 3.js)
             For ({ Let { JsNumber.def("i") } `=` 0 }, { it lt collection.getLength() }, { it.postInc() }) {
                 Log(it)
                 If (it lt 2) {

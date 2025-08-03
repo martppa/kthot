@@ -196,11 +196,11 @@ console.log(boolean_5 && (boolean_6 || boolean_4))
 
 ## Collections
 
-Declaring collections. Please note as `collection.forEach` does return a `JsSyntax` you need to apply the unary plus (+) to make it print the function in JavaScript.
+Declaring collections. Please note as `collection.forEach` does return a `JsSyntax` you need to apply the unary plus (+) to make it print the function in JavaScript. To build a `JsArray` reference you need to pass a builder for the generic element. Syntax builders e.g. `JsNumber::syntax` are the best option, unless you need a custom one.
 
 ```kotlin
 val syntax = js {
-    val collection = Const { JsArray.def<JsNumber>() } `=` JsArray.value(0.js, 1.js, 2.js, 3.js, 4.js)
+    val collection = Const { JsArray.def(JsNumber::syntax) } `=` JsArray.value(0.js, 1.js, 2.js, 3.js, 4.js)
     +collection.forEach(jsLambda(JsNumber.def()) { number1 ->
         Log(number1)
     })

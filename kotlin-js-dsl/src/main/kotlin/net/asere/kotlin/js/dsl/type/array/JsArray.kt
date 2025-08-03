@@ -1,16 +1,15 @@
 package net.asere.kotlin.js.dsl.type.array
 
-import net.asere.kotlin.js.dsl.type.reference.JsReference
+import net.asere.kotlin.js.dsl.JsElement
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.AccessOperation
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
-import net.asere.kotlin.js.dsl.syntax.JsReferenceSyntax
-import net.asere.kotlin.js.dsl.type.number.JsNumber
-import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.lambda.JsLambda1
 import net.asere.kotlin.js.dsl.type.lambda.l2.JsLambda2
+import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
+import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 /**
@@ -23,31 +22,33 @@ interface JsArray<T : JsValue> : JsObject {
 
     companion object
 
+    val refBuilder: (JsElement) -> T get() = { throw IllegalStateException("Builder not set!") }
+
     /**
      * Returns the element at the specified index in the array.
      *
      * In JavaScript, this corresponds to `array[index]`.
      * @param index The zero-based index of the element to retrieve as a [JsNumber] object.
-     * @return A [JsReference] to the element at the specified index.
+     * @return A [T] reference to the element at the specified index.
      */
-    fun getByIndex(index: JsNumber): JsReference<T> = JsReferenceSyntax.of(AccessOperation(this, index))
+    fun getByIndex(index: JsNumber): T = refBuilder(AccessOperation(this, index))
 
     /**
      * Returns the number of elements in the array.
      *
      * In JavaScript, this corresponds to `array.length`.
-     * @return A [JsNumberSyntax] object representing the length of the array.
+     * @return A [JsNumber] object representing the length of the array.
      */
-    fun getLength(): JsNumberSyntax = JsNumberSyntax(ChainOperation(this, "length"))
+    fun getLength(): JsNumber = JsNumberSyntax(ChainOperation(this, "length"))
 
     /**
      * Adds one or more elements to the end of an array and returns the new length of the array.
      *
      * In JavaScript, this corresponds to `array.push(element1, element2, ...)`.
      * @param elements A list of [T] (elements) to add to the array.
-     * @return A [JsNumberSyntax] object representing the new length of the array.
+     * @return A [JsNumber] object representing the new length of the array.
      */
-    fun push(vararg elements: T): JsNumberSyntax {
+    fun push(vararg elements: T): JsNumber {
         return JsNumberSyntax(ChainOperation(this, InvocationOperation("push", *elements)))
     }
 
@@ -55,9 +56,9 @@ interface JsArray<T : JsValue> : JsObject {
      * Removes the last element from an array and returns that element.
      *
      * In JavaScript, this corresponds to `array.pop()`.
-     * @return A [JsReferenceSyntax] to the removed element.
+     * @return A [T] reference to the removed element.
      */
-    fun pop(): JsReferenceSyntax<T> = JsReferenceSyntax.of(ChainOperation(this, InvocationOperation("pop")))
+    fun pop(): T = refBuilder(ChainOperation(this, InvocationOperation("pop")))
 
     /**
      * Removes the first element from an array and returns that element.
