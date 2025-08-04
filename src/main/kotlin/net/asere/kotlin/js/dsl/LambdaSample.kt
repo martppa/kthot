@@ -10,7 +10,6 @@ import net.asere.kotlin.js.dsl.syntax.operation.plus
 import net.asere.kotlin.js.dsl.type.array.JsArray
 import net.asere.kotlin.js.dsl.type.array.def
 import net.asere.kotlin.js.dsl.type.array.value
-import net.asere.kotlin.js.dsl.type.function.f0.Function
 import net.asere.kotlin.js.dsl.type.function.f1.Function
 import net.asere.kotlin.js.dsl.type.lambda.JsLambda1
 import net.asere.kotlin.js.dsl.type.lambda.l2.JsLambda2
@@ -18,6 +17,7 @@ import net.asere.kotlin.js.dsl.type.lambda.l2.def
 import net.asere.kotlin.js.dsl.type.lambda.l2.jsLambda
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.js
+import net.asere.kotlin.js.dsl.type.number.syntax
 import net.asere.kotlin.js.dsl.type.reference.lambda.def
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.def
@@ -48,7 +48,7 @@ fun main(vararg args: String) {
                 Log(item)
             }
             val numberCollection =
-                Const { JsArray.def<JsNumber>("numberCollection") } `=` JsArray.value(100.js, 200.js, 300.js)
+                Const { JsArray.def<JsNumber>(name = "numberCollection", refBuilder = JsNumber::syntax) } `=` JsArray.value(100.js, 200.js, 300.js)
             +numberCollection.forEach(printItem)
         }
     }

@@ -1,4 +1,4 @@
-package net.asere.kotlin.js.dsl.ksp.processor
+package net.asere.kotlin.js.dsl.ksp.processor.intf
 
 import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.processing.SymbolProcessorEnvironment

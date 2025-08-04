@@ -8,4 +8,5 @@ class JsNumberSyntax internal constructor(value: String) :
     internal constructor(value: JsElement) : this("$value")
 }
 
-fun JsNumber.Companion.syntax(value: String): JsNumberSyntax = JsNumberSyntax(value)
+fun JsNumber.Companion.syntax(value: String): JsNumber = JsNumberSyntax(value)
+fun JsNumber.Companion.syntax(value: JsElement): JsNumber = JsNumberSyntax(value)
