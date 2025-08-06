@@ -1,5 +1,7 @@
 package net.asere.kotlin.js.dsl.type.string
 
+import net.asere.kotlin.js.dsl.dom.type.media.stream.track.JsMediaStreamTrack
+import net.asere.kotlin.js.dsl.dom.type.media.stream.track.syntax
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.array.JsArraySyntax
@@ -209,7 +211,8 @@ interface JsString : JsValue {
      */
     fun split(separator: JsString? = null, limit: JsNumber? = null): JsArray<JsString> {
         return JsArraySyntax(
-            ChainOperation(
+            typeBuilder = JsString::syntax,
+            value = ChainOperation(
                 this,
                 InvocationOperation("split", separator ?: undefined, limit ?: undefined)
             )

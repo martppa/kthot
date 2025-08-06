@@ -48,7 +48,7 @@ fun main(vararg args: String) {
                 Log(item)
             }
             val numberCollection =
-                Const { JsArray.def<JsNumber>(name = "numberCollection", refBuilder = JsNumber::syntax) } `=` JsArray.value(100.js, 200.js, 300.js)
+                Const { JsArray.def<JsNumber>(name = "numberCollection", typeBuilder = JsNumber::syntax) } `=` JsArray.value(100.js, 200.js, 300.js)
             +numberCollection.forEach(printItem)
         }
     }

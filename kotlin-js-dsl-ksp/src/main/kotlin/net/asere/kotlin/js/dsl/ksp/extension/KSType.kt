@@ -1,5 +1,6 @@
 package net.asere.kotlin.js.dsl.ksp.extension
 
+import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSType
 
 val KSType.definitionName: String get() {
@@ -17,7 +18,15 @@ val KSType.definitionName: String get() {
     return baseName
 }
 
-fun KSType.getBoundsTypes(): Set<KSType> {
+fun KSType.hasGenericTypes() = getTypesOfGenericTypes().isNotEmpty()
+
+fun KSType.getTypesOfGenericTypes(): Set<KSType> {
+    val types: MutableSet<KSType> = mutableSetOf()
+    arguments.forEach { argument -> argument.type?.resolve()?.let { types.add(it) } }
+    return types
+}
+
+fun KSType.getTypesOfRecursiveGenericTypes(): Set<KSType> {
     val types: MutableSet<KSType> = mutableSetOf()
     fun getInnerBoundsType(type: KSType) {
         type.arguments.forEach { argument ->
@@ -25,8 +34,9 @@ fun KSType.getBoundsTypes(): Set<KSType> {
             argument.type?.resolve()?.let { getInnerBoundsType(it) }
         }
     }
-    if (this.arguments.isNotEmpty()) {
-        arguments.forEach { argument -> argument.type?.resolve()?.let { types.add(it) } }
-    }
+    arguments.forEach { argument -> argument.type?.resolve()?.let { types.add(it) } }
     return types
 }
+
+val KSType.builderName: String get() = "${declaration.name.replaceFirstChar { it.lowercase() }}Builder"
+fun KSType.getBuilderDefinition(argument: KSClassDeclaration) = "${declaration.name.replaceFirstChar { it.lowercase() }}Builder: (${argument.asStarProjectedType().definitionName}) -> $definitionName"

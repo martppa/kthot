@@ -18,10 +18,12 @@ class JsInterfaceProcessor(
     private val jsInvocationOperationName = "net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation"
     private val jsObjectName = "net.asere.kotlin.js.dsl.type.obj.JsObject"
     private val jsSyntaxName = "net.asere.kotlin.js.dsl.syntax.JsSyntax"
+    private val jsElementName = "net.asere.kotlin.js.dsl.JsElement"
     private lateinit var chainOperationDeclaration: KSClassDeclaration
     private lateinit var invocationOperationDeclaration: KSClassDeclaration
     private lateinit var jsObjectDeclaration: KSClassDeclaration
     private lateinit var jsSyntaxDeclaration: KSClassDeclaration
+    private lateinit var jsElementDeclaration: KSClassDeclaration
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
 
@@ -41,6 +43,7 @@ class JsInterfaceProcessor(
         invocationOperationDeclaration = loadClass(jsInvocationOperationName)
         jsObjectDeclaration = loadClass(jsObjectName)
         jsSyntaxDeclaration = loadClass(jsSyntaxName)
+        jsElementDeclaration = loadClass(jsElementName)
     }
 
     private fun createInterface(declaration: KSClassDeclaration, resolver: Resolver) {
@@ -82,9 +85,12 @@ class JsInterfaceProcessor(
         val imports: MutableSet<String> = mutableSetOf()
         imports.add(chainOperationDeclaration.fullName)
         imports.add(invocationOperationDeclaration.fullName)
+        if (declaration.getGenericReturnTypes(resolver).isNotEmpty()) {
+            imports.add(jsElementDeclaration.fullName)
+        }
         declaration.superTypeInterfaces.forEach { type ->
             imports.add(type.declaration.fullName)
-            imports.addAll(type.getBoundsTypes().map { it.declaration.fullName })
+            imports.addAll(type.getTypesOfRecursiveGenericTypes().map { it.declaration.fullName })
         }
         declaration.getJsAvailableProperties(resolver)
             .filter { it.type.resolve().declaration !is KSTypeParameter }
@@ -102,7 +108,6 @@ class JsInterfaceProcessor(
             }
         }
         for (function in declaration.getJsAvailableFunctions(resolver)) {
-            logger.warn("" + (function.returnType?.resolve()?.declaration !is KSTypeParameter))
             if (function.returnType?.resolve() !is KSTypeParameter) {
                 imports.add(function.returnType!!.resolve().declaration.fullName)
                 if (!function.returnType.isSubclassOf(jsSyntaxDeclaration)) {
@@ -125,17 +130,30 @@ class JsInterfaceProcessor(
     }
 
     private fun StringBuilder.appendProperties(declaration: KSClassDeclaration, resolver: Resolver) {
+        declaration.getGenericReturnTypes(resolver).forEach { type ->
+            append("  val ${type.getBuilderDefinition(jsElementDeclaration)}\n")
+        }
         declaration.getJsAvailableProperties(resolver).forEach { property ->
             val propertyName = property.name
-            val propertyType = property.typeName
-            append("  val $propertyName: $propertyType get() = $propertyType.syntax(${chainOperationDeclaration.name}(this, \"$propertyName\"))\n")
+            val propertyDefinitionName = property.type.resolve().definitionName
+            val propertyTypeSimpleName = property.type.resolve().declaration.name
+            if (property.hasGenericTypes()) {
+                val builderParameters = property.getGenericTypes()
+                append("  val $propertyName: $propertyDefinitionName get() = $propertyTypeSimpleName.syntax(${
+                    builderParameters.joinToString(
+                        ", "
+                    ) { it.builderName }
+                }, ${chainOperationDeclaration.name}(this, \"$propertyName\"))\n")
+            } else {
+                append("  val $propertyName: $propertyDefinitionName get() = $propertyDefinitionName.syntax(${chainOperationDeclaration.name}(this, \"$propertyName\"))\n")
+            }
         }
     }
 
     private fun StringBuilder.appendMethods(declaration: KSClassDeclaration, resolver: Resolver) {
         declaration.getJsAvailableFunctions(resolver).forEach { function ->
             val functionName = function.name
-            val returnType = function.returnType?.resolve()?.declaration?.name ?: "Unit"
+            val returnType = function.returnType?.resolve()?.definitionName ?: "Unit"
             append(
                 "  fun $functionName(${function.parameters.definitionString()}): " +
                         "$returnType = $returnType${

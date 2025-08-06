@@ -2,6 +2,7 @@ package net.asere.kotlin.js.dsl.dom.type.media.stream
 
 import net.asere.kotlin.js.dsl.dom.type.media.stream.track.JsMediaStreamTrack
 import net.asere.kotlin.js.dsl.dom.type.media.stream.track.JsMediaStreamTrackSyntax
+import net.asere.kotlin.js.dsl.dom.type.media.stream.track.syntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
@@ -42,7 +43,10 @@ interface JsMediaStream : JsObject {
      * @return A [net.asere.kotlin.js.dsl.type.array.JsArray] of [JsMediaStreamTrack] objects.
      */
     fun getAudioTracks(): JsArray<JsMediaStreamTrack> =
-        JsArraySyntax(ChainOperation(this, InvocationOperation("getAudioTracks")))
+        JsArraySyntax(
+            typeBuilder = JsMediaStreamTrack::syntax,
+            value = ChainOperation(this, InvocationOperation("getAudioTracks"))
+        )
 
     /**
      * Returns a [JsArray] of all `MediaStreamTrack` objects in the stream that have `kind` set to "video".
@@ -51,7 +55,10 @@ interface JsMediaStream : JsObject {
      * @return A [JsArray] of [JsMediaStreamTrack] objects.
      */
     fun getVideoTracks(): JsArray<JsMediaStreamTrack> =
-        JsArraySyntax(ChainOperation(this, InvocationOperation("getVideoTracks")))
+        JsArraySyntax(
+            typeBuilder = JsMediaStreamTrack::syntax,
+            value = ChainOperation(this, InvocationOperation("getVideoTracks"))
+        )
 
     /**
      * Returns a [JsArray] of all `MediaStreamTrack` objects in the stream, regardless of their kind.
@@ -60,7 +67,10 @@ interface JsMediaStream : JsObject {
      * @return A [JsArray] of [JsMediaStreamTrack] objects.
      */
     fun getTracks(): JsArray<JsMediaStreamTrack> =
-        JsArraySyntax(ChainOperation(this, InvocationOperation("getTracks")))
+        JsArraySyntax(
+            typeBuilder = JsMediaStreamTrack::syntax,
+            value = ChainOperation(this, InvocationOperation("getTracks"))
+        )
 
     /**
      * Returns a single `MediaStreamTrack` from the stream whose `id` matches the given string.

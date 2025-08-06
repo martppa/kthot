@@ -10,6 +10,5 @@ class JsMediaStreamTrackSyntax(value: String) : JsReferenceSyntax<JsMediaStreamT
     constructor(value: JsElement) : this("$value")
 }
 
-fun JsMediaStream.Companion.syntax(value: String): JsMediaStreamSyntax = JsMediaStreamSyntax(value)
-fun JsMediaStream.Companion.syntax(value: JsElement): JsMediaStreamSyntax = JsMediaStreamSyntax(value)
-
+fun JsMediaStreamTrack.Companion.syntax(value: String): JsMediaStreamTrack = JsMediaStreamTrackSyntax(value)
+fun JsMediaStreamTrack.Companion.syntax(value: JsElement): JsMediaStreamTrack = JsMediaStreamTrackSyntax(value)
