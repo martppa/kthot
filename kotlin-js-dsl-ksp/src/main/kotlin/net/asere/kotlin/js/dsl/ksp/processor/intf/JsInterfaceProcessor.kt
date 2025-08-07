@@ -56,6 +56,9 @@ class JsInterfaceProcessor(
         val interfaceName = codeBuilder.appendDeclaration(declaration)
         codeBuilder.appendProperties(declaration, resolver)
         codeBuilder.appendMethods(declaration, resolver)
+        codeBuilder.append("\n")
+        codeBuilder.append("   companion object\n")
+        codeBuilder.append("}\n")
         writeToFile(
             fileName = interfaceName,
             packageName = packageName,
@@ -65,19 +68,8 @@ class JsInterfaceProcessor(
     }
 
     private fun StringBuilder.appendDeclaration(declaration: KSClassDeclaration): String {
-        val jsClassAnnotation = declaration.annotations.find {
-            it.annotationType.resolve().declaration.qualifiedName?.asString() == jsClassAnnotationName
-        } ?: throw IllegalStateException("@JsClass annotation not found on ${declaration.qualifiedName?.asString()}")
-
-        val interfaceNameFromAnnotation =
-            jsClassAnnotation.arguments.find { it.name?.asString() == "name" }?.value as? String
-        val interfaceName = if (interfaceNameFromAnnotation.isNullOrBlank()) {
-            "Js${declaration.name}"
-        } else {
-            interfaceNameFromAnnotation
-        }
-
-        append("interface ${declaration.getDeclarativeName(interfaceName)} {\n")
+        val interfaceName = declaration.jsName
+        append("interface ${declaration.getDeclaration(interfaceName)} {\n")
         return interfaceName
     }
 
@@ -164,8 +156,6 @@ class JsInterfaceProcessor(
                         "${function.parameters.listString()})))\n"
             )
         }
-
-        append("}\n")
     }
 
     private fun findDeclarations(resolver: Resolver): Sequence<KSClassDeclaration>? {
@@ -192,4 +182,31 @@ class JsInterfaceProcessor(
         OutputStreamWriter(file).use { it.write(codeBuilder.toString()) }
         logger.info("Generated interface file for class: $fileName.kt")
     }
+}
+
+private fun KSClassDeclaration.getDeclaration(name: String? = null): String {
+    val stringBuilder = StringBuilder()
+    stringBuilder.append(name ?: this.name)
+    val genericTypes = mutableListOf<String>()
+    typeParameters.forEach { parameter ->
+        val bounds = parameter.bounds.filter { !it.resolve().declaration.isAny() }.toList()
+        when (bounds.size) {
+            1 -> genericTypes.add("${parameter.name.asString()} : ${bounds.first().resolve().definitionName}")
+            else -> genericTypes.add(parameter.name.asString())
+        }
+    }
+    if (genericTypes.isNotEmpty()) {
+        stringBuilder.append("<")
+        stringBuilder.append(genericTypes.joinToString(", "))
+        stringBuilder.append(">")
+    }
+    stringBuilder.append(" : ")
+    val superTypes = superTypeInterfaces
+    stringBuilder.append(
+        if (superTypes.isNotEmpty()) superTypes.joinToString(", ") { it.definitionName } else "JsObject"
+    )
+
+    stringBuilder.append(whereClauseString)
+
+    return stringBuilder.toString()
 }

@@ -9,6 +9,7 @@ import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSTypeArgument
 import com.google.devtools.ksp.symbol.Visibility
+import net.asere.kotlin.js.dsl.ksp.processor.jsClassAnnotationName
 
 fun KSClassDeclaration.getJsAvailableFunctions(resolver: Resolver) = declarations
     .filterIsInstance<KSFunctionDeclaration>()
@@ -42,35 +43,53 @@ fun KSClassDeclaration.isSubclassOf(superClass: KSClassDeclaration): Boolean {
     return false
 }
 
-fun KSClassDeclaration.getDeclarativeName(name: String? = null): String {
+val KSClassDeclaration.jsName: String get() {
+    val jsClassAnnotation = annotations.find {
+        it.annotationType.resolve().declaration.qualifiedName?.asString() == jsClassAnnotationName
+    } ?: throw IllegalStateException("@JsClass annotation not found on ${qualifiedName?.asString()}")
+
+    val nameFromAnnotation =
+        jsClassAnnotation.arguments.find { it.name?.asString() == "name" }?.value as? String
+    val className = if (nameFromAnnotation.isNullOrBlank()) {
+        "${if (name.startsWith("Js")) "" else "Js"}${name}"
+    } else {
+        nameFromAnnotation
+    }
+    return className
+}
+
+val KSClassDeclaration.genericTypesDeclarationString: String get() {
     val stringBuilder = StringBuilder()
-    stringBuilder.append(name ?: this.name)
-    val genericTypes = mutableListOf<String>()
+    val genericTypesDeclarations = mutableListOf<String>()
     typeParameters.forEach { parameter ->
         val bounds = parameter.bounds.filter { !it.resolve().declaration.isAny() }.toList()
         when (bounds.size) {
-            1 -> genericTypes.add("${parameter.name.asString()} : ${bounds.first().resolve().definitionName}")
-            else -> genericTypes.add(parameter.name.asString())
+            1 -> genericTypesDeclarations.add("${parameter.name.asString()} : ${bounds.first().resolve().definitionName}")
+            else -> genericTypesDeclarations.add(parameter.name.asString())
         }
     }
-    if (genericTypes.isNotEmpty()) {
+    if (genericTypesDeclarations.isNotEmpty()) {
         stringBuilder.append("<")
-        stringBuilder.append(genericTypes.joinToString(", "))
+        stringBuilder.append(genericTypesDeclarations.joinToString(", "))
         stringBuilder.append(">")
     }
-    stringBuilder.append(" : ")
-    val superTypes = superTypeInterfaces
-    stringBuilder.append(
-        if (superTypes.isNotEmpty()) superTypes.joinToString(", ") { it.definitionName } else "JsObject"
-    )
+    return stringBuilder.toString()
+}
 
+val KSClassDeclaration.whereClauseString: String get() {
     val whereClause = typeParameters.filter { it.bounds.toList().size > 1 }.map { parameter ->
         parameter.bounds.filter { !it.resolve().declaration.isAny() }
             .map { bound ->  "${parameter.name.asString()} : ${bound.resolve().definitionName}" }
             .joinToString()
     }.filter { it.isNotBlank() }.let { if (it.isEmpty()) "" else " where ${it.joinToString()}" }
+    return whereClause
+}
 
-    stringBuilder.append(whereClause)
-
-    return stringBuilder.toString()
+val KSClassDeclaration.genericTypesString: String get() {
+    val genericTypes = mutableListOf<String>()
+    typeParameters.forEach { parameter ->
+        genericTypes.add(parameter.name.asString())
+    }
+    if (genericTypes.isEmpty()) return ""
+    return "<${genericTypes.joinToString()}>"
 }
