@@ -91,7 +91,7 @@ class JsReferenceProcessor(
         declaration.typeParameters.forEach { parameter ->
             parameter.bounds.map { type ->
                 imports.add(type.resolve().declaration.fullName)
-                type.resolve().getTypesOfRecursiveGenericTypes()
+                type.resolve().getAllTypes()
             }.flatten().forEach {
                 imports.add(it.declaration.fullName)
             }

@@ -18,16 +18,16 @@ val KSType.definitionName: String get() {
     return baseName
 }
 
-fun KSType.hasGenericTypes() = getTypesOfGenericTypes().isNotEmpty()
+fun KSType?.hasArgumentsTypes(): Boolean = this?.getArgumentsTypes()?.isNotEmpty() ?: false
 
-fun KSType.getTypesOfGenericTypes(): Set<KSType> {
+fun KSType.getArgumentsTypes(): Set<KSType> {
     val types: MutableSet<KSType> = mutableSetOf()
     arguments.forEach { argument -> argument.type?.resolve()?.let { types.add(it) } }
     return types
 }
 
-fun KSType.getTypesOfRecursiveGenericTypes(): Set<KSType> {
-    val types: MutableSet<KSType> = mutableSetOf()
+fun KSType.getAllTypes(): Set<KSType> {
+    val types: MutableSet<KSType> = mutableSetOf(this)
     fun getInnerBoundsType(type: KSType) {
         type.arguments.forEach { argument ->
             argument.type?.resolve()?.let { types.add(it) }
@@ -39,4 +39,5 @@ fun KSType.getTypesOfRecursiveGenericTypes(): Set<KSType> {
 }
 
 val KSType.builderName: String get() = "${declaration.name.replaceFirstChar { it.lowercase() }}Builder"
-fun KSType.getBuilderDefinition(argument: KSClassDeclaration) = "${declaration.name.replaceFirstChar { it.lowercase() }}Builder: (${argument.asStarProjectedType().definitionName}) -> $definitionName"
+fun KSType.getBuilderDefinition(argument: KSClassDeclaration) =
+    "${declaration.name.replaceFirstChar { it.lowercase() }}Builder: (${argument.asStarProjectedType().definitionName}) -> $definitionName"

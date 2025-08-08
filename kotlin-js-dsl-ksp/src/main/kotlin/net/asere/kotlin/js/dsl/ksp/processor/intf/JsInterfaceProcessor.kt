@@ -19,11 +19,13 @@ class JsInterfaceProcessor(
     private val jsObjectName = "net.asere.kotlin.js.dsl.type.obj.JsObject"
     private val jsSyntaxName = "net.asere.kotlin.js.dsl.syntax.JsSyntax"
     private val jsElementName = "net.asere.kotlin.js.dsl.JsElement"
-    private lateinit var chainOperationDeclaration: KSClassDeclaration
-    private lateinit var invocationOperationDeclaration: KSClassDeclaration
+    private val jsAccessOperationName = "net.asere.kotlin.js.dsl.syntax.operation.AccessOperation"
+    private lateinit var jsChainOperationDeclaration: KSClassDeclaration
+    private lateinit var jsInvocationOperationDeclaration: KSClassDeclaration
     private lateinit var jsObjectDeclaration: KSClassDeclaration
     private lateinit var jsSyntaxDeclaration: KSClassDeclaration
     private lateinit var jsElementDeclaration: KSClassDeclaration
+    private lateinit var jsAccessOperationDeclaration: KSClassDeclaration
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
 
@@ -39,11 +41,12 @@ class JsInterfaceProcessor(
     }
 
     private fun Resolver.checkDependencies() {
-        chainOperationDeclaration = loadClass(jsChainOperationName)
-        invocationOperationDeclaration = loadClass(jsInvocationOperationName)
+        jsChainOperationDeclaration = loadClass(jsChainOperationName)
+        jsInvocationOperationDeclaration = loadClass(jsInvocationOperationName)
         jsObjectDeclaration = loadClass(jsObjectName)
         jsSyntaxDeclaration = loadClass(jsSyntaxName)
         jsElementDeclaration = loadClass(jsElementName)
+        jsAccessOperationDeclaration = loadClass(jsAccessOperationName)
     }
 
     private fun createInterface(declaration: KSClassDeclaration, resolver: Resolver) {
@@ -75,14 +78,14 @@ class JsInterfaceProcessor(
 
     private fun StringBuilder.appendImports(declaration: KSClassDeclaration, resolver: Resolver) {
         val imports: MutableSet<String> = mutableSetOf()
-        imports.add(chainOperationDeclaration.fullName)
-        imports.add(invocationOperationDeclaration.fullName)
+        imports.add(jsChainOperationDeclaration.fullName)
+        imports.add(jsInvocationOperationDeclaration.fullName)
+        imports.add(jsAccessOperationDeclaration.fullName)
         if (declaration.getGenericReturnTypes(resolver).isNotEmpty()) {
             imports.add(jsElementDeclaration.fullName)
         }
         declaration.superTypeInterfaces.forEach { type ->
-            imports.add(type.declaration.fullName)
-            imports.addAll(type.getTypesOfRecursiveGenericTypes().map { it.declaration.fullName })
+            imports.addAll(type.getAllTypes().map { it.declaration.fullName })
         }
         declaration.getJsAvailableProperties(resolver)
             .filter { it.type.resolve().declaration !is KSTypeParameter }
@@ -111,7 +114,7 @@ class JsInterfaceProcessor(
             }
         }
         declaration.typeParameters
-            .map { type -> type.bounds.toList().map { it.resolve().declaration.fullName } }.flatten().forEach {
+            .map { type -> type.bounds.toList().map { it.resolve().getAllTypes() } }.flatten().flatten().map { it.declaration.fullName }.forEach {
                 imports.add(it)
             }
         imports.remove("kotlin.Any")
@@ -129,15 +132,17 @@ class JsInterfaceProcessor(
             val propertyName = property.name
             val propertyDefinitionName = property.type.resolve().definitionName
             val propertyTypeSimpleName = property.type.resolve().declaration.name
-            if (property.hasGenericTypes()) {
-                val builderParameters = property.getGenericTypes()
+            if (property.isGenericTypeParameter()) {
+                append("  val $propertyName: $propertyDefinitionName get() = ${property.type.resolve().builderName}(${resolver.loadClass(jsAccessOperationName)}(this, \"$propertyName\"))")
+            } else if (property.hasArgumentsTypes()) {
+                val builderParameters = property.getArgumentsTypes()
                 append("  val $propertyName: $propertyDefinitionName get() = $propertyTypeSimpleName.syntax(${
                     builderParameters.joinToString(
                         ", "
                     ) { it.builderName }
-                }, ${chainOperationDeclaration.name}(this, \"$propertyName\"))\n")
+                }, ${jsChainOperationDeclaration.name}(this, \"$propertyName\"))\n")
             } else {
-                append("  val $propertyName: $propertyDefinitionName get() = $propertyDefinitionName.syntax(${chainOperationDeclaration.name}(this, \"$propertyName\"))\n")
+                append("  val $propertyName: $propertyDefinitionName get() = $propertyDefinitionName.syntax(${jsChainOperationDeclaration.name}(this, \"$propertyName\"))\n")
             }
         }
     }
@@ -145,16 +150,35 @@ class JsInterfaceProcessor(
     private fun StringBuilder.appendMethods(declaration: KSClassDeclaration, resolver: Resolver) {
         declaration.getJsAvailableFunctions(resolver).forEach { function ->
             val functionName = function.name
-            val returnType = function.returnType?.resolve()?.definitionName ?: "Unit"
-            append(
-                "  fun $functionName(${function.parameters.definitionString()}): " +
-                        "$returnType = $returnType${
-                            if (function.returnType.isSubclassOf(jsSyntaxDeclaration))
-                                "" else ".syntax"
-                        }(${chainOperationDeclaration.name}(this, " +
-                        "${invocationOperationDeclaration.name}(\"$functionName\", " +
-                        "${function.parameters.listString()})))\n"
-            )
+            if (function.returnType.isGenericTypeParameter()) {
+                append("  fun $functionName(${
+                    function.parameters.definitionString()}): ${
+                        function.returnType?.resolve()?.definitionName} = ${
+                            function.returnType?.resolve()?.builderName}(${
+                                resolver.loadClass(jsAccessOperationName)}(this, ${
+                                    jsInvocationOperationDeclaration.name}(\"$functionName\", ${
+                                        function.parameters.listString()})))")
+            } else if (function.returnType?.resolve().hasArgumentsTypes()) {
+                val builderParameters = function.returnType!!.resolve().getArgumentsTypes()
+                append("  fun $functionName(${
+                    function.parameters.definitionString()}): ${
+                        function.returnType?.resolve()?.definitionName} = ${
+                            function.returnType?.resolve()?.declaration?.name}.syntax(${
+                    builderParameters.joinToString(
+                        ", "
+                    ) { it.builderName }
+                }, ${jsChainOperationDeclaration.name}(this, ${
+                    jsInvocationOperationDeclaration.name}(\"$functionName\", ${
+                        function.parameters.listString()})))\n")
+            } else {
+                append("  fun $functionName(${
+                    function.parameters.definitionString()}): ${
+                        function.returnType?.resolve()?.definitionName} = ${
+                            function.returnType?.resolve()?.declaration?.name}(${
+                                jsChainOperationDeclaration.name}(this, ${
+                                    jsInvocationOperationDeclaration.name}(\"$functionName\", ${
+                                        function.parameters.listString()})))\n")
+            }
         }
     }
 

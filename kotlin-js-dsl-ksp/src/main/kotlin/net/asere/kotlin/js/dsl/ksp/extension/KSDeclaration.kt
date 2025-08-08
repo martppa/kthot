@@ -31,13 +31,13 @@ fun KSDeclaration.isAny() = qualifiedName?.asString() == "kotlin.Any"
 
 fun KSDeclaration.getGenericReturnTypes(resolver: Resolver): Set<KSType> {
     val types: MutableSet<KSType> = mutableSetOf()
-    fun checkArguments(argument: KSTypeArgument, nestedSet: MutableSet<KSType>): MutableSet<KSType> {
+    fun checkArguments(argument: KSTypeArgument) {
         if (argument.type?.isGenericTypeParameter() ?: false) {
-            argument.type?.let { type -> nestedSet.add(type.resolve()) }
+            argument.type?.let { type -> types.add(type.resolve()) }
         }
-        return argument.type?.resolve()?.arguments?.map {
-            checkArguments(it, nestedSet)
-        }?.flatten()?.toMutableSet() ?: nestedSet
+        argument.type?.resolve()?.arguments?.map {
+            checkArguments(it)
+        }
     }
     if (this is KSClassDeclaration) {
         getAllProperties().filter {
@@ -46,12 +46,10 @@ fun KSDeclaration.getGenericReturnTypes(resolver: Resolver): Set<KSType> {
             if (property.type.isGenericTypeParameter()) {
                 types.add(property.type.resolve())
             } else {
-                val generics = property.type.resolve().arguments.map {
-                    checkArguments(it, mutableSetOf())
-                }.flatten()
-                if (generics.isNotEmpty()) {
-                    types.add(property.type.resolve())
+                property.type.resolve().arguments.map {
+                    checkArguments(it)
                 }
+
             }
         }
         declarations.filterIsInstance<KSFunctionDeclaration>()
@@ -64,7 +62,7 @@ fun KSDeclaration.getGenericReturnTypes(resolver: Resolver): Set<KSType> {
                     function.returnType?.resolve()?.let { types.add(it) }
                 } else {
                     val generics = function.returnType?.resolve()?.arguments?.map {
-                        checkArguments(it, mutableSetOf())
+                        checkArguments(it)
                     } ?: listOf()
                     if (generics.isNotEmpty()) {
                         function.returnType?.resolve()?.let { types.add(it) }
