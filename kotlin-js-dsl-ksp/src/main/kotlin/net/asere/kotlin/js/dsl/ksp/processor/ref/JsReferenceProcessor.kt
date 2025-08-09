@@ -5,24 +5,15 @@ import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.validate
 import net.asere.kotlin.js.dsl.ksp.extension.*
-import net.asere.kotlin.js.dsl.ksp.processor.jsClassAnnotationName
-import net.asere.kotlin.js.dsl.ksp.processor.jsElementName
-import net.asere.kotlin.js.dsl.ksp.processor.jsReferenceIdName
-import net.asere.kotlin.js.dsl.ksp.processor.jsSyntaxName
-import net.asere.kotlin.js.dsl.ksp.processor.jsValueRefName
+import net.asere.kotlin.js.dsl.ksp.processor.*
 import java.io.OutputStreamWriter
 
 class JsReferenceProcessor(
     private val codeGenerator: CodeGenerator,
     private val logger: KSPLogger
 ) : SymbolProcessor {
-    private lateinit var jsSyntaxDeclaration: KSClassDeclaration
-    private lateinit var jsElementDeclaration: KSClassDeclaration
-    private lateinit var jsReferenceIdDeclaration: KSClassDeclaration
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
-
-        resolver.checkDependencies()
 
         val declarations = findDeclarations(resolver) ?: return emptyList()
 
@@ -33,13 +24,8 @@ class JsReferenceProcessor(
         return declarations.filterNot { it.validate() }.toList()
     }
 
-    private fun Resolver.checkDependencies() {
-        jsSyntaxDeclaration = loadClass(jsSyntaxName)
-        jsElementDeclaration = loadClass(jsElementName)
-        jsReferenceIdDeclaration = loadClass(jsReferenceIdName)
-    }
-
     private fun createReference(declaration: KSClassDeclaration, resolver: Resolver) {
+        val printableDefinition = resolver.loadClass(jsPrintableDefinitionName)
         val packageName = declaration.packageName.asString()
         val codeBuilder = StringBuilder()
         if (packageName.isNotBlank()) {
@@ -52,22 +38,50 @@ class JsReferenceProcessor(
         codeBuilder.append("\n}")
         codeBuilder.append("\n")
         codeBuilder.append("\n")
+
         codeBuilder.append("fun ${declaration.genericTypesDeclarationString} ${declaration.jsName}.Companion.ref(\n")
         codeBuilder.append("  name: String? = null,\n")
         codeBuilder.append("  isNullable: Boolean = false,\n")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("  ${type.getBuilderDefinition(resolver.loadClass(jsElementName))},\n")
         }
-        codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesString} ${declaration.whereClauseString}")
-        codeBuilder.append(" {\n")
-        codeBuilder.append(" return $className(")
+        codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesString}${declaration.whereClauseString}")
+        codeBuilder.append(" = ")
+        codeBuilder.append("$className(")
         codeBuilder.append("name, ")
         codeBuilder.append("isNullable, ")
-        declaration.getGenericReturnTypes(resolver).joinToString { "${it.declaration.name.replaceFirstChar { it.lowercase() }}Builder" }.let {
+        declaration.getGenericReturnTypes(resolver).joinToString { item -> "${item.declaration.name.replaceFirstChar { it.lowercase() }}Builder" }.let {
+            codeBuilder.append(it)
+        }
+        codeBuilder.append(")")
+        codeBuilder.append("\n")
+        codeBuilder.append("\n")
+
+        codeBuilder.append("fun ${declaration.genericTypesDeclarationString} ${declaration.jsName}.Companion.def(\n")
+        codeBuilder.append("  name: String? = null,\n")
+        codeBuilder.append("  isNullable: Boolean = false,\n")
+        declaration.getGenericReturnTypes(resolver).forEach { type ->
+            codeBuilder.append("  ${type.getBuilderDefinition(resolver.loadClass(jsElementName))},\n")
+        }
+        codeBuilder.append("): ")
+        codeBuilder.append("${printableDefinition.name}")
+        codeBuilder.append("<${declaration.jsName}Ref${declaration.genericTypesString}, ${declaration.jsName}${declaration.genericTypesString}>")
+        codeBuilder.append(" = object :")
+        codeBuilder.append(" ${printableDefinition.name}")
+        codeBuilder.append("<${declaration.jsName}Ref${declaration.genericTypesString}, ${declaration.jsName}${declaration.genericTypesString}>")
+        codeBuilder.append("()")
+        codeBuilder.append("{\n")
+        codeBuilder.append("  override val reference: ${declaration.jsName}Ref${declaration.genericTypesString}")
+        codeBuilder.append(" = ")
+        codeBuilder.append("$className(")
+        codeBuilder.append("name, ")
+        codeBuilder.append("isNullable, ")
+        declaration.getGenericReturnTypes(resolver).joinToString { item -> "${item.declaration.name.replaceFirstChar { it.lowercase() }}Builder" }.let {
             codeBuilder.append(it)
         }
         codeBuilder.append(")")
         codeBuilder.append("\n}")
+
         writeToFile(
             fileName = className,
             packageName = packageName,
@@ -87,6 +101,7 @@ class JsReferenceProcessor(
 
         imports.add(resolver.loadClass(jsValueRefName).fullName)
         imports.add(resolver.loadClass(jsReferenceIdName).fullName)
+        imports.add(resolver.loadClass(jsPrintableDefinitionName).fullName)
 
         declaration.typeParameters.forEach { parameter ->
             parameter.bounds.map { type ->
