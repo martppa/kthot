@@ -45,7 +45,10 @@ class JsReferenceProcessor(
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("  ${type.getBuilderDefinition(resolver.loadClass(jsElementName))},\n")
         }
-        codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesString}${declaration.whereClauseString}")
+        codeBuilder.append("): ")
+        codeBuilder.append(declaration.jsName)
+        codeBuilder.append(declaration.genericTypesString)
+        codeBuilder.append(declaration.whereClauseString)
         codeBuilder.append(" = ")
         codeBuilder.append("$className(")
         codeBuilder.append("name, ")
@@ -64,8 +67,9 @@ class JsReferenceProcessor(
             codeBuilder.append("  ${type.getBuilderDefinition(resolver.loadClass(jsElementName))},\n")
         }
         codeBuilder.append("): ")
-        codeBuilder.append("${printableDefinition.name}")
+        codeBuilder.append(printableDefinition.name)
         codeBuilder.append("<${declaration.jsName}Ref${declaration.genericTypesString}, ${declaration.jsName}${declaration.genericTypesString}>")
+        codeBuilder.append(declaration.whereClauseString)
         codeBuilder.append(" = object :")
         codeBuilder.append(" ${printableDefinition.name}")
         codeBuilder.append("<${declaration.jsName}Ref${declaration.genericTypesString}, ${declaration.jsName}${declaration.genericTypesString}>")
