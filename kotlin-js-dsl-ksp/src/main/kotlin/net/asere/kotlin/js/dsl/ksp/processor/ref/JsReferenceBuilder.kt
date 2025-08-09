@@ -51,20 +51,11 @@ class JsReferenceBuilder(
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("  ${type.getBuilderDefinition(resolver.loadClass(jsElementName))},\n")
         }
-        codeBuilder.append("): ")
-        codeBuilder.append(declaration.jsName)
-        codeBuilder.append(declaration.genericTypesString)
-        codeBuilder.append(declaration.whereClauseString)
-        codeBuilder.append(" = ")
-        codeBuilder.append("$className(")
-        codeBuilder.append("name, ")
-        codeBuilder.append("isNullable, ")
+        codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesString} ${declaration.whereClauseString} = $className(name, isNullable, ")
         declaration.getGenericReturnTypes(resolver).joinToString { item -> "${item.declaration.name.replaceFirstChar { it.lowercase() }}Builder" }.let {
             codeBuilder.append(it)
         }
-        codeBuilder.append(")")
-        codeBuilder.append("\n")
-        codeBuilder.append("\n")
+        codeBuilder.append(")\n\n")
 
         codeBuilder.append("fun ${declaration.genericTypesDeclarationString} ${declaration.jsName}.Companion.def(\n")
         codeBuilder.append("  name: String? = null,\n")
@@ -72,25 +63,13 @@ class JsReferenceBuilder(
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("  ${type.getBuilderDefinition(resolver.loadClass(jsElementName))},\n")
         }
-        codeBuilder.append("): ")
-        codeBuilder.append(printableDefinition.name)
-        codeBuilder.append("<${declaration.jsName}Ref${declaration.genericTypesString}, ${declaration.jsName}${declaration.genericTypesString}>")
-        codeBuilder.append(declaration.whereClauseString)
-        codeBuilder.append(" = object :")
-        codeBuilder.append(" ${printableDefinition.name}")
-        codeBuilder.append("<${declaration.jsName}Ref${declaration.genericTypesString}, ${declaration.jsName}${declaration.genericTypesString}>")
-        codeBuilder.append("()")
-        codeBuilder.append("{\n")
-        codeBuilder.append("  override val reference: ${declaration.jsName}Ref${declaration.genericTypesString}")
-        codeBuilder.append(" = ")
-        codeBuilder.append("$className(")
-        codeBuilder.append("name, ")
-        codeBuilder.append("isNullable, ")
+        codeBuilder.append("): ${printableDefinition.name}<${declaration.jsName}Ref${declaration.genericTypesString}, ${declaration.jsName}${declaration.genericTypesString}>\n")
+        codeBuilder.append("${declaration.whereClauseString} = object : ${printableDefinition.name}<${declaration.jsName}Ref${declaration.genericTypesString}, ${declaration.jsName}${declaration.genericTypesString}>() {\n")
+        codeBuilder.append("  override val reference: ${declaration.jsName}Ref${declaration.genericTypesString} = $className(name, isNullable, ")
         declaration.getGenericReturnTypes(resolver).joinToString { item -> "${item.declaration.name.replaceFirstChar { it.lowercase() }}Builder" }.let {
             codeBuilder.append(it)
         }
-        codeBuilder.append(")")
-        codeBuilder.append("\n}")
+        codeBuilder.append(")\n}")
 
         writeToFile(
             fileName = className,
