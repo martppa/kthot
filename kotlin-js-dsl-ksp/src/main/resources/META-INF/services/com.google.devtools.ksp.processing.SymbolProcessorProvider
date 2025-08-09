@@ -1,2 +1,1 @@
-net.asere.kotlin.js.dsl.ksp.processor.intf.JsInterfaceProcessorProvider
-net.asere.kotlin.js.dsl.ksp.processor.ref.JsReferenceProcessorProvider
+net.asere.kotlin.js.dsl.ksp.processor.JsClassProcessorProvider

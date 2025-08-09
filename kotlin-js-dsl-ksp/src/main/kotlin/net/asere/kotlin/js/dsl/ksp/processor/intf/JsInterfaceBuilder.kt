@@ -1,25 +1,16 @@
 package net.asere.kotlin.js.dsl.ksp.processor.intf
 
 import com.google.devtools.ksp.processing.*
-import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSTypeParameter
-import com.google.devtools.ksp.validate
 import net.asere.kotlin.js.dsl.ksp.extension.*
+import net.asere.kotlin.js.dsl.ksp.processor.*
 import java.io.OutputStreamWriter
 
-class JsInterfaceProcessor(
+class JsInterfaceBuilder(
     private val codeGenerator: CodeGenerator,
-    private val logger: KSPLogger
-) : SymbolProcessor {
-
-    private val jsClassAnnotationName = "net.asere.kotlin.js.dsl.ksp.annotation.JsClass"
-    private val jsChainOperationName = "net.asere.kotlin.js.dsl.syntax.operation.ChainOperation"
-    private val jsInvocationOperationName = "net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation"
-    private val jsObjectName = "net.asere.kotlin.js.dsl.type.obj.JsObject"
-    private val jsSyntaxName = "net.asere.kotlin.js.dsl.syntax.JsSyntax"
-    private val jsElementName = "net.asere.kotlin.js.dsl.JsElement"
-    private val jsAccessOperationName = "net.asere.kotlin.js.dsl.syntax.operation.AccessOperation"
+    private val logger: KSPLogger,
+) : CodeBuilder {
     private lateinit var jsChainOperationDeclaration: KSClassDeclaration
     private lateinit var jsInvocationOperationDeclaration: KSClassDeclaration
     private lateinit var jsObjectDeclaration: KSClassDeclaration
@@ -27,17 +18,9 @@ class JsInterfaceProcessor(
     private lateinit var jsElementDeclaration: KSClassDeclaration
     private lateinit var jsAccessOperationDeclaration: KSClassDeclaration
 
-    override fun process(resolver: Resolver): List<KSAnnotated> {
-
+    override fun build(resolver: Resolver, declaration: KSClassDeclaration) {
         resolver.checkDependencies()
-
-        val declarations = findDeclarations(resolver) ?: return emptyList()
-
-        for (declaration in declarations) {
-            createInterface(declaration, resolver)
-        }
-
-        return declarations.filterNot { it.validate() }.toList()
+        createInterface(declaration, resolver)
     }
 
     private fun Resolver.checkDependencies() {
@@ -56,7 +39,8 @@ class JsInterfaceProcessor(
             codeBuilder.append("package $packageName\n\n")
         }
         codeBuilder.appendImports(declaration, resolver)
-        val interfaceName = codeBuilder.appendDeclaration(declaration)
+        val interfaceName = declaration.jsName
+        codeBuilder.append("interface ${declaration.getDeclaration(interfaceName)} {\n")
         codeBuilder.appendProperties(declaration, resolver)
         codeBuilder.appendMethods(declaration, resolver)
         codeBuilder.append("\n")
@@ -68,12 +52,6 @@ class JsInterfaceProcessor(
             declaration = declaration,
             codeBuilder = codeBuilder
         )
-    }
-
-    private fun StringBuilder.appendDeclaration(declaration: KSClassDeclaration): String {
-        val interfaceName = declaration.jsName
-        append("interface ${declaration.getDeclaration(interfaceName)} {\n")
-        return interfaceName
     }
 
     private fun StringBuilder.appendImports(declaration: KSClassDeclaration, resolver: Resolver) {
@@ -174,21 +152,12 @@ class JsInterfaceProcessor(
                 append("  fun $functionName(${
                     function.parameters.definitionString()}): ${
                         function.returnType?.resolve()?.definitionName} = ${
-                            function.returnType?.resolve()?.declaration?.name}(${
+                            function.returnType?.resolve()?.declaration?.name}.syntax(${
                                 jsChainOperationDeclaration.name}(this, ${
                                     jsInvocationOperationDeclaration.name}(\"$functionName\", ${
                                         function.parameters.listString()})))\n")
             }
         }
-    }
-
-    private fun findDeclarations(resolver: Resolver): Sequence<KSClassDeclaration>? {
-        val symbols = resolver.getSymbolsWithAnnotation(jsClassAnnotationName)
-            .filterIsInstance<KSClassDeclaration>()
-        if (!symbols.iterator().hasNext()) {
-            return null
-        }
-        return symbols
     }
 
     private fun writeToFile(
@@ -201,7 +170,7 @@ class JsInterfaceProcessor(
             dependencies = Dependencies(false, declaration.containingFile!!),
             packageName = packageName,
             fileName = fileName,
-            extensionName = "kt"
+            extensionName = "kt",
         )
         OutputStreamWriter(file).use { it.write(codeBuilder.toString()) }
         logger.info("Generated interface file for class: $fileName.kt")
@@ -230,7 +199,7 @@ private fun KSClassDeclaration.getDeclaration(name: String? = null): String {
         if (superTypes.isNotEmpty()) superTypes.joinToString(", ") { it.definitionName } else "JsObject"
     )
 
-    stringBuilder.append(whereClauseString)
+    stringBuilder.append(" $whereClauseString")
 
     return stringBuilder.toString()
 }

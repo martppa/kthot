@@ -1,13 +1,13 @@
-package net.asere.kotlin.js.dsl.ksp.processor.intf
+package net.asere.kotlin.js.dsl.ksp.processor
 
 import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.processing.SymbolProcessorProvider
 
-class JsInterfaceProcessorProvider : SymbolProcessorProvider {
+class JsClassProcessorProvider : SymbolProcessorProvider {
 
     override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
-        return JsInterfaceProcessor(
+        return JsClassProcessor(
             codeGenerator = environment.codeGenerator,
             logger = environment.logger
         )

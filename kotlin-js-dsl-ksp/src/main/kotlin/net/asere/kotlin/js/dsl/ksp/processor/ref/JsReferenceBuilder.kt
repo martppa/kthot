@@ -1,27 +1,25 @@
 package net.asere.kotlin.js.dsl.ksp.processor.ref
 
-import com.google.devtools.ksp.processing.*
-import com.google.devtools.ksp.symbol.KSAnnotated
+import com.google.devtools.ksp.processing.CodeGenerator
+import com.google.devtools.ksp.processing.Dependencies
+import com.google.devtools.ksp.processing.KSPLogger
+import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSClassDeclaration
-import com.google.devtools.ksp.validate
 import net.asere.kotlin.js.dsl.ksp.extension.*
-import net.asere.kotlin.js.dsl.ksp.processor.*
+import net.asere.kotlin.js.dsl.ksp.processor.CodeBuilder
+import net.asere.kotlin.js.dsl.ksp.processor.jsElementName
+import net.asere.kotlin.js.dsl.ksp.processor.jsPrintableDefinitionName
+import net.asere.kotlin.js.dsl.ksp.processor.jsReferenceIdName
+import net.asere.kotlin.js.dsl.ksp.processor.jsValueRefName
 import java.io.OutputStreamWriter
 
-class JsReferenceProcessor(
+class JsReferenceBuilder(
     private val codeGenerator: CodeGenerator,
     private val logger: KSPLogger
-) : SymbolProcessor {
+) : CodeBuilder {
 
-    override fun process(resolver: Resolver): List<KSAnnotated> {
-
-        val declarations = findDeclarations(resolver) ?: return emptyList()
-
-        for (declaration in declarations) {
-            createReference(declaration, resolver)
-        }
-
-        return declarations.filterNot { it.validate() }.toList()
+    override fun build(resolver: Resolver, declaration: KSClassDeclaration) {
+        createReference(declaration, resolver)
     }
 
     private fun createReference(declaration: KSClassDeclaration, resolver: Resolver) {
@@ -32,12 +30,20 @@ class JsReferenceProcessor(
             codeBuilder.append("package $packageName\n\n")
         }
         codeBuilder.appendImports(declaration, resolver)
-        val className = codeBuilder.appendDeclaration(declaration, resolver)
-        codeBuilder.append(" {\n")
-        codeBuilder.append("   override fun toString(): String = present()")
-        codeBuilder.append("\n}")
-        codeBuilder.append("\n")
-        codeBuilder.append("\n")
+        val className = declaration.jsName + "Ref"
+        codeBuilder.append("class $className${declaration.genericTypesDeclarationString} internal constructor(\n")
+        codeBuilder.append("  name: String? = null,\n")
+        codeBuilder.append("  isNullable: Boolean = false,\n")
+        declaration.getGenericReturnTypes(resolver).forEach { type ->
+            codeBuilder.append("  override val ${type.getBuilderDefinition(resolver.loadClass(jsElementName))},\n")
+        }
+        codeBuilder.append(") : ${declaration.jsName}${declaration.genericTypesString}, ")
+        codeBuilder.append("${resolver.loadClass(jsValueRefName)}<${declaration.jsName}${declaration.genericTypesString}>(\n")
+        codeBuilder.append($$$"   name = name ?: \"$$${declaration.jsName.lowercase()}_${ReferenceId.nextRefInt()}\",\n")
+        codeBuilder.append("   isNullable = isNullable\n")
+        codeBuilder.append(") ${declaration.whereClauseString} {\n")
+        codeBuilder.append("   override fun toString(): String = present()\n")
+        codeBuilder.append("}\n\n")
 
         codeBuilder.append("fun ${declaration.genericTypesDeclarationString} ${declaration.jsName}.Companion.ref(\n")
         codeBuilder.append("  name: String? = null,\n")
@@ -94,12 +100,6 @@ class JsReferenceProcessor(
         )
     }
 
-    private fun StringBuilder.appendDeclaration(declaration: KSClassDeclaration, resolver: Resolver): String {
-        val className = declaration.jsName + "Ref"
-        append("class ${declaration.getDeclaration(name = className, resolver = resolver)}")
-        return className
-    }
-
     private fun StringBuilder.appendImports(declaration: KSClassDeclaration, resolver: Resolver) {
         val imports: MutableSet<String> = mutableSetOf()
 
@@ -122,15 +122,6 @@ class JsReferenceProcessor(
         append("\n")
     }
 
-    private fun findDeclarations(resolver: Resolver): Sequence<KSClassDeclaration>? {
-        val symbols = resolver.getSymbolsWithAnnotation(jsClassAnnotationName)
-            .filterIsInstance<KSClassDeclaration>()
-        if (!symbols.iterator().hasNext()) {
-            return null
-        }
-        return symbols
-    }
-
     private fun writeToFile(
         fileName: String,
         packageName: String,
@@ -146,25 +137,4 @@ class JsReferenceProcessor(
         OutputStreamWriter(file).use { it.write(codeBuilder.toString()) }
         logger.info("Generated interface file for class: $fileName.kt")
     }
-}
-
-private fun KSClassDeclaration.getDeclaration(name: String, resolver: Resolver): String {
-    val stringBuilder = StringBuilder()
-    stringBuilder.append(name)
-    stringBuilder.append(genericTypesDeclarationString)
-    stringBuilder.append("(\n")
-    stringBuilder.append("  name: String? = null,\n")
-    stringBuilder.append("  isNullable: Boolean = false,\n")
-    getGenericReturnTypes(resolver).forEach { type ->
-        stringBuilder.append("  override val ${type.getBuilderDefinition(resolver.loadClass(jsElementName))},\n")
-    }
-    stringBuilder.append(") : $jsName")
-    stringBuilder.append("$genericTypesString, ")
-    stringBuilder.append("${resolver.loadClass(jsValueRefName)}<${jsName}${genericTypesString}>(\n")
-    stringBuilder.append($$$"   name = name ?: \"$$${jsName.lowercase()}_${ReferenceId.nextRefInt()}\",\n")
-    stringBuilder.append("   isNullable = isNullable")
-    stringBuilder.append("\n)")
-    stringBuilder.append(whereClauseString)
-
-    return stringBuilder.toString()
 }

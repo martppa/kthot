@@ -11,6 +11,7 @@ import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSTypeArgument
 import com.google.devtools.ksp.symbol.Visibility
+import net.asere.kotlin.js.dsl.ksp.processor.jsClassAnnotationName
 import kotlin.sequences.forEach
 
 val KSDeclaration.fullName: String get() = qualifiedName?.asString() ?: "Any"
@@ -74,4 +75,9 @@ fun KSDeclaration.getGenericReturnTypes(resolver: Resolver): Set<KSType> {
         types.addAll(type.resolve().declaration.getGenericReturnTypes(resolver))
     }
     return types
+}
+
+val KSDeclaration.jsName: String get() {
+    if (this is KSClassDeclaration) return jsName
+    return name
 }

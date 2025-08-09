@@ -46,7 +46,7 @@ fun KSClassDeclaration.isSubclassOf(superClass: KSClassDeclaration): Boolean {
 val KSClassDeclaration.jsName: String get() {
     val jsClassAnnotation = annotations.find {
         it.annotationType.resolve().declaration.qualifiedName?.asString() == jsClassAnnotationName
-    } ?: throw IllegalStateException("@JsClass annotation not found on ${qualifiedName?.asString()}")
+    } ?: return name
 
     val nameFromAnnotation =
         jsClassAnnotation.arguments.find { it.name?.asString() == "name" }?.value as? String
@@ -81,7 +81,7 @@ val KSClassDeclaration.whereClauseString: String get() {
         parameter.bounds.filter { !it.resolve().declaration.isAny() }
             .map { bound ->  "${parameter.name.asString()} : ${bound.resolve().definitionName}" }
             .joinToString()
-    }.filter { it.isNotBlank() }.let { if (it.isEmpty()) "" else " where ${it.joinToString()}" }
+    }.filter { it.isNotBlank() }.let { if (it.isEmpty()) "" else "where ${it.joinToString()}" }
     return whereClause
 }
 
