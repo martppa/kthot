@@ -40,4 +40,4 @@ fun KSType.getAllTypes(): Set<KSType> {
 
 val KSType.builderName: String get() = "${declaration.name.replaceFirstChar { it.lowercase() }}Builder"
 fun KSType.getBuilderDefinition(argument: KSClassDeclaration) =
-    "${declaration.name.replaceFirstChar { it.lowercase() }}Builder: (${argument.asStarProjectedType().definitionName}) -> $definitionName"
+    "${declaration.name.replaceFirstChar { it.lowercase() }}Builder: (${argument.asStarProjectedType().definitionName}, isNullable: Boolean) -> $definitionName"

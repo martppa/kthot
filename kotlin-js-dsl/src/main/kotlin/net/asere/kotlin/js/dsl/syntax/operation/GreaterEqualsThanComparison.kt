@@ -2,7 +2,10 @@ package net.asere.kotlin.js.dsl.syntax.operation
 
 import net.asere.kotlin.js.dsl.syntax.operation.operator.ArithmeticalOperator
 import net.asere.kotlin.js.dsl.syntax.operation.operator.GreaterEqualsThan
+import net.asere.kotlin.js.dsl.type.bool.syntax
+import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
+import net.asere.kotlin.js.dsl.type.number.syntax
 
 class GreaterEqualsThanComparison(
     override val leftHand: Operable,
@@ -23,10 +26,10 @@ infix fun Operation.gte(rightHand: Operable): GreaterEqualsThanComparison = Grea
 
 infix fun Operable.gte(rightHand: Number): GreaterEqualsThanComparison = GreaterEqualsThanComparison(
     leftHand = this,
-    rightHand = JsNumberSyntax("$rightHand")
+    rightHand = JsNumber.syntax("$rightHand")
 )
 
 infix fun Operation.gte(rightHand: Number): GreaterEqualsThanComparison = GreaterEqualsThanComparison(
     leftHand = this.group(),
-    rightHand = JsNumberSyntax("$rightHand")
+    rightHand = JsNumber.syntax("$rightHand")
 )

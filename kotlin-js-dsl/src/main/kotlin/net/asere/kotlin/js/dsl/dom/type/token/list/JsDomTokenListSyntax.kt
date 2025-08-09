@@ -3,9 +3,13 @@ package net.asere.kotlin.js.dsl.dom.type.token.list
 import net.asere.kotlin.js.dsl.JsElement
 import net.asere.kotlin.js.dsl.syntax.JsReferenceSyntax
 
-class JsDomTokenListSyntax(value: String) : JsReferenceSyntax<JsDomTokenList>(value), JsDomTokenList {
-    constructor(value: JsElement) : this("$value")
+class JsDomTokenListSyntax(value: String, isNullable: Boolean) : JsReferenceSyntax<JsDomTokenList>(value, isNullable),
+    JsDomTokenList {
+    constructor(value: JsElement, isNullable: Boolean) : this("$value", isNullable)
 }
 
-fun JsDomTokenList.Companion.syntax(value: String): JsDomTokenListSyntax = JsDomTokenListSyntax(value)
-fun JsDomTokenList.Companion.syntax(value: JsElement): JsDomTokenListSyntax = JsDomTokenListSyntax(value)
+fun JsDomTokenList.Companion.syntax(value: String, isNullable: Boolean = false): JsDomTokenListSyntax =
+    JsDomTokenListSyntax(value, isNullable)
+
+fun JsDomTokenList.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsDomTokenListSyntax =
+    JsDomTokenListSyntax(value, isNullable)

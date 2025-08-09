@@ -3,7 +3,9 @@ package net.asere.kotlin.js.dsl.dom.type.document
 import net.asere.kotlin.js.dsl.dom.type.array.JsDomArray
 import net.asere.kotlin.js.dsl.dom.type.obj.JsDomObject
 import net.asere.kotlin.js.dsl.dom.type.array.JsDomArraySyntax
+import net.asere.kotlin.js.dsl.dom.type.array.syntax
 import net.asere.kotlin.js.dsl.dom.type.obj.JsDomObjectSyntax
+import net.asere.kotlin.js.dsl.dom.type.obj.syntax
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.string.JsString
@@ -25,7 +27,7 @@ interface JsDocument : JsDomObject {
      * @return A [JsDomObject] representing the element, or `null` if no element with the specified ID exists.
      */
     fun getElementById(id: JsString): JsDomObject =
-        JsDomObjectSyntax(ChainOperation(this, InvocationOperation("getElementById", id)))
+        JsDomObject.syntax(ChainOperation(this, InvocationOperation("getElementById", id)))
 
     fun getElementById(id: String): JsDomObject = getElementById(id.js)
 
@@ -37,7 +39,7 @@ interface JsDocument : JsDomObject {
      * @return A [JsDomArray] containing all matching elements.
      */
     fun getElementsByClassName(className: JsString): JsDomArray =
-        JsDomArraySyntax(ChainOperation(this, InvocationOperation("getElementsByClassName", className)))
+        JsDomArray.syntax(ChainOperation(this, InvocationOperation("getElementsByClassName", className)))
 
     fun getElementsByClassName(className: String): JsDomArray = getElementsByClassName(className.js)
 
@@ -49,7 +51,7 @@ interface JsDocument : JsDomObject {
      * @return A [JsDomArray] containing all matching elements.
      */
     fun getElementsByTagName(tagName: JsString): JsDomArray =
-        JsDomArraySyntax(ChainOperation(this, InvocationOperation("getElementsByTagName", tagName)))
+        JsDomArray.syntax(ChainOperation(this, InvocationOperation("getElementsByTagName", tagName)))
 
     fun getElementsByTagName(tagName: String): JsDomArray = getElementsByTagName(tagName.js)
 
@@ -62,7 +64,7 @@ interface JsDocument : JsDomObject {
      * @return A [JsDomArray] containing all matching elements.
      */
     fun getElementsByName(name: JsString): JsDomArray =
-        JsDomArraySyntax(ChainOperation(this, InvocationOperation("getElementsByName", name)))
+        JsDomArray.syntax(ChainOperation(this, InvocationOperation("getElementsByName", name)))
 
     fun getElementsByName(name: String): JsDomArray = getElementsByName(name.js)
 
@@ -74,7 +76,7 @@ interface JsDocument : JsDomObject {
      * @return A new [JsDomObject] representing the created element.
      */
     fun createElement(tagName: JsString): JsDomObject =
-        JsDomObjectSyntax(ChainOperation(this, InvocationOperation("createElement", tagName)))
+        JsDomObject.syntax(ChainOperation(this, InvocationOperation("createElement", tagName)))
 
     fun createElement(tagName: String): JsDomObject = createElement(tagName.js)
 
@@ -86,7 +88,7 @@ interface JsDocument : JsDomObject {
      * @return A new [JsDomObject] representing the created text node.
      */
     fun createTextNode(text: JsString): JsDomObject =
-        JsDomObjectSyntax(ChainOperation(this, InvocationOperation("createTextNode", text)))
+        JsDomObject.syntax(ChainOperation(this, InvocationOperation("createTextNode", text)))
 
     fun createTextNode(text: String): JsDomObject = createTextNode(text.js)
 
@@ -98,7 +100,7 @@ interface JsDocument : JsDomObject {
      * @return A new [JsDomObject] representing the created comment node.
      */
     fun createComment(text: JsString): JsDomObject =
-        JsDomObjectSyntax(ChainOperation(this, InvocationOperation("createComment", text)))
+        JsDomObject.syntax(ChainOperation(this, InvocationOperation("createComment", text)))
 
     fun createComment(text: String): JsDomObject = createComment(text.js)
 
@@ -111,7 +113,7 @@ interface JsDocument : JsDomObject {
      * @return A new [JsDomObject] representing the created `DocumentFragment`.
      */
     fun createDocumentFragment(): JsDomObject =
-        JsDomObjectSyntax(ChainOperation(this, InvocationOperation("createDocumentFragment")))
+        JsDomObject.syntax(ChainOperation(this, InvocationOperation("createDocumentFragment")))
 
     companion object
 }

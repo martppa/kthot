@@ -6,11 +6,14 @@ import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.array.JsArraySyntax
 import net.asere.kotlin.js.dsl.type.array.JsArray
+import net.asere.kotlin.js.dsl.type.array.syntax
 import net.asere.kotlin.js.dsl.type.value.JsValue
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
 import net.asere.kotlin.js.dsl.type.bool.JsBooleanSyntax
+import net.asere.kotlin.js.dsl.type.bool.syntax
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
+import net.asere.kotlin.js.dsl.type.number.syntax
 import net.asere.kotlin.js.dsl.type.undefined
 
 /**
@@ -26,7 +29,7 @@ interface JsString : JsValue {
      * In JavaScript, this corresponds to `string.length`.
      * @return A [net.asere.kotlin.js.dsl.type.number.JsNumber] object representing the length of the string.
      */
-    fun getLength(): JsNumber = JsNumberSyntax(ChainOperation(this, "length"))
+    fun getLength(): JsNumber = JsNumber.syntax(ChainOperation(this, "length"))
 
     /**
      * Returns the character at the specified index (position) in a string.
@@ -35,7 +38,7 @@ interface JsString : JsValue {
      * @param index The index of the character to retrieve as a [JsNumber] object.
      * @return A [JsString] object representing the character at the specified index.
      */
-    fun charAt(index: JsNumber): JsString = JsStringSyntax(ChainOperation(this, InvocationOperation("charAt", index)))
+    fun charAt(index: JsNumber): JsString = JsString.syntax(ChainOperation(this, InvocationOperation("charAt", index)))
 
     /**
      * Returns the Unicode of the character at the specified index in a string.
@@ -45,7 +48,7 @@ interface JsString : JsValue {
      * @return A [JsNumber] object representing the UTF-16 code unit value of the character at the specified index.
      */
     fun charCodeAt(index: JsNumber): JsNumber =
-        JsNumberSyntax(ChainOperation(this, InvocationOperation("charCodeAt", index)))
+        JsNumber.syntax(ChainOperation(this, InvocationOperation("charCodeAt", index)))
 
     /**
      * Joins two or more strings.
@@ -55,7 +58,7 @@ interface JsString : JsValue {
      * @return A [JsString] object representing the new concatenated string.
      */
     fun concat(vararg strings: JsString): JsString {
-        return JsStringSyntax(ChainOperation(this, InvocationOperation("concat", *strings)))
+        return JsString.syntax(ChainOperation(this, InvocationOperation("concat", *strings)))
     }
 
     /**
@@ -67,7 +70,7 @@ interface JsString : JsValue {
      * @return A [net.asere.kotlin.js.dsl.type.bool.JsBoolean] object indicating whether the string ends with the specified characters.
      */
     fun endsWith(searchString: JsString, length: JsNumber? = null): JsBoolean {
-        return JsBooleanSyntax(ChainOperation(this, InvocationOperation("endsWith", searchString, length ?: undefined)))
+        return JsBoolean.syntax(ChainOperation(this, InvocationOperation("endsWith", searchString, length ?: undefined)))
     }
 
     /**
@@ -79,7 +82,7 @@ interface JsString : JsValue {
      * @return A [JsBoolean] object indicating whether the string contains the specified characters.
      */
     fun includes(searchString: JsString, position: JsNumber? = null): JsBoolean {
-        return JsBooleanSyntax(
+        return JsBoolean.syntax(
             ChainOperation(
                 this,
                 InvocationOperation("includes", searchString, position ?: undefined)
@@ -126,7 +129,7 @@ interface JsString : JsValue {
      * @return A [JsString] object representing the new string of the specified length with the pad string applied to the end.
      */
     fun padEnd(targetLength: JsNumber, padString: JsString? = null): JsString {
-        return JsStringSyntax(ChainOperation(this, InvocationOperation("padEnd", targetLength, padString ?: undefined)))
+        return JsString.syntax(ChainOperation(this, InvocationOperation("padEnd", targetLength, padString ?: undefined)))
     }
 
     /**
@@ -139,7 +142,7 @@ interface JsString : JsValue {
      * @return A [JsString] object representing the new string of the specified length with the pad string applied to the start.
      */
     fun padStart(targetLength: JsNumber, padString: JsString? = null): JsString {
-        return JsStringSyntax(
+        return JsString.syntax(
             ChainOperation(
                 this,
                 InvocationOperation("padStart", targetLength, padString ?: undefined)
@@ -154,7 +157,7 @@ interface JsString : JsValue {
      * @param count The number of times to repeat the string as a [JsNumber] object.
      * @return A [JsString] object representing the new string with the repeated content.
      */
-    fun repeat(count: JsNumber): JsString = JsStringSyntax(ChainOperation(this, InvocationOperation("repeat", count)))
+    fun repeat(count: JsNumber): JsString = JsString.syntax(ChainOperation(this, InvocationOperation("repeat", count)))
 
     /**
      * Returns a new string with some or all matches of a `pattern` replaced by a `replacement`.
@@ -167,7 +170,7 @@ interface JsString : JsValue {
      * @return A [JsString] object representing the new string with the replacement performed.
      */
     fun replace(searchValue: JsString, replaceValue: JsString): JsString =
-        JsStringSyntax(ChainOperation(this, InvocationOperation("replace", searchValue, replaceValue)))
+        JsString.syntax(ChainOperation(this, InvocationOperation("replace", searchValue, replaceValue)))
 
     /**
      * Returns a new string with all matches of a `pattern` replaced by a `replacement`.
@@ -178,7 +181,7 @@ interface JsString : JsValue {
      * @return A [JsString] object representing the new string with all replacements performed.
      */
     fun replaceAll(searchValue: JsString, replaceValue: JsString): JsString =
-        JsStringSyntax(ChainOperation(this, InvocationOperation("replaceAll", searchValue, replaceValue)))
+        JsString.syntax(ChainOperation(this, InvocationOperation("replaceAll", searchValue, replaceValue)))
 
     /**
      * Searches a string for a specified value, and returns the position of the match.
@@ -187,7 +190,7 @@ interface JsString : JsValue {
      * @param regexp A [JsString] representing a regular expression.
      * @return A [JsNumber] object representing the index of the first match, or -1 if no match is found.
      */
-    fun search(regexp: JsString): JsNumber = JsNumberSyntax(ChainOperation(this, InvocationOperation("search", regexp)))
+    fun search(regexp: JsString): JsNumber = JsNumber.syntax(ChainOperation(this, InvocationOperation("search", regexp)))
 
     /**
      * Extracts a section of a string and returns it as a new string.
@@ -198,7 +201,7 @@ interface JsString : JsValue {
      * @return A [JsString] object representing the extracted section of the string.
      */
     fun slice(startIndex: JsNumber, endIndex: JsNumber? = null): JsString {
-        return JsStringSyntax(ChainOperation(this, InvocationOperation("slice", startIndex, endIndex ?: undefined)))
+        return JsString.syntax(ChainOperation(this, InvocationOperation("slice", startIndex, endIndex ?: undefined)))
     }
 
     /**
@@ -210,7 +213,7 @@ interface JsString : JsValue {
      * @return A [JsArray] of [JsString] objects representing the new array of substrings.
      */
     fun split(separator: JsString? = null, limit: JsNumber? = null): JsArray<JsString> {
-        return JsArraySyntax(
+        return JsArray.syntax(
             typeBuilder = JsString::syntax,
             value = ChainOperation(
                 this,
@@ -228,7 +231,7 @@ interface JsString : JsValue {
      * @return A [JsBoolean] object indicating whether the string starts with the specified characters.
      */
     fun startsWith(searchString: JsString, position: JsNumber? = null): JsBoolean {
-        return JsBooleanSyntax(
+        return JsBoolean.syntax(
             ChainOperation(
                 this,
                 InvocationOperation("startsWith", searchString, position ?: undefined)
@@ -245,7 +248,7 @@ interface JsString : JsValue {
      * @return A [JsString] object representing the extracted substring.
      */
     fun substring(startIndex: JsNumber, endIndex: JsNumber? = null): JsString {
-        return JsStringSyntax(ChainOperation(this, InvocationOperation("substring", startIndex, endIndex ?: undefined)))
+        return JsString.syntax(ChainOperation(this, InvocationOperation("substring", startIndex, endIndex ?: undefined)))
     }
 
     /**
@@ -257,7 +260,7 @@ interface JsString : JsValue {
      * @return A [JsString] object representing the new string converted to lowercase.
      */
     fun toLocaleLowerCase(locale: JsValue? = null): JsString {
-        return JsStringSyntax(ChainOperation(this, InvocationOperation("toLocaleLowerCase", locale ?: undefined)))
+        return JsString.syntax(ChainOperation(this, InvocationOperation("toLocaleLowerCase", locale ?: undefined)))
     }
 
     /**
@@ -269,7 +272,7 @@ interface JsString : JsValue {
      * @return A [JsString] object representing the new string converted to uppercase.
      */
     fun toLocaleUpperCase(locale: JsValue? = null): JsString {
-        return JsStringSyntax(ChainOperation(this, InvocationOperation("toLocaleUpperCase", locale ?: undefined)))
+        return JsString.syntax(ChainOperation(this, InvocationOperation("toLocaleUpperCase", locale ?: undefined)))
     }
 
     /**
@@ -278,7 +281,7 @@ interface JsString : JsValue {
      * In JavaScript, this corresponds to `string.toLowerCase()`.
      * @return A [JsString] object representing the new string converted to lowercase.
      */
-    fun toLowerCase(): JsString = JsStringSyntax(ChainOperation(this, InvocationOperation("toLowerCase")))
+    fun toLowerCase(): JsString = JsString.syntax(ChainOperation(this, InvocationOperation("toLowerCase")))
 
     /**
      * Converts a string to uppercase.
@@ -286,7 +289,7 @@ interface JsString : JsValue {
      * In JavaScript, this corresponds to `string.toUpperCase()`.
      * @return A [JsString] object representing the new string converted to uppercase.
      */
-    fun toUpperCase(): JsString = JsStringSyntax(ChainOperation(this, InvocationOperation("toUpperCase")))
+    fun toUpperCase(): JsString = JsString.syntax(ChainOperation(this, InvocationOperation("toUpperCase")))
 
     /**
      * Removes whitespace from both ends of a string.
@@ -294,7 +297,7 @@ interface JsString : JsValue {
      * In JavaScript, this corresponds to `string.trim()`.
      * @return A [JsString] object representing the new string with whitespace removed from both ends.
      */
-    fun trim(): JsString = JsStringSyntax(ChainOperation(this, InvocationOperation("trim")))
+    fun trim(): JsString = JsString.syntax(ChainOperation(this, InvocationOperation("trim")))
 
     /**
      * Removes whitespace from the end (right) of a string.
@@ -302,7 +305,7 @@ interface JsString : JsValue {
      * In JavaScript, this corresponds to `string.trimEnd()`.
      * @return A [JsString] object representing the new string with whitespace removed from the end.
      */
-    fun trimEnd(): JsString = JsStringSyntax(ChainOperation(this, InvocationOperation("trimEnd")))
+    fun trimEnd(): JsString = JsString.syntax(ChainOperation(this, InvocationOperation("trimEnd")))
 
     /**
      * Removes whitespace from the beginning (left) of a string.
@@ -310,7 +313,7 @@ interface JsString : JsValue {
      * In JavaScript, this corresponds to `string.trimStart()`.
      * @return A [JsString] object representing the new string with whitespace removed from the beginning.
      */
-    fun trimStart(): JsString = JsStringSyntax(ChainOperation(this, InvocationOperation("trimStart")))
+    fun trimStart(): JsString = JsString.syntax(ChainOperation(this, InvocationOperation("trimStart")))
 }
 
 /**

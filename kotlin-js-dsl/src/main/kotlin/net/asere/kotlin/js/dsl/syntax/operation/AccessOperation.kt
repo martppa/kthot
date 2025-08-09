@@ -1,10 +1,15 @@
 package net.asere.kotlin.js.dsl.syntax.operation
 
 import net.asere.kotlin.js.dsl.isNullable
-import net.asere.kotlin.js.dsl.syntax.operation.operator.*
-import net.asere.kotlin.js.dsl.type.obj.JsObjectSyntax
+import net.asere.kotlin.js.dsl.syntax.operation.operator.Access
+import net.asere.kotlin.js.dsl.syntax.operation.operator.Operator
+import net.asere.kotlin.js.dsl.syntax.operation.operator.OptionalAccess
+import net.asere.kotlin.js.dsl.type.bool.syntax
+import net.asere.kotlin.js.dsl.type.obj.JsObject
+import net.asere.kotlin.js.dsl.type.obj.syntax
+import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.JsStringSyntax
-import net.asere.kotlin.js.dsl.type.string.JsStringValue
+import net.asere.kotlin.js.dsl.type.string.syntax
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 class AccessOperation(
@@ -13,12 +18,12 @@ class AccessOperation(
 ) : ReflexiveOperation() {
 
     constructor(leftSideElement: String, arg: JsValue)
-            : this(JsStringSyntax(leftSideElement), arg)
+            : this(JsString.syntax(leftSideElement), arg)
 
     constructor(leftSideElement: JsValue, arg: String)
-            : this(leftSideElement, JsStringSyntax(arg))
+            : this(leftSideElement, JsString.syntax(arg))
 
-    override val leftSideElement: JsValue = JsObjectSyntax(operable)
+    override val leftSideElement: JsValue = JsObject.syntax(operable)
     override val rightSideElement: Operator = if (leftSideElement.isNullable())
         OptionalAccess(arg) else Access(arg)
 }

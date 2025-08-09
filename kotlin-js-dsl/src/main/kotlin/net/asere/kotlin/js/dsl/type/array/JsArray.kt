@@ -22,7 +22,7 @@ interface JsArray<T : JsValue> : JsObject {
 
     companion object
 
-    val typeBuilder: (JsElement) -> T get() = { throw IllegalStateException("Builder not set!") }
+    val typeBuilder: (JsElement, isNullable: Boolean) -> T get() = { _, _ -> throw IllegalStateException("Builder not set!") }
 
     /**
      * Returns the element at the specified index in the array.
@@ -31,7 +31,7 @@ interface JsArray<T : JsValue> : JsObject {
      * @param index The zero-based index of the element to retrieve as a [JsNumber] object.
      * @return A [T] reference to the element at the specified index.
      */
-    fun getByIndex(index: JsNumber): T = typeBuilder(AccessOperation(this, index))
+    fun getByIndex(index: JsNumber): T = typeBuilder(AccessOperation(this, index), false)
 
     /**
      * Returns the number of elements in the array.
@@ -58,7 +58,12 @@ interface JsArray<T : JsValue> : JsObject {
      * In JavaScript, this corresponds to `array.pop()`.
      * @return A [T] reference to the removed element.
      */
-    fun pop(): T = typeBuilder(ChainOperation(this, InvocationOperation("pop")))
+    fun pop(): T = typeBuilder(
+        ChainOperation(
+            leftHand = this,
+            rightHand = InvocationOperation("pop")
+        ), false
+    )
 
     /**
      * Removes the first element from an array and returns that element.

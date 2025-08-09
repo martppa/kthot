@@ -2,6 +2,7 @@ package net.asere.kotlin.js.dsl.dom.type.array
 
 import net.asere.kotlin.js.dsl.dom.type.obj.JsDomObject
 import net.asere.kotlin.js.dsl.dom.type.obj.JsDomObjectSyntax
+import net.asere.kotlin.js.dsl.dom.type.obj.syntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.AccessOperation
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
@@ -36,7 +37,7 @@ interface JsDomArray : JsObject {
      * @param index The zero-based index of the element to retrieve as a [JsNumber] object.
      * @return A [JsDomObject] representing the DOM element at the specified index.
      */
-    operator fun get(index: JsNumber): JsDomObject = JsDomObjectSyntax(AccessOperation(this, index))
+    operator fun get(index: JsNumber): JsDomObject = JsDomObject.syntax(AccessOperation(this, index))
 
     /**
      * Allows accessing an element in the collection using the Kotlin array-access operator `[]`.
@@ -55,7 +56,7 @@ interface JsDomArray : JsObject {
      * @return A [JsDomObject] representing the DOM element at the specified index.
      */
     fun getItem(index: JsNumber): JsDomObject =
-        JsDomObjectSyntax(ChainOperation(this, InvocationOperation("item", index)))
+        JsDomObject.syntax(ChainOperation(this, InvocationOperation("item", index)))
 
     /**
      * Returns an element in the collection using the `item()` method.
@@ -75,7 +76,7 @@ interface JsDomArray : JsObject {
      * @return A [JsDomObject] representing the found DOM element, or `null` if not found.
      */
     fun namedItem(name: JsString): JsDomObject =
-        JsDomObjectSyntax(ChainOperation(this, InvocationOperation("namedItem", name)))
+        JsDomObject.syntax(ChainOperation(this, InvocationOperation("namedItem", name)))
 
     /**
      * Returns the first element in the collection that has the specified `id` or `name` attribute.

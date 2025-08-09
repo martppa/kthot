@@ -1,19 +1,21 @@
 package net.asere.kotlin.js.dsl.dom.type.media.stream
 
 import net.asere.kotlin.js.dsl.dom.type.media.stream.track.JsMediaStreamTrack
-import net.asere.kotlin.js.dsl.dom.type.media.stream.track.JsMediaStreamTrackSyntax
 import net.asere.kotlin.js.dsl.dom.type.media.stream.track.syntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
-import net.asere.kotlin.js.dsl.type.array.JsArraySyntax
-import net.asere.kotlin.js.dsl.type.string.JsStringSyntax
 import net.asere.kotlin.js.dsl.type.array.JsArray
+import net.asere.kotlin.js.dsl.type.array.JsArraySyntax
+import net.asere.kotlin.js.dsl.type.array.syntax
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
 import net.asere.kotlin.js.dsl.type.bool.JsBooleanSyntax
+import net.asere.kotlin.js.dsl.type.bool.syntax
 import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.string.JsString
+import net.asere.kotlin.js.dsl.type.string.JsStringSyntax
 import net.asere.kotlin.js.dsl.type.string.js
+import net.asere.kotlin.js.dsl.type.string.syntax
 
 /**
  * Represents a JavaScript `MediaStream` object, which is a stream of media content.
@@ -26,7 +28,7 @@ interface JsMediaStream : JsObject {
      *
      * In JavaScript, this corresponds to `mediaStream.id`.
      */
-    val id: JsString get() = JsStringSyntax(ChainOperation(this, "id"))
+    val id: JsString get() = JsString.syntax(ChainOperation(this, "id"))
 
     /**
      * Returns a boolean indicating whether the stream is active (has at least one active track)
@@ -34,7 +36,7 @@ interface JsMediaStream : JsObject {
      *
      * In JavaScript, this corresponds to `mediaStream.active`.
      */
-    val active: JsBoolean get() = JsBooleanSyntax(ChainOperation(this, "active"))
+    val active: JsBoolean get() = JsBoolean.syntax(ChainOperation(this, "active"))
 
     /**
      * Returns a [net.asere.kotlin.js.dsl.type.array.JsArray] of all `MediaStreamTrack` objects in the stream that have `kind` set to "audio".
@@ -43,9 +45,9 @@ interface JsMediaStream : JsObject {
      * @return A [net.asere.kotlin.js.dsl.type.array.JsArray] of [JsMediaStreamTrack] objects.
      */
     fun getAudioTracks(): JsArray<JsMediaStreamTrack> =
-        JsArraySyntax(
+        JsArray.syntax(
             typeBuilder = JsMediaStreamTrack::syntax,
-            value = ChainOperation(this, InvocationOperation("getAudioTracks"))
+            value = ChainOperation(this, InvocationOperation("getAudioTracks")),
         )
 
     /**
@@ -55,7 +57,7 @@ interface JsMediaStream : JsObject {
      * @return A [JsArray] of [JsMediaStreamTrack] objects.
      */
     fun getVideoTracks(): JsArray<JsMediaStreamTrack> =
-        JsArraySyntax(
+        JsArray.syntax(
             typeBuilder = JsMediaStreamTrack::syntax,
             value = ChainOperation(this, InvocationOperation("getVideoTracks"))
         )
@@ -67,7 +69,7 @@ interface JsMediaStream : JsObject {
      * @return A [JsArray] of [JsMediaStreamTrack] objects.
      */
     fun getTracks(): JsArray<JsMediaStreamTrack> =
-        JsArraySyntax(
+        JsArray.syntax(
             typeBuilder = JsMediaStreamTrack::syntax,
             value = ChainOperation(this, InvocationOperation("getTracks"))
         )
@@ -80,7 +82,7 @@ interface JsMediaStream : JsObject {
      * @return A [JsMediaStreamTrack] object if found, otherwise `null`.
      */
     fun getTrackById(trackId: JsString): JsMediaStreamTrack =
-        JsMediaStreamTrackSyntax(ChainOperation(this, InvocationOperation("getTrackById", trackId)))
+        JsMediaStreamTrack.syntax(ChainOperation(this, InvocationOperation("getTrackById", trackId)))
 
     fun getTrackById(trackId: String): JsMediaStreamTrack = getTrackById(trackId.js)
 
@@ -111,7 +113,7 @@ interface JsMediaStream : JsObject {
      * @return A new [JsMediaStream] object that is a clone of the original.
      */
     fun clone(): JsMediaStream =
-        JsMediaStreamSyntax(ChainOperation(this, InvocationOperation("clone")))
+        JsMediaStream.syntax(ChainOperation(this, InvocationOperation("clone")))
 
     companion object
 }

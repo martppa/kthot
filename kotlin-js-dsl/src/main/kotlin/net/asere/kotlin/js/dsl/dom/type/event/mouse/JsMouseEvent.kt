@@ -4,6 +4,7 @@ import net.asere.kotlin.js.dsl.dom.type.event.dom.JsDomEvent
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
 import net.asere.kotlin.js.dsl.type.bool.JsBooleanSyntax
+import net.asere.kotlin.js.dsl.type.bool.syntax
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
 
@@ -83,7 +84,7 @@ interface JsMouseEvent : JsDomEvent {
      *
      * In JavaScript, this corresponds to `event.altKey`.
      */
-    val altKey: JsBoolean get() = JsBooleanSyntax(ChainOperation(this, "altKey"))
+    val altKey: JsBoolean get() = JsBoolean.syntax(ChainOperation(this, "altKey"))
 
     /**
      * Returns a boolean indicating if the `Control` key was pressed when the event occurred
@@ -91,7 +92,7 @@ interface JsMouseEvent : JsDomEvent {
      *
      * In JavaScript, this corresponds to `event.ctrlKey`.
      */
-    val ctrlKey: JsBoolean get() = JsBooleanSyntax(ChainOperation(this, "ctrlKey"))
+    val ctrlKey: JsBoolean get() = JsBoolean.syntax(ChainOperation(this, "ctrlKey"))
 
     /**
      * Returns a boolean indicating if the `Shift` key was pressed when the event occurred
@@ -99,7 +100,7 @@ interface JsMouseEvent : JsDomEvent {
      *
      * In JavaScript, this corresponds to `event.shiftKey`.
      */
-    val shiftKey: JsBoolean get() = JsBooleanSyntax(ChainOperation(this, "shiftKey"))
+    val shiftKey: JsBoolean get() = JsBoolean.syntax(ChainOperation(this, "shiftKey"))
 
     /**
      * Returns a boolean indicating if the `Meta` key (e.g., Command key on Mac, Windows key on Windows)
@@ -107,11 +108,9 @@ interface JsMouseEvent : JsDomEvent {
      *
      * In JavaScript, this corresponds to `event.metaKey`.
      */
-    val metaKey: JsBoolean get() = JsBooleanSyntax(ChainOperation(this, "metaKey"))
+    val metaKey: JsBoolean get() = JsBoolean.syntax(ChainOperation(this, "metaKey"))
 
     companion object {
-        // --- Mouse Event Names ---
-
         /** Event type constant: Fired when an element is clicked. */
         const val EVENT_CLICK = "click"
         /** Event type constant: Fired when a user double-clicks an element. */

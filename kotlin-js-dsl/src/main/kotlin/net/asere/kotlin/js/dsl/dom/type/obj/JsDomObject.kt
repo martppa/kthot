@@ -2,19 +2,23 @@ package net.asere.kotlin.js.dsl.dom.type.obj
 
 import net.asere.kotlin.js.dsl.dom.type.array.JsDomArray
 import net.asere.kotlin.js.dsl.dom.type.array.JsDomArraySyntax
+import net.asere.kotlin.js.dsl.dom.type.array.syntax
 import net.asere.kotlin.js.dsl.dom.type.event.dom.JsDomEvent
 import net.asere.kotlin.js.dsl.dom.type.token.list.JsDomTokenList
 import net.asere.kotlin.js.dsl.dom.type.token.list.JsDomTokenListSyntax
+import net.asere.kotlin.js.dsl.dom.type.token.list.syntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.AccessOperation
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
 import net.asere.kotlin.js.dsl.type.bool.JsBooleanSyntax
+import net.asere.kotlin.js.dsl.type.bool.syntax
 import net.asere.kotlin.js.dsl.type.lambda.JsLambda1
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.JsStringSyntax
 import net.asere.kotlin.js.dsl.type.string.js
+import net.asere.kotlin.js.dsl.type.string.syntax
 import net.asere.kotlin.js.dsl.type.undefined
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
@@ -29,7 +33,7 @@ interface JsDomObject : JsValue {
      *
      * In JavaScript, this corresponds to `element.innerHTML`.
      */
-    val innerHTML: JsString get() = JsStringSyntax(ChainOperation(this, "innerHTML"))
+    val innerHTML: JsString get() = JsString.syntax(ChainOperation(this, "innerHTML"))
 
     /**
      * Sets the HTML content inside the element.
@@ -55,7 +59,7 @@ interface JsDomObject : JsValue {
      *
      * In JavaScript, this corresponds to `element.textContent`.
      */
-    val textContent: JsString get() = JsStringSyntax(ChainOperation(this, "textContent"))
+    val textContent: JsString get() = JsString.syntax(ChainOperation(this, "textContent"))
 
     /**
      * Sets the text content of the element, replacing any existing children.
@@ -84,7 +88,7 @@ interface JsDomObject : JsValue {
      * @return A [JsDomObject] representing the appended child (for chaining).
      */
     fun appendChild(child: JsDomObject): JsDomObject =
-        JsDomObjectSyntax(ChainOperation(this, InvocationOperation("appendChild", child)))
+        JsDomObject.syntax(ChainOperation(this, InvocationOperation("appendChild", child)))
 
     /**
      * Removes a specified child [JsDomObject] from the current element.
@@ -94,7 +98,7 @@ interface JsDomObject : JsValue {
      * @return A [JsDomObject] representing the removed child.
      */
     fun removeChild(child: JsDomObject): JsDomObject =
-        JsDomObjectSyntax(ChainOperation(this, InvocationOperation("removeChild", child)))
+        JsDomObject.syntax(ChainOperation(this, InvocationOperation("removeChild", child)))
 
     /**
      * Replaces an existing child [JsDomObject] with a new one.
@@ -105,7 +109,7 @@ interface JsDomObject : JsValue {
      * @return A [JsDomObject] representing the replaced child.
      */
     fun replaceChild(newChild: JsDomObject, oldChild: JsDomObject): JsDomObject =
-        JsDomObjectSyntax(ChainOperation(this, InvocationOperation("replaceChild", newChild, oldChild)))
+        JsDomObject.syntax(ChainOperation(this, InvocationOperation("replaceChild", newChild, oldChild)))
 
     /**
      * Inserts a new child [JsDomObject] before a specified reference child.
@@ -117,7 +121,7 @@ interface JsDomObject : JsValue {
      * @return A [JsDomObject] representing the inserted node.
      */
     fun insertBefore(newNode: JsDomObject, referenceNode: JsDomObject? = null): JsDomObject =
-        JsDomObjectSyntax(
+        JsDomObject.syntax(
             ChainOperation(
                 this,
                 InvocationOperation("insertBefore", newNode, referenceNode ?: undefined)
@@ -139,7 +143,7 @@ interface JsDomObject : JsValue {
      * In JavaScript, this corresponds to `element.classList`.
      */
     val classList: JsDomTokenList
-        get(): JsDomTokenList = JsDomTokenListSyntax(
+        get(): JsDomTokenList = JsDomTokenList.syntax(
             ChainOperation(
                 this,
                 "classList"
@@ -155,7 +159,7 @@ interface JsDomObject : JsValue {
      * @return A [JsString] object representing the attribute's value.
      */
     fun getAttribute(name: JsString): JsString =
-        JsStringSyntax(ChainOperation(this, InvocationOperation("getAttribute", name)))
+        JsString.syntax(ChainOperation(this, InvocationOperation("getAttribute", name)))
 
     /**
      * Returns the value of a specified attribute on the element.
@@ -207,7 +211,7 @@ interface JsDomObject : JsValue {
      * @return A [JsBoolean] object representing the JavaScript boolean result.
      */
     fun hasAttribute(name: JsString): JsBoolean =
-        JsBooleanSyntax(ChainOperation(this, InvocationOperation("hasAttribute", name)))
+        JsBoolean.syntax(ChainOperation(this, InvocationOperation("hasAttribute", name)))
 
     /**
      * Checks if the element has a specified attribute.
@@ -288,7 +292,7 @@ interface JsDomObject : JsValue {
      *
      * In JavaScript, this corresponds to `element.id`.
      */
-    val id: JsString get() = JsStringSyntax(ChainOperation(this, "id"))
+    val id: JsString get() = JsString.syntax(ChainOperation(this, "id"))
 
     /**
      * Sets the `id` attribute of the element.
@@ -315,7 +319,7 @@ interface JsDomObject : JsValue {
      *
      * In JavaScript, this corresponds to `element.className`.
      */
-    val className: JsString get() = JsStringSyntax(ChainOperation(this, "className"))
+    val className: JsString get() = JsString.syntax(ChainOperation(this, "className"))
 
     /**
      * Sets the `className` attribute of the element. This will overwrite all existing classes.
@@ -337,28 +341,28 @@ interface JsDomObject : JsValue {
     fun setClassName(className: String): JsSyntax = setClassName(className.js)
 
     /**
-     * Returns the tag name of the element (e.g., "DIV", "SPAN") as a [JsStringSyntax] object.
+     * Returns the tag name of the element (e.g., "DIV", "SPAN") as a [JsString] object.
      * The tag name is always in uppercase.
      *
      * In JavaScript, this corresponds to `element.tagName`.
      */
-    val tagName: JsStringSyntax get() = JsStringSyntax(ChainOperation(this, "tagName"))
+    val tagName: JsString get() = JsString.syntax(ChainOperation(this, "tagName"))
 
     /**
-     * Returns the parent `Node` of the current element as a [JsDomObjectSyntax] object.
+     * Returns the parent `Node` of the current element as a [JsDomObject] object.
      * This can be an `Element`, `Document`, or `DocumentFragment`.
      *
      * In JavaScript, this corresponds to `element.parentNode`.
      */
-    val parentNode: JsDomObjectSyntax get() = JsDomObjectSyntax(ChainOperation(this, "parentNode"))
+    val parentNode: JsDomObject get() = JsDomObject.syntax(ChainOperation(this, "parentNode"))
 
     /**
-     * Returns the parent `Element` of the current element as a [JsDomObjectSyntax] object.
+     * Returns the parent `Element` of the current element as a [JsDomObject] object.
      * This will be `null` if the parent is not an element (e.g., `document`).
      *
      * In JavaScript, this corresponds to `element.parentElement`.
      */
-    val parentElement: JsDomObjectSyntax get() = JsDomObjectSyntax(ChainOperation(this, "parentElement"))
+    val parentElement: JsDomObject get() = JsDomObject.syntax(ChainOperation(this, "parentElement"))
 
     /**
      * Returns a live `HTMLCollection` of the child elements of the current element
@@ -366,36 +370,36 @@ interface JsDomObject : JsValue {
      *
      * In JavaScript, this corresponds to `element.children`.
      */
-    val children: JsDomArraySyntax get() = JsDomArraySyntax(ChainOperation(this, "children"))
+    val children: JsDomArraySyntax get() = JsDomArray.syntax(ChainOperation(this, "children"))
 
     /**
-     * Returns the first child `Element` of the current element as a [JsDomObjectSyntax] object.
+     * Returns the first child `Element` of the current element as a [JsDomObject] object.
      *
      * In JavaScript, this corresponds to `element.firstElementChild`.
      */
-    val firstElementChild: JsDomObjectSyntax get() = JsDomObjectSyntax(ChainOperation(this, "firstElementChild"))
+    val firstElementChild: JsDomObject get() = JsDomObject.syntax(ChainOperation(this, "firstElementChild"))
 
     /**
-     * Returns the last child `Element` of the current element as a [JsDomObjectSyntax] object.
+     * Returns the last child `Element` of the current element as a [JsDomObject] object.
      *
      * In JavaScript, this corresponds to `element.lastElementChild`.
      */
-    val lastElementChild: JsDomObjectSyntax get() = JsDomObjectSyntax(ChainOperation(this, "lastElementChild"))
+    val lastElementChild: JsDomObject get() = JsDomObject.syntax(ChainOperation(this, "lastElementChild"))
 
     /**
-     * Returns the next sibling `Element` of the current element as a [JsDomObjectSyntax] object.
+     * Returns the next sibling `Element` of the current element as a [JsDomObject] object.
      *
      * In JavaScript, this corresponds to `element.nextElementSibling`.
      */
-    val nextElementSibling: JsDomObjectSyntax get() = JsDomObjectSyntax(ChainOperation(this, "nextElementSibling"))
+    val nextElementSibling: JsDomObject get() = JsDomObject.syntax(ChainOperation(this, "nextElementSibling"))
 
     /**
-     * Returns the previous sibling `Element` of the current element as a [JsDomObjectSyntax] object.
+     * Returns the previous sibling `Element` of the current element as a [JsDomObject] object.
      *
      * In JavaScript, this corresponds to `element.previousElementSibling`.
      */
-    val previousElementSibling: JsDomObjectSyntax
-        get() = JsDomObjectSyntax(
+    val previousElementSibling: JsDomObject
+        get() = JsDomObject.syntax(
             ChainOperation(
                 this,
                 "previousElementSibling"
@@ -410,7 +414,7 @@ interface JsDomObject : JsValue {
      * @return A [JsString] object representing the style value.
      */
     fun getStyle(propertyName: JsString): JsString =
-        JsStringSyntax(ChainOperation(this, AccessOperation("style", propertyName)))
+        JsString.syntax(ChainOperation(this, AccessOperation("style", propertyName)))
 
     /**
      * Returns the value of a specific inline CSS style property of the element.
@@ -461,7 +465,7 @@ interface JsDomObject : JsValue {
      * @return A [JsDomObject] representing the first matching element, or `null` if no match is found.
      */
     fun querySelector(selector: JsString): JsDomObject =
-        JsDomObjectSyntax(ChainOperation(this, InvocationOperation("querySelector", selector)))
+        JsDomObject.syntax(ChainOperation(this, InvocationOperation("querySelector", selector)))
 
     /**
      * Returns the first `Element` within the document that matches the specified CSS selector(s).
@@ -481,7 +485,7 @@ interface JsDomObject : JsValue {
      * @return A [JsDomArray] containing all matching elements.
      */
     fun querySelectorAll(selector: JsString): JsDomArray =
-        JsDomArraySyntax(ChainOperation(this, InvocationOperation("querySelectorAll", selector)))
+        JsDomArray.syntax(ChainOperation(this, InvocationOperation("querySelectorAll", selector)))
 
     /**
      * Returns a `NodeList` (a static `JsDomCollection`) of all elements within the document

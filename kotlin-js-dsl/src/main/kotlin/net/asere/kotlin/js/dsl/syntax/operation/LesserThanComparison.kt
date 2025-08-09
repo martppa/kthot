@@ -2,7 +2,10 @@ package net.asere.kotlin.js.dsl.syntax.operation
 
 import net.asere.kotlin.js.dsl.syntax.operation.operator.ArithmeticalOperator
 import net.asere.kotlin.js.dsl.syntax.operation.operator.LesserThan
+import net.asere.kotlin.js.dsl.type.bool.syntax
+import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
+import net.asere.kotlin.js.dsl.type.number.syntax
 
 class LesserThanComparison(
     override val leftHand: Operable,
@@ -23,10 +26,10 @@ infix fun Operation.lt(rightHand: Operable): LesserThanComparison = LesserThanCo
 
 infix fun Operable.lt(rightHand: Number): LesserThanComparison = LesserThanComparison(
     leftHand = this,
-    rightHand = JsNumberSyntax("$rightHand")
+    rightHand = JsNumber.syntax("$rightHand")
 )
 
 infix fun Operation.lt(rightHand: Number): LesserThanComparison = LesserThanComparison(
     leftHand = this.group(),
-    rightHand = JsNumberSyntax("$rightHand")
+    rightHand = JsNumber.syntax("$rightHand")
 )

@@ -4,14 +4,16 @@ import net.asere.kotlin.js.dsl.dom.type.event.dom.JsDomEvent
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
-import net.asere.kotlin.js.dsl.type.string.JsStringSyntax
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
 import net.asere.kotlin.js.dsl.type.bool.JsBooleanSyntax
+import net.asere.kotlin.js.dsl.type.bool.js
+import net.asere.kotlin.js.dsl.type.bool.syntax
+import net.asere.kotlin.js.dsl.type.lambda.JsLambda1
 import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.string.JsString
-import net.asere.kotlin.js.dsl.type.bool.js
-import net.asere.kotlin.js.dsl.type.lambda.JsLambda1
+import net.asere.kotlin.js.dsl.type.string.JsStringSyntax
 import net.asere.kotlin.js.dsl.type.string.js
+import net.asere.kotlin.js.dsl.type.string.syntax
 
 /**
  * Represents a JavaScript `MediaStreamTrack` object.
@@ -25,14 +27,14 @@ interface JsMediaStreamTrack : JsObject {
      *
      * In JavaScript, this corresponds to `mediaStreamTrack.id`.
      */
-    val id: JsString get() = JsStringSyntax(ChainOperation(this, "id"))
+    val id: JsString get() = JsString.syntax(ChainOperation(this, "id"))
 
     /**
      * Returns the kind of media represented by the track (e.g., "audio", "video") as a [JsString] object.
      *
      * In JavaScript, this corresponds to `mediaStreamTrack.kind`.
      */
-    val kind: JsString get() = JsStringSyntax(ChainOperation(this, "kind"))
+    val kind: JsString get() = JsString.syntax(ChainOperation(this, "kind"))
 
     /**
      * Returns a human-readable label for the track as a [JsString] object.
@@ -40,7 +42,7 @@ interface JsMediaStreamTrack : JsObject {
      *
      * In JavaScript, this corresponds to `mediaStreamTrack.label`.
      */
-    val label: JsString get() = JsStringSyntax(ChainOperation(this, "label"))
+    val label: JsString get() = JsString.syntax(ChainOperation(this, "label"))
 
     /**
      * Returns or sets a boolean indicating whether the track is enabled (playing) as a [JsBoolean] object.
@@ -48,7 +50,7 @@ interface JsMediaStreamTrack : JsObject {
      *
      * In JavaScript, this corresponds to `mediaStreamTrack.enabled`.
      */
-    fun getEnabled(): JsBoolean = JsBooleanSyntax(ChainOperation(this, "enabled"))
+    fun getEnabled(): JsBoolean = JsBoolean.syntax(ChainOperation(this, "enabled"))
     fun setEnabled(value: JsBoolean): JsSyntax =
         JsSyntax("${ChainOperation(this, "enabled")} = $value")
 
@@ -59,7 +61,7 @@ interface JsMediaStreamTrack : JsObject {
      *
      * In JavaScript, this corresponds to `mediaStreamTrack.muted`.
      */
-    val muted: JsBoolean get() = JsBooleanSyntax(ChainOperation(this, "muted"))
+    val muted: JsBoolean get() = JsBoolean.syntax(ChainOperation(this, "muted"))
 
     /**
      * Returns the current state of the track as a [JsString] object.
@@ -67,7 +69,7 @@ interface JsMediaStreamTrack : JsObject {
      *
      * In JavaScript, this corresponds to `mediaStreamTrack.readyState`.
      */
-    val readyState: JsString get() = JsStringSyntax(ChainOperation(this, "readyState"))
+    val readyState: JsString get() = JsString.syntax(ChainOperation(this, "readyState"))
 
     /**
      * Stops the track, effectively ending the media stream for this track.
@@ -85,7 +87,7 @@ interface JsMediaStreamTrack : JsObject {
      * @return A [JsMediaStreamTrack] representing the cloned track.
      */
     fun clone(): JsMediaStreamTrack =
-        JsMediaStreamTrackSyntax(ChainOperation(this, InvocationOperation("clone")))
+        JsMediaStreamTrack.syntax(ChainOperation(this, InvocationOperation("clone")))
 
     /**
      * Attaches an event listener to the track.

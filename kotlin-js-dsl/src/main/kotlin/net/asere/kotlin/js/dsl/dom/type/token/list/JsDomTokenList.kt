@@ -8,6 +8,7 @@ import net.asere.kotlin.js.dsl.type.string.JsStringSyntax
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
 import net.asere.kotlin.js.dsl.type.bool.JsBooleanSyntax
 import net.asere.kotlin.js.dsl.type.bool.js
+import net.asere.kotlin.js.dsl.type.bool.syntax
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
 import net.asere.kotlin.js.dsl.type.number.js
@@ -15,6 +16,7 @@ import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.reference.lambda.JsLambda1Ref
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.js
+import net.asere.kotlin.js.dsl.type.string.syntax
 import net.asere.kotlin.js.dsl.type.undefined
 
 /**
@@ -38,7 +40,7 @@ interface JsDomTokenList : JsObject {
      * @param index The zero-based index of the token to retrieve as a [JsNumber] object.
      * @return A [net.asere.kotlin.js.dsl.type.string.JsString] object representing the token at the specified index.
      */
-    fun item(index: JsNumber): JsString = JsStringSyntax(ChainOperation(this, InvocationOperation("item", index)))
+    fun item(index: JsNumber): JsString = JsString.syntax(ChainOperation(this, InvocationOperation("item", index)))
     fun item(index: Int): JsString = item(index.js)
 
     /**
@@ -74,7 +76,7 @@ interface JsDomTokenList : JsObject {
      * @return A [net.asere.kotlin.js.dsl.type.bool.JsBoolean] object indicating whether the token is now present in the list.
      */
     fun toggle(token: JsString, force: JsBoolean? = null): JsBoolean =
-        JsBooleanSyntax(
+        JsBoolean.syntax(
             ChainOperation(
                 this,
                 InvocationOperation("toggle", token, force ?: undefined)
@@ -90,7 +92,7 @@ interface JsDomTokenList : JsObject {
      * @return A [JsBoolean] object indicating whether the token is present in the list.
      */
     fun contains(token: JsString): JsBoolean =
-        JsBooleanSyntax(ChainOperation(this, InvocationOperation("contains", token)))
+        JsBoolean.syntax(ChainOperation(this, InvocationOperation("contains", token)))
     fun contains(token: String): JsBoolean = contains(token.js)
 
     /**
@@ -102,7 +104,7 @@ interface JsDomTokenList : JsObject {
      * @return A [JsBoolean] object indicating whether the replacement was successful.
      */
     fun replace(oldToken: JsString, newToken: JsString): JsBoolean =
-        JsBooleanSyntax(ChainOperation(this,
+        JsBoolean.syntax(ChainOperation(this,
             InvocationOperation("replace", oldToken, newToken))
         )
     fun replace(oldToken: String, newToken: String): JsBoolean = replace(oldToken.js, newToken.js)

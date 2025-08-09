@@ -2,16 +2,19 @@ package net.asere.kotlin.js.dsl.dom.type.event.dom
 
 import net.asere.kotlin.js.dsl.dom.type.obj.JsDomObject
 import net.asere.kotlin.js.dsl.dom.type.obj.JsDomObjectSyntax
+import net.asere.kotlin.js.dsl.dom.type.obj.syntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.string.JsStringSyntax
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
 import net.asere.kotlin.js.dsl.type.bool.JsBooleanSyntax
+import net.asere.kotlin.js.dsl.type.bool.syntax
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
 import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.string.JsString
+import net.asere.kotlin.js.dsl.type.string.syntax
 
 /**
  * Represents the base JavaScript `Event` object, which is passed to event listeners
@@ -25,7 +28,7 @@ interface JsDomEvent : JsObject {
      *
      * In JavaScript, this corresponds to `event.type`.
      */
-    val type: JsString get() = JsStringSyntax(ChainOperation(this, "type"))
+    val type: JsString get() = JsString.syntax(ChainOperation(this, "type"))
 
     /**
      * Returns the element that originally dispatched the event (the most deeply nested element)
@@ -33,7 +36,7 @@ interface JsDomEvent : JsObject {
      *
      * In JavaScript, this corresponds to `event.target`.
      */
-    val target: JsDomObject get() = JsDomObjectSyntax(ChainOperation(this, "target"))
+    val target: JsDomObject get() = JsDomObject.syntax(ChainOperation(this, "target"))
 
     /**
      * Returns the element to which the event listener was attached (the current target during bubbling)
@@ -41,7 +44,7 @@ interface JsDomEvent : JsObject {
      *
      * In JavaScript, this corresponds to `event.currentTarget`.
      */
-    val currentTarget: JsDomObject get() = JsDomObjectSyntax(ChainOperation(this, "currentTarget"))
+    val currentTarget: JsDomObject get() = JsDomObject.syntax(ChainOperation(this, "currentTarget"))
 
     /**
      * Returns the time (in milliseconds since the epoch) at which the event was created as a [JsNumber] object.
@@ -55,7 +58,7 @@ interface JsDomEvent : JsObject {
      *
      * In JavaScript, this corresponds to `event.bubbles`.
      */
-    val bubbles: JsBoolean get() = JsBooleanSyntax(ChainOperation(this, "bubbles"))
+    val bubbles: JsBoolean get() = JsBoolean.syntax(ChainOperation(this, "bubbles"))
 
     /**
      * Returns a boolean indicating whether the event is cancelable (i.e., its default action can be prevented)
@@ -63,7 +66,7 @@ interface JsDomEvent : JsObject {
      *
      * In JavaScript, this corresponds to `event.cancelable`.
      */
-    val cancelable: JsBoolean get() = JsBooleanSyntax(ChainOperation(this, "cancelable"))
+    val cancelable: JsBoolean get() = JsBoolean.syntax(ChainOperation(this, "cancelable"))
 
     /**
      * Returns a boolean indicating whether the default action of the event has been prevented
@@ -71,7 +74,7 @@ interface JsDomEvent : JsObject {
      *
      * In JavaScript, this corresponds to `event.defaultPrevented`.
      */
-    val defaultPrevented: JsBoolean get() = JsBooleanSyntax(ChainOperation(this, "defaultPrevented"))
+    val defaultPrevented: JsBoolean get() = JsBoolean.syntax(ChainOperation(this, "defaultPrevented"))
 
     /**
      * Prevents the default action of the event from occurring.

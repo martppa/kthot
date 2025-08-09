@@ -1,9 +1,9 @@
 package net.asere.kotlin.js.dsl.dom.type.media.stream.constraint
 
-import net.asere.kotlin.js.dsl.type.obj.JsObjectBuilder
-import net.asere.kotlin.js.dsl.type.value.JsValue
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
 import net.asere.kotlin.js.dsl.type.bool.value
+import net.asere.kotlin.js.dsl.type.obj.JsObjectBuilder
+import net.asere.kotlin.js.dsl.type.value.JsValue
 
 /**
  * Represents `MediaStreamConstraints` for `getUserMedia`.
@@ -25,7 +25,7 @@ class JsMediaStreamConstraintsBuilder {
         val objectBuilder = JsObjectBuilder()
         video?.let { objectBuilder.property("video", it) }
         audio?.let { objectBuilder.property("audio", it) }
-        return JsMediaStreamConstraintSyntax(objectBuilder.build())
+        return JsMediaStreamConstraint.syntax(objectBuilder.build())
     }
 }
 

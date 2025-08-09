@@ -8,8 +8,10 @@ import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.promise.JsPromiseSyntax
 import net.asere.kotlin.js.dsl.type.array.JsArray
+import net.asere.kotlin.js.dsl.type.bool.syntax
 import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.promise.JsPromise
+import net.asere.kotlin.js.dsl.type.promise.syntax
 
 /**
  * Represents the JavaScript `MediaDevices` object, providing access to connected media input devices
@@ -27,7 +29,7 @@ interface JsMediaDevices : JsObject {
      * @return A [JsPromise] that resolves with a [net.asere.kotlin.js.dsl.dom.type.media.stream.JsMediaStream] or rejects with an error.
      */
     fun getUserMedia(constraints: JsSyntax): JsPromise<JsMediaStream> =
-        JsPromiseSyntax(ChainOperation(this, "getUserMedia(${constraints})"))
+        JsPromise.syntax(ChainOperation(this, "getUserMedia(${constraints})"))
 
     /**
      * Enumerates the available media input and output devices (e.g., cameras, microphones, speakers).
@@ -37,7 +39,7 @@ interface JsMediaDevices : JsObject {
      * @return A [JsPromise] that resolves with a [JsArray] of [JsMediaDeviceInfo].
      */
     fun enumerateDevices(): JsPromise<JsArray<JsMediaDeviceInfo>> =
-        JsPromiseSyntax(ChainOperation(this, "enumerateDevices()"))
+        JsPromise.syntax(ChainOperation(this, "enumerateDevices()"))
 
     /**
      * Prompts the user to select a display or application window to capture (screen sharing).
@@ -48,7 +50,7 @@ interface JsMediaDevices : JsObject {
      * @return A [JsPromise] that resolves with a [JsMediaStream] or rejects with an error.
      */
     fun getDisplayMedia(constraints: JsMediaStreamConstraint): JsPromise<JsMediaStream> =
-        JsPromiseSyntax(ChainOperation(this, InvocationOperation("getDisplayMedia", constraints)))
+        JsPromise.syntax(ChainOperation(this, InvocationOperation("getDisplayMedia", constraints)))
 
     companion object
 }

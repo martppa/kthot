@@ -1,12 +1,15 @@
 package net.asere.kotlin.js.dsl.dom.type.geo.position
 
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
+import net.asere.kotlin.js.dsl.type.bool.syntax
 import net.asere.kotlin.js.dsl.type.string.JsStringSyntax
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
+import net.asere.kotlin.js.dsl.type.number.syntax
 import net.asere.kotlin.js.dsl.type.number.value
+import net.asere.kotlin.js.dsl.type.string.syntax
 
 /**
  * Represents the `GeolocationPositionError` object, providing details about a geolocation error.
@@ -24,14 +27,14 @@ interface JsGeolocationPositionError : JsObject {
      *
      * In JavaScript, this corresponds to `error.code`.
      */
-    val code: JsNumber get() = JsNumberSyntax(ChainOperation(this, "code"))
+    val code: JsNumber get() = JsNumber.syntax(ChainOperation(this, "code"))
 
     /**
      * Returns a human-readable error message as a [JsString] object.
      *
      * In JavaScript, this corresponds to `error.message`.
      */
-    val message: JsString get() = JsStringSyntax(ChainOperation(this, "message"))
+    val message: JsString get() = JsString.syntax(ChainOperation(this, "message"))
 
     companion object {
         /**

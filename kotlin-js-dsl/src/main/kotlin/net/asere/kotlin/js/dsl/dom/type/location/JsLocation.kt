@@ -3,10 +3,12 @@ package net.asere.kotlin.js.dsl.dom.type.location
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
+import net.asere.kotlin.js.dsl.type.bool.syntax
 import net.asere.kotlin.js.dsl.type.string.JsStringSyntax
 import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.js
+import net.asere.kotlin.js.dsl.type.string.syntax
 
 /**
  * Represents the JavaScript `Location` object, which contains information about the current URL
@@ -20,7 +22,7 @@ interface JsLocation : JsObject {
      *
      * In JavaScript, this corresponds to `window.location.href`.
      */
-    val href: JsString get() = JsStringSyntax(ChainOperation(this, "href"))
+    val href: JsString get() = JsString.syntax(ChainOperation(this, "href"))
 
     /**
      * Sets the entire URL, causing the browser to navigate to the new URL.
@@ -46,7 +48,7 @@ interface JsLocation : JsObject {
      *
      * In JavaScript, this corresponds to `window.location.hostname`.
      */
-    val hostname: JsString get() = JsStringSyntax(ChainOperation(this, "hostname"))
+    val hostname: JsString get() = JsString.syntax(ChainOperation(this, "hostname"))
 
     /**
      * Returns the pathname (e.g., "/path/to/page.html") of the current URL as a [JsString] object.
@@ -54,7 +56,7 @@ interface JsLocation : JsObject {
      *
      * In JavaScript, this corresponds to `window.location.pathname`.
      */
-    val pathname: JsString get() = JsStringSyntax(ChainOperation(this, "pathname"))
+    val pathname: JsString get() = JsString.syntax(ChainOperation(this, "pathname"))
 
     /**
      * Returns the query string (e.g., "?param1=value1&param2=value2") of the current URL as a [JsString] object.
@@ -62,7 +64,7 @@ interface JsLocation : JsObject {
      *
      * In JavaScript, this corresponds to `window.location.search`.
      */
-    val search: JsString get() = JsStringSyntax(ChainOperation(this, "search"))
+    val search: JsString get() = JsString.syntax(ChainOperation(this, "search"))
 
     /**
      * Returns the fragment identifier (e.g., "#section1") of the current URL as a [JsString] object.
@@ -70,7 +72,7 @@ interface JsLocation : JsObject {
      *
      * In JavaScript, this corresponds to `window.location.hash`.
      */
-    val hash: JsString get() = JsStringSyntax(ChainOperation(this, "hash"))
+    val hash: JsString get() = JsString.syntax(ChainOperation(this, "hash"))
 
     /**
      * Returns the port number (e.g., "8080") of the current URL as a [JsString] object.
@@ -78,7 +80,7 @@ interface JsLocation : JsObject {
      *
      * In JavaScript, this corresponds to `window.location.port`.
      */
-    val port: JsString get() = JsStringSyntax(ChainOperation(this, "port"))
+    val port: JsString get() = JsString.syntax(ChainOperation(this, "port"))
 
     /**
      * Returns the protocol (e.g., "http:", "https:") of the current URL as a [JsString] object.
@@ -86,7 +88,7 @@ interface JsLocation : JsObject {
      *
      * In JavaScript, this corresponds to `window.location.protocol`.
      */
-    val protocol: JsString get() = JsStringSyntax(ChainOperation(this, "protocol"))
+    val protocol: JsString get() = JsString.syntax(ChainOperation(this, "protocol"))
 
     /**
      * Loads a new document at the specified URL.

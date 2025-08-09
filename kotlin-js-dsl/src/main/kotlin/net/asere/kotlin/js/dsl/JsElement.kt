@@ -2,6 +2,7 @@ package net.asere.kotlin.js.dsl
 
 import net.asere.kotlin.js.dsl.syntax.JsLine
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
+import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.type.reference.JsValueRef
 
 interface JsElement {
@@ -10,4 +11,4 @@ interface JsElement {
 
 fun JsElement.toSyntax() = JsSyntax(present())
 fun JsElement.toLine() = JsLine(present())
-fun JsElement.isNullable() = this is JsValueRef<*> && this.isNullable
+fun JsElement.isNullable() = this is JsReference<*> && this.isNullable

@@ -7,7 +7,7 @@ import net.asere.kotlin.js.dsl.type.reference.ReferenceId
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 class JsArrayRef<T : JsValue> internal constructor(
-    override val typeBuilder: (JsElement) -> T,
+    override val typeBuilder: (JsElement, isNullable: Boolean) -> T,
     name: String? = null,
     isNullable: Boolean = false,
 ) : JsArray<T>, JsValueRef<JsArray<T>>(
@@ -18,14 +18,14 @@ class JsArrayRef<T : JsValue> internal constructor(
 }
 
 fun <T : JsValue> JsArray.Companion.ref(
-    typeBuilder: (JsElement) -> T,
+    typeBuilder: (JsElement, isNullable: Boolean) -> T,
     name: String? = null,
     isNullable: Boolean = false,
 ): JsArrayRef<T> =
     JsArrayRef(typeBuilder, name, isNullable)
 
 fun <T : JsValue> JsArray.Companion.def(
-    typeBuilder: (JsElement) -> T,
+    typeBuilder: (JsElement, isNullable: Boolean) -> T,
     name: String? = null,
     isNullable: Boolean = false,
 ) = object :

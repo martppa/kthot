@@ -1,9 +1,11 @@
 package net.asere.kotlin.js.dsl.dom.type.media.device.info
 
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
+import net.asere.kotlin.js.dsl.type.bool.syntax
 import net.asere.kotlin.js.dsl.type.string.JsStringSyntax
 import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.string.JsString
+import net.asere.kotlin.js.dsl.type.string.syntax
 
 /**
  * Represents a JavaScript `MediaDeviceInfo` object, describing a single media input or output device.
@@ -16,7 +18,7 @@ interface JsMediaDeviceInfo : JsObject {
      *
      * In JavaScript, this corresponds to `mediaDeviceInfo.deviceId`.
      */
-    val deviceId: JsString get() = JsStringSyntax(ChainOperation(this, "deviceId"))
+    val deviceId: JsString get() = JsString.syntax(ChainOperation(this, "deviceId"))
 
     /**
      * Returns the kind of media device represented (e.g., "audioinput", "audiooutput", "videoinput")
@@ -24,7 +26,7 @@ interface JsMediaDeviceInfo : JsObject {
      *
      * In JavaScript, this corresponds to `mediaDeviceInfo.kind`.
      */
-    val kind: JsString get() = JsStringSyntax(ChainOperation(this, "kind"))
+    val kind: JsString get() = JsString.syntax(ChainOperation(this, "kind"))
 
     /**
      * Returns a human-readable label for the device as a [JsString] object.
@@ -32,7 +34,7 @@ interface JsMediaDeviceInfo : JsObject {
      *
      * In JavaScript, this corresponds to `mediaDeviceInfo.label`.
      */
-    val label: JsString get() = JsStringSyntax(ChainOperation(this, "label"))
+    val label: JsString get() = JsString.syntax(ChainOperation(this, "label"))
 
     /**
      * Returns a group identifier that remains consistent across devices sharing the same physical hardware
@@ -40,7 +42,7 @@ interface JsMediaDeviceInfo : JsObject {
      *
      * In JavaScript, this corresponds to `mediaDeviceInfo.groupId`.
      */
-    val groupId: JsString get() = JsStringSyntax(ChainOperation(this, "groupId"))
+    val groupId: JsString get() = JsString.syntax(ChainOperation(this, "groupId"))
 
     companion object {
         /**

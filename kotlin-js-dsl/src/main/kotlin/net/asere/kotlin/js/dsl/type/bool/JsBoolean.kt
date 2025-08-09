@@ -6,6 +6,7 @@ import net.asere.kotlin.js.dsl.syntax.operation.LogicalComparable
 import net.asere.kotlin.js.dsl.type.string.JsStringSyntax
 import net.asere.kotlin.js.dsl.type.value.JsValue
 import net.asere.kotlin.js.dsl.type.string.JsString
+import net.asere.kotlin.js.dsl.type.string.syntax
 
 /**
  * Represents a JavaScript boolean primitive value (`true` or `false`).
@@ -19,7 +20,7 @@ interface JsBoolean : JsValue, LogicalComparable {
      * In JavaScript, this corresponds to `booleanValue.toString()`.
      * @return A [JsString] object representing the JavaScript method call that returns a string.
      */
-    fun jsToString(): JsString = JsStringSyntax(ChainOperation(this, InvocationOperation("toString")))
+    fun jsToString(): JsString = JsString.syntax(ChainOperation(this, InvocationOperation("toString")))
 
     companion object
 }

@@ -8,7 +8,9 @@ import net.asere.kotlin.js.dsl.type.string.JsStringSyntax
 import net.asere.kotlin.js.dsl.type.value.JsValue
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
 import net.asere.kotlin.js.dsl.type.bool.JsBooleanSyntax
+import net.asere.kotlin.js.dsl.type.bool.syntax
 import net.asere.kotlin.js.dsl.type.string.JsString
+import net.asere.kotlin.js.dsl.type.string.syntax
 import net.asere.kotlin.js.dsl.type.undefined
 
 /**
@@ -25,7 +27,7 @@ interface JsNumber : JsValue, ArithmeticalComparable {
      * @return A [JsString] object representing the JavaScript method call that returns a string.
      */
     fun toExponential(fractionDigits: JsNumber? = null): JsString {
-        return JsStringSyntax(ChainOperation(this, InvocationOperation("toExponential", fractionDigits ?: undefined)))
+        return JsString.syntax(ChainOperation(this, InvocationOperation("toExponential", fractionDigits ?: undefined)))
     }
 
     /**
@@ -36,7 +38,7 @@ interface JsNumber : JsValue, ArithmeticalComparable {
      * @return A [JsNumber] object representing the JavaScript method call that returns a string.
      */
     fun toFixed(digits: JsNumber? = null): JsNumber {
-        return JsNumberSyntax(ChainOperation(this, InvocationOperation("toFixed", digits ?: undefined)))
+        return JsNumber.syntax(ChainOperation(this, InvocationOperation("toFixed", digits ?: undefined)))
     }
 
     /**
@@ -70,7 +72,7 @@ interface JsNumber : JsValue, ArithmeticalComparable {
      * @return A [JsString] object representing the JavaScript method call that returns a string.
      */
     fun toJsString(radix: JsNumber? = null): JsString {
-        return JsStringSyntax(ChainOperation(this, InvocationOperation("toString", radix ?: undefined)))
+        return JsString.syntax(ChainOperation(this, InvocationOperation("toString", radix ?: undefined)))
     }
 
     /**
@@ -79,7 +81,7 @@ interface JsNumber : JsValue, ArithmeticalComparable {
      * In JavaScript, this corresponds to `number.valueOf()`.
      * @return A [JsNumber] object representing the JavaScript method call that returns the primitive value.
      */
-    fun valueOf(): JsNumber = JsNumberSyntax(ChainOperation(this, InvocationOperation("valueOf")))
+    fun valueOf(): JsNumber = JsNumber.syntax(ChainOperation(this, InvocationOperation("valueOf")))
 
     companion object {
         /**
@@ -87,10 +89,10 @@ interface JsNumber : JsValue, ArithmeticalComparable {
          *
          * In JavaScript, this corresponds to `Number.isFinite(value)`.
          * @param value The [JsNumber] to be tested.
-         * @return A [net.asere.kotlin.js.dsl.type.bool.JsBoolean] object representing the JavaScript method call that returns a boolean.
+         * @return A [JsBoolean] object representing the JavaScript method call that returns a boolean.
          */
-        fun isFinite(value: JsNumber): JsBoolean = JsBooleanSyntax(
-            ChainOperation(JsStringSyntax("Number"), InvocationOperation("isFinite", value))
+        fun isFinite(value: JsNumber): JsBoolean = JsBoolean.syntax(
+            ChainOperation(JsString.syntax("Number"), InvocationOperation("isFinite", value))
         )
 
         /**
@@ -100,8 +102,8 @@ interface JsNumber : JsValue, ArithmeticalComparable {
          * @param value The [JsNumber] to be tested.
          * @return A [JsBoolean] object representing the JavaScript method call that returns a boolean.
          */
-        fun isInteger(value: JsNumber): JsBoolean = JsBooleanSyntax(
-            ChainOperation(JsStringSyntax("Number"), InvocationOperation("isInteger", value))
+        fun isInteger(value: JsNumber): JsBoolean = JsBoolean.syntax(
+            ChainOperation(JsString.syntax("Number"), InvocationOperation("isInteger", value))
         )
 
         /**
@@ -111,8 +113,8 @@ interface JsNumber : JsValue, ArithmeticalComparable {
          * @param value The [JsNumber] to be tested.
          * @return A [JsBoolean] object representing the JavaScript method call that returns a boolean.
          */
-        fun isNaN(value: JsNumber): JsBoolean = JsBooleanSyntax(
-            ChainOperation(JsStringSyntax("Number"), InvocationOperation("isNaN", value))
+        fun isNaN(value: JsNumber): JsBoolean = JsBoolean.syntax(
+            ChainOperation(JsString.syntax("Number"), InvocationOperation("isNaN", value))
         )
 
         /**
@@ -122,8 +124,8 @@ interface JsNumber : JsValue, ArithmeticalComparable {
          * @param value The [JsNumber] to be tested.
          * @return A [JsBoolean] object representing the JavaScript method call that returns a boolean.
          */
-        fun isSafeInteger(value: JsNumber): JsBoolean = JsBooleanSyntax(
-            ChainOperation(JsStringSyntax("Number"), InvocationOperation("isSafeInteger", value))
+        fun isSafeInteger(value: JsNumber): JsBoolean = JsBoolean.syntax(
+            ChainOperation(JsString.syntax("Number"), InvocationOperation("isSafeInteger", value))
         )
 
         /**
@@ -134,8 +136,8 @@ interface JsNumber : JsValue, ArithmeticalComparable {
          * @return A [JsNumber] object representing the JavaScript method call that returns a number.
          */
         fun parseFloat(string: JsString): JsNumber =
-            JsNumberSyntax(
-                ChainOperation(JsStringSyntax("Number"),
+            JsNumber.syntax(
+                ChainOperation(JsString.syntax("Number"),
                     InvocationOperation("parseFloat", string)))
 
         /**
@@ -147,9 +149,9 @@ interface JsNumber : JsValue, ArithmeticalComparable {
          * @return A [JsNumber] object representing the JavaScript method call that returns an integer.
          */
         fun parseInt(string: JsString, radix: JsNumberRef? = null): JsNumber {
-            return JsNumberSyntax(
+            return JsNumber.syntax(
                 ChainOperation(
-                    JsStringSyntax("Number"),
+                    JsString.syntax("Number"),
                     InvocationOperation("parseInt", string, radix ?: undefined)
                 )
             )

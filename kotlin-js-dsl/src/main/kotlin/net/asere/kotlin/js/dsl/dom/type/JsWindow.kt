@@ -28,6 +28,7 @@ import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
 import net.asere.kotlin.js.dsl.type.bool.JsBooleanSyntax
+import net.asere.kotlin.js.dsl.type.bool.syntax
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.js
 import net.asere.kotlin.js.dsl.type.obj.JsObjectRef
@@ -37,6 +38,7 @@ import net.asere.kotlin.js.dsl.type.string.js
 import net.asere.kotlin.js.dsl.type.lambda.l0.JsLambda
 import net.asere.kotlin.js.dsl.type.lambda.JsLambda1
 import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
+import net.asere.kotlin.js.dsl.type.string.syntax
 
 /**
  * Represents the JavaScript `window` object, which is the global object in client-side JavaScript.
@@ -69,7 +71,7 @@ object Window : JsObjectRef("window") {
      * @param text The message to display in the confirmation box as a [JsString] object.
      * @return A [net.asere.kotlin.js.dsl.type.bool.JsBoolean] object representing the JavaScript boolean result (`true` if OK, `false` if Cancel).
      */
-    fun confirm(text: JsString): JsBoolean = JsBooleanSyntax(ChainOperation(this, "confirm($text)"))
+    fun confirm(text: JsString): JsBoolean = JsBoolean.syntax(ChainOperation(this, "confirm($text)"))
 
     /**
      * Displays a confirmation box with a specified message, an OK button, and a Cancel button.
@@ -89,7 +91,7 @@ object Window : JsObjectRef("window") {
      * @return A [JsString] object representing the user's input, or `null` if the user cancels the dialog.
      */
     fun prompt(text: JsString, defaultValue: JsString? = null): JsString =
-        JsStringSyntax(ChainOperation(this, "prompt(${text.present()}${defaultValue?.let { ", $it" } ?: ""})"))
+        JsString.syntax(ChainOperation(this, "prompt(${text.present()}${defaultValue?.let { ", $it" } ?: ""})"))
 
     /**
      * Displays a dialog box that prompts the user for input.
@@ -269,7 +271,7 @@ object Window : JsObjectRef("window") {
      *
      * In JavaScript, this corresponds to `window.name`.
      */
-    fun getName(): JsString = JsStringSyntax(ChainOperation(this, "name"))
+    fun getName(): JsString = JsString.syntax(ChainOperation(this, "name"))
 
     /**
      * Sets the name of the window.
@@ -294,7 +296,7 @@ object Window : JsObjectRef("window") {
      *
      * In JavaScript, this corresponds to `window.closed`.
      */
-    fun getClosed(): JsBoolean = JsBooleanSyntax(ChainOperation(this, "closed"))
+    fun getClosed(): JsBoolean = JsBoolean.syntax(ChainOperation(this, "closed"))
 
     /**
      * Closes the current window. This method can only be called on windows that were opened by script.

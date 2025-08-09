@@ -30,25 +30,27 @@ class JsSyntaxBuilder(
         val className = declaration.jsName + "Syntax"
         codeBuilder.append("class $className${declaration.genericTypesDeclarationString} internal constructor(\n")
         codeBuilder.append("  value: String,\n")
+        codeBuilder.append("  isNullable: Boolean,")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("  override val ${type.getBuilderDefinition(resolver.loadClass(jsElementName))},\n")
         }
-        codeBuilder.append(") : ${resolver.loadClass(jsReferenceSyntaxName)}<${declaration.jsName}${declaration.genericTypesString}>(value), ${declaration.jsName}${declaration.genericTypesString}${declaration.whereClauseString} {\n")
-        codeBuilder.append("   internal constructor(value: ${resolver.loadClass(jsElementName).name}, ")
+        codeBuilder.append("\n) : ${resolver.loadClass(jsReferenceSyntaxName)}<${declaration.jsName}${declaration.genericTypesString}>(value, isNullable), ${declaration.jsName}${declaration.genericTypesString}${declaration.whereClauseString} {\n")
+        codeBuilder.append("   internal constructor(value: ${resolver.loadClass(jsElementName).name}, isNullable: Boolean, ")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("${type.getBuilderDefinition(resolver.loadClass(jsElementName))},")
         }
         codeBuilder.append(") : this(")
         codeBuilder.append($$$"\"$value\", ")
+        codeBuilder.append("isNullable, ")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
-            codeBuilder.append("${type.builderName},")
+            codeBuilder.append("${type.builderName}, ")
         }
         codeBuilder.append(")\n")
         codeBuilder.append("}\n\n")
 
         codeBuilder.append("fun ${declaration.genericTypesDeclarationString} ${declaration.jsName}.Companion.syntax(\n")
         codeBuilder.append("  value: String,\n")
-        //codeBuilder.append("  isNullable: Boolean = false,\n")
+        codeBuilder.append("  isNullable: Boolean = false,\n")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("  ${type.getBuilderDefinition(resolver.loadClass(jsElementName))},\n")
         }
@@ -56,7 +58,7 @@ class JsSyntaxBuilder(
         codeBuilder.append(" = ")
         codeBuilder.append("$className(")
         codeBuilder.append("value, ")
-        //codeBuilder.append("isNullable, ")
+        codeBuilder.append("isNullable, ")
         declaration.getGenericReturnTypes(resolver).joinToString { item -> "${item.declaration.name.replaceFirstChar { it.lowercase() }}Builder" }.let {
             codeBuilder.append(it)
         }
@@ -64,7 +66,7 @@ class JsSyntaxBuilder(
 
         codeBuilder.append("fun ${declaration.genericTypesDeclarationString} ${declaration.jsName}.Companion.syntax(\n")
         codeBuilder.append("  value: ${resolver.loadClass(jsElementName)},\n")
-        //codeBuilder.append("  isNullable: Boolean = false,\n")
+        codeBuilder.append("  isNullable: Boolean = false,\n")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("  ${type.getBuilderDefinition(resolver.loadClass(jsElementName))},\n")
         }
@@ -72,7 +74,7 @@ class JsSyntaxBuilder(
         codeBuilder.append(" = ")
         codeBuilder.append("$className(")
         codeBuilder.append("value, ")
-        //codeBuilder.append("isNullable, ")
+        codeBuilder.append("isNullable, ")
         declaration.getGenericReturnTypes(resolver).joinToString { item -> "${item.declaration.name.replaceFirstChar { it.lowercase() }}Builder" }.let {
             codeBuilder.append(it)
         }
