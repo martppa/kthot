@@ -1,15 +1,11 @@
 package net.asere.kotlin.js.dsl.type.string
 
-import net.asere.kotlin.js.dsl.dom.type.media.stream.track.JsMediaStreamTrack
-import net.asere.kotlin.js.dsl.dom.type.media.stream.track.syntax
-import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
-import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
-import net.asere.kotlin.js.dsl.type.array.JsArraySyntax
+import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation
+import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.array.JsArray
 import net.asere.kotlin.js.dsl.type.array.syntax
 import net.asere.kotlin.js.dsl.type.value.JsValue
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
-import net.asere.kotlin.js.dsl.type.bool.JsBooleanSyntax
 import net.asere.kotlin.js.dsl.type.bool.syntax
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax

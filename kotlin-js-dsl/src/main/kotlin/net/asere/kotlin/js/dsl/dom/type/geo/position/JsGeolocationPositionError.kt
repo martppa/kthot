@@ -1,12 +1,9 @@
 package net.asere.kotlin.js.dsl.dom.type.geo.position
 
-import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
-import net.asere.kotlin.js.dsl.type.bool.syntax
-import net.asere.kotlin.js.dsl.type.string.JsStringSyntax
+import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.string.JsString
-import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
 import net.asere.kotlin.js.dsl.type.number.syntax
 import net.asere.kotlin.js.dsl.type.number.value
 import net.asere.kotlin.js.dsl.type.string.syntax

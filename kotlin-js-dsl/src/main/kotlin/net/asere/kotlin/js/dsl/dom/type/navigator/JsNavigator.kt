@@ -1,11 +1,8 @@
 package net.asere.kotlin.js.dsl.dom.type.navigator
 
-import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
-import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
-import net.asere.kotlin.js.dsl.type.obj.JsObjectSyntax
-import net.asere.kotlin.js.dsl.type.string.JsStringSyntax
+import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation
+import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
-import net.asere.kotlin.js.dsl.type.bool.JsBooleanSyntax
 import net.asere.kotlin.js.dsl.type.bool.syntax
 import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.obj.syntax

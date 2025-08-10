@@ -1,9 +1,8 @@
 package net.asere.kotlin.js.dsl.dom.type.event.mouse
 
 import net.asere.kotlin.js.dsl.dom.type.event.dom.JsDomEvent
-import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
+import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
-import net.asere.kotlin.js.dsl.type.bool.JsBooleanSyntax
 import net.asere.kotlin.js.dsl.type.bool.syntax
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax

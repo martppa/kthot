@@ -11,9 +11,9 @@ import net.asere.kotlin.js.dsl.syntax.jsif.If
 import net.asere.kotlin.js.dsl.syntax.loop.jsfor.For
 import net.asere.kotlin.js.dsl.syntax.loop.Break
 import net.asere.kotlin.js.dsl.syntax.loop.Continue
-import net.asere.kotlin.js.dsl.syntax.operation.eq
-import net.asere.kotlin.js.dsl.syntax.operation.lt
-import net.asere.kotlin.js.dsl.syntax.operation.postInc
+import net.asere.kotlin.js.dsl.syntax.operational.equality.comparison.eq
+import net.asere.kotlin.js.dsl.syntax.operational.arithmetical.comparison.lt
+import net.asere.kotlin.js.dsl.syntax.operational.arithmetical.operation.postInc
 import net.asere.kotlin.js.dsl.type.array.def
 import net.asere.kotlin.js.dsl.type.array.JsArray
 import net.asere.kotlin.js.dsl.type.number.JsNumber

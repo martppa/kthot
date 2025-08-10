@@ -2,9 +2,9 @@ package net.asere.kotlin.js.dsl.type.array
 
 import net.asere.kotlin.js.dsl.JsElement
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
-import net.asere.kotlin.js.dsl.syntax.operation.AccessOperation
-import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
-import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
+import net.asere.kotlin.js.dsl.syntax.operational.access.operation.AccessOperation
+import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation
+import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.lambda.JsLambda1
 import net.asere.kotlin.js.dsl.type.lambda.l2.JsLambda2
 import net.asere.kotlin.js.dsl.type.number.JsNumber

@@ -2,11 +2,9 @@ package net.asere.kotlin.js.dsl.dom.type.token.list
 
 import net.asere.kotlin.js.dsl.dom.type.obj.JsDomObject
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
-import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
-import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
-import net.asere.kotlin.js.dsl.type.string.JsStringSyntax
+import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation
+import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
-import net.asere.kotlin.js.dsl.type.bool.JsBooleanSyntax
 import net.asere.kotlin.js.dsl.type.bool.js
 import net.asere.kotlin.js.dsl.type.bool.syntax
 import net.asere.kotlin.js.dsl.type.number.JsNumber

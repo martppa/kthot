@@ -3,7 +3,7 @@ package net.asere.kotlin.js.dsl.syntax.loop.jswhile
 import net.asere.kotlin.js.dsl.syntax.JsScriptScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.syntax.loop.JsLoopSyntax
-import net.asere.kotlin.js.dsl.syntax.operation.Operable
+import net.asere.kotlin.js.dsl.syntax.operational.Operable
 import net.asere.kotlin.js.dsl.tag.JsDsl
 
 class JsDoWhileSyntax(value: String) : JsLoopSyntax(value)

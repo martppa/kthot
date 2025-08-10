@@ -1,7 +1,7 @@
 package net.asere.kotlin.js.dsl.type.lambda.l0
 
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
-import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
+import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 /**

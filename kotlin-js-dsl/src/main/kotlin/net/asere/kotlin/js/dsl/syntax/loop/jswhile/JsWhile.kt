@@ -2,7 +2,7 @@ package net.asere.kotlin.js.dsl.syntax.loop.jswhile
 
 import net.asere.kotlin.js.dsl.syntax.*
 import net.asere.kotlin.js.dsl.syntax.loop.JsLoopSyntax
-import net.asere.kotlin.js.dsl.syntax.operation.Operable
+import net.asere.kotlin.js.dsl.syntax.operational.Operable
 import net.asere.kotlin.js.dsl.tag.JsDsl
 
 class JsWhileSyntax(value: String) : JsLoopSyntax(value)

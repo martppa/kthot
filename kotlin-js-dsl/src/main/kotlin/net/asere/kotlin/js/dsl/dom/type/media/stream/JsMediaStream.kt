@@ -3,17 +3,14 @@ package net.asere.kotlin.js.dsl.dom.type.media.stream
 import net.asere.kotlin.js.dsl.dom.type.media.stream.track.JsMediaStreamTrack
 import net.asere.kotlin.js.dsl.dom.type.media.stream.track.syntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
-import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
-import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
+import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation
+import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.array.JsArray
-import net.asere.kotlin.js.dsl.type.array.JsArraySyntax
 import net.asere.kotlin.js.dsl.type.array.syntax
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
-import net.asere.kotlin.js.dsl.type.bool.JsBooleanSyntax
 import net.asere.kotlin.js.dsl.type.bool.syntax
 import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.string.JsString
-import net.asere.kotlin.js.dsl.type.string.JsStringSyntax
 import net.asere.kotlin.js.dsl.type.string.js
 import net.asere.kotlin.js.dsl.type.string.syntax
 

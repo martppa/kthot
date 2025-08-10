@@ -4,11 +4,9 @@ import net.asere.kotlin.js.dsl.dom.type.media.device.info.JsMediaDeviceInfo
 import net.asere.kotlin.js.dsl.dom.type.media.stream.JsMediaStream
 import net.asere.kotlin.js.dsl.dom.type.media.stream.constraint.JsMediaStreamConstraint
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
-import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
-import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
-import net.asere.kotlin.js.dsl.type.promise.JsPromiseSyntax
+import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation
+import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.array.JsArray
-import net.asere.kotlin.js.dsl.type.bool.syntax
 import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.promise.JsPromise
 import net.asere.kotlin.js.dsl.type.promise.syntax

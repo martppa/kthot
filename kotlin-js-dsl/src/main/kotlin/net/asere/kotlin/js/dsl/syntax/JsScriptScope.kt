@@ -2,8 +2,8 @@ package net.asere.kotlin.js.dsl.syntax
 
 import net.asere.kotlin.js.dsl.JsElement
 import net.asere.kotlin.js.dsl.declaration.*
-import net.asere.kotlin.js.dsl.syntax.operation.AssignmentOperation
-import net.asere.kotlin.js.dsl.syntax.operation.Operation
+import net.asere.kotlin.js.dsl.syntax.operational.access.operation.AssignmentOperation
+import net.asere.kotlin.js.dsl.syntax.operational.Operation
 import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.toLine
 import net.asere.kotlin.js.dsl.toSyntax

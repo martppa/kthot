@@ -3,9 +3,9 @@ package net.asere.kotlin.js.dsl
 import net.asere.kotlin.js.dsl.declaration.Const
 import net.asere.kotlin.js.dsl.log.Log
 import net.asere.kotlin.js.dsl.syntax.js
-import net.asere.kotlin.js.dsl.syntax.operation.and
-import net.asere.kotlin.js.dsl.syntax.operation.eq
-import net.asere.kotlin.js.dsl.syntax.operation.or
+import net.asere.kotlin.js.dsl.syntax.operational.logical.comparison.and
+import net.asere.kotlin.js.dsl.syntax.operational.equality.comparison.eq
+import net.asere.kotlin.js.dsl.syntax.operational.logical.comparison.or
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
 import net.asere.kotlin.js.dsl.type.bool.def
 import net.asere.kotlin.js.dsl.type.number.js

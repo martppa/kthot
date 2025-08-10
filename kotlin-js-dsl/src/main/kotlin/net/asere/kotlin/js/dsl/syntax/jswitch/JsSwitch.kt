@@ -2,7 +2,7 @@ package net.asere.kotlin.js.dsl.syntax.jswitch
 
 import net.asere.kotlin.js.dsl.syntax.JsScriptScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
-import net.asere.kotlin.js.dsl.syntax.operation.Operable
+import net.asere.kotlin.js.dsl.syntax.operational.Operable
 import net.asere.kotlin.js.dsl.tag.JsDsl
 
 @JsDsl

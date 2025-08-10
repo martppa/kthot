@@ -3,9 +3,9 @@ package net.asere.kotlin.js.dsl.type.value
 import net.asere.kotlin.js.dsl.JsElement
 import net.asere.kotlin.js.dsl.syntax.JsArithmeticalSyntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
-import net.asere.kotlin.js.dsl.syntax.operation.AccessOperation
-import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
-import net.asere.kotlin.js.dsl.syntax.operation.Operable
+import net.asere.kotlin.js.dsl.syntax.operational.access.operation.AccessOperation
+import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation
+import net.asere.kotlin.js.dsl.syntax.operational.Operable
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.string.JsString
 

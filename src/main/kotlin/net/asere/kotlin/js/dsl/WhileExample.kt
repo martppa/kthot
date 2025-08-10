@@ -6,10 +6,9 @@ import net.asere.kotlin.js.dsl.declaration.Let
 import net.asere.kotlin.js.dsl.html.jsScript
 import net.asere.kotlin.js.dsl.log.Log
 import net.asere.kotlin.js.dsl.syntax.loop.jswhile.While
-import net.asere.kotlin.js.dsl.syntax.operation.*
-import net.asere.kotlin.js.dsl.type.array.def
+import net.asere.kotlin.js.dsl.syntax.operational.arithmetical.comparison.lt
+import net.asere.kotlin.js.dsl.syntax.operational.arithmetical.operation.postInc
 import net.asere.kotlin.js.dsl.type.number.JsNumber
-import net.asere.kotlin.js.dsl.type.bool.js
 import net.asere.kotlin.js.dsl.type.number.def
 import net.asere.kotlin.js.dsl.type.number.js
 

@@ -6,7 +6,7 @@ import net.asere.kotlin.js.dsl.declaration.Const
 import net.asere.kotlin.js.dsl.html.jsScript
 import net.asere.kotlin.js.dsl.log.Log
 import net.asere.kotlin.js.dsl.syntax.Return
-import net.asere.kotlin.js.dsl.syntax.operation.plus
+import net.asere.kotlin.js.dsl.syntax.operational.arithmetical.operation.plus
 import net.asere.kotlin.js.dsl.type.array.JsArray
 import net.asere.kotlin.js.dsl.type.array.def
 import net.asere.kotlin.js.dsl.type.array.value

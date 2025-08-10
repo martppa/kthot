@@ -5,7 +5,7 @@ import net.asere.kotlin.js.dsl.syntax.JsDeclarationSyntax
 import net.asere.kotlin.js.dsl.syntax.JsScriptScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.syntax.loop.JsLoopSyntax
-import net.asere.kotlin.js.dsl.syntax.operation.Operation
+import net.asere.kotlin.js.dsl.syntax.operational.Operation
 import net.asere.kotlin.js.dsl.syntax.run
 import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.type.array.JsArray

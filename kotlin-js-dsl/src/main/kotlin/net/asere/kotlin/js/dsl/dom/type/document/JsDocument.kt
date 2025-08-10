@@ -2,12 +2,10 @@ package net.asere.kotlin.js.dsl.dom.type.document
 
 import net.asere.kotlin.js.dsl.dom.type.array.JsDomArray
 import net.asere.kotlin.js.dsl.dom.type.obj.JsDomObject
-import net.asere.kotlin.js.dsl.dom.type.array.JsDomArraySyntax
 import net.asere.kotlin.js.dsl.dom.type.array.syntax
-import net.asere.kotlin.js.dsl.dom.type.obj.JsDomObjectSyntax
 import net.asere.kotlin.js.dsl.dom.type.obj.syntax
-import net.asere.kotlin.js.dsl.syntax.operation.ChainOperation
-import net.asere.kotlin.js.dsl.syntax.operation.InvocationOperation
+import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation
+import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.js
 
