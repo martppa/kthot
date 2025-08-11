@@ -111,7 +111,7 @@ class JsInterfaceBuilder(
             val propertyDefinitionName = property.type.resolve().definitionName
             val propertyTypeSimpleName = property.type.resolve().declaration.name
             if (property.isGenericTypeParameter()) {
-                append("  val $propertyName: $propertyDefinitionName get() = ${property.type.resolve().builderName}(${resolver.loadClass(jsAccessOperationName)}(this, \"$propertyName\"), false)")
+                append("  val $propertyName: $propertyDefinitionName get() = ${property.type.resolve().builderName}(${resolver.loadClass(jsAccessOperationName)}(this, \"$propertyName\"), ${property.type.isNullable()})")
             } else if (property.hasArgumentsTypes()) {
                 val builderParameters = property.getArgumentsTypes()
                 append("  val $propertyName: $propertyDefinitionName get() = $propertyTypeSimpleName.syntax(${
@@ -135,7 +135,7 @@ class JsInterfaceBuilder(
                             function.returnType?.resolve()?.builderName}(${
                                 resolver.loadClass(jsAccessOperationName)}(this, ${
                                     jsInvocationOperationDeclaration.name}(\"$functionName\", ${
-                                        function.parameters.listString()})), false)")
+                                        function.parameters.listString()})), ${function.returnType.isNullable()})")
             } else if (function.returnType?.resolve().hasArgumentsTypes()) {
                 val builderParameters = function.returnType!!.resolve().getArgumentsTypes()
                 append("  fun $functionName(${

@@ -10,6 +10,7 @@ import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSTypeArgument
 import com.google.devtools.ksp.symbol.Visibility
 import net.asere.kotlin.js.dsl.ksp.processor.jsClassAnnotationName
+import net.asere.kotlin.js.dsl.ksp.processor.jsNullableAnnotationName
 
 fun KSClassDeclaration.getJsAvailableFunctions(resolver: Resolver) = declarations
     .filterIsInstance<KSFunctionDeclaration>()
@@ -42,6 +43,10 @@ fun KSClassDeclaration.isSubclassOf(superClass: KSClassDeclaration): Boolean {
     }
     return false
 }
+
+fun KSClassDeclaration.isNullable(): Boolean = annotations.find {
+    it.annotationType.resolve().declaration.qualifiedName?.asString() == jsNullableAnnotationName
+} != null
 
 val KSClassDeclaration.jsName: String get() {
     val jsClassAnnotation = annotations.find {

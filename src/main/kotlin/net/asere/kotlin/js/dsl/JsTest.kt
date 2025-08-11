@@ -2,6 +2,7 @@ package net.asere.kotlin.js.dsl
 
 import net.asere.kotlin.js.dsl.dom.type.obj.JsDomObject
 import net.asere.kotlin.js.dsl.ksp.annotation.JsClass
+import net.asere.kotlin.js.dsl.ksp.annotation.JsNullable
 import net.asere.kotlin.js.dsl.log.Log
 import net.asere.kotlin.js.dsl.syntax.js
 import net.asere.kotlin.js.dsl.type.array.JsArray
@@ -17,6 +18,7 @@ abstract class JsTest<T, P, ParameterElement, ParameterQuoco> where P : List<Str
     val b: Int = 5
     abstract val q: ParameterElement
     abstract val c: ParameterQuoco
+    @JsNullable
     abstract val list: JsArray<ParameterElement>
     fun getString(number: JsNumber, dom: JsDomObject): JsString = JsString.syntax(value = js {
         Log(number)
