@@ -1,5 +1,6 @@
 package net.asere.kotlin.js.dsl.type.promise
 
+import net.asere.kotlin.js.dsl.syntax.async.JsAsyncCallable
 import net.asere.kotlin.js.dsl.syntax.instantiation.Instantiable
 import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
@@ -17,7 +18,7 @@ import net.asere.kotlin.js.dsl.type.value.JsValue
  *
  * @param T The type of [JsValue] that the Promise will resolve to upon successful completion.
  */
-interface JsPromise<T : JsValue> : JsObject, Instantiable {
+interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * This version handles only the fulfillment (success) case.
