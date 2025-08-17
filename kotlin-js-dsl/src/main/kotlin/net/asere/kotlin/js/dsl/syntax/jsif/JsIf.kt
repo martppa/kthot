@@ -6,9 +6,9 @@ import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.syntax.operational.Operable
 import net.asere.kotlin.js.dsl.tag.JsDsl
 
-open class JsIfSyntax(value: String? = null) : JsSyntax(value)
-class JsElseIfSyntax(value: String? = null) : JsIfSyntax(value)
-class JsElseSyntax(value: String? = null) : JsSyntax(value)
+open class JsIfSyntax internal constructor(value: String? = null) : JsSyntax(value)
+class JsElseIfSyntax internal constructor(value: String? = null) : JsIfSyntax(value)
+class JsElseSyntax internal constructor(value: String? = null) : JsSyntax(value)
 
 /**
  * Starts an `if` block in JavaScript.
