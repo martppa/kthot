@@ -8,8 +8,8 @@ class JsMediaStreamSyntax internal constructor(value: String, isNullable: Boolea
     internal constructor(value: JsElement, isNullable: Boolean) : this("$value", isNullable)
 }
 
-fun JsMediaStream.Companion.syntax(value: String, isNullable: Boolean = false): JsMediaStreamSyntax =
+fun JsMediaStream.Companion.syntax(value: String, isNullable: Boolean = false): JsMediaStream =
     JsMediaStreamSyntax(value, isNullable)
 
-fun JsMediaStream.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsMediaStreamSyntax =
+fun JsMediaStream.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsMediaStream =
     JsMediaStreamSyntax(value, isNullable)

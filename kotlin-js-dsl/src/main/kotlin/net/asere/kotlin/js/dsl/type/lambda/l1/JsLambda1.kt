@@ -1,4 +1,4 @@
-package net.asere.kotlin.js.dsl.type.lambda
+package net.asere.kotlin.js.dsl.type.lambda.l1
 
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation

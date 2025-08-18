@@ -1,10 +1,10 @@
 package net.asere.kotlin.js.dsl.dom.type.geo.position
 
-import net.asere.kotlin.js.dsl.dom.type.geo.coordinates.JsGeolocationCoordinatesSyntax
 import net.asere.kotlin.js.dsl.dom.type.geo.coordinates.JsGeolocationCoordinates
+import net.asere.kotlin.js.dsl.dom.type.geo.coordinates.syntax
 import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation
 import net.asere.kotlin.js.dsl.type.number.JsNumber
-import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
+import net.asere.kotlin.js.dsl.type.number.syntax
 import net.asere.kotlin.js.dsl.type.obj.JsObject
 
 /**
@@ -17,7 +17,7 @@ interface JsGeolocationPosition : JsObject {
      *
      * In JavaScript, this corresponds to `position.coords`.
      */
-    val coords: JsGeolocationCoordinates get() = JsGeolocationCoordinatesSyntax(ChainOperation(this, "coords"))
+    val coords: JsGeolocationCoordinates get() = JsGeolocationCoordinates.syntax(ChainOperation(this, "coords"))
 
     /**
      * Returns the time (in milliseconds since the epoch) at which the location was retrieved
@@ -25,7 +25,7 @@ interface JsGeolocationPosition : JsObject {
      *
      * In JavaScript, this corresponds to `position.timestamp`.
      */
-    val timestamp: JsNumber get() = JsNumberSyntax(ChainOperation(this, "timestamp"))
+    val timestamp: JsNumber get() = JsNumber.syntax(ChainOperation(this, "timestamp"))
 
     companion object
 }

@@ -9,7 +9,7 @@ import net.asere.kotlin.js.dsl.syntax.operational.Operation
 import net.asere.kotlin.js.dsl.syntax.run
 import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.type.array.JsArray
-import net.asere.kotlin.js.dsl.type.lambda.JsLambda1
+import net.asere.kotlin.js.dsl.type.lambda.l1.JsLambda1
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 class JsForSyntax(value: String) : JsLoopSyntax(value)

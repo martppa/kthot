@@ -10,7 +10,7 @@ import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
 import net.asere.kotlin.js.dsl.type.number.js
 import net.asere.kotlin.js.dsl.type.obj.JsObject
-import net.asere.kotlin.js.dsl.type.reference.lambda.JsLambda1Ref
+import net.asere.kotlin.js.dsl.type.lambda.l1.JsLambda1Ref
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.js
 

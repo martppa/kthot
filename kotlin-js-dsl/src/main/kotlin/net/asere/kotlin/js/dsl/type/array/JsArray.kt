@@ -5,10 +5,11 @@ import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operational.access.operation.AccessOperation
 import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
-import net.asere.kotlin.js.dsl.type.lambda.JsLambda1
+import net.asere.kotlin.js.dsl.type.lambda.l1.JsLambda1
 import net.asere.kotlin.js.dsl.type.lambda.l2.JsLambda2
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
+import net.asere.kotlin.js.dsl.type.number.js
 import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
@@ -115,4 +116,7 @@ interface JsArray<T : JsValue> : JsObject {
      */
     fun mapIndexed(lambda: JsLambda2<T, JsNumber>): JsSyntax =
         JsSyntax(ChainOperation(this, InvocationOperation("map", lambda)))
+
+    operator fun get(index: JsNumber): T = typeBuilder(AccessOperation(this, index), false)
+    operator fun get(index: Int): T = typeBuilder(AccessOperation(this, index.js), false)
 }

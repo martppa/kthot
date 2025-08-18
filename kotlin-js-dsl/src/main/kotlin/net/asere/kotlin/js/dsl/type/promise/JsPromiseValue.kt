@@ -2,7 +2,7 @@ package net.asere.kotlin.js.dsl.type.promise
 
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.type.error.JsError
-import net.asere.kotlin.js.dsl.type.lambda.JsLambda1
+import net.asere.kotlin.js.dsl.type.lambda.l1.JsLambda1
 import net.asere.kotlin.js.dsl.type.lambda.l2.JsLambda2
 import net.asere.kotlin.js.dsl.type.value.JsRawValue
 import net.asere.kotlin.js.dsl.type.value.JsValue

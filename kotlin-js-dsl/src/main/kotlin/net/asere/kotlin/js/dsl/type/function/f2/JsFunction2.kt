@@ -83,9 +83,6 @@ class JsFunction2<Param1Ref: JsReference<Param1>, Param1 : JsValue, Param2Ref: J
      */
     override fun buildScopeParameters() = InnerScopeParameters(
         scope = JsSyntaxScope().apply {
-            // The casts here assume that param1.reference and param2.reference are indeed of the correct types.
-            // This is generally true if the JsDefinition is correctly used.
-            @Suppress("UNCHECKED_CAST")
             definition(this, param1.reference as Param1, param2.reference as Param2)
         },
         invocationParameters = listOf(param1.reference, param2.reference)

@@ -7,7 +7,7 @@ import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.Invocatio
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
 import net.asere.kotlin.js.dsl.type.bool.js
 import net.asere.kotlin.js.dsl.type.bool.syntax
-import net.asere.kotlin.js.dsl.type.lambda.JsLambda1
+import net.asere.kotlin.js.dsl.type.lambda.l1.JsLambda1
 import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.js

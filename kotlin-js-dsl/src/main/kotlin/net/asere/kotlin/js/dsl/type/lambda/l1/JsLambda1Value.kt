@@ -1,10 +1,9 @@
-package net.asere.kotlin.js.dsl.type.value.lambda
+package net.asere.kotlin.js.dsl.type.lambda.l1
 
 import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.type.definition.JsDefinition
-import net.asere.kotlin.js.dsl.type.lambda.JsLambda1
 import net.asere.kotlin.js.dsl.type.lambda.JsLambdaValueCommons
 import net.asere.kotlin.js.dsl.type.value.JsValue
 

@@ -6,6 +6,7 @@ import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.Invocatio
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
 import net.asere.kotlin.js.dsl.type.number.js
+import net.asere.kotlin.js.dsl.type.number.syntax
 import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.js
@@ -22,11 +23,11 @@ import net.asere.kotlin.js.dsl.type.value.JsValue
 interface JsHistory : JsObject {
     /**
      * Returns the number of entries in the session history, including the currently loaded page,
-     * as a [net.asere.kotlin.js.dsl.type.number.JsNumber] object.
+     * as a [JsNumber] object.
      *
      * In JavaScript, this corresponds to `window.history.length`.
      */
-    val length: JsNumber get() = JsNumberSyntax(ChainOperation(this, "length"))
+    val length: JsNumber get() = JsNumber.syntax(ChainOperation(this, "length"))
 
     /**
      * Navigates back one step in the browser's history.

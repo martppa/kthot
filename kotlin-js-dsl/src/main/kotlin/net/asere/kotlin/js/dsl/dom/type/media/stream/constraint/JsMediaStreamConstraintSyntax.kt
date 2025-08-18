@@ -9,8 +9,8 @@ class JsMediaStreamConstraintSyntax internal constructor(value: String, isNullab
     internal constructor(value: JsElement, isNullable: Boolean) : this("$value", isNullable)
 }
 
-fun JsMediaStreamConstraint.Companion.syntax(value: String, isNullable: Boolean = false): JsMediaStreamConstraintSyntax =
+fun JsMediaStreamConstraint.Companion.syntax(value: String, isNullable: Boolean = false): JsMediaStreamConstraint =
     JsMediaStreamConstraintSyntax(value, isNullable)
 
-fun JsMediaStreamConstraint.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsMediaStreamConstraintSyntax =
+fun JsMediaStreamConstraint.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsMediaStreamConstraint =
     JsMediaStreamConstraintSyntax(value, isNullable)

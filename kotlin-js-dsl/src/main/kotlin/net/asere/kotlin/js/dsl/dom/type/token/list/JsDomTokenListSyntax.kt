@@ -8,8 +8,8 @@ class JsDomTokenListSyntax(value: String, isNullable: Boolean) : JsReferenceSynt
     constructor(value: JsElement, isNullable: Boolean) : this("$value", isNullable)
 }
 
-fun JsDomTokenList.Companion.syntax(value: String, isNullable: Boolean = false): JsDomTokenListSyntax =
+fun JsDomTokenList.Companion.syntax(value: String, isNullable: Boolean = false): JsDomTokenList =
     JsDomTokenListSyntax(value, isNullable)
 
-fun JsDomTokenList.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsDomTokenListSyntax =
+fun JsDomTokenList.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsDomTokenList =
     JsDomTokenListSyntax(value, isNullable)

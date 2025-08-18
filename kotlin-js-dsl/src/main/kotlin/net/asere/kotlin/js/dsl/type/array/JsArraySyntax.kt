@@ -1,7 +1,9 @@
 package net.asere.kotlin.js.dsl.type.array
 
 import net.asere.kotlin.js.dsl.JsElement
+import net.asere.kotlin.js.dsl.provider.provide
 import net.asere.kotlin.js.dsl.syntax.JsReferenceSyntax
+import net.asere.kotlin.js.dsl.type.provideBuilder
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 class JsArraySyntax<T : JsValue> internal constructor(
@@ -17,13 +19,13 @@ class JsArraySyntax<T : JsValue> internal constructor(
 }
 
 fun <T : JsValue> JsArray.Companion.syntax(
-    typeBuilder: (JsElement, isNullable: Boolean) -> T,
     value: String,
-    isNullable: Boolean = false
+    isNullable: Boolean = false,
+    typeBuilder: (JsElement, isNullable: Boolean) -> T = provideBuilder()
 ): JsArray<T> = JsArraySyntax(typeBuilder, value, isNullable)
 
 fun <T : JsValue> JsArray.Companion.syntax(
-    typeBuilder: (JsElement, isNullable: Boolean) -> T,
+    typeBuilder: (JsElement, isNullable: Boolean) -> T = provideBuilder(),
     value: JsElement,
     isNullable: Boolean = false
 ): JsArray<T> = JsArraySyntax(typeBuilder, value, isNullable)

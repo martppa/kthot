@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package net.asere.kotlin.js.dsl.type.function.f1
 
 import net.asere.kotlin.js.dsl.syntax.JsScriptScope
@@ -71,9 +73,6 @@ class JsFunction1<Param1Ref: JsReference<Param1>, Param1 : JsValue>(
      */
     override fun buildScopeParameters() = InnerScopeParameters(
         scope = JsSyntaxScope().apply {
-            // The cast here assumes that param1.reference is indeed of type Param1.
-            // This is generally true if the JsDefinition is correctly used.
-            @Suppress("UNCHECKED_CAST")
             definition(this, param1.reference as Param1)
         },
         invocationParameters = listOf(param1.reference)

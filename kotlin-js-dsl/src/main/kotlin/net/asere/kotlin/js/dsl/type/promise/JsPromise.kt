@@ -6,7 +6,7 @@ import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperatio
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.lambda.l0.JsLambda
-import net.asere.kotlin.js.dsl.type.lambda.JsLambda1
+import net.asere.kotlin.js.dsl.type.lambda.l1.JsLambda1
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 /**

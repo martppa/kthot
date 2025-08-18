@@ -36,7 +36,7 @@ class JsGeolocationPositionOptionsBuilder {
         enableHighAccuracy?.let { objectBuilder.property("enableHighAccuracy", it.js) }
         timeout?.let { objectBuilder.property("timeout", it.js) }
         maximumAge?.let { objectBuilder.property("maximumAge", it.js) }
-        return JsPositionOptionsSyntax("${objectBuilder.build()}")
+        return JsGeolocationPositionOptions.syntax(objectBuilder.build())
     }
 }
 

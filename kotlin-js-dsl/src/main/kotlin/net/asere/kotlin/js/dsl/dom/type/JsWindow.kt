@@ -15,13 +15,17 @@ import net.asere.kotlin.js.dsl.dom.type.Window.setName
 import net.asere.kotlin.js.dsl.dom.type.Window.setTimeout
 import net.asere.kotlin.js.dsl.dom.type.document.JsDocument
 import net.asere.kotlin.js.dsl.dom.type.document.JsDocumentSyntax
+import net.asere.kotlin.js.dsl.dom.type.document.syntax
 import net.asere.kotlin.js.dsl.dom.type.event.dom.JsDomEvent
 import net.asere.kotlin.js.dsl.dom.type.history.JsHistory
 import net.asere.kotlin.js.dsl.dom.type.history.JsHistorySyntax
+import net.asere.kotlin.js.dsl.dom.type.history.syntax
 import net.asere.kotlin.js.dsl.dom.type.location.JsLocation
 import net.asere.kotlin.js.dsl.dom.type.location.JsLocationSyntax
+import net.asere.kotlin.js.dsl.dom.type.location.syntax
 import net.asere.kotlin.js.dsl.dom.type.navigator.JsNavigator
 import net.asere.kotlin.js.dsl.dom.type.navigator.JsNavigatorSyntax
+import net.asere.kotlin.js.dsl.dom.type.navigator.syntax
 import net.asere.kotlin.js.dsl.dom.type.screen.JsScreen
 import net.asere.kotlin.js.dsl.dom.type.screen.JsScreenSyntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
@@ -34,7 +38,7 @@ import net.asere.kotlin.js.dsl.type.obj.JsObjectRef
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.js
 import net.asere.kotlin.js.dsl.type.lambda.l0.JsLambda
-import net.asere.kotlin.js.dsl.type.lambda.JsLambda1
+import net.asere.kotlin.js.dsl.type.lambda.l1.JsLambda1
 import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
 import net.asere.kotlin.js.dsl.type.string.syntax
 
@@ -343,31 +347,31 @@ object Window : JsObjectRef("window") {
      * Returns the [JsLocation] object, which contains information about the current URL.
      */
     val location: JsLocation
-        get() = JsLocationSyntax(ChainOperation(this, "location"))
+        get() = JsLocation.syntax(ChainOperation(this, "location"))
 
     /**
-     * Returns the [net.asere.kotlin.js.dsl.dom.type.obj.JsDomObject] representing the `document` object, which is the root of the DOM tree.
+     * Returns the [JsDomObject] representing the `document` object, which is the root of the DOM tree.
      */
     val document: JsDocument
-        get() = JsDocumentSyntax(ChainOperation(this, "document"))
+        get() = JsDocument.syntax(ChainOperation(this, "document"))
 
     /**
      * Returns the [JsHistory] object, which provides access to the browser's session history.
      */
     val history: JsHistory
-        get() = JsHistorySyntax(ChainOperation(this, "history"))
+        get() = JsHistory.syntax(ChainOperation(this, "history"))
 
     /**
      * Returns the [JsNavigator] object, which contains information about the web browser.
      */
     val navigator: JsNavigator
-        get() = JsNavigatorSyntax(ChainOperation(this, "navigator"))
+        get() = JsNavigator.syntax(ChainOperation(this, "navigator"))
 
     /**
      * Returns the [JsScreen] object, which contains information about the user's screen.
      */
     val screen: JsScreen
-        get() = JsScreenSyntax(ChainOperation(this, "screen"))
+        get() = JsScreenSyntax(ChainOperation(this, "screen"), isNullable = false)
 
     /**
      * Attaches an event listener to the window. When the specified event occurs,

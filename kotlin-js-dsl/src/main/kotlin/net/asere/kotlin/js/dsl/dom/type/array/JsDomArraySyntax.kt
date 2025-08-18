@@ -8,8 +8,8 @@ class JsDomArraySyntax internal constructor(value: String, isNullable: Boolean) 
     internal constructor(value: JsElement, isNullable: Boolean) : this("$value", isNullable)
 }
 
-fun JsDomArray.Companion.syntax(value: String, isNullable: Boolean = false): JsDomArraySyntax =
+fun JsDomArray.Companion.syntax(value: String, isNullable: Boolean = false): JsDomArray =
     JsDomArraySyntax(value, isNullable)
 
-fun JsDomArray.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsDomArraySyntax =
+fun JsDomArray.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsDomArray =
     JsDomArraySyntax(value, isNullable)

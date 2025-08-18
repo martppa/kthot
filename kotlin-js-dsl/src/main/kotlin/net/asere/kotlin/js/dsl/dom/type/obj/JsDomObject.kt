@@ -12,7 +12,7 @@ import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperatio
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
 import net.asere.kotlin.js.dsl.type.bool.syntax
-import net.asere.kotlin.js.dsl.type.lambda.JsLambda1
+import net.asere.kotlin.js.dsl.type.lambda.l1.JsLambda1
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.js
 import net.asere.kotlin.js.dsl.type.string.syntax
@@ -367,7 +367,7 @@ interface JsDomObject : JsValue {
      *
      * In JavaScript, this corresponds to `element.children`.
      */
-    val children: JsDomArraySyntax get() = JsDomArray.syntax(ChainOperation(this, "children"))
+    val children: JsDomArray get() = JsDomArray.syntax(ChainOperation(this, "children"))
 
     /**
      * Returns the first child `Element` of the current element as a [JsDomObject] object.

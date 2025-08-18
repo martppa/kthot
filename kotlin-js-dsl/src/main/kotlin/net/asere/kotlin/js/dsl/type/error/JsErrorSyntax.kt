@@ -8,5 +8,8 @@ class JsErrorSyntax internal constructor(value: String, isNullable: Boolean) :
     internal constructor(value: JsElement, isNullable: Boolean = false) : this("$value", isNullable)
 }
 
-fun JsError.Companion.syntax(value: String, isNullable: Boolean = false): JsErrorSyntax =
+fun JsError.Companion.syntax(value: String, isNullable: Boolean = false): JsError =
+    JsErrorSyntax(value, isNullable)
+
+fun JsError.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsError =
     JsErrorSyntax(value, isNullable)
