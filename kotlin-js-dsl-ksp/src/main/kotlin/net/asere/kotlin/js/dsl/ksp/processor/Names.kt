@@ -12,3 +12,5 @@ const val jsPrintableDefinitionName = "net.asere.kotlin.js.dsl.type.definition.J
 const val jsReferenceSyntaxName = "net.asere.kotlin.js.dsl.syntax.JsReferenceSyntax"
 const val jsAccessOperationName = "net.asere.kotlin.js.dsl.syntax.operational.access.operation.AccessOperation"
 const val jsNullableAnnotationName = "net.asere.kotlin.js.dsl.ksp.annotation.JsNullable"
+const val jsInternalApiAnnotationName = "net.asere.kotlin.js.dsl.annotation.InternalApi"
+const val jsProvideFunctionName = "net.asere.kotlin.js.dsl.provider.provide"

@@ -1,36 +1,31 @@
 package net.asere.kotlin.js.dsl.provider
 
+import net.asere.kotlin.js.dsl.JsElement
+
 private val beacons: MutableMap<String, Beacon> = mutableMapOf()
-fun key(clazz: String, name: String) = "${clazz}__$name"
 
 inline fun <reified T : Any> register(
-    name: String = String.empty(),
-    singleton: Boolean = false,
-    noinline creator: () -> T
+    noinline builder: (JsElement, Boolean) -> T
 ) {
-    val key = key(T::class.java.name, name)
-    registerWithKey(key = key, singleton = singleton, creator = creator)
+    val key = T::class.java.name
+    register(key = key, builder = builder)
 }
 
-fun registerWithKey(key: String, singleton: Boolean, creator: () -> Any) {
-    beacons[key] = buildBeacon(creator, singleton)
+fun register(key: String, builder: (JsElement, Boolean) -> Any) {
+    beacons[key] = buildBeacon(builder)
 }
 
-fun provideWithKey(key: String): Any {
+fun provide(key: String, value: JsElement, isNullable: Boolean): Any {
     val beacon = beacons[key]
         ?: throw BeaconNotFoundException(key)
-    return beacon.invoke()
+    return beacon.invoke(value, isNullable)
 }
 
-inline fun <reified T> provide(name: String = String.empty()): T {
-    val key = key(T::class.java.name, name)
-    return provideWithKey(key) as T
+inline fun <reified T> provide(element: JsElement, isNullable: Boolean): T {
+    val key = T::class.java.name
+    return provide(key, element, isNullable) as T
 }
 
-private fun buildBeacon(creator: () -> Any, singleton: Boolean): Beacon {
-    return if (singleton) {
-        SingleBeacon(creator)
-    } else {
-        Beacon(creator)
-    }
+private fun buildBeacon(builder: (JsElement, Boolean) -> Any): Beacon {
+    return Beacon(builder)
 }

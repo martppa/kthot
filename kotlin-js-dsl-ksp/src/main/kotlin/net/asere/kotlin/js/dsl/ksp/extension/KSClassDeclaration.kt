@@ -63,14 +63,18 @@ val KSClassDeclaration.jsName: String get() {
     return className
 }
 
-val KSClassDeclaration.genericTypesDeclarationString: String get() {
+fun KSClassDeclaration.genericTypesDeclarationString(modifier: String? = null): String {
     val stringBuilder = StringBuilder()
     val genericTypesDeclarations = mutableListOf<String>()
     typeParameters.forEach { parameter ->
         val bounds = parameter.bounds.filter { !it.resolve().declaration.isAny() }.toList()
         when (bounds.size) {
-            1 -> genericTypesDeclarations.add("${parameter.name.asString()} : ${bounds.first().resolve().definitionName}")
-            else -> genericTypesDeclarations.add(parameter.name.asString())
+            1 -> genericTypesDeclarations.add("${modifier?.let { 
+                "$it " 
+            }.orEmpty()}${parameter.name.asString()} : ${bounds.first().resolve().definitionName}")
+            else -> genericTypesDeclarations.add("${modifier?.let { 
+                "$it " 
+            }.orEmpty()}${parameter.name.asString()}")
         }
     }
     if (genericTypesDeclarations.isNotEmpty()) {

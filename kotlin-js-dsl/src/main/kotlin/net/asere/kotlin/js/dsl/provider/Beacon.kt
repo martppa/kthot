@@ -1,5 +1,7 @@
 package net.asere.kotlin.js.dsl.provider
 
-open class Beacon(private val builder: () -> Any) {
-    open operator fun invoke() = builder()
+import net.asere.kotlin.js.dsl.JsElement
+
+open class Beacon(private val builder: (JsElement, Boolean) -> Any) {
+    open operator fun invoke(value: JsElement, isNullable: Boolean) = builder(value, isNullable)
 }
