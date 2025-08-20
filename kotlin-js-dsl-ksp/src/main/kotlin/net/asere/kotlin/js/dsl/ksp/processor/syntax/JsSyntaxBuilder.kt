@@ -125,6 +125,7 @@ class JsSyntaxBuilder(
 
         imports.add(resolver.loadClass(jsReferenceSyntaxName).fullName)
         imports.add(resolver.loadClass(jsInternalApiAnnotationName).fullName)
+        imports.add(resolver.loadClass(jsElementName).fullName)
         imports.add(jsProvideFunctionName)
         declaration.typeParameters.forEach { parameter ->
             parameter.bounds.map { type ->

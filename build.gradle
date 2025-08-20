@@ -15,6 +15,7 @@ repositories {
 
 dependencies {
     implementation project(path: ':kotlin-js-dsl-html')
+    implementation project(path: ':kotlin-js-dsl-dom')
     implementation project(path: ':kotlin-js-dsl')
     implementation project(path: ':kotlin-js-dsl-ksp')
     ksp project(path: ':kotlin-js-dsl-ksp')

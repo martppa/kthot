@@ -86,6 +86,7 @@ class JsReferenceBuilder(
     private fun StringBuilder.appendImports(declaration: KSClassDeclaration, resolver: Resolver) {
         val imports: MutableSet<String> = mutableSetOf()
 
+        imports.add(resolver.loadClass(jsElementName).fullName)
         imports.add(resolver.loadClass(jsValueRefName).fullName)
         imports.add(resolver.loadClass(jsReferenceIdName).fullName)
         imports.add(resolver.loadClass(jsPrintableDefinitionName).fullName)

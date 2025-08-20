@@ -1,6 +1,6 @@
 package net.asere.kotlin.js.dsl.syntax
 
-import net.asere.kotlin.js.dsl.JsElement
+import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.type.value.JsValue
 

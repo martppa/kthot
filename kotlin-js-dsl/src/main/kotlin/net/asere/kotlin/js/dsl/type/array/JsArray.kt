@@ -1,6 +1,6 @@
 package net.asere.kotlin.js.dsl.type.array
 
-import net.asere.kotlin.js.dsl.JsElement
+import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operational.access.operation.AccessOperation
 import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation

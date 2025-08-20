@@ -1,8 +1,7 @@
 package net.asere.kotlin.js.dsl.type.lambda.l5
 
-import net.asere.kotlin.js.dsl.JsElement
+import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.syntax.JsReferenceSyntax
-import net.asere.kotlin.js.dsl.type.lambda.l4.JsLambda4
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 class JsLambda5Syntax<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Param5 : JsValue> internal constructor(

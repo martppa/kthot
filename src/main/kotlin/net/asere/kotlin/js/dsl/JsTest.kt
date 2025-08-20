@@ -5,6 +5,7 @@ import net.asere.kotlin.js.dsl.ksp.annotation.JsClass
 import net.asere.kotlin.js.dsl.ksp.annotation.JsNullable
 import net.asere.kotlin.js.dsl.log.Log
 import net.asere.kotlin.js.dsl.syntax.js
+import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.type.array.JsArray
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.obj.JsObject

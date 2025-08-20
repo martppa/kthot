@@ -1,6 +1,6 @@
 package net.asere.kotlin.js.dsl.provider
 
-import net.asere.kotlin.js.dsl.JsElement
+import net.asere.kotlin.js.dsl.type.JsElement
 
 private val beacons: MutableMap<String, Beacon> = mutableMapOf()
 

@@ -1,6 +1,6 @@
 package net.asere.kotlin.js.dsl.log
 
-import net.asere.kotlin.js.dsl.JsElement
+import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation

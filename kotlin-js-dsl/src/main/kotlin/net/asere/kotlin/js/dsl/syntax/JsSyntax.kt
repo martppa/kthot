@@ -1,6 +1,6 @@
 package net.asere.kotlin.js.dsl.syntax
 
-import net.asere.kotlin.js.dsl.JsElement
+import net.asere.kotlin.js.dsl.type.JsElement
 
 open class JsSyntax(
     value: String? = null

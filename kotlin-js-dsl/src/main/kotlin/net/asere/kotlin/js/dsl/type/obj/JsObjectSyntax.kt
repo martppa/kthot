@@ -1,6 +1,6 @@
 package net.asere.kotlin.js.dsl.type.obj
 
-import net.asere.kotlin.js.dsl.JsElement
+import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.syntax.JsReferenceSyntax
 
 open class JsObjectSyntax internal constructor(value: String, isNullable: Boolean) : JsReferenceSyntax<JsObject>(value, isNullable), JsObject {

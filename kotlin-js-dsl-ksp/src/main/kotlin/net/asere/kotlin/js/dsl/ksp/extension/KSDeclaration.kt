@@ -12,13 +12,13 @@ import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSTypeArgument
 import com.google.devtools.ksp.symbol.Visibility
 import net.asere.kotlin.js.dsl.ksp.processor.jsClassAnnotationName
+import net.asere.kotlin.js.dsl.ksp.processor.jsElementName
 import kotlin.sequences.forEach
 
 val KSDeclaration.fullName: String get() = qualifiedName?.asString() ?: "Any"
 val KSDeclaration.name: String get() = simpleName.asString()
 
 fun KSDeclaration?.isJsElement(resolver: Resolver): Boolean {
-    val jsElementName = "net.asere.kotlin.js.dsl.JsElement"
     val jsElement = resolver.loadClass(jsElementName)
     return this.isSubclassOf(jsElement)
 }

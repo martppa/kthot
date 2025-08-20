@@ -1,6 +1,6 @@
 package net.asere.kotlin.js.dsl.type.lambda.l0
 
-import net.asere.kotlin.js.dsl.JsElement
+import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.syntax.JsReferenceSyntax
 
 class JsLambdaSyntax internal constructor(value: String, isNullable: Boolean) :

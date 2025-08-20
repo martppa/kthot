@@ -5,7 +5,7 @@ import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.syntax.operational.Operable
 import net.asere.kotlin.js.dsl.tag.JsDsl
-import net.asere.kotlin.js.dsl.toLine
+import net.asere.kotlin.js.dsl.type.toLine
 
 /**
  * Defines a `case` block within a `switch` statement.

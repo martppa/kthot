@@ -1,6 +1,6 @@
 package net.asere.kotlin.js.dsl.syntax.operational.access.operation
 
-import net.asere.kotlin.js.dsl.isNullable
+import net.asere.kotlin.js.dsl.type.isNullable
 import net.asere.kotlin.js.dsl.syntax.operational.ReflexiveOperation
 import net.asere.kotlin.js.dsl.syntax.operational.access.operator.Access
 import net.asere.kotlin.js.dsl.syntax.operational.Operator

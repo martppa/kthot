@@ -15,3 +15,5 @@ include 'kotlin-js-dsl'
 include 'kotlin-js-dsl-html'
 include 'kotlin-js-dsl-ksp'
 
+
+include 'kotlin-js-dsl-dom'

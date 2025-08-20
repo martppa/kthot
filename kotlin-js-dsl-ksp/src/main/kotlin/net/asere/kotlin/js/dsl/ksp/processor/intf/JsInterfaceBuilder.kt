@@ -56,6 +56,7 @@ class JsInterfaceBuilder(
 
     private fun StringBuilder.appendImports(declaration: KSClassDeclaration, resolver: Resolver) {
         val imports: MutableSet<String> = mutableSetOf()
+        imports.add(resolver.loadClass(jsElementName).fullName)
         imports.add(jsChainOperationDeclaration.fullName)
         imports.add(jsInvocationOperationDeclaration.fullName)
         imports.add(jsAccessOperationDeclaration.fullName)

@@ -1,6 +1,6 @@
 package net.asere.kotlin.js.dsl.type.array
 
-import net.asere.kotlin.js.dsl.JsElement
+import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.annotation.InternalApi
 import net.asere.kotlin.js.dsl.provider.provide
 import net.asere.kotlin.js.dsl.type.definition.JsPrintableDefinition

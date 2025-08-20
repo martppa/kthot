@@ -1,6 +1,6 @@
 package net.asere.kotlin.js.dsl.type.number
 
-import net.asere.kotlin.js.dsl.JsElement
+import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.syntax.JsReferenceSyntax
 
 class JsNumberSyntax internal constructor(value: String, isNullable: Boolean) :

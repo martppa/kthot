@@ -1,6 +1,6 @@
 package net.asere.kotlin.js.dsl.syntax.operational
 
-import net.asere.kotlin.js.dsl.JsElement
+import net.asere.kotlin.js.dsl.type.JsElement
 
 abstract class ReflexiveOperation : Operation() {
 
