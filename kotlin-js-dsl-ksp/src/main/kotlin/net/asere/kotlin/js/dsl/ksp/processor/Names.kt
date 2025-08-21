@@ -14,3 +14,5 @@ const val jsAccessOperationName = "net.asere.kotlin.js.dsl.syntax.operational.ac
 const val jsNullableAnnotationName = "net.asere.kotlin.js.dsl.ksp.annotation.JsNullable"
 const val jsInternalApiAnnotationName = "net.asere.kotlin.js.dsl.annotation.InternalApi"
 const val jsProvideFunctionName = "net.asere.kotlin.js.dsl.provider.provide"
+const val jsDslLibName = "net.asere.kotlin.js.dsl.JsDslLib"
+const val jsRegisterFunctionName = "net.asere.kotlin.js.dsl.provider.register"

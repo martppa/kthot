@@ -48,7 +48,7 @@ class JsReferenceBuilder(
         codeBuilder.append("}\n\n")
 
         codeBuilder.append("@OptIn(InternalApi::class)\n")
-        codeBuilder.append("inline fun ${declaration.genericTypesDeclarationString("reified")} ${declaration.jsName}.Companion.ref(\n")
+        codeBuilder.append("${if (declaration.typeParameters.isNotEmpty()) "inline " else ""}fun ${declaration.genericTypesDeclarationString("reified")} ${declaration.jsName}.Companion.ref(\n")
         codeBuilder.append("  name: String? = null,\n")
         codeBuilder.append("  isNullable: Boolean = false,\n")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
@@ -61,7 +61,7 @@ class JsReferenceBuilder(
         codeBuilder.append(")\n\n")
 
         codeBuilder.append("@OptIn(InternalApi::class)\n")
-        codeBuilder.append("inline fun ${declaration.genericTypesDeclarationString("reified")} ${declaration.jsName}.Companion.def(\n")
+        codeBuilder.append("${if (declaration.typeParameters.isNotEmpty()) "inline " else ""}fun ${declaration.genericTypesDeclarationString("reified")} ${declaration.jsName}.Companion.def(\n")
         codeBuilder.append("  name: String? = null,\n")
         codeBuilder.append("  isNullable: Boolean = false,\n")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
@@ -121,6 +121,5 @@ class JsReferenceBuilder(
             extensionName = "kt"
         )
         OutputStreamWriter(file).use { it.write(codeBuilder.toString()) }
-        logger.info("Generated interface file for class: $fileName.kt")
     }
 }

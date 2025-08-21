@@ -40,3 +40,9 @@ class Request<T : JsNumber, P : JsArray<JsString>, Q : JsNumber> {
     val numberArray: JsArray<Q> get() = throw IllegalStateException()
     fun getNested(number: JsNumber): JsNestedClass<T> = TODO()
 }
+
+@JsClass
+class NoParaClass
+
+@JsClass
+class NoParaClass2

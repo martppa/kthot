@@ -12,7 +12,7 @@ import net.asere.kotlin.js.dsl.type.obj.syntax
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.syntax
 
-object KotlinJs : JsDsl {
+object KotlinJs : JsDslLib {
     override fun initialize() {
         register(builder = JsString::syntax)
         register(builder = JsNumber::syntax)

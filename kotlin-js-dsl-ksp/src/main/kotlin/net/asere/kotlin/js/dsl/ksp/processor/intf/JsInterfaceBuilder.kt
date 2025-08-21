@@ -174,7 +174,6 @@ class JsInterfaceBuilder(
             extensionName = "kt",
         )
         OutputStreamWriter(file).use { it.write(codeBuilder.toString()) }
-        logger.info("Generated interface file for class: $fileName.kt")
     }
 }
 
