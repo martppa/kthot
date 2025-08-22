@@ -35,7 +35,7 @@ class JsReferenceBuilder(
         val className = declaration.jsName + "Ref"
         codeBuilder.append("class $className${declaration.genericTypesDeclarationString()} @InternalApi constructor(\n")
         codeBuilder.append("  name: String? = null,\n")
-        codeBuilder.append("  isNullable: Boolean = false,\n")
+        codeBuilder.append("  isNullable: Boolean = false${declaration.getComma(resolver)}\n")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("  override val ${type.getBuilderDefinition(resolver.loadClass(jsElementName))},\n")
         }
@@ -54,7 +54,7 @@ class JsReferenceBuilder(
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("  noinline ${type.getBuilderDefinition(resolver.loadClass(jsElementName))} = ::provide,\n")
         }
-        codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesString} ${declaration.whereClauseString} = $className(name, isNullable, ")
+        codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesString} ${declaration.whereClauseString} = $className(name, isNullable${declaration.getComma(resolver)}")
         declaration.getGenericReturnTypes(resolver).joinToString { item -> "${item.declaration.name.replaceFirstChar { it.lowercase() }}Builder" }.let {
             codeBuilder.append(it)
         }
@@ -69,7 +69,7 @@ class JsReferenceBuilder(
         }
         codeBuilder.append("): ${printableDefinition.name}<${declaration.jsName}Ref${declaration.genericTypesString}, ${declaration.jsName}${declaration.genericTypesString}>\n")
         codeBuilder.append("${declaration.whereClauseString} = object : ${printableDefinition.name}<${declaration.jsName}Ref${declaration.genericTypesString}, ${declaration.jsName}${declaration.genericTypesString}>() {\n")
-        codeBuilder.append("  override val reference: ${declaration.jsName}Ref${declaration.genericTypesString} = $className(name, isNullable, ")
+        codeBuilder.append("  override val reference: ${declaration.jsName}Ref${declaration.genericTypesString} = $className(name, isNullable${declaration.getComma(resolver)}")
         declaration.getGenericReturnTypes(resolver).joinToString { item -> "${item.declaration.name.replaceFirstChar { it.lowercase() }}Builder" }.let {
             codeBuilder.append(it)
         }
@@ -123,3 +123,6 @@ class JsReferenceBuilder(
         OutputStreamWriter(file).use { it.write(codeBuilder.toString()) }
     }
 }
+
+private fun KSClassDeclaration.getComma(resolver: Resolver) =
+    if (getGenericReturnTypes(resolver).isNotEmpty()) "," else ""

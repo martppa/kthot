@@ -6,11 +6,7 @@ import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import net.asere.kotlin.js.dsl.ksp.extension.*
-import net.asere.kotlin.js.dsl.ksp.processor.CodeBuilder
-import net.asere.kotlin.js.dsl.ksp.processor.jsElementName
-import net.asere.kotlin.js.dsl.ksp.processor.jsInternalApiAnnotationName
-import net.asere.kotlin.js.dsl.ksp.processor.jsProvideFunctionName
-import net.asere.kotlin.js.dsl.ksp.processor.jsReferenceSyntaxName
+import net.asere.kotlin.js.dsl.ksp.processor.*
 import java.io.OutputStreamWriter
 
 class JsSyntaxBuilder(
@@ -32,18 +28,18 @@ class JsSyntaxBuilder(
         val className = declaration.jsName + "Syntax"
         codeBuilder.append("class $className${declaration.genericTypesDeclarationString()} @InternalApi constructor(\n")
         codeBuilder.append("  value: String,\n")
-        codeBuilder.append("  isNullable: Boolean,")
+        codeBuilder.append("  isNullable: Boolean${declaration.getComma(resolver)}")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("  override val ${type.getBuilderDefinition(resolver.loadClass(jsElementName))},\n")
         }
         codeBuilder.append(") : ${resolver.loadClass(jsReferenceSyntaxName)}<${declaration.jsName}${declaration.genericTypesString}>(value, isNullable), ${declaration.jsName}${declaration.genericTypesString}${declaration.whereClauseString} {\n")
-        codeBuilder.append("   @InternalApi constructor(value: ${resolver.loadClass(jsElementName).name}, isNullable: Boolean, ")
+        codeBuilder.append("   @InternalApi constructor(value: ${resolver.loadClass(jsElementName).name}, isNullable: Boolean${declaration.getComma(resolver)} ")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("${type.getBuilderDefinition(resolver.loadClass(jsElementName))},")
         }
         codeBuilder.append(") : this(")
         codeBuilder.append($$$"\"$value\", ")
-        codeBuilder.append("isNullable, ")
+        codeBuilder.append("isNullable${declaration.getComma(resolver)}")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("${type.builderName}, ")
         }
@@ -53,7 +49,7 @@ class JsSyntaxBuilder(
         codeBuilder.append("@OptIn(InternalApi::class)\n")
         codeBuilder.append("fun ${declaration.genericTypesDeclarationString()} ${declaration.jsName}.Companion.syntax(\n")
         codeBuilder.append("  value: String,\n")
-        codeBuilder.append("  isNullable: Boolean = false,\n")
+        codeBuilder.append("  isNullable: Boolean = false${declaration.getComma(resolver)}\n")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("  ${type.getBuilderDefinition(resolver.loadClass(jsElementName))},\n")
         }
@@ -61,7 +57,7 @@ class JsSyntaxBuilder(
         codeBuilder.append(" = ")
         codeBuilder.append("$className(")
         codeBuilder.append("value, ")
-        codeBuilder.append("isNullable, ")
+        codeBuilder.append("isNullable${declaration.getComma(resolver)}")
         declaration.getGenericReturnTypes(resolver).joinToString { item -> "${item.declaration.name.replaceFirstChar { it.lowercase() }}Builder" }.let {
             codeBuilder.append(it)
         }
@@ -70,7 +66,7 @@ class JsSyntaxBuilder(
         codeBuilder.append("@OptIn(InternalApi::class)\n")
         codeBuilder.append("fun ${declaration.genericTypesDeclarationString()} ${declaration.jsName}.Companion.syntax(\n")
         codeBuilder.append("  value: ${resolver.loadClass(jsElementName)},\n")
-        codeBuilder.append("  isNullable: Boolean = false,\n")
+        codeBuilder.append("  isNullable: Boolean = false${declaration.getComma(resolver)}\n")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("  ${type.getBuilderDefinition(resolver.loadClass(jsElementName))},\n")
         }
@@ -78,7 +74,7 @@ class JsSyntaxBuilder(
         codeBuilder.append(" = ")
         codeBuilder.append("$className(")
         codeBuilder.append("value, ")
-        codeBuilder.append("isNullable, ")
+        codeBuilder.append("isNullable${declaration.getComma(resolver)}")
         declaration.getGenericReturnTypes(resolver).joinToString { item -> "${item.declaration.name.replaceFirstChar { it.lowercase() }}Builder" }.let {
             codeBuilder.append(it)
         }
@@ -93,7 +89,7 @@ class JsSyntaxBuilder(
             codeBuilder.append(" = ")
             codeBuilder.append("$className(")
             codeBuilder.append("value, ")
-            codeBuilder.append("isNullable, ")
+            codeBuilder.append("isNullable${declaration.getComma(resolver)}")
             declaration.getGenericReturnTypes(resolver).joinToString { item -> "::provide" }.let {
                 codeBuilder.append(it)
             }
@@ -107,7 +103,7 @@ class JsSyntaxBuilder(
             codeBuilder.append(" = ")
             codeBuilder.append("$className(")
             codeBuilder.append("value, ")
-            codeBuilder.append("isNullable, ")
+            codeBuilder.append("isNullable${declaration.getComma(resolver)}")
             declaration.getGenericReturnTypes(resolver).joinToString { item -> "::provide" }.let {
                 codeBuilder.append(it)
             }
@@ -161,3 +157,6 @@ class JsSyntaxBuilder(
         logger.info("Generated interface file for class: $fileName.kt")
     }
 }
+
+private fun KSClassDeclaration.getComma(resolver: Resolver) =
+    if (getGenericReturnTypes(resolver).isNotEmpty()) "," else ""
