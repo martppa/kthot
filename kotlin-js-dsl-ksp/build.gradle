@@ -1,5 +1,8 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '2.2.0'
+    id 'java-library'
+    id 'org.jetbrains.kotlin.jvm'
+    id 'maven-publish'
+    id 'signing'
 }
 
 repositories {
@@ -7,7 +10,16 @@ repositories {
 }
 
 group = 'net.asere.kotlin'
-version = '0.0.6'
+version = '0.1.1'
+
+ext {
+    VERSION = version
+    ARTIFACT_ID = 'js-dsl-ksp'
+    POM_NAME = 'Js-Dsl-Ksp'
+    POM_DESCRIPTION = 'Kotlin Js Dsl Ksp integration for Kotlin class generation for JavaScript'
+}
+
+apply from: "${rootProject.projectDir}/scripts/base_publish.gradle"
 
 repositories {
     mavenCentral()

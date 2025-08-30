@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'net.asere.kotlin'
-version = '0.0.6'
+version = '0.1.1'
 
 repositories {
     mavenCentral()
@@ -48,6 +48,8 @@ tasks.register('publishToSonatypeCentral') {
 
     dependsOn ':kotlin-js-dsl:publish'
     dependsOn ':kotlin-js-dsl-html:publish'
+    dependsOn ':kotlin-js-dsl-dom:publish'
+    dependsOn ':kotlin-js-dsl-ksp:publish'
 
     doLast {
         println "Starting Sonatype Central publishing process..."
