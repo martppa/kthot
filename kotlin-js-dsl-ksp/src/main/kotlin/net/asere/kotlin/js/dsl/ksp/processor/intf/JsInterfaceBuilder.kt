@@ -20,19 +20,6 @@ class JsInterfaceBuilder(
 
     override fun build(resolver: Resolver, declaration: KSClassDeclaration) {
         resolver.checkDependencies()
-        createInterface(declaration, resolver)
-    }
-
-    private fun Resolver.checkDependencies() {
-        jsChainOperationDeclaration = loadClass(jsChainOperationName)
-        jsInvocationOperationDeclaration = loadClass(jsInvocationOperationName)
-        jsObjectDeclaration = loadClass(jsObjectName)
-        jsSyntaxDeclaration = loadClass(jsSyntaxName)
-        jsElementDeclaration = loadClass(jsElementName)
-        jsAccessOperationDeclaration = loadClass(jsAccessOperationName)
-    }
-
-    private fun createInterface(declaration: KSClassDeclaration, resolver: Resolver) {
         val packageName = declaration.packageName.asString()
         val codeBuilder = StringBuilder()
         if (packageName.isNotBlank()) {
@@ -44,7 +31,9 @@ class JsInterfaceBuilder(
         codeBuilder.appendProperties(declaration, resolver)
         codeBuilder.appendMethods(declaration, resolver)
         codeBuilder.append("\n")
-        codeBuilder.append("   companion object\n")
+        codeBuilder.append("   companion object {\n")
+        codeBuilder.append("       const val Source = \"${declaration.packageName.asString().replace(".", "/")}/${declaration.jsName}.js\"\n")
+        codeBuilder.append("   }\n")
         codeBuilder.append("}\n")
         writeToFile(
             fileName = interfaceName,
@@ -52,6 +41,15 @@ class JsInterfaceBuilder(
             declaration = declaration,
             codeBuilder = codeBuilder
         )
+    }
+
+    private fun Resolver.checkDependencies() {
+        jsChainOperationDeclaration = loadClass(jsChainOperationName)
+        jsInvocationOperationDeclaration = loadClass(jsInvocationOperationName)
+        jsObjectDeclaration = loadClass(jsObjectName)
+        jsSyntaxDeclaration = loadClass(jsSyntaxName)
+        jsElementDeclaration = loadClass(jsElementName)
+        jsAccessOperationDeclaration = loadClass(jsAccessOperationName)
     }
 
     private fun StringBuilder.appendImports(declaration: KSClassDeclaration, resolver: Resolver) {
@@ -93,7 +91,11 @@ class JsInterfaceBuilder(
             }
         }
         declaration.typeParameters
-            .map { type -> type.bounds.toList().map { it.resolve().getAllTypes() } }.flatten().flatten().map { it.declaration.fullName }.forEach {
+            .map { type ->
+                type.bounds.toList().map {
+                    it.resolve().getAllTypes()
+                }
+            }.flatten().flatten().map { it.declaration.fullName }.forEach {
                 imports.add(it)
             }
         imports.remove("kotlin.Any")

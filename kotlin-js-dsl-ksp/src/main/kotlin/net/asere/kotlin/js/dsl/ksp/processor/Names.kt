@@ -1,6 +1,10 @@
 package net.asere.kotlin.js.dsl.ksp.processor
 
 const val jsClassAnnotationName = "net.asere.kotlin.js.dsl.ksp.annotation.JsClass"
+const val jsPropertyAnnotationName = "net.asere.kotlin.js.dsl.ksp.annotation.JsProperty"
+const val jsFunctionAnnotationName = "net.asere.kotlin.js.dsl.ksp.annotation.JsFunction"
+const val jsDslAnnotationName = "net.asere.kotlin.js.dsl.tag.JsDsl"
+const val jsConstructorAnnotationName = "net.asere.kotlin.js.dsl.ksp.annotation.JsConstructor"
 const val jsChainOperationName = "net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation"
 const val jsInvocationOperationName = "net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation"
 const val jsObjectName = "net.asere.kotlin.js.dsl.type.obj.JsObject"
@@ -16,3 +20,7 @@ const val jsInternalApiAnnotationName = "net.asere.kotlin.js.dsl.annotation.Inte
 const val jsProvideFunctionName = "net.asere.kotlin.js.dsl.provider.provide"
 const val jsDslLibName = "net.asere.kotlin.js.dsl.JsDslLib"
 const val jsRegisterFunctionName = "net.asere.kotlin.js.dsl.provider.register"
+const val jsDomJsTypeRegisterName = "net.asere.kotlin.js.dsl.dom.DomJsTypeRegister"
+const val jsBasicJsTypeRegisterName = "net.asere.kotlin.js.dsl.BasicJsTypeRegister"
+const val jsClassWriterName = "net.asere.kotlin.js.dsl.ksp.processor.writer.JsClassWriter"
+const val jsInitConfigName = "net.asere.kotlin.js.dsl.ksp.processor.model.JsInitConfig"

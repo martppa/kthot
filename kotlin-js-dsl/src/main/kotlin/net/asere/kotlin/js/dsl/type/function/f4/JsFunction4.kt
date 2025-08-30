@@ -8,7 +8,6 @@ import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.type.definition.JsDefinition
 import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.type.reference.ReferenceId
-import net.asere.kotlin.js.dsl.type.function.f4.JsFunction4Ref
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 /**

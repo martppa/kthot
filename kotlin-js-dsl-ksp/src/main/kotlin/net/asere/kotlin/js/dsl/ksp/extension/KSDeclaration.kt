@@ -16,6 +16,7 @@ import net.asere.kotlin.js.dsl.ksp.processor.jsElementName
 import kotlin.sequences.forEach
 
 val KSDeclaration.fullName: String get() = qualifiedName?.asString() ?: "Any"
+val KSDeclaration.fullJsName: String get() = "${packageName.asString()}.${jsName}"
 val KSDeclaration.name: String get() = simpleName.asString()
 
 fun KSDeclaration?.isJsElement(resolver: Resolver): Boolean {

@@ -1,0 +1,96 @@
+package net.asere.kotlin.js.dsl.ksp.processor.writer
+
+import com.google.devtools.ksp.isPrivate
+import com.google.devtools.ksp.processing.CodeGenerator
+import com.google.devtools.ksp.processing.Dependencies
+import com.google.devtools.ksp.processing.KSPLogger
+import com.google.devtools.ksp.processing.Resolver
+import com.google.devtools.ksp.symbol.KSClassDeclaration
+import net.asere.kotlin.js.dsl.ksp.extension.*
+import net.asere.kotlin.js.dsl.ksp.processor.CodeBuilder
+import net.asere.kotlin.js.dsl.ksp.processor.jsClassWriterName
+import net.asere.kotlin.js.dsl.ksp.processor.jsDslAnnotationName
+import net.asere.kotlin.js.dsl.ksp.processor.jsProvideFunctionName
+import net.asere.kotlin.js.dsl.ksp.processor.jsSyntaxName
+import java.io.OutputStreamWriter
+
+class JsClassWriterBuilder(
+    private val codeGenerator: CodeGenerator,
+    private val logger: KSPLogger
+) : CodeBuilder {
+
+    override fun build(resolver: Resolver, declaration: KSClassDeclaration) {
+        val writerName = "${declaration.jsName}Writer"
+        val packageName = declaration.packageName.asString()
+        val codeBuilder = StringBuilder()
+        if (packageName.isNotBlank()) {
+            codeBuilder.append("package $packageName\n\n")
+        }
+
+        val classWriter = resolver.loadClass(jsClassWriterName)
+        val jsDslAnnotation = resolver.loadClass(jsDslAnnotationName)
+
+        val imports = mutableSetOf<String>()
+
+        imports.add("import ${jsDslAnnotation.fullName}\n")
+        imports.add("import ${classWriter.fullName}\n")
+        imports.add("import ${declaration.packageName.asString()}.syntax\n")
+        declaration.findJsConstructors().firstOrNull()?.parameters?.forEach {
+            imports.add("import ${it.type.resolve().declaration.fullName}\n")
+        }
+        imports.add("import $jsProvideFunctionName\n")
+        imports.add("import $jsSyntaxName\n")
+
+        imports.forEach { codeBuilder.append(it) }
+        codeBuilder.append("\n")
+
+        codeBuilder.append("class $writerName(path: String) : ${classWriter.name}(path) {\n")
+        codeBuilder.append("\n")
+        codeBuilder.append("   override fun write() {\n")
+        codeBuilder.append("        val instance = ${declaration.name}(\n${
+            declaration.findJsConstructors().firstOrNull()?.parameters?.mapIndexed { index, item -> item.name?.asString() ?: "p$index" }?.joinToString { "            $it = provide(element = JsSyntax(\"$it\"), isNullable = false)\n" } ?: ""
+        }        )\n")
+        codeBuilder.append("        addClassHeader(\"${declaration.jsName}\")\n")
+        declaration.findJsConstructors().forEach {
+            codeBuilder.append("        addConstructor(${it.parameters.joinToString { param -> 
+                "\"${param.name?.asString() ?: "" }\""
+            }}, body = instance.constructorBody ?: JsSyntax(\"\"))\n")
+        }
+        declaration.findJsFunctions().forEach { function ->
+            codeBuilder.append("        addFunction(name = \"${function.name}\", parameters = listOf(${function.parameters.joinToString { param ->
+                "\"${param.name?.asString() ?: "" }\""
+            }}), body = instance.${function.name}(${function.parameters.mapIndexed { index, item -> item.name?.asString() ?: "p$index" }.joinToString { "            $it = provide(element = JsSyntax(\"$it\"), isNullable = false)\n" }}))\n")
+        }
+        codeBuilder.append("        finishClassDeclaration()\n")
+        codeBuilder.append("        writeToFile(\"${declaration.jsName}.js\", \"${declaration.packageName.asString()}\")\n")
+        codeBuilder.append("   }")
+        codeBuilder.append("\n")
+        codeBuilder.append("}")
+
+        codeBuilder.append("\n")
+        codeBuilder.append("@${jsDslAnnotation.name}\n")
+        codeBuilder.append("val ${declaration.name}.This get() = ${declaration.jsName}.syntax(\"this\")")
+
+        writeToFile(
+            fileName = writerName,
+            packageName = packageName,
+            declaration = declaration,
+            codeBuilder = codeBuilder
+        )
+    }
+
+    private fun writeToFile(
+        fileName: String,
+        packageName: String,
+        declaration: KSClassDeclaration,
+        codeBuilder: StringBuilder
+    ) {
+        val file = codeGenerator.createNewFile(
+            dependencies = Dependencies(false, declaration.containingFile!!),
+            packageName = packageName,
+            fileName = fileName,
+            extensionName = "kt"
+        )
+        OutputStreamWriter(file).use { it.write(codeBuilder.toString()) }
+    }
+}

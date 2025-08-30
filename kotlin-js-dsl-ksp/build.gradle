@@ -14,6 +14,7 @@ repositories {
 }
 
 dependencies {
+    implementation project(path: ':kotlin-js-dsl')
     implementation 'com.google.devtools.ksp:symbol-processing-api:2.2.0-2.0.2'
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }

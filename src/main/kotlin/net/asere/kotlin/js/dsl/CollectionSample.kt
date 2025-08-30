@@ -3,6 +3,7 @@ package net.asere.kotlin.js.dsl
 import net.asere.kotlin.js.dsl.declaration.Const
 import net.asere.kotlin.js.dsl.dom.type.Window
 import net.asere.kotlin.js.dsl.dom.type.screen.JsScreen
+import net.asere.kotlin.js.dsl.ksp.KotlinJs
 import net.asere.kotlin.js.dsl.log.Log
 import net.asere.kotlin.js.dsl.syntax.js
 import net.asere.kotlin.js.dsl.type.array.JsArray

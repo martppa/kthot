@@ -3,22 +3,31 @@ package net.asere.kotlin.js.dsl.ksp.extension
 import com.google.devtools.ksp.getVisibility
 import com.google.devtools.ksp.isConstructor
 import com.google.devtools.ksp.processing.Resolver
-import com.google.devtools.ksp.symbol.ClassKind
-import com.google.devtools.ksp.symbol.KSClassDeclaration
-import com.google.devtools.ksp.symbol.KSFunctionDeclaration
-import com.google.devtools.ksp.symbol.KSType
-import com.google.devtools.ksp.symbol.KSTypeArgument
-import com.google.devtools.ksp.symbol.Visibility
+import com.google.devtools.ksp.symbol.*
 import net.asere.kotlin.js.dsl.ksp.processor.jsClassAnnotationName
+import net.asere.kotlin.js.dsl.ksp.processor.jsConstructorAnnotationName
+import net.asere.kotlin.js.dsl.ksp.processor.jsFunctionAnnotationName
 import net.asere.kotlin.js.dsl.ksp.processor.jsNullableAnnotationName
+import net.asere.kotlin.js.dsl.ksp.processor.jsPropertyAnnotationName
 
 fun KSClassDeclaration.getJsAvailableFunctions(resolver: Resolver) = declarations
     .filterIsInstance<KSFunctionDeclaration>()
+    .filter {
+        annotations.find {
+            it.annotationType.resolve().declaration.qualifiedName?.asString() == jsFunctionAnnotationName
+        } != null
+    }
     .filter { it.getVisibility() == Visibility.PUBLIC }
     .filter { !it.isConstructor() }
     .filter { it.returnType?.resolve()?.declaration.isJsElement(resolver) }
 
 fun KSClassDeclaration.getJsAvailableProperties(resolver: Resolver) = getAllProperties()
+    .filter {
+        it.annotations.find { annotation ->
+            annotation.annotationType.resolve().declaration.qualifiedName?.asString() == jsPropertyAnnotationName
+        } != null
+    }
+    .apply { println(this.joinToString { it.name }) }
     .filter { it.getVisibility() == Visibility.PUBLIC && it.isJsElement(resolver) }
 
 val KSClassDeclaration.superTypeInterfaces: List<KSType>
@@ -102,3 +111,34 @@ val KSClassDeclaration.genericTypesString: String get() {
     if (genericTypes.isEmpty()) return ""
     return "<${genericTypes.joinToString()}>"
 }
+
+val KSClassDeclaration.constructors: List<KSFunctionDeclaration> get() {
+    return declarations
+        .filterIsInstance<KSFunctionDeclaration>()
+        .filter { it.simpleName.asString().isEmpty() }
+        .toList()
+}
+
+val KSClassDeclaration.properties: List<KSPropertyDeclaration> get() {
+    return declarations
+        .filterIsInstance<KSPropertyDeclaration>()
+        .toList()
+}
+
+fun KSClassDeclaration.findJsConstructors(): List<KSFunctionDeclaration> = declarations
+    .filterIsInstance<KSFunctionDeclaration>()
+    .filter { function ->
+        function.annotations.any { annotation ->
+            annotation.annotationType.resolve().declaration.qualifiedName?.asString() == jsConstructorAnnotationName
+        }
+    }
+    .toList()
+
+fun KSClassDeclaration.findJsFunctions(): List<KSFunctionDeclaration> = declarations
+    .filterIsInstance<KSFunctionDeclaration>()
+    .filter { function ->
+        function.annotations.any { annotation ->
+            annotation.annotationType.resolve().declaration.qualifiedName?.asString() == jsFunctionAnnotationName
+        }
+    }
+    .toList()

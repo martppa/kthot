@@ -5,12 +5,19 @@ import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import net.asere.kotlin.js.dsl.ksp.processor.jsClassAnnotationName
 
+fun Resolver.classExist(className: String): Boolean = getClassDeclarationByName(
+    name = getKSNameFromString(className)
+) != null
+
 fun Resolver.loadClass(className: String): KSClassDeclaration {
     val message = "class cannot be found. Have you included the dsl in your project dependencies?"
     return getClassDeclarationByName(
         name = getKSNameFromString(className)
     ) ?: throw IllegalStateException("$className $message")
 }
+
+fun Resolver.getClass(className: String): KSClassDeclaration? =
+    getClassDeclarationByName(name = getKSNameFromString(className))
 
 fun Resolver.loadFunction(functionName: String): Sequence<KSFunctionDeclaration> {
     val message = "function cannot be found. Have you included the dsl in your project dependencies?"

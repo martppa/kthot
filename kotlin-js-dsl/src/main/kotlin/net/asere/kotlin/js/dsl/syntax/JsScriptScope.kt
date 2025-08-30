@@ -84,6 +84,11 @@ abstract class JsScriptScope {
         return JsAssignationSyntax(innerObject, assignOperation)
     }
 
+    @JsDsl infix fun JsElement.assign(element: JsElement): AssignmentOperation = AssignmentOperation(
+        leftHand = this.toOperable(),
+        rightHand = element.toOperable()
+    )
+
      @JsDsl infix fun <T : JsReference<*>> JsResultSyntax<T>.assign(value: String) = assign(element = value.js)
      @JsDsl infix fun <T : JsReference<*>> JsResultSyntax<T>.assign(value: Number) = assign(element = value.js)
      @JsDsl infix fun <T : JsReference<*>> JsResultSyntax<T>.assign(value: Boolean) = assign(element = value.js)
@@ -91,6 +96,11 @@ abstract class JsScriptScope {
     private fun <T : JsReference<*>> JsAssignationSyntax<T>.render(): T {
         this@JsScriptScope.append(toLine())
         return innerObject
+    }
+
+    private  fun <T : JsElement> T.render(): T {
+        this@JsScriptScope.append(toLine())
+        return this
     }
 
     infix fun <T : JsReference<*>> JsResultSyntax<T>.`=`(
@@ -109,9 +119,9 @@ abstract class JsScriptScope {
         value: JsElement
     ): T = assign(element = value).render()
 
-    infix fun <T : JsReference<*>> JsResultSyntax<T>.`=`(
-        value: Operation
-    ): T = assign(element = value).render()
+    infix fun JsElement.`=`(
+        value: JsElement
+    ): AssignmentOperation = assign(element = value).render()
 }
 
 fun js(block: JsSyntaxScope.() -> Unit): JsSyntax {

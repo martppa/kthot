@@ -1,1 +1,1 @@
-net.asere.kotlin.js.dsl.ksp.processor.JsClassProcessorProvider
+net.asere.kotlin.js.dsl.ksp.processor.clazz.JsClassProcessorProvider
