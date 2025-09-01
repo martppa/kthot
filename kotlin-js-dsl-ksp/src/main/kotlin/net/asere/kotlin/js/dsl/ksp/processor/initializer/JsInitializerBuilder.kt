@@ -12,8 +12,8 @@ import net.asere.kotlin.js.dsl.ksp.extension.getClass
 import net.asere.kotlin.js.dsl.ksp.extension.jsName
 import net.asere.kotlin.js.dsl.ksp.extension.loadClass
 import net.asere.kotlin.js.dsl.ksp.extension.name
-import net.asere.kotlin.js.dsl.ksp.processor.jsBasicJsTypeRegisterName
-import net.asere.kotlin.js.dsl.ksp.processor.jsDomJsTypeRegisterName
+import net.asere.kotlin.js.dsl.ksp.processor.jsKotlinJslCoreName
+import net.asere.kotlin.js.dsl.ksp.processor.jsKotlinJslDomName
 import net.asere.kotlin.js.dsl.ksp.processor.jsInitConfigName
 import net.asere.kotlin.js.dsl.ksp.processor.jsRegisterFunctionName
 import java.io.OutputStreamWriter
@@ -26,7 +26,7 @@ class JsInitializerBuilder(
     fun build(
         resolver: Resolver,
     ) {
-        val className = "KotlinJs"
+        val className = "KotlinJsl"
         val packageName = "net.asere.kotlin.js.dsl.ksp"
         val codeBuilder = StringBuilder()
         codeBuilder.append("package $packageName\n\n")
@@ -40,8 +40,8 @@ class JsInitializerBuilder(
             imports.add("import ${it.packageName.asString()}.syntax\n")
         }
 
-        val domJsTypeRegister = resolver.getClass(jsDomJsTypeRegisterName)
-        val basicJsTypeRegister = resolver.loadClass(jsBasicJsTypeRegisterName)
+        val domJsTypeRegister = resolver.getClass(jsKotlinJslDomName)
+        val basicJsTypeRegister = resolver.loadClass(jsKotlinJslCoreName)
 
         domJsTypeRegister?.let {
             imports.add("import ${it.fullName}\n")
@@ -58,15 +58,15 @@ class JsInitializerBuilder(
         codeBuilder.append("import $jsInitConfigName\n")
         codeBuilder.append("import $jsRegisterFunctionName\n")
         codeBuilder.append("\n\n")
-        if (resolver.classExist(jsDomJsTypeRegisterName)) {
-            codeBuilder.append("object $className : ${resolver.loadClass(jsDomJsTypeRegisterName).jsName}() {\n")
+        if (resolver.classExist(jsKotlinJslDomName)) {
+            codeBuilder.append("object $className : ${resolver.loadClass(jsKotlinJslDomName).jsName}() {\n")
         } else {
-            codeBuilder.append("object $className : ${resolver.loadClass(jsBasicJsTypeRegisterName).jsName}() {\n")
+            codeBuilder.append("object $className : ${resolver.loadClass(jsKotlinJslCoreName).jsName}() {\n")
         }
         val config = resolver.loadClass(jsInitConfigName)
         codeBuilder.append("    private var config: ${config.name} = ${config.name}()\n")
         codeBuilder.append("\n")
-        codeBuilder.append("    fun setConfig(config: ${config.name}): KotlinJs {\n")
+        codeBuilder.append("    fun setConfig(config: ${config.name}): KotlinJsl {\n")
         codeBuilder.append("        this.config = config\n")
         codeBuilder.append("        return this\n")
         codeBuilder.append("    }\n")

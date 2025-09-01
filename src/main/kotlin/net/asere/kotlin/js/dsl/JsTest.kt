@@ -1,7 +1,7 @@
 package net.asere.kotlin.js.dsl
 
 import net.asere.kotlin.js.dsl.declaration.Const
-import net.asere.kotlin.js.dsl.ksp.KotlinJs
+import net.asere.kotlin.js.dsl.ksp.KotlinJsl
 import net.asere.kotlin.js.dsl.ksp.annotation.JsClass
 import net.asere.kotlin.js.dsl.ksp.annotation.JsConstructor
 import net.asere.kotlin.js.dsl.ksp.annotation.JsFunction
@@ -37,7 +37,7 @@ data class Test @JsConstructor constructor(
 }
 
 fun main() {
-    KotlinJs.initialize()
+    KotlinJsl.initialize()
     val syntax = js {
         val testObject = Const { JsTest.def("testObject") } assign JsTest.new(JsString.ref("value"))
         testObject

@@ -12,12 +12,16 @@ import net.asere.kotlin.js.dsl.type.obj.syntax
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.syntax
 
-open class BasicJsTypeRegister : JsDslLib {
+open class KotlinJslCore : JsDslLib {
     override fun initialize() {
         register(builder = JsString::syntax)
         register(builder = JsNumber::syntax)
         register(builder = JsBoolean::syntax)
         register(builder = JsError::syntax)
         register(builder = JsObject::syntax)
+    }
+
+    companion object {
+        fun initialize() = object : KotlinJslCore() {}.initialize()
     }
 }
