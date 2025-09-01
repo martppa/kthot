@@ -1,8 +1,8 @@
-# Kotlin Typesafe JS DSL ![](https://img.shields.io/badge/maven_central-0.1.1-004475)
-Typesafe JS DSL is intended to help kotlin developers write, reuse and interact with Javascript without [WASM](https://kotlinlang.org/docs/wasm-overview.html).
+# KotlinJSL ![](https://img.shields.io/badge/maven_central-0.1.1-004475)
+A typesafe Kotlin DSL for JavaScript. It's intended to help kotlin developers write, reuse and interact with Javascript without [WASM](https://kotlinlang.org/docs/wasm-overview.html).
 
 ## Motivation
-As Kotlin developers and users of [Kotlin Html Dsl](https://kotlinlang.org/docs/typesafe-html-dsl.html) we may want to write JS code while staying in Kotlin. This tool is meant for scripts, so, if what you are looking for is writing entire projects in JS using Kotlin, [WASM](https://kotlinlang.org/docs/wasm-overview.html) is your tool. This Dsl is currently under development, and it's in experimental stage.
+As Kotlin developers and users of [Kotlin Html Dsl](https://kotlinlang.org/docs/typesafe-html-dsl.html) we may want to write JavaScript code while staying in Kotlin. This tool is meant to generate JavaScript code whithin Kotlin. It's meant for scripts, so, if what you are looking for is writing entire projects in JavaScript using Kotlin, [WASM](https://kotlinlang.org/docs/wasm-overview.html) may be your tool. This DSL is currently under development and it's in experimental stage.
 
 > **Important:** This readme file does not cover the whole code, therefore, it might not explain every aspect of this DSL. If you find this repo interesting and wanna give it a try, please open an issue requesting the documentation.
 
@@ -178,9 +178,9 @@ You can use parenthesis to group expressions just like you would do it in Kotlin
 
 ```kotlin
 val syntax = js {
-    val bool0 = +JsBoolean.def().declare(Const).assign(5.js eq 5.js)
-    val bool1 = +JsBoolean.def().declare(Const).assign(false)
-    val bool2 = +JsBoolean.def().declare(Const).assign(true)
+    val bool0 = +JsBoolean.def().declare(Const).assignValue(5.js eq 5.js)
+    val bool1 = +JsBoolean.def().declare(Const).assignValue(false)
+    val bool2 = +JsBoolean.def().declare(Const).assignValue(true)
     +jsLog(bool1 and (bool2 or bool0))
 }
 println(syntax)
