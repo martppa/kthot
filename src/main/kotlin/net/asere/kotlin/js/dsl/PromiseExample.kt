@@ -18,7 +18,7 @@ import net.asere.kotlin.js.dsl.type.string.value
 fun main(vararg args: String) {
     val result = createHTML().body {
         jsScript {
-            val promise = Const { JsPromise.def<JsString>("promise") } `=` new {
+            val promise = Const { JsPromise.def<JsString>("promise") } assign new {
                 jsPromise(
                     lambda = jsLambda(
                         param1 = JsLambda1.def("onResolve"),

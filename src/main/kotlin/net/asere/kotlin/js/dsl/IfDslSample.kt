@@ -15,9 +15,9 @@ import net.asere.kotlin.js.dsl.type.bool.def
 fun main(vararg args: String) {
     val result = createHTML().body {
         jsScript {
-            val bool0 = Const { JsBoolean.def() } `=` true
-            val bool1 = Const { JsBoolean.def() } `=` false
-            val bool2 = Const { JsBoolean.def() } `=` true
+            val bool0 = Const { JsBoolean.def() } assign true
+            val bool1 = Const { JsBoolean.def() } assign false
+            val bool2 = Const { JsBoolean.def() } assign true
 
             +jsIf((!bool0 and bool1) or (bool1 and bool2)) {
                 Log("and!")

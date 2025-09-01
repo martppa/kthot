@@ -12,17 +12,17 @@ import net.asere.kotlin.js.dsl.type.number.js
 
 fun main(vararg args: String) {
     var syntax = js {
-        val bool0 = +JsBoolean.def().declare(Const).assign(true)
-        val bool1 = +JsBoolean.def().declare(Const).assign(false)
-        val result = +JsBoolean.def("result").declare(Const).assign(bool0 and bool1)
+        val bool0 = +JsBoolean.def().declare(Const).assignValue(true)
+        val bool1 = +JsBoolean.def().declare(Const).assignValue(false)
+        val result = +JsBoolean.def("result").declare(Const).assignValue(bool0 and bool1)
         Log(result)
     }
     println(syntax)
 
     syntax = js {
-        val bool0 = +JsBoolean.def().declare(Const).assign(5.js eq 5.js)
-        val bool1 = +JsBoolean.def().declare(Const).assign(false)
-        val bool2 = +JsBoolean.def().declare(Const).assign(true)
+        val bool0 = +JsBoolean.def().declare(Const).assignValue(5.js eq 5.js)
+        val bool1 = +JsBoolean.def().declare(Const).assignValue(false)
+        val bool2 = +JsBoolean.def().declare(Const).assignValue(true)
         Log(bool1 and (bool2 or bool0))
     }
     println(syntax)

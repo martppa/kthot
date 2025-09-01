@@ -13,7 +13,7 @@ import net.asere.kotlin.js.dsl.type.array.value
 fun main() {
     KotlinJs.initialize()
     val syntax = js {
-        val array = Const { JsArray.def<JsScreen>("array") } `=` JsArray.value(Window.screen)
+        val array = Const { JsArray.def<JsScreen>("array") } assign JsArray.value(Window.screen)
         Log("Screen height: ${array[0].height}")
     }
     println(syntax)

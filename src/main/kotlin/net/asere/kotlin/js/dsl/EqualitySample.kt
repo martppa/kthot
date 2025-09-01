@@ -10,7 +10,7 @@ import net.asere.kotlin.js.dsl.type.number.js
 
 fun main(vararg args: String) {
     val syntax = js {
-        val result = +JsBoolean.def("result").declare(Const).assign(5.js eq 5.js)
+        val result = +JsBoolean.def("result").declare(Const).assignValue(5.js eq 5.js)
         +Console.log(result)
     }
     println(syntax)

@@ -15,7 +15,7 @@ import net.asere.kotlin.js.dsl.type.number.js
 fun main(vararg args: String) {
     val result = createHTML().body {
         jsScript {
-            val counter = Let { JsNumber.def("counter") } `=` 0
+            val counter = Let { JsNumber.def("counter") } assign 0
             While(counter lt 5.js) {
                 +counter.postInc()
                 Log(counter)

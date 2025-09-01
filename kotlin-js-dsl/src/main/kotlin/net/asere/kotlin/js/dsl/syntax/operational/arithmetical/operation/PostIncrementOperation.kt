@@ -12,8 +12,6 @@ class PostIncrementOperation(
     override val rightSideElement: JsElement = Increment
 }
 
-val JsNumber.`++` get() = postInc()
-
 fun JsNumber.postInc(): PostIncrementOperation = PostIncrementOperation(
     number = this
 )

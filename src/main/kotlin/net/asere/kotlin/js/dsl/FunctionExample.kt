@@ -20,8 +20,8 @@ fun main(vararg args: String) {
             }
             +simpleFunction()
 
-            val word1 = Const { JsString.def("word1") } `=` "Hello ".js
-            val word2 = Const { JsString.def("word2") } `=` "World".js
+            val word1 = Const { JsString.def("word1") } assign "Hello ".js
+            val word2 = Const { JsString.def("word2") } assign "World".js
             val greet = Function(name = "greet", JsString.def(), JsString.def()) { pWord1, pWord2 ->
                 Log(pWord1 + pWord2)
             }

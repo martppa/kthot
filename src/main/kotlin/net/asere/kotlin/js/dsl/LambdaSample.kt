@@ -27,7 +27,7 @@ import net.asere.kotlin.js.dsl.type.lambda.l1.jsLambda
 fun main(vararg args: String) {
     val result = createHTML().body {
         jsScript {
-            val sum = Const { JsLambda2.def<JsNumber, JsNumber>() } `=` jsLambda(
+            val sum = Const { JsLambda2.def<JsNumber, JsNumber>() } assign jsLambda(
                 JsString.def("first"),
                 JsString.def("second")
             ) { first, second ->
@@ -42,13 +42,13 @@ fun main(vararg args: String) {
                 Log("Event emitted by".js + it)
             })
 
-            val printItem = Const { JsLambda1.def<JsNumber>("printItem") } `=` jsLambda(
+            val printItem = Const { JsLambda1.def<JsNumber>("printItem") } assign jsLambda(
                 JsString.def("item"),
             ) { item ->
                 Log(item)
             }
             val numberCollection =
-                Const { JsArray.def<JsNumber>(name = "numberCollection", typeBuilder = JsNumber::syntax) } `=` JsArray.value(100.js, 200.js, 300.js)
+                Const { JsArray.def<JsNumber>(name = "numberCollection", typeBuilder = JsNumber::syntax) } assign JsArray.value(100.js, 200.js, 300.js)
             +numberCollection.forEach(printItem)
         }
     }

@@ -1,48 +1,46 @@
 package net.asere.kotlin.js.dsl
 
-import net.asere.kotlin.js.dsl.dom.type.obj.JsDomObject
+import net.asere.kotlin.js.dsl.declaration.Const
+import net.asere.kotlin.js.dsl.ksp.KotlinJs
 import net.asere.kotlin.js.dsl.ksp.annotation.JsClass
-import net.asere.kotlin.js.dsl.ksp.annotation.JsNullable
-import net.asere.kotlin.js.dsl.log.Log
+import net.asere.kotlin.js.dsl.ksp.annotation.JsConstructor
+import net.asere.kotlin.js.dsl.ksp.annotation.JsFunction
+import net.asere.kotlin.js.dsl.ksp.annotation.JsProperty
+import net.asere.kotlin.js.dsl.ksp.js.Super
+import net.asere.kotlin.js.dsl.ksp.processor.js.JavaScriptClass
 import net.asere.kotlin.js.dsl.syntax.js
-import net.asere.kotlin.js.dsl.type.JsElement
-import net.asere.kotlin.js.dsl.type.array.JsArray
 import net.asere.kotlin.js.dsl.type.number.JsNumber
-import net.asere.kotlin.js.dsl.type.obj.JsObject
+import net.asere.kotlin.js.dsl.type.number.ref
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.ref
-import net.asere.kotlin.js.dsl.type.string.syntax
-
-@JsClass(name = "Test")
-abstract class JsTest<T, P, ParameterElement, ParameterQuoco> where P : List<String>, P : JsElement, ParameterElement : JsArray<JsString>, ParameterQuoco : JsArray<JsNumber> {
-    val a: JsString = JsString.ref()
-    val b: Int = 5
-    abstract val q: ParameterElement
-    abstract val c: ParameterQuoco
-    @JsNullable
-    abstract val list: JsArray<ParameterElement>
-    fun getString(number: JsNumber, dom: JsDomObject): JsString = JsString.syntax(value = js {
-        Log(number)
-    })
-
-    fun lol(): String = ""
-}
-
-@JsClass()
-abstract class NestedClass<T : JsNumber> : JsObject {
-    val number: T get() = TODO()
-}
-
-@JsClass()
-class Request<T : JsNumber, P : JsArray<JsString>, Q : JsNumber> {
-    val obj: T get() = throw IllegalStateException()
-    val array: JsArray<P> get() = throw IllegalStateException()
-    val numberArray: JsArray<Q> get() = throw IllegalStateException()
-    fun getNested(number: JsNumber): JsNestedClass<T> = TODO()
-}
 
 @JsClass
-class NoParaClass
+data class Test @JsConstructor constructor(
+    @JsProperty
+    val property: JsString = JsString.ref("property")
+) : JavaScriptClass() {
 
-@JsClass
-class NoParaClass2
+    @JsProperty
+    val number: JsNumber = JsNumber.ref("number")
+
+    init {
+        Constructor {
+            Super(number)
+            This.property assign property
+        }
+    }
+
+    @JsFunction
+    fun function1(value: JsNumber) = js {
+        This.property assign value
+    }
+}
+
+fun main() {
+    KotlinJs.initialize()
+    val syntax = js {
+        val testObject = Const { JsTest.def("testObject") } assign JsTest.new(JsString.ref("value"))
+        testObject
+    }
+    println(syntax)
+}

@@ -28,15 +28,15 @@ import net.asere.kotlin.js.dsl.type.lambda.l1.jsLambda
 fun main(vararg args: String) {
     val result = createHTML().body {
         jsScript {
-            val collection = Const { JsArray.def<JsNumber>() } `=` JsArray.value(0.js, 1.js, 2.js, 3.js)
-            For ({ Let { JsNumber.def("i") } `=` 0 }, { it lt collection.getLength() }, { it.postInc() }) {
+            val collection = Const { JsArray.def<JsNumber>() } assign JsArray.value(0.js, 1.js, 2.js, 3.js)
+            For ({ Let { JsNumber.def("i") } assign 0 }, { it lt collection.getLength() }, { it.postInc() }) {
                 Log(it)
                 If (it lt 2) {
                     Break
                 }
             }
 
-            val obj = Const { JsObject.def("obj") } `=` JsSyntax("{ a: 5 }")
+            val obj = Const { JsObject.def("obj") } assign JsSyntax("{ a: 5 }")
             For ({ Const { JsObject.def("key") } }, obj) {
                 Log(obj[it])
             }

@@ -10,7 +10,7 @@ import net.asere.kotlin.js.dsl.type.bool.js
 
 fun main(vararg args: String) {
     val syntax = js {
-        val result = +JsBoolean.def("logical").declare(Const).assign(true.js or false.js)
+        val result = +JsBoolean.def("logical").declare(Const).assignValue(true.js or false.js)
         Log(result)
     }
     println(syntax)
