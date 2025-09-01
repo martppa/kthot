@@ -108,8 +108,12 @@ class JsSyntaxBuilder(
                 codeBuilder.append(it)
             }
         }
-
         codeBuilder.append(")\n")
+        codeBuilder.append("\n")
+        declaration.findJsConstructors().firstOrNull()?.let { constructor ->
+            codeBuilder.append("fun ${declaration.jsName}${declaration.genericTypesString}.Companion.new(${
+                constructor.parametersDefinitionString}): ${declaration.jsName}${declaration.genericTypesDeclarationString()} = ${declaration.jsName}${declaration.genericTypesDeclarationString()}.syntax(provide<${declaration.jsName}>(element = JsSyntax(\"new ${declaration.jsName}(${constructor.parametersNames.joinToString { "$$it" }})\"), isNullable = false))")
+        }
 
         writeToFile(
             fileName = className,
@@ -125,6 +129,7 @@ class JsSyntaxBuilder(
         imports.add(resolver.loadClass(jsReferenceSyntaxName).fullName)
         imports.add(resolver.loadClass(jsInternalApiAnnotationName).fullName)
         imports.add(resolver.loadClass(jsElementName).fullName)
+        imports.add(resolver.loadClass(jsSyntaxName).fullName)
         imports.add(jsProvideFunctionName)
         declaration.typeParameters.forEach { parameter ->
             parameter.bounds.map { type ->
@@ -132,6 +137,11 @@ class JsSyntaxBuilder(
                 type.resolve().getAllTypes()
             }.flatten().forEach {
                 imports.add(it.declaration.fullName)
+            }
+        }
+        declaration.findJsConstructors().forEach { constructor ->
+            constructor.parameters.forEach { parameter ->
+                imports.add(parameter.type.resolve().declaration.fullJsName)
             }
         }
         imports.remove("kotlin.Any")

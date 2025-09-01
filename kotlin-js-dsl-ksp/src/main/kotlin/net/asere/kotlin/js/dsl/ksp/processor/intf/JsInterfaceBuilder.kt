@@ -30,10 +30,7 @@ class JsInterfaceBuilder(
         codeBuilder.append("interface ${declaration.getDeclaration(interfaceName)} {\n")
         codeBuilder.appendProperties(declaration, resolver)
         codeBuilder.appendMethods(declaration, resolver)
-        codeBuilder.append("\n")
-        codeBuilder.append("   companion object {\n")
-        codeBuilder.append("       const val Source = \"${declaration.packageName.asString().replace(".", "/")}/${declaration.jsName}.js\"\n")
-        codeBuilder.append("   }\n")
+        codeBuilder.appendCompanion(declaration)
         codeBuilder.append("}\n")
         writeToFile(
             fileName = interfaceName,
@@ -41,6 +38,13 @@ class JsInterfaceBuilder(
             declaration = declaration,
             codeBuilder = codeBuilder
         )
+    }
+
+    private fun StringBuilder.appendCompanion(declaration: KSClassDeclaration) {
+        append("\n")
+        append("   companion object {\n")
+        append("       const val Source = \"${declaration.packageName.asString().replace(".", "/")}/${declaration.jsName}.js\"\n")
+        append("   }\n")
     }
 
     private fun Resolver.checkDependencies() {
@@ -63,6 +67,11 @@ class JsInterfaceBuilder(
         }
         declaration.superTypeInterfaces.forEach { type ->
             imports.addAll(type.getAllTypes().map { it.declaration.fullName })
+        }
+        declaration.constructors.forEach { constructor ->
+            constructor.parameters.forEach { parameter ->
+                imports.add(parameter.type.resolve().declaration.fullName)
+            }
         }
         declaration.getJsAvailableProperties(resolver)
             .filter { it.type.resolve().declaration !is KSTypeParameter }
