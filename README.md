@@ -1,5 +1,7 @@
 # KotlinJSL ![](https://img.shields.io/badge/maven_central-0.1.1-004475)
-A typesafe Kotlin DSL for JavaScript. It's intended to help kotlin developers write, reuse and interact with Javascript without [WASM](https://kotlinlang.org/docs/wasm-overview.html).
+A typesafe Kotlin DSL for JavaScript. Write, reuse and interact with Javascript without [WASM](https://kotlinlang.org/docs/wasm-overview.html).
+
+<img width="819" height="260" alt="Gemini_Generated_Image_9dyhip9dyhip9dyh_cropped-2" src="https://github.com/user-attachments/assets/b08775fa-af73-4842-845c-29cb8e419074" />
 
 ## Motivation
 As Kotlin developers and users of [Kotlin Html Dsl](https://kotlinlang.org/docs/typesafe-html-dsl.html) we may want to write JavaScript code while staying in Kotlin. This tool is meant to generate JavaScript code whithin Kotlin. It's meant for scripts, so, if what you are looking for is writing entire projects in JavaScript using Kotlin, [WASM](https://kotlinlang.org/docs/wasm-overview.html) may be your tool. This DSL is currently under development and it's in experimental stage.
