@@ -1,4 +1,4 @@
-# KotlinJSL ![](https://img.shields.io/badge/maven_central-0.1.1-004475)
+# KotlinJSL ![](https://img.shields.io/badge/maven_central-0.1.2-004475)
 A typesafe Kotlin DSL for JavaScript. It's intended to help kotlin developers write, reuse and interact with Javascript without [WASM](https://kotlinlang.org/docs/wasm-overview.html).
 
 ## Motivation
