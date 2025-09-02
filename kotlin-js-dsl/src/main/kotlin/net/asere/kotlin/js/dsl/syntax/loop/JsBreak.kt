@@ -1,12 +1,12 @@
 package net.asere.kotlin.js.dsl.syntax.loop
 
-import net.asere.kotlin.js.dsl.syntax.JsScriptScope
+import net.asere.kotlin.js.dsl.syntax.JsScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.tag.JsDsl
 
 /**
  * Represents a JavaScript `break` statement.
- * This is a DSL extension property for [JsScriptScope], allowing you to insert a `break` statement
+ * This is a DSL extension property for [JsScope], allowing you to insert a `break` statement
  * directly within a loop or `switch` statement.
  *
  * In JavaScript, this corresponds to:
@@ -15,10 +15,10 @@ import net.asere.kotlin.js.dsl.tag.JsDsl
  * ```
  * When executed, it terminates the current loop, `switch`, or `label` statement and transfers
  * control to the statement immediately following the terminated statement.
- * @receiver The [JsScriptScope] where the `break` statement is being used.
+ * @receiver The [JsScope] where the `break` statement is being used.
  */
 @JsDsl
-val JsScriptScope.Break get() = +jsBreak()
+val JsScope.Break get() = +jsBreak()
 
 /**
  * Creates a JavaScript `break` statement syntax.

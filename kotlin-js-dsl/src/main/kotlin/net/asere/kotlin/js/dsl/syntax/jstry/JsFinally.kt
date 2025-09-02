@@ -1,7 +1,7 @@
 package net.asere.kotlin.js.dsl.syntax.jstry
 
 import net.asere.kotlin.js.dsl.type.JsElement
-import net.asere.kotlin.js.dsl.syntax.JsScriptScope
+import net.asere.kotlin.js.dsl.syntax.JsScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.tag.JsDsl
 
@@ -23,13 +23,13 @@ open class JsFinallySyntax internal constructor(value: JsElement? = null) : JsCa
  * }
  * ```
  * @receiver The [JsCatchSyntax] (or [JsTrySyntax]) object representing the preceding `try` or `catch` block.
- * @param block A lambda with receiver [JsScriptScope] to define the JavaScript code that
+ * @param block A lambda with receiver [JsScope] to define the JavaScript code that
  * will always be executed after the `try` and `catch` blocks complete.
  * @return A [JsFinallySyntax] object, which represents the completed `try...catch...finally` structure.
  */
 @JsDsl
-fun JsScriptScope.Finally(
-    block: JsScriptScope.() -> Unit
+fun JsScope.Finally(
+    block: JsScope.() -> Unit
 ) = +JsFinallySyntax().jsFinally(block)
 
 /**
@@ -37,12 +37,12 @@ fun JsScriptScope.Finally(
  * This internal function is used by the [Finally] DSL extension.
  *
  * @receiver The [JsTrySyntax] (or [JsCatchSyntax]) object to which the `finally` block is being appended.
- * @param block A lambda with receiver [JsScriptScope] to define the JavaScript code inside the `finally` block.
+ * @param block A lambda with receiver [JsScope] to define the JavaScript code inside the `finally` block.
  * @return A [JsFinallySyntax] object representing the combined conditional structure.
  * @see JsFinally
  */
 fun JsTrySyntax.jsFinally(
-    block: JsScriptScope.() -> Unit
+    block: JsScope.() -> Unit
 ): JsCatchSyntax = JsFinallySyntax(
     this + JsFinally(
         block = block
@@ -50,7 +50,7 @@ fun JsTrySyntax.jsFinally(
 )
 
 internal class JsFinally(
-    private val block: JsScriptScope.() -> Unit
+    private val block: JsScope.() -> Unit
 ) : JsCatchSyntax() {
 
     override val value: String get() {

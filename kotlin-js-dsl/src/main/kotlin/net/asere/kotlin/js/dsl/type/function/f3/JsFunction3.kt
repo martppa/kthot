@@ -2,18 +2,17 @@
 
 package net.asere.kotlin.js.dsl.type.function.f3
 
-import net.asere.kotlin.js.dsl.syntax.JsScriptScope
+import net.asere.kotlin.js.dsl.syntax.JsScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.type.definition.JsDefinition
 import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.type.reference.ReferenceId
-import net.asere.kotlin.js.dsl.type.function.f3.JsFunction3Ref
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 /**
  * Defines a JavaScript function that takes three parameters.
- * This is a DSL extension function for [JsScriptScope], allowing you to declare and define
+ * This is a DSL extension function for [JsScope], allowing you to declare and define
  * a new JavaScript function with three arguments.
  *
  * In JavaScript, this corresponds to:
@@ -22,7 +21,7 @@ import net.asere.kotlin.js.dsl.type.value.JsValue
  * // ... function body ...
  * }
  * ```
- * @receiver The [JsScriptScope] where the function is being defined.
+ * @receiver The [JsScope] where the function is being defined.
  * @param Param1Ref The type of the [JsReference] for the first parameter.
  * @param Param1 The type of the first parameter's value.
  * @param Param2Ref The type of the [JsReference] for the second parameter.
@@ -40,7 +39,7 @@ import net.asere.kotlin.js.dsl.type.value.JsValue
 fun <
         Param1Ref: JsReference<Param1>, Param1 : JsValue,
         Param2Ref: JsReference<Param2>, Param2 : JsValue,
-        Param3Ref: JsReference<Param3>, Param3 : JsValue> JsScriptScope.Function(
+        Param3Ref: JsReference<Param3>, Param3 : JsValue> JsScope.Function(
     name: String = "function_${ReferenceId.nextRefInt()}",
     param1: JsDefinition<Param1Ref, Param1>,
     param2: JsDefinition<Param2Ref, Param2>,

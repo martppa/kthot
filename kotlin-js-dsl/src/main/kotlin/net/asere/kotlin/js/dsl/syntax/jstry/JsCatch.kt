@@ -1,7 +1,7 @@
 package net.asere.kotlin.js.dsl.syntax.jstry
 
 import net.asere.kotlin.js.dsl.type.JsElement
-import net.asere.kotlin.js.dsl.syntax.JsScriptScope
+import net.asere.kotlin.js.dsl.syntax.JsScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.type.definition.JsDefinition
@@ -26,14 +26,14 @@ open class JsCatchSyntax internal constructor(value: JsElement? = null) : JsTryS
  * @receiver The [JsTrySyntax] object to which the `catch` block is being appended.
  * @param error A [JsDefinition] that provides the reference ([JsError]) for the error variable
  * to be used in the `catch` block (e.g., `error`).
- * @param block A lambda with receiver [JsScriptScope] and a [JsError] parameter,
+ * @param block A lambda with receiver [JsScope] and a [JsError] parameter,
  * to define the JavaScript code that will be executed if an error occurs.
  * @return A [JsCatchSyntax] object representing the combined `try...catch` structure.
  * @see JsCatch
  */
 fun JsTrySyntax.jsCatch(
     error: JsDefinition<JsErrorRef, JsError>,
-    block: JsScriptScope.(JsError) -> Unit
+    block: JsScope.(JsError) -> Unit
 ): JsCatchSyntax = JsCatchSyntax(
     this + JsCatch(
         error = error.reference,
@@ -56,19 +56,19 @@ fun JsTrySyntax.jsCatch(
  * ```
  * @receiver The [JsTrySyntax] object representing the preceding `try` block.
  * @param error The [JsDefinition] that provides the reference for the error variable.
- * @param block A lambda with receiver [JsScriptScope] and a [JsError] parameter,
+ * @param block A lambda with receiver [JsScope] and a [JsError] parameter,
  * to define the JavaScript code that will be executed if an error occurs.
  * @return A [JsCatchSyntax] object representing the combined `try...catch` structure.
  */
 @JsDsl
-fun JsScriptScope.Catch(
+fun JsScope.Catch(
     error: JsDefinition<JsErrorRef, JsError>,
-    block: JsScriptScope.(JsError) -> Unit
+    block: JsScope.(JsError) -> Unit
 ) = +JsCatchSyntax().jsCatch(error, block)
 
 internal class JsCatch(
     private val error: JsError,
-    private val block: JsScriptScope.(JsError) -> Unit
+    private val block: JsScope.(JsError) -> Unit
 ) : JsCatchSyntax() {
 
     override val value: String get() {

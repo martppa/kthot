@@ -1,6 +1,6 @@
 package net.asere.kotlin.js.dsl.syntax.loop.jswhile
 
-import net.asere.kotlin.js.dsl.syntax.JsScriptScope
+import net.asere.kotlin.js.dsl.syntax.JsScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.syntax.loop.JsLoopSyntax
 import net.asere.kotlin.js.dsl.syntax.operational.Operable
@@ -10,7 +10,7 @@ class JsDoWhileSyntax(value: String) : JsLoopSyntax(value)
 
 /**
  * Creates a JavaScript `do...while` loop.
- * This is a DSL extension function for [JsScriptScope], allowing you to define a loop that
+ * This is a DSL extension function for [JsScope], allowing you to define a loop that
  * executes its block at least once, and then repeatedly as long as the condition is true.
  *
  * In JavaScript, this corresponds to:
@@ -19,12 +19,12 @@ class JsDoWhileSyntax(value: String) : JsLoopSyntax(value)
  * // ... block content ...
  * } while (condition);
  * ```
- * @receiver The [JsScriptScope] where the `do...while` loop is being defined.
+ * @receiver The [JsScope] where the `do...while` loop is being defined.
  * @param comparable The condition for the `while` part of the loop, which must be an [Operable] expression that evaluates to a boolean in JavaScript.
  * @param block A lambda with receiver [JsSyntaxScope] to define the JavaScript code inside the loop body.
  */
 @JsDsl
-fun JsScriptScope.DoWhile(
+fun JsScope.DoWhile(
     comparable: Operable,
     block: JsSyntaxScope.() -> Unit
 ) = +jsDoWhile(

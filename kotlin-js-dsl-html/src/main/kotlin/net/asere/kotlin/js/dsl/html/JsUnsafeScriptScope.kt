@@ -1,12 +1,12 @@
 package net.asere.kotlin.js.dsl.html
 
 import kotlinx.html.*
-import net.asere.kotlin.js.dsl.syntax.JsScriptScope
+import net.asere.kotlin.js.dsl.syntax.JsScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 
 open class JsUnsafeScriptScope(
     private val unsafe: Unsafe
-) : JsScriptScope() {
+) : JsScope() {
 
     override fun append(syntax: JsSyntax) {
         unsafe.raw(syntax.present())

@@ -2,7 +2,7 @@ package net.asere.kotlin.js.dsl.declaration
 
 import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.syntax.JsDeclarationSyntax
-import net.asere.kotlin.js.dsl.syntax.JsScriptScope
+import net.asere.kotlin.js.dsl.syntax.JsScope
 import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.type.definition.JsDefinition
 import net.asere.kotlin.js.dsl.type.value.JsValue
@@ -12,5 +12,5 @@ class JsConstantDeclaration(
 ) : JsDeclaration("const $jsObject")
 
 @JsDsl
-fun <T : JsDefinition<C, Q>, C : JsReference<Q>, Q : JsValue> JsScriptScope.Const(block: () -> T): JsDeclarationSyntax<C> =
+fun <T : JsDefinition<C, Q>, C : JsReference<Q>, Q : JsValue> JsScope.Const(block: () -> T): JsDeclarationSyntax<C> =
     block().declare(Const)

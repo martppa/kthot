@@ -9,7 +9,7 @@ class JsWhileSyntax(value: String) : JsLoopSyntax(value)
 
 /**
  * Creates a JavaScript `while` loop.
- * This is a DSL extension function for [JsScriptScope], allowing you to define a loop that
+ * This is a DSL extension function for [JsScope], allowing you to define a loop that
  * repeatedly executes its block as long as the condition is true.
  *
  * In JavaScript, this corresponds to:
@@ -18,12 +18,12 @@ class JsWhileSyntax(value: String) : JsLoopSyntax(value)
  * // ... block content ...
  * }
  * ```
- * @receiver The [JsScriptScope] where the `while` loop is being defined.
+ * @receiver The [JsScope] where the `while` loop is being defined.
  * @param comparable The condition for the `while` loop, which must be an [Operable] expression that evaluates to a boolean in JavaScript.
  * @param block A lambda with receiver [JsSyntaxScope] to define the JavaScript code inside the loop body.
  */
 @JsDsl
-fun JsScriptScope.While(
+fun JsScope.While(
     comparable: Operable,
     block: JsSyntaxScope.() -> Unit
 ) = +jsWhile(

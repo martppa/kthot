@@ -1,13 +1,13 @@
 package net.asere.kotlin.js.dsl.syntax.jswitch
 
-import net.asere.kotlin.js.dsl.syntax.JsScriptScope
+import net.asere.kotlin.js.dsl.syntax.JsScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operational.Operable
 import net.asere.kotlin.js.dsl.tag.JsDsl
 
 /**
  * Starts a `switch` block in JavaScript.
- * This is a DSL extension function for [JsScriptScope], allowing you to write
+ * This is a DSL extension function for [JsScope], allowing you to write
  * `Switch(expression) { ... }` directly within a script scope.
  *
  * In JavaScript, this corresponds to:
@@ -16,14 +16,14 @@ import net.asere.kotlin.js.dsl.tag.JsDsl
  * // ... block content ...
  * }
  * ```
- * @receiver The [JsScriptScope] where the `switch` block is being defined.
+ * @receiver The [JsScope] where the `switch` block is being defined.
  * @param operable The expression for the `switch` statement, which must be an [Operable]
  * expression that will be compared against `case` values.
  * @param block A lambda with receiver [JsSwitchScope] to define the `case` and `default`
  * statements inside the `switch` block.
  */
 @JsDsl
-fun JsScriptScope.Switch(
+fun JsScope.Switch(
     operable: Operable,
     block: JsSwitchScope.() -> Unit
 ) = +jsSwitch(

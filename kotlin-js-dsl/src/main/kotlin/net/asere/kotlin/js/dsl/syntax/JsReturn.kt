@@ -5,18 +5,18 @@ import net.asere.kotlin.js.dsl.tag.JsDsl
 
 /**
  * Represents a JavaScript `return` statement with a value.
- * This is a DSL extension function for [JsScriptScope], allowing you to return a value
+ * This is a DSL extension function for [JsScope], allowing you to return a value
  * from the current function.
  *
  * In JavaScript, this corresponds to:
  * ```javascript
  * return element;
  * ```
- * @receiver The [JsScriptScope] where the `return` statement is being used.
+ * @receiver The [JsScope] where the `return` statement is being used.
  * @param element The [JsElement] (or any [JsValue]) to be returned from the function.
  */
 @JsDsl
-fun JsScriptScope.Return(element: JsElement) = +jsReturn(element)
+fun JsScope.Return(element: JsElement) = +jsReturn(element)
 
 /**
  * Creates a JavaScript `return` statement syntax with a value.

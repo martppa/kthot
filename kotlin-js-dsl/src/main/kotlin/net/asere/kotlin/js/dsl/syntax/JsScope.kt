@@ -20,7 +20,7 @@ import net.asere.kotlin.js.dsl.type.string.js
 import net.asere.kotlin.js.dsl.type.value.JsValue
 import net.asere.kotlin.js.dsl.type.lambda.JsLambdaValueCommons
 
-abstract class JsScriptScope {
+abstract class JsScope {
 
     abstract fun append(syntax: JsSyntax)
 
@@ -45,19 +45,19 @@ abstract class JsScriptScope {
     operator fun String.unaryPlus() = append(JsLine(this))
 
     operator fun <T : JsReference<*>> JsSyntaxBuilder<T>.unaryPlus(): T {
-        this@JsScriptScope.append(toLine())
+        this@JsScope.append(toLine())
         return innerObject
     }
 
     operator fun JsFunction0.unaryPlus(): JsFunctionRef {
         val builder = buildSyntax()
-        this@JsScriptScope.append(builder.toSyntax())
+        this@JsScope.append(builder.toSyntax())
         return builder.innerObject
     }
 
     operator fun <T : JsFunctionRefCommons> JsFunctionCommons<T>.unaryPlus(): T {
         val builder = buildSyntax()
-        this@JsScriptScope.append(builder.toLine())
+        this@JsScope.append(builder.toLine())
         return builder.innerObject
     }
 
@@ -93,12 +93,12 @@ abstract class JsScriptScope {
      fun <T : JsReference<*>> JsResultSyntax<T>.assignValue(value: Boolean) = assignValue(element = value.js)
 
     private fun <T : JsReference<*>> JsAssignationSyntax<T>.render(): T {
-        this@JsScriptScope.append(toLine())
+        this@JsScope.append(toLine())
         return innerObject
     }
 
     private  fun <T : JsElement> T.render(): T {
-        this@JsScriptScope.append(toLine())
+        this@JsScope.append(toLine())
         return this
     }
 

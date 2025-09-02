@@ -2,7 +2,7 @@ package net.asere.kotlin.js.dsl.syntax.loop.jsfor
 
 import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.syntax.JsDeclarationSyntax
-import net.asere.kotlin.js.dsl.syntax.JsScriptScope
+import net.asere.kotlin.js.dsl.syntax.JsScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.syntax.loop.JsLoopSyntax
 import net.asere.kotlin.js.dsl.syntax.operational.Operation
@@ -16,7 +16,7 @@ class JsForSyntax(value: String) : JsLoopSyntax(value)
 
 /**
  * Creates a traditional JavaScript `for` loop.
- * This is a DSL extension function for [JsScriptScope], allowing you to define a `for` loop with
+ * This is a DSL extension function for [JsScope], allowing you to define a `for` loop with
  * initialization, condition, and iteration expressions.
  *
  * In JavaScript, this corresponds to:
@@ -25,7 +25,7 @@ class JsForSyntax(value: String) : JsLoopSyntax(value)
  * // ... block content ...
  * }
  * ```
- * @receiver The [JsScriptScope] where the `for` loop is being defined.
+ * @receiver The [JsScope] where the `for` loop is being defined.
  * @param T The type of the [JsReference] used for the loop variable.
  * @param assignment A lambda with receiver [JsSyntaxScope] to define the loop variable's initialization (e.g., `Var("i", 0.js)`). It should return a [JsReference] to the loop variable.
  * @param comparison A lambda with receiver [JsSyntaxScope] and the loop variable [T] as an argument, to define the loop's continuation condition (e.g., `it lt 10.js`).
@@ -33,7 +33,7 @@ class JsForSyntax(value: String) : JsLoopSyntax(value)
  * @param block A lambda with receiver [JsSyntaxScope] and the loop variable [T] as an argument, to define the JavaScript code inside the loop body.
  */
 @JsDsl
-fun <T : JsReference<*>> JsScriptScope.For(
+fun <T : JsReference<*>> JsScope.For(
     assignment: JsSyntaxScope.() -> T,
     comparison: JsSyntaxScope.(T) -> Operation,
     operation: JsSyntaxScope.(T) -> Operation,
@@ -79,7 +79,7 @@ fun <T : JsReference<*>> jsFor(
 
 /**
  * Creates a JavaScript `for...in` loop, which iterates over the enumerable properties of an object.
- * This is a DSL extension function for [JsScriptScope].
+ * This is a DSL extension function for [JsScope].
  *
  * In JavaScript, this corresponds to:
  * ```javascript
@@ -87,14 +87,14 @@ fun <T : JsReference<*>> jsFor(
  * // ... block content ...
  * }
  * ```
- * @receiver The [JsScriptScope] where the `for...in` loop is being defined.
+ * @receiver The [JsScope] where the `for...in` loop is being defined.
  * @param T The type of the [JsReference] that will hold the property name (key).
  * @param definition A lambda with receiver [JsSyntaxScope] to define the loop variable (e.g., `Var("key")`). It should return a [JsDeclarationSyntax] for the loop variable.
  * @param obj The [JsValue] (object) whose enumerable properties will be iterated over.
  * @param block A lambda with receiver [JsSyntaxScope] and the loop variable [T] as an argument, to define the JavaScript code inside the loop body.
  */
 @JsDsl
-fun <T : JsReference<*>> JsScriptScope.For(
+fun <T : JsReference<*>> JsScope.For(
     definition: JsSyntaxScope.() -> JsDeclarationSyntax<T>,
     obj: JsValue,
     block: JsSyntaxScope.(T) -> Unit,
@@ -132,7 +132,7 @@ fun <T : JsReference<*>> jsFor(
 
 /**
  * Creates a JavaScript `for...of` loop, which iterates over iterable objects (like Arrays, Strings, Maps, Sets).
- * This is a DSL extension function for [JsScriptScope].
+ * This is a DSL extension function for [JsScope].
  *
  * In JavaScript, this corresponds to:
  * ```javascript
@@ -140,14 +140,14 @@ fun <T : JsReference<*>> jsFor(
  * // ... block content ...
  * }
  * ```
- * @receiver The [JsScriptScope] where the `for...of` loop is being defined.
+ * @receiver The [JsScope] where the `for...of` loop is being defined.
  * @param T The type of the [JsReference] that will hold the value of each element.
  * @param definition A lambda with receiver [JsSyntaxScope] to define the loop variable (e.g., `Var("item")`). It should return a [JsDeclarationSyntax] for the loop variable.
  * @param obj The [JsArray] (or any iterable [JsValue]) to iterate over.
  * @param block A lambda with receiver [JsSyntaxScope] and the loop variable [T] as an argument, to define the JavaScript code inside the loop body.
  */
 @JsDsl
-fun <T : JsReference<*>> JsScriptScope.For(
+fun <T : JsReference<*>> JsScope.For(
     definition: JsSyntaxScope.() -> JsDeclarationSyntax<T>,
     obj: JsArray<*>,
     block: JsSyntaxScope.(T) -> Unit,
@@ -185,21 +185,21 @@ fun <T : JsReference<*>> jsFor(
 
 /**
  * Iterates over the elements of a [JsArray] using its `forEach` method.
- * This is a DSL extension function for [JsScriptScope], providing a convenient way to
+ * This is a DSL extension function for [JsScope], providing a convenient way to
  * perform an action for each element in a JavaScript array.
  *
  * In JavaScript, this corresponds to:
  * ```javascript
  * collection.forEach(lambda);
  * ```
- * @receiver The [JsScriptScope] where the `forEach` call is being defined.
+ * @receiver The [JsScope] where the `forEach` call is being defined.
  * @param T The type of elements in the [JsArray].
  * @param collection The [JsArray] to iterate over.
  * @param lambda A [JsLambda1] that will be executed for each element in the collection.
  * The lambda typically receives the current element as its first argument.
  */
 @JsDsl
-fun <T : JsValue> JsScriptScope.For(
+fun <T : JsValue> JsScope.For(
     collection: JsArray<T>,
     lambda: JsLambda1<T>,
 ) = +collection.forEach(lambda)

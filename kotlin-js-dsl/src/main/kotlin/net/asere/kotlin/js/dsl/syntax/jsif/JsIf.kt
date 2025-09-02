@@ -1,6 +1,6 @@
 package net.asere.kotlin.js.dsl.syntax.jsif
 
-import net.asere.kotlin.js.dsl.syntax.JsScriptScope
+import net.asere.kotlin.js.dsl.syntax.JsScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.syntax.operational.Operable
@@ -12,7 +12,7 @@ class JsElseSyntax internal constructor(value: String? = null) : JsSyntax(value)
 
 /**
  * Starts an `if` block in JavaScript.
- * This is a DSL extension function for [JsScriptScope], allowing you to write `If (condition) { ... }` directly within a script scope.
+ * This is a DSL extension function for [JsScope], allowing you to write `If (condition) { ... }` directly within a script scope.
  *
  * In JavaScript, this corresponds to:
  * ```javascript
@@ -20,12 +20,12 @@ class JsElseSyntax internal constructor(value: String? = null) : JsSyntax(value)
  * // ... block content ...
  * }
  * ```
- * @receiver The [JsScriptScope] where the `if` block is being defined.
+ * @receiver The [JsScope] where the `if` block is being defined.
  * @param comparable The condition for the `if` statement, which must be an [Operable] expression that evaluates to a boolean in JavaScript.
  * @param block A lambda with receiver [JsSyntaxScope] to define the JavaScript code that will be executed if the condition is true.
  */
 @JsDsl
-fun JsScriptScope.If(comparable: Operable, block: JsSyntaxScope.() -> Unit) = +jsIf(comparable, block)
+fun JsScope.If(comparable: Operable, block: JsSyntaxScope.() -> Unit) = +jsIf(comparable, block)
 
 /**
  * Creates a JavaScript `if` statement syntax.
@@ -47,7 +47,7 @@ fun jsIf(comparable: Operable, block: JsSyntaxScope.() -> Unit) : JsIfSyntax {
 
 /**
  * Adds an `else if` block to a preceding `if` or `else if` statement.
- * This is a DSL extension function for [JsScriptScope], allowing you to write `ElseIf (condition) { ... }`
+ * This is a DSL extension function for [JsScope], allowing you to write `ElseIf (condition) { ... }`
  * to chain conditional blocks. Note that for proper chaining, this should typically follow an `If` or `ElseIf` call
  * in a fluent API style, though the current implementation allows it directly in the scope.
  *
@@ -57,12 +57,12 @@ fun jsIf(comparable: Operable, block: JsSyntaxScope.() -> Unit) : JsIfSyntax {
  * // ... block content ...
  * }
  * ```
- * @receiver The [JsScriptScope] where the `else if` block is being defined.
+ * @receiver The [JsScope] where the `else if` block is being defined.
  * @param comparable The condition for the `else if` statement.
  * @param block A lambda with receiver [JsSyntaxScope] to define the JavaScript code inside the `else if` block.
  */
 @JsDsl
-fun JsScriptScope.ElseIf(comparable: Operable, block: JsSyntaxScope.() -> Unit) = +JsIfSyntax().jsElseIf(
+fun JsScope.ElseIf(comparable: Operable, block: JsSyntaxScope.() -> Unit) = +JsIfSyntax().jsElseIf(
     comparable = comparable,
     block = block,
 )
@@ -85,7 +85,7 @@ fun JsIfSyntax.jsElseIf(comparable: Operable, block: JsSyntaxScope.() -> Unit): 
 
 /**
  * Adds an `else` block to a preceding `if` or `else if` statement.
- * This is a DSL extension function for [JsScriptScope], allowing you to write `Else { ... }`
+ * This is a DSL extension function for [JsScope], allowing you to write `Else { ... }`
  * to provide a fallback block. Note that for proper chaining, this should typically follow an `If` or `ElseIf` call
  * in a fluent API style, though the current implementation allows it directly in the scope.
  *
@@ -95,11 +95,11 @@ fun JsIfSyntax.jsElseIf(comparable: Operable, block: JsSyntaxScope.() -> Unit): 
  * // ... block content ...
  * }
  * ```
- * @receiver The [JsScriptScope] where the `else` block is being defined.
+ * @receiver The [JsScope] where the `else` block is being defined.
  * @param block A lambda with receiver [JsSyntaxScope] to define the JavaScript code inside the `else` block.
  */
 @JsDsl
-fun JsScriptScope.Else(block: JsSyntaxScope.() -> Unit) = +JsIfSyntax().jsElse(block)
+fun JsScope.Else(block: JsSyntaxScope.() -> Unit) = +JsIfSyntax().jsElse(block)
 
 /**
  * Appends an `else` block to an existing [JsIfSyntax] (or [JsElseIfSyntax]).
