@@ -1,24 +1,26 @@
 package net.asere.kotlin.js.dsl.syntax
 
-import net.asere.kotlin.js.dsl.type.JsElement
-import net.asere.kotlin.js.dsl.declaration.*
+import net.asere.kotlin.js.dsl.declaration.DeclarationType
+import net.asere.kotlin.js.dsl.declaration.JsConstantDeclaration
+import net.asere.kotlin.js.dsl.declaration.JsLetDeclaration
+import net.asere.kotlin.js.dsl.declaration.JsVarDeclaration
 import net.asere.kotlin.js.dsl.syntax.operational.access.operation.AssignmentOperation
 import net.asere.kotlin.js.dsl.tag.JsDsl
-import net.asere.kotlin.js.dsl.type.toLine
-import net.asere.kotlin.js.dsl.type.toSyntax
-import net.asere.kotlin.js.dsl.type.definition.JsDefinition
-import net.asere.kotlin.js.dsl.type.reference.JsReference
-import net.asere.kotlin.js.dsl.type.reference.JsValueRef
-import net.asere.kotlin.js.dsl.type.function.JsFunctionRefCommons
-import net.asere.kotlin.js.dsl.type.lambda.JsLambdaRefCommons
-import net.asere.kotlin.js.dsl.type.function.JsFunctionCommons
+import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.type.bool.js
+import net.asere.kotlin.js.dsl.type.definition.JsDefinition
+import net.asere.kotlin.js.dsl.type.function.JsFunctionCommons
+import net.asere.kotlin.js.dsl.type.function.JsFunctionRefCommons
 import net.asere.kotlin.js.dsl.type.function.f0.JsFunction0
 import net.asere.kotlin.js.dsl.type.function.f0.JsFunctionRef
-import net.asere.kotlin.js.dsl.type.number.js
-import net.asere.kotlin.js.dsl.type.string.js
-import net.asere.kotlin.js.dsl.type.value.JsValue
+import net.asere.kotlin.js.dsl.type.lambda.JsLambdaRefCommons
 import net.asere.kotlin.js.dsl.type.lambda.JsLambdaValueCommons
+import net.asere.kotlin.js.dsl.type.number.js
+import net.asere.kotlin.js.dsl.type.reference.JsReference
+import net.asere.kotlin.js.dsl.type.string.js
+import net.asere.kotlin.js.dsl.type.toLine
+import net.asere.kotlin.js.dsl.type.toSyntax
+import net.asere.kotlin.js.dsl.type.value.JsValue
 
 abstract class JsScope {
 
@@ -75,12 +77,12 @@ abstract class JsScope {
         )
     }
 
-    infix fun <T : JsReference<*>> T.assignValue(element: JsElement): JsAssignationSyntax<T> {
+    fun <T : JsReference<*>> T.assignValue(element: JsElement): JsAssignationSyntax<T> {
         val assignOperation = AssignmentOperation(this, element.toOperable())
         return JsAssignationSyntax(this, assignOperation)
     }
 
-    infix fun <T : JsReference<*>> JsResultSyntax<T>.assignValue(element: JsElement): JsAssignationSyntax<T> {
+    fun <T : JsReference<*>> JsResultSyntax<T>.assignValue(element: JsElement): JsAssignationSyntax<T> {
         val assignOperation = AssignmentOperation(this.toOperable(), element.toOperable())
         return JsAssignationSyntax(innerObject, assignOperation)
     }
@@ -90,16 +92,20 @@ abstract class JsScope {
         rightHand = element.toOperable()
     )
 
-     fun <T : JsReference<*>> JsResultSyntax<T>.assignValue(value: String) = assignValue(element = value.js)
-     fun <T : JsReference<*>> JsResultSyntax<T>.assignValue(value: Number) = assignValue(element = value.js)
-     fun <T : JsReference<*>> JsResultSyntax<T>.assignValue(value: Boolean) = assignValue(element = value.js)
+    fun <T : JsReference<*>> T.assignValue(value: String) = assignValue(element = value.js)
+    fun <T : JsReference<*>> T.assignValue(value: Number) = assignValue(element = value.js)
+    fun <T : JsReference<*>> T.assignValue(value: Boolean) = assignValue(element = value.js)
+
+    fun <T : JsReference<*>> JsResultSyntax<T>.assignValue(value: String) = assignValue(element = value.js)
+    fun <T : JsReference<*>> JsResultSyntax<T>.assignValue(value: Number) = assignValue(element = value.js)
+    fun <T : JsReference<*>> JsResultSyntax<T>.assignValue(value: Boolean) = assignValue(element = value.js)
 
     private fun <T : JsReference<*>> JsAssignationSyntax<T>.render(): T {
         this@JsScope.append(toLine())
         return innerObject
     }
 
-    private  fun <T : JsElement> T.render(): T {
+    private fun <T : JsElement> T.render(): T {
         this@JsScope.append(toLine())
         return this
     }
