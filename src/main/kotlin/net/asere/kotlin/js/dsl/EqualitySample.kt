@@ -1,6 +1,6 @@
 package net.asere.kotlin.js.dsl
 
-import net.asere.kotlin.js.dsl.declaration.Const
+import net.asere.kotlin.js.dsl.declaration.DeclarationType
 import net.asere.kotlin.js.dsl.log.Console
 import net.asere.kotlin.js.dsl.syntax.js
 import net.asere.kotlin.js.dsl.syntax.operational.equality.comparison.eq
@@ -10,7 +10,7 @@ import net.asere.kotlin.js.dsl.type.number.js
 
 fun main(vararg args: String) {
     val syntax = js {
-        val result = +JsBoolean.def("result").declare(Const).assignValue(5.js eq 5.js)
+        val result = +JsBoolean.def("result").declare(DeclarationType.Const).assignValue(5.js eq 5.js)
         +Console.log(result)
     }
     println(syntax)

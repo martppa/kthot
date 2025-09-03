@@ -13,4 +13,4 @@ class JsConstantDeclaration(
 
 @JsDsl
 fun <T : JsDefinition<C, Q>, C : JsReference<Q>, Q : JsValue> JsScope.Const(block: () -> T): JsDeclarationSyntax<C> =
-    block().declare(Const)
+    block().declare(DeclarationType.Const)

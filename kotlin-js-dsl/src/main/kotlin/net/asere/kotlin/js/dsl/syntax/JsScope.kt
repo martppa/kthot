@@ -40,7 +40,9 @@ abstract class JsScope {
         return innerObject
     }
 
-    operator fun JsValueRef<*>.unaryPlus() = append(toLine())
+    operator fun <T : JsReference<C>, C : JsValue> JsDefinition<T, C>.unaryPlus() {
+        appendLine(this.reference.toSyntax())
+    }
 
     operator fun String.unaryPlus() = append(JsLine(this))
 
@@ -63,9 +65,9 @@ abstract class JsScope {
 
     fun <T : JsDefinition<C, Q>, C : JsReference<Q>, Q : JsValue> T.declare(type: DeclarationType): JsDeclarationSyntax<C> {
         val syntax = when (type) {
-            Const -> JsConstantDeclaration(this.reference)
-            Let -> JsLetDeclaration(this.reference)
-            Var -> JsVarDeclaration(this.reference)
+            DeclarationType.Const -> JsConstantDeclaration(this.reference)
+            DeclarationType.Let -> JsLetDeclaration(this.reference)
+            DeclarationType.Var -> JsVarDeclaration(this.reference)
         }
         return JsDeclarationSyntax(
             innerObject = this.reference,

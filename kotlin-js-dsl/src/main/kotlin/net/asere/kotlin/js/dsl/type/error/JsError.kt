@@ -1,8 +1,6 @@
 package net.asere.kotlin.js.dsl.type.error
 
 import net.asere.kotlin.js.dsl.syntax.instantiation.Instantiable
-import net.asere.kotlin.js.dsl.type.bool.syntax
-import net.asere.kotlin.js.dsl.type.string.JsStringSyntax
 import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.syntax

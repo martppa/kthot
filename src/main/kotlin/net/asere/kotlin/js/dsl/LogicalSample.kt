@@ -1,10 +1,10 @@
 package net.asere.kotlin.js.dsl
 
-import net.asere.kotlin.js.dsl.declaration.Const
+import net.asere.kotlin.js.dsl.declaration.DeclarationType
 import net.asere.kotlin.js.dsl.log.Log
 import net.asere.kotlin.js.dsl.syntax.js
-import net.asere.kotlin.js.dsl.syntax.operational.logical.comparison.and
 import net.asere.kotlin.js.dsl.syntax.operational.equality.comparison.eq
+import net.asere.kotlin.js.dsl.syntax.operational.logical.comparison.and
 import net.asere.kotlin.js.dsl.syntax.operational.logical.comparison.or
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
 import net.asere.kotlin.js.dsl.type.bool.def
@@ -12,17 +12,17 @@ import net.asere.kotlin.js.dsl.type.number.js
 
 fun main(vararg args: String) {
     var syntax = js {
-        val bool0 = +JsBoolean.def().declare(Const).assignValue(true)
-        val bool1 = +JsBoolean.def().declare(Const).assignValue(false)
-        val result = +JsBoolean.def("result").declare(Const).assignValue(bool0 and bool1)
+        val bool0 = +JsBoolean.def().declare(DeclarationType.Const).assignValue(true)
+        val bool1 = +JsBoolean.def().declare(DeclarationType.Const).assignValue(false)
+        val result = +JsBoolean.def("result").declare(DeclarationType.Const).assignValue(bool0 and bool1)
         Log(result)
     }
     println(syntax)
 
     syntax = js {
-        val bool0 = +JsBoolean.def().declare(Const).assignValue(5.js eq 5.js)
-        val bool1 = +JsBoolean.def().declare(Const).assignValue(false)
-        val bool2 = +JsBoolean.def().declare(Const).assignValue(true)
+        val bool0 = +JsBoolean.def().declare(DeclarationType.Const).assignValue(5.js eq 5.js)
+        val bool1 = +JsBoolean.def().declare(DeclarationType.Const).assignValue(false)
+        val bool2 = +JsBoolean.def().declare(DeclarationType.Const).assignValue(true)
         Log(bool1 and (bool2 or bool0))
     }
     println(syntax)
