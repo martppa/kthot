@@ -13,10 +13,10 @@ import net.asere.kotlin.js.dsl.tag.JsDsl
  * return element;
  * ```
  * @receiver The [JsScope] where the `return` statement is being used.
- * @param element The [JsElement] (or any [JsValue]) to be returned from the function.
+ * @param block The [JsElement] returning lambda to be returned from the function.
  */
 @JsDsl
-fun JsScope.Return(element: JsElement) = +jsReturn(element)
+fun JsScope.Return(block: () -> JsElement) = +jsReturn(block())
 
 /**
  * Creates a JavaScript `return` statement syntax with a value.

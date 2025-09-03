@@ -31,7 +31,7 @@ fun main(vararg args: String) {
                 JsString.def("first"),
                 JsString.def("second")
             ) { first, second ->
-                Return(first + second)
+                Return { first + second }
             }
             Log(sum(5.js, 4.js))
 

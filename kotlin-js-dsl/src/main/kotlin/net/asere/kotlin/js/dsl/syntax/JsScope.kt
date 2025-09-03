@@ -26,7 +26,10 @@ abstract class JsScope {
 
     abstract fun append(syntax: JsSyntax)
 
-    operator fun JsElement.unaryPlus() = append(toLine())
+    operator fun JsElement.unaryPlus(): JsElement {
+        append(toLine())
+        return this
+    }
 
     private fun appendLine(syntax: JsSyntax) {
         append(syntax.toLine())
@@ -42,8 +45,9 @@ abstract class JsScope {
         return innerObject
     }
 
-    operator fun <T : JsReference<C>, C : JsValue> JsDefinition<T, C>.unaryPlus() {
+    operator fun <T : JsReference<C>, C : JsValue> JsDefinition<T, C>.unaryPlus(): JsDefinition<T, C> {
         appendLine(this.reference.toSyntax())
+        return this
     }
 
     operator fun String.unaryPlus() = append(JsLine(this))
