@@ -7,5 +7,5 @@ open class JsObjectSyntax internal constructor(value: String, isNullable: Boolea
     internal constructor(value: JsElement, isNullable: Boolean) : this("$value", isNullable)
 }
 
-fun JsObject.Companion.syntax(value: String, isNullable: Boolean = false): JsObjectSyntax = JsObjectSyntax(value, isNullable)
-fun JsObject.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsObjectSyntax = JsObjectSyntax(value,isNullable)
+fun JsObject.Companion.syntax(value: String, isNullable: Boolean = false): JsObject = JsObjectSyntax(value, isNullable)
+fun JsObject.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsObject = JsObjectSyntax(value,isNullable)

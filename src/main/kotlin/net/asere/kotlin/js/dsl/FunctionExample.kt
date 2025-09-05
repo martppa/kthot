@@ -3,7 +3,7 @@ package net.asere.kotlin.js.dsl
 import kotlinx.html.body
 import kotlinx.html.stream.createHTML
 import net.asere.kotlin.js.dsl.declaration.Const
-import net.asere.kotlin.js.dsl.html.jsScript
+import net.asere.kotlin.js.dsl.html.jslScript
 import net.asere.kotlin.js.dsl.log.Log
 import net.asere.kotlin.js.dsl.syntax.operational.arithmetical.operation.plus
 import net.asere.kotlin.js.dsl.type.function.f0.Function
@@ -14,7 +14,7 @@ import net.asere.kotlin.js.dsl.type.string.js
 
 fun main(vararg args: String) {
     val result = createHTML().body {
-        jsScript {
+        jslScript {
             val simpleFunction = Function {
                 Log("We called the function!")
             }

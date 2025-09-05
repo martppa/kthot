@@ -4,7 +4,7 @@ import kotlinx.html.body
 import kotlinx.html.stream.createHTML
 import net.asere.kotlin.js.dsl.declaration.Const
 import net.asere.kotlin.js.dsl.declaration.Let
-import net.asere.kotlin.js.dsl.html.jsScript
+import net.asere.kotlin.js.dsl.html.jslScript
 import net.asere.kotlin.js.dsl.log.Log
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.jsif.If
@@ -27,7 +27,7 @@ import net.asere.kotlin.js.dsl.type.lambda.l1.jsLambda
 
 fun main(vararg args: String) {
     val result = createHTML().body {
-        jsScript {
+        jslScript {
             val collection = Const { JsArray.def<JsNumber>() } assign JsArray.value(0.js, 1.js, 2.js, 3.js)
             For ({ Let { JsNumber.def("i") } assign 0 }, { it lt collection.getLength() }, { it.postInc() }) {
                 Log(it)

@@ -5,6 +5,7 @@ package net.asere.kotlin.js.dsl.type.function.f0
 import net.asere.kotlin.js.dsl.syntax.JsScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.tag.JsDsl
+import net.asere.kotlin.js.dsl.type.function.JsFunctionCommons
 import net.asere.kotlin.js.dsl.type.reference.ReferenceId
 
 /**
@@ -33,7 +34,7 @@ fun JsScope.Function(
 
 /**
  * Represents a JavaScript function that takes no parameters.
- * This class is used internally by the [net.asere.kotlin.js.dsl.type.function.f1.Function] DSL extension to build the JavaScript syntax for the function.
+ * This class is used internally by the [Function] DSL extension to build the JavaScript syntax for the function.
  *
  * @param name The name of the function.
  * @param definition A lambda that defines the content of the function's body.
@@ -41,7 +42,7 @@ fun JsScope.Function(
 class JsFunction0(
     name: String,
     private val definition: JsSyntaxScope.() -> Unit,
-) : net.asere.kotlin.js.dsl.type.function.JsFunctionCommons<JsFunctionRef>(name) {
+) : JsFunctionCommons<JsFunctionRef>(name) {
 
     /**
      * The [JsFunctionRef] instance that refers to this function.

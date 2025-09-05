@@ -3,7 +3,7 @@ package net.asere.kotlin.js.dsl
 import kotlinx.html.body
 import kotlinx.html.stream.createHTML
 import net.asere.kotlin.js.dsl.declaration.Const
-import net.asere.kotlin.js.dsl.html.jsScript
+import net.asere.kotlin.js.dsl.html.jslScript
 import net.asere.kotlin.js.dsl.log.Log
 import net.asere.kotlin.js.dsl.syntax.jsif.*
 import net.asere.kotlin.js.dsl.syntax.operational.logical.comparison.and
@@ -14,7 +14,7 @@ import net.asere.kotlin.js.dsl.type.bool.def
 
 fun main(vararg args: String) {
     val result = createHTML().body {
-        jsScript {
+        jslScript {
             val bool0 = Const { JsBoolean.def() } assign true
             val bool1 = Const { JsBoolean.def() } assign false
             val bool2 = Const { JsBoolean.def() } assign true

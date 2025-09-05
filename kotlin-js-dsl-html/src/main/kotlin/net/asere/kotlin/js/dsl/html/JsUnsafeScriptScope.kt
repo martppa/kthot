@@ -13,20 +13,20 @@ open class JsUnsafeScriptScope(
     }
 }
 
-fun FlowContent.jsScript(block: JsUnsafeScriptScope.() -> Unit) = script {
+fun FlowContent.jslScript(block: JsUnsafeScriptScope.() -> Unit) = script {
     unsafe { block(JsUnsafeScriptScope(this)) }
 }
 
-fun HEAD.jsScript(block: JsUnsafeScriptScope.() -> Unit) = script {
+fun HEAD.jslScript(block: JsUnsafeScriptScope.() -> Unit) = script {
     unsafe { block(JsUnsafeScriptScope(this)) }
 }
 
-fun FlowContent.jsScript(source: String) = script {
+fun FlowContent.jslScript(source: String) = script {
     type = "text/javascript"
     src = source
 }
 
-fun HEAD.jsScript(source: String) = script {
+fun HEAD.jslScript(source: String) = script {
     type = "text/javascript"
     src = source
 }
