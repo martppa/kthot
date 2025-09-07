@@ -11,7 +11,7 @@ import net.asere.kotlin.js.dsl.type.function.JsFunctionRefCommons
  *
  * @property name The name of the JavaScript function. If `null`, it implies an anonymous function or a reference passed by other means.
  */
-class JsFunctionRef(
+class JsFunction0Ref(
     name: String? = null,
 ) : JsFunctionRefCommons(name) {
     /**
@@ -27,5 +27,5 @@ class JsFunctionRef(
      * ```
      * @return A [JsSyntax] object representing the JavaScript function call.
      */
-    operator fun invoke() = JsSyntax(InvocationOperation(this))
+    operator fun invoke() = InvocationOperation(this)
 }

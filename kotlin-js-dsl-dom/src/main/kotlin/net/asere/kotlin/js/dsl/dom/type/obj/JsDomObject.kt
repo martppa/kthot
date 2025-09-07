@@ -16,7 +16,7 @@ import net.asere.kotlin.js.dsl.type.lambda.l1.JsLambda1
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.js
 import net.asere.kotlin.js.dsl.type.string.syntax
-import net.asere.kotlin.js.dsl.type.undefined
+import net.asere.kotlin.js.dsl.type.Undefined
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 /**
@@ -121,7 +121,7 @@ interface JsDomObject : JsValue {
         JsDomObject.syntax(
             ChainOperation(
                 this,
-                InvocationOperation("insertBefore", newNode, referenceNode ?: undefined)
+                InvocationOperation("insertBefore", newNode, referenceNode ?: Undefined)
             )
         )
 

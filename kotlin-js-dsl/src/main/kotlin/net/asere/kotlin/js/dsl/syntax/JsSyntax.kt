@@ -16,3 +16,5 @@ open class JsSyntax(
 
     operator fun plus(syntax: JsSyntax) = JsSyntax("$this $syntax")
 }
+
+object JsEmptySyntax : JsSyntax()

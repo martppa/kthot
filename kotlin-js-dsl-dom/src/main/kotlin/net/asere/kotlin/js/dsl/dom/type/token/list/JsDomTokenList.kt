@@ -8,7 +8,6 @@ import net.asere.kotlin.js.dsl.type.bool.JsBoolean
 import net.asere.kotlin.js.dsl.type.bool.js
 import net.asere.kotlin.js.dsl.type.bool.syntax
 import net.asere.kotlin.js.dsl.type.number.JsNumber
-import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
 import net.asere.kotlin.js.dsl.type.number.js
 import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.lambda.l1.JsLambda1Ref
@@ -16,7 +15,7 @@ import net.asere.kotlin.js.dsl.type.number.syntax
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.js
 import net.asere.kotlin.js.dsl.type.string.syntax
-import net.asere.kotlin.js.dsl.type.undefined
+import net.asere.kotlin.js.dsl.type.Undefined
 
 /**
  * Represents the JavaScript `DOMTokenList` object.
@@ -78,7 +77,7 @@ interface JsDomTokenList : JsObject {
         JsBoolean.syntax(
             ChainOperation(
                 this,
-                InvocationOperation("toggle", token, force ?: undefined)
+                InvocationOperation("toggle", token, force ?: Undefined)
             )
         )
     fun toggle(token: String, force: Boolean? = null): JsBoolean = toggle(token.js, force?.js)

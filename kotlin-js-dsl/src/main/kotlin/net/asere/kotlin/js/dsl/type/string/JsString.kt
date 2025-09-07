@@ -10,7 +10,7 @@ import net.asere.kotlin.js.dsl.type.bool.syntax
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
 import net.asere.kotlin.js.dsl.type.number.syntax
-import net.asere.kotlin.js.dsl.type.undefined
+import net.asere.kotlin.js.dsl.type.Undefined
 
 /**
  * Represents a JavaScript string primitive value.
@@ -66,7 +66,7 @@ interface JsString : JsValue {
      * @return A [net.asere.kotlin.js.dsl.type.bool.JsBoolean] object indicating whether the string ends with the specified characters.
      */
     fun endsWith(searchString: JsString, length: JsNumber? = null): JsBoolean {
-        return JsBoolean.syntax(ChainOperation(this, InvocationOperation("endsWith", searchString, length ?: undefined)))
+        return JsBoolean.syntax(ChainOperation(this, InvocationOperation("endsWith", searchString, length ?: Undefined)))
     }
 
     /**
@@ -81,7 +81,7 @@ interface JsString : JsValue {
         return JsBoolean.syntax(
             ChainOperation(
                 this,
-                InvocationOperation("includes", searchString, position ?: undefined)
+                InvocationOperation("includes", searchString, position ?: Undefined)
             )
         )
     }
@@ -95,7 +95,7 @@ interface JsString : JsValue {
      * @return A [JsNumber] object representing the index of the first occurrence, or -1 if not found.
      */
     fun indexOf(searchValue: JsString, fromIndex: JsNumber? = null): JsNumber {
-        return JsNumberSyntax(ChainOperation(this, InvocationOperation("indexOf", searchValue, fromIndex ?: undefined)))
+        return JsNumberSyntax(ChainOperation(this, InvocationOperation("indexOf", searchValue, fromIndex ?: Undefined)))
     }
 
     /**
@@ -110,7 +110,7 @@ interface JsString : JsValue {
         return JsNumberSyntax(
             ChainOperation(
                 this,
-                InvocationOperation("lastIndexOf", searchValue, fromIndex ?: undefined)
+                InvocationOperation("lastIndexOf", searchValue, fromIndex ?: Undefined)
             )
         )
     }
@@ -125,7 +125,7 @@ interface JsString : JsValue {
      * @return A [JsString] object representing the new string of the specified length with the pad string applied to the end.
      */
     fun padEnd(targetLength: JsNumber, padString: JsString? = null): JsString {
-        return JsString.syntax(ChainOperation(this, InvocationOperation("padEnd", targetLength, padString ?: undefined)))
+        return JsString.syntax(ChainOperation(this, InvocationOperation("padEnd", targetLength, padString ?: Undefined)))
     }
 
     /**
@@ -141,7 +141,7 @@ interface JsString : JsValue {
         return JsString.syntax(
             ChainOperation(
                 this,
-                InvocationOperation("padStart", targetLength, padString ?: undefined)
+                InvocationOperation("padStart", targetLength, padString ?: Undefined)
             )
         )
     }
@@ -197,7 +197,7 @@ interface JsString : JsValue {
      * @return A [JsString] object representing the extracted section of the string.
      */
     fun slice(startIndex: JsNumber, endIndex: JsNumber? = null): JsString {
-        return JsString.syntax(ChainOperation(this, InvocationOperation("slice", startIndex, endIndex ?: undefined)))
+        return JsString.syntax(ChainOperation(this, InvocationOperation("slice", startIndex, endIndex ?: Undefined)))
     }
 
     /**
@@ -213,7 +213,7 @@ interface JsString : JsValue {
             typeBuilder = JsString::syntax,
             value = ChainOperation(
                 this,
-                InvocationOperation("split", separator ?: undefined, limit ?: undefined)
+                InvocationOperation("split", separator ?: Undefined, limit ?: Undefined)
             )
         )
     }
@@ -230,7 +230,7 @@ interface JsString : JsValue {
         return JsBoolean.syntax(
             ChainOperation(
                 this,
-                InvocationOperation("startsWith", searchString, position ?: undefined)
+                InvocationOperation("startsWith", searchString, position ?: Undefined)
             )
         )
     }
@@ -244,7 +244,7 @@ interface JsString : JsValue {
      * @return A [JsString] object representing the extracted substring.
      */
     fun substring(startIndex: JsNumber, endIndex: JsNumber? = null): JsString {
-        return JsString.syntax(ChainOperation(this, InvocationOperation("substring", startIndex, endIndex ?: undefined)))
+        return JsString.syntax(ChainOperation(this, InvocationOperation("substring", startIndex, endIndex ?: Undefined)))
     }
 
     /**
@@ -256,7 +256,7 @@ interface JsString : JsValue {
      * @return A [JsString] object representing the new string converted to lowercase.
      */
     fun toLocaleLowerCase(locale: JsValue? = null): JsString {
-        return JsString.syntax(ChainOperation(this, InvocationOperation("toLocaleLowerCase", locale ?: undefined)))
+        return JsString.syntax(ChainOperation(this, InvocationOperation("toLocaleLowerCase", locale ?: Undefined)))
     }
 
     /**
@@ -268,7 +268,7 @@ interface JsString : JsValue {
      * @return A [JsString] object representing the new string converted to uppercase.
      */
     fun toLocaleUpperCase(locale: JsValue? = null): JsString {
-        return JsString.syntax(ChainOperation(this, InvocationOperation("toLocaleUpperCase", locale ?: undefined)))
+        return JsString.syntax(ChainOperation(this, InvocationOperation("toLocaleUpperCase", locale ?: Undefined)))
     }
 
     /**

@@ -11,4 +11,4 @@ import net.asere.kotlin.js.dsl.type.obj.JsObjectSyntax
  * or to formal arguments for which there are no actual arguments.
  */
 @JsDsl
-object undefined : JsObjectSyntax(value = "undefined", isNullable = false)
+object Undefined : JsObjectSyntax(value = "undefined", isNullable = false)

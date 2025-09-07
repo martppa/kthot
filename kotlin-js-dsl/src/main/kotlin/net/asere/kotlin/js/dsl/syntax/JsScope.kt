@@ -12,7 +12,7 @@ import net.asere.kotlin.js.dsl.type.definition.JsDefinition
 import net.asere.kotlin.js.dsl.type.function.JsFunctionCommons
 import net.asere.kotlin.js.dsl.type.function.JsFunctionRefCommons
 import net.asere.kotlin.js.dsl.type.function.f0.JsFunction0
-import net.asere.kotlin.js.dsl.type.function.f0.JsFunctionRef
+import net.asere.kotlin.js.dsl.type.function.f0.JsFunction0Ref
 import net.asere.kotlin.js.dsl.type.lambda.JsLambdaRefCommons
 import net.asere.kotlin.js.dsl.type.lambda.JsLambdaValueCommons
 import net.asere.kotlin.js.dsl.type.number.js
@@ -48,12 +48,14 @@ abstract class JsScope {
 
     operator fun String.unaryPlus() = append(JsLine(this))
 
+    operator fun Unit.unaryPlus() = append(JsEmptySyntax)
+
     operator fun <T : JsReference<*>> JsSyntaxBuilder<T>.unaryPlus(): T {
         this@JsScope.append(toLine())
         return innerObject
     }
 
-    operator fun JsFunction0.unaryPlus(): JsFunctionRef {
+    operator fun JsFunction0.unaryPlus(): JsFunction0Ref {
         val builder = buildSyntax()
         this@JsScope.append(builder.toLine())
         return builder.innerObject

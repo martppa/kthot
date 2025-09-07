@@ -9,7 +9,7 @@ import net.asere.kotlin.js.dsl.type.bool.JsBoolean
 import net.asere.kotlin.js.dsl.type.bool.syntax
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.syntax
-import net.asere.kotlin.js.dsl.type.undefined
+import net.asere.kotlin.js.dsl.type.Undefined
 
 /**
  * Represents a JavaScript number primitive value.
@@ -25,7 +25,7 @@ interface JsNumber : JsValue, ArithmeticalComparable {
      * @return A [JsString] object representing the JavaScript method call that returns a string.
      */
     fun toExponential(fractionDigits: JsNumber? = null): JsString {
-        return JsString.syntax(ChainOperation(this, InvocationOperation("toExponential", fractionDigits ?: undefined)))
+        return JsString.syntax(ChainOperation(this, InvocationOperation("toExponential", fractionDigits ?: Undefined)))
     }
 
     /**
@@ -36,7 +36,7 @@ interface JsNumber : JsValue, ArithmeticalComparable {
      * @return A [JsNumber] object representing the JavaScript method call that returns a string.
      */
     fun toFixed(digits: JsNumber? = null): JsNumber {
-        return JsNumber.syntax(ChainOperation(this, InvocationOperation("toFixed", digits ?: undefined)))
+        return JsNumber.syntax(ChainOperation(this, InvocationOperation("toFixed", digits ?: Undefined)))
     }
 
     /**
@@ -48,7 +48,7 @@ interface JsNumber : JsValue, ArithmeticalComparable {
      * @return A [JsSyntax] object representing the JavaScript method call that returns a localized string.
      */
     fun toLocaleString(locales: JsValue? = null, options: JsValue? = null): JsSyntax {
-        return JsSyntax(ChainOperation(this, InvocationOperation("toLocaleString", locales ?: undefined, options ?: undefined)))
+        return JsSyntax(ChainOperation(this, InvocationOperation("toLocaleString", locales ?: Undefined, options ?: Undefined)))
     }
 
     /**
@@ -59,7 +59,7 @@ interface JsNumber : JsValue, ArithmeticalComparable {
      * @return A [JsNumber] object representing the JavaScript method call that returns a string.
      */
     fun toPrecision(precision: JsNumber? = null): JsNumber {
-        return JsNumberSyntax(ChainOperation(this, InvocationOperation("toPrecision", precision ?: undefined)))
+        return JsNumberSyntax(ChainOperation(this, InvocationOperation("toPrecision", precision ?: Undefined)))
     }
 
     /**
@@ -70,7 +70,7 @@ interface JsNumber : JsValue, ArithmeticalComparable {
      * @return A [JsString] object representing the JavaScript method call that returns a string.
      */
     fun toJsString(radix: JsNumber? = null): JsString {
-        return JsString.syntax(ChainOperation(this, InvocationOperation("toString", radix ?: undefined)))
+        return JsString.syntax(ChainOperation(this, InvocationOperation("toString", radix ?: Undefined)))
     }
 
     /**
@@ -150,7 +150,7 @@ interface JsNumber : JsValue, ArithmeticalComparable {
             return JsNumber.syntax(
                 ChainOperation(
                     JsString.syntax("Number"),
-                    InvocationOperation("parseInt", string, radix ?: undefined)
+                    InvocationOperation("parseInt", string, radix ?: Undefined)
                 )
             )
         }

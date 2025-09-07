@@ -4,12 +4,13 @@ import net.asere.kotlin.js.dsl.extension.unaryPlus
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxBuilder
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
+import net.asere.kotlin.js.dsl.type.JsCallable
 import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.obj.JsObjectRef
 import net.asere.kotlin.js.dsl.type.obj.ref
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
-abstract class JsLambdaValueCommons : JsValue {
+abstract class JsLambdaValueCommons : JsValue, JsCallable {
     protected abstract fun buildScopeParameters(): InnerScopeParameters
 
     protected open fun buildInnerSyntax(scopeParameters: InnerScopeParameters): String = """

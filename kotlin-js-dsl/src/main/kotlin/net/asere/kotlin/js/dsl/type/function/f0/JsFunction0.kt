@@ -24,7 +24,7 @@ import net.asere.kotlin.js.dsl.type.reference.ReferenceId
  * @param definition A lambda with receiver [JsSyntaxScope] to define the JavaScript code inside the function body.
  */
 @JsDsl
-fun JsScope.Function(
+fun JsScope.Function0(
     name: String = "function_${ReferenceId.nextRefInt()}",
     definition: JsSyntaxScope.() -> Unit
 ) = +JsFunction0(
@@ -34,7 +34,7 @@ fun JsScope.Function(
 
 /**
  * Represents a JavaScript function that takes no parameters.
- * This class is used internally by the [Function] DSL extension to build the JavaScript syntax for the function.
+ * This class is used internally by the [Function0] DSL extension to build the JavaScript syntax for the function.
  *
  * @param name The name of the function.
  * @param definition A lambda that defines the content of the function's body.
@@ -42,12 +42,12 @@ fun JsScope.Function(
 class JsFunction0(
     name: String,
     private val definition: JsSyntaxScope.() -> Unit,
-) : JsFunctionCommons<JsFunctionRef>(name) {
+) : JsFunctionCommons<JsFunction0Ref>(name) {
 
     /**
-     * The [JsFunctionRef] instance that refers to this function.
+     * The [JsFunction0Ref] instance that refers to this function.
      */
-    override val functionRef: JsFunctionRef = JsFunctionRef(name)
+    override val functionRef: JsFunction0Ref = JsFunction0Ref(name)
 
     /**
      * Builds the inner scope parameters for the function, applying the provided [definition] lambda

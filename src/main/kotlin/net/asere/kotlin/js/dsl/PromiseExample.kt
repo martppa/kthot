@@ -22,11 +22,10 @@ fun main(vararg args: String) {
                 jsPromise(
                     lambda = jsLambda(
                         param1 = JsLambda1.def("onResolve"),
-                        param2 = JsLambda1.def("onError"),
-                        definition = { onResolve, onError ->
-                            +onResolve(JsString.value("Emitted with in promise"))
-                        }
-                    ),
+                        param2 = JsLambda1.def("onError")
+                    ) { onResolve, onError ->
+                        +onResolve(JsString.value("Emitted with in promise"))
+                    },
                 )
             }
             await { promise }

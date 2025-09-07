@@ -4,13 +4,12 @@ import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.number.JsNumber
-import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
 import net.asere.kotlin.js.dsl.type.number.js
 import net.asere.kotlin.js.dsl.type.number.syntax
 import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.js
-import net.asere.kotlin.js.dsl.type.undefined
+import net.asere.kotlin.js.dsl.type.Undefined
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 /**
@@ -77,7 +76,7 @@ interface JsHistory : JsObject {
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
     fun pushState(state: JsValue, title: JsString, url: JsString? = null): JsSyntax =
-        JsSyntax(ChainOperation(this, InvocationOperation("pushState", state, title, url ?: undefined)))
+        JsSyntax(ChainOperation(this, InvocationOperation("pushState", state, title, url ?: Undefined)))
 
     /**
      * Pushes a new state onto the browser's session history stack.
@@ -101,7 +100,7 @@ interface JsHistory : JsObject {
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
     fun replaceState(state: JsValue, title: JsString, url: JsString? = null): JsSyntax =
-        JsSyntax(ChainOperation(this, InvocationOperation("replaceState", state, title, url ?: undefined)))
+        JsSyntax(ChainOperation(this, InvocationOperation("replaceState", state, title, url ?: Undefined)))
 
     /**
      * Modifies the current entry in the browser's session history stack.
