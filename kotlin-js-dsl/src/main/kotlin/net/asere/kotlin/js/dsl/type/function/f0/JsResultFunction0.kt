@@ -5,8 +5,7 @@ import net.asere.kotlin.js.dsl.syntax.JsScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.type.JsElement
-import net.asere.kotlin.js.dsl.type.function.JsFunctionCommons
-import net.asere.kotlin.js.dsl.type.function.f0.JsResultFunction0Ref
+import net.asere.kotlin.js.dsl.type.function.JsFunction
 import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.type.reference.ReferenceId
 import net.asere.kotlin.js.dsl.type.value.JsValue
@@ -57,7 +56,7 @@ open class JsReturningFunction0<Result : JsValue>(
     name: String,
     resultTypeBuilder: (JsElement) -> Result,
     private val definition: JsSyntaxScope.() -> Result,
-) : JsFunctionCommons<JsResultFunction0Ref<Result>>(name) {
+) : JsFunction<JsResultFunction0Ref<Result>>(name) {
 
     /**
      * The [JsResultFunction0Ref] instance that refers to this function.

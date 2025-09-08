@@ -6,7 +6,7 @@ import net.asere.kotlin.js.dsl.syntax.JsScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.type.definition.JsDefinition
-import net.asere.kotlin.js.dsl.type.function.JsFunctionCommons
+import net.asere.kotlin.js.dsl.type.function.JsFunction
 import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.type.reference.ReferenceId
 import net.asere.kotlin.js.dsl.type.value.JsValue
@@ -113,7 +113,7 @@ class JsFunction5<
         Param4,
         Param5
     ) -> Unit,
-) : JsFunctionCommons<JsFunction5Ref<Param1, Param2, Param3, Param4, Param5>>(name) {
+) : JsFunction<JsFunction5Ref<Param1, Param2, Param3, Param4, Param5>>(name) {
 
     /**
      * The [JsFunction5Ref] instance that refers to this function.

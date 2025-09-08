@@ -1,7 +1,10 @@
-package net.asere.kotlin.js.dsl.syntax
+package net.asere.kotlin.js.dsl.syntax.jsreturn
 
-import net.asere.kotlin.js.dsl.type.JsElement
+import net.asere.kotlin.js.dsl.syntax.JsScope
 import net.asere.kotlin.js.dsl.tag.JsDsl
+import net.asere.kotlin.js.dsl.type.JsElement
+
+object Return : JsReturnSyntax()
 
 /**
  * Represents a JavaScript `return` statement with a value.
@@ -25,6 +28,6 @@ fun <T : JsElement> JsScope.Return(block: () -> T): T = block().apply {
  * This internal function is used by the [Return] DSL extension function.
  *
  * @param element The [JsElement] to be returned.
- * @return A [JsSyntax] object representing the `return` statement's JavaScript string.
+ * @return A [JsReturnSyntax] object representing the `return` statement's JavaScript string.
  */
-fun jsReturn(element: JsElement) = JsSyntax("return $element")
+fun jsReturn(element: JsElement) = JsReturnSyntax(element)

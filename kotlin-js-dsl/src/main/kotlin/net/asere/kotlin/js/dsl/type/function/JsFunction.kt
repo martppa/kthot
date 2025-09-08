@@ -8,7 +8,7 @@ import net.asere.kotlin.js.dsl.type.JsCallable
 import net.asere.kotlin.js.dsl.type.obj.JsObjectRef
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
-abstract class JsFunctionCommons<FunctionRef : JsFunctionRefCommons>(
+abstract class JsFunction<FunctionRef : JsFunctionRef>(
     name: String,
 ) : JsObjectRef(name), JsCallable {
 

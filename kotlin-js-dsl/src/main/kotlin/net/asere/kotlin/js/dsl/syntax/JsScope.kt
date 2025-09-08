@@ -9,8 +9,8 @@ import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.type.bool.js
 import net.asere.kotlin.js.dsl.type.definition.JsDefinition
-import net.asere.kotlin.js.dsl.type.function.JsFunctionCommons
-import net.asere.kotlin.js.dsl.type.function.JsFunctionRefCommons
+import net.asere.kotlin.js.dsl.type.function.JsFunction
+import net.asere.kotlin.js.dsl.type.function.JsFunctionRef
 import net.asere.kotlin.js.dsl.type.function.f0.JsFunction0
 import net.asere.kotlin.js.dsl.type.function.f0.JsFunction0Ref
 import net.asere.kotlin.js.dsl.type.lambda.JsLambdaRefCommons
@@ -61,7 +61,7 @@ abstract class JsScope {
         return builder.innerObject
     }
 
-    operator fun <T : JsFunctionRefCommons> JsFunctionCommons<T>.unaryPlus(): T {
+    operator fun <T : JsFunctionRef> JsFunction<T>.unaryPlus(): T {
         val builder = buildSyntax()
         this@JsScope.append(builder.toLine())
         return builder.innerObject

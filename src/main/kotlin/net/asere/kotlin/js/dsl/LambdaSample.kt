@@ -5,12 +5,13 @@ import kotlinx.html.stream.createHTML
 import net.asere.kotlin.js.dsl.declaration.Const
 import net.asere.kotlin.js.dsl.html.jslScript
 import net.asere.kotlin.js.dsl.log.Log
-import net.asere.kotlin.js.dsl.syntax.Return
+import net.asere.kotlin.js.dsl.syntax.jsreturn.Return
 import net.asere.kotlin.js.dsl.syntax.operational.arithmetical.operation.plus
 import net.asere.kotlin.js.dsl.type.array.JsArray
 import net.asere.kotlin.js.dsl.type.array.def
 import net.asere.kotlin.js.dsl.type.array.value
-import net.asere.kotlin.js.dsl.type.function.f1.Function
+import net.asere.kotlin.js.dsl.type.function.f1.Function1
+import net.asere.kotlin.js.dsl.type.function.f1.ResultFunction1
 import net.asere.kotlin.js.dsl.type.lambda.l1.JsLambda1
 import net.asere.kotlin.js.dsl.type.lambda.l2.JsLambda2
 import net.asere.kotlin.js.dsl.type.lambda.l2.def
@@ -35,7 +36,7 @@ fun main(vararg args: String) {
             }
             Log(sum(5.js, 4.js))
 
-            val setOnClick = Function("setOnClick", JsLambda1.def<JsString>("sender")) { callback ->
+            val setOnClick = Function1("setOnClick", JsLambda1.def<JsString>("sender")) { callback ->
                 +callback("button".js)
             }
             +setOnClick(jsLambda(JsString.def("sender")) {

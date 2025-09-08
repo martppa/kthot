@@ -2,9 +2,12 @@
 
 package net.asere.kotlin.js.dsl.type.function.f1
 
+import net.asere.kotlin.js.dsl.provider.provide
+import net.asere.kotlin.js.dsl.syntax.JsEmptySyntax
 import net.asere.kotlin.js.dsl.syntax.JsScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.tag.JsDsl
+import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.type.definition.JsDefinition
 import net.asere.kotlin.js.dsl.type.function.JsFunction
 import net.asere.kotlin.js.dsl.type.reference.JsReference
@@ -27,18 +30,28 @@ import net.asere.kotlin.js.dsl.type.value.JsValue
  * @param Param1 The type of the first parameter's value.
  * @param name The name of the function. A unique name is generated if not provided.
  * @param param1 A [JsDefinition] for the first parameter, allowing its name and type to be specified.
+ * @param resultTypeBuilder The builder for the returned type. It's set by default to be provided. Specify a value if you wish a custom one
  * @param definition A lambda with receiver [JsSyntaxScope] and the first parameter [Param1] as an argument,
  * to define the JavaScript code inside the function body.
  */
 @JsDsl
-fun <Param1Ref: JsReference<Param1>, Param1 : JsValue> JsScope.Function1(
+inline fun <Param1Ref: JsReference<Param1>, reified Param1 : JsValue, reified Result : JsValue> JsScope.ResultFunction1(
     name: String = "function_${ReferenceId.nextRefInt()}",
     param1: JsDefinition<Param1Ref, Param1>,
-    definition: JsSyntaxScope.(
-        Param1
-    ) -> Unit
-) = +JsFunction1(
+    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
+    noinline definition: JsSyntaxScope.(Param1) -> Result
+) = +JsResultFunction1(
     name = name,
+    resultTypeBuilder = { syntax ->
+        val param1Builder: (JsElement, Boolean) -> Param1 = ::provide
+        val param1: Param1 = param1Builder(JsEmptySyntax, false)
+        resultTypeBuilder(
+            syntax,
+            with(JsSyntaxScope().run { definition(param1) }) {
+                this is JsReference<*> && this.isNullable
+            }
+        )
+    },
     param1 = param1,
     definition = definition
 )
@@ -53,18 +66,20 @@ fun <Param1Ref: JsReference<Param1>, Param1 : JsValue> JsScope.Function1(
  * @param param1 The [JsDefinition] for the first parameter.
  * @param definition A lambda that defines the content of the function's body, receiving the parameter as an argument.
  */
-class JsFunction1<Param1Ref: JsReference<Param1>, Param1 : JsValue>(
+class JsResultFunction1<Param1Ref: JsReference<Param1>, Param1 : JsValue, Result : JsValue>(
     name: String,
+    resultTypeBuilder: (JsElement) -> Result,
     private val param1: JsDefinition<Param1Ref, Param1>,
-    private val definition: JsSyntaxScope.(
-        Param1,
-    ) -> Unit,
-) : JsFunction<JsFunction1Ref<Param1>>(name) {
+    private val definition: JsSyntaxScope.(Param1) -> Result,
+) : JsFunction<JsResultFunction1Ref<Param1, Result>>(name) {
 
     /**
-     * The [JsFunction1Ref] instance that refers to this function.
+     * The [JsResultFunction1Ref] instance that refers to this function.
      */
-    override val functionRef: JsFunction1Ref<Param1> = JsFunction1Ref(name)
+    override val functionRef: JsResultFunction1Ref<Param1, Result> = JsResultFunction1Ref(
+        name = name,
+        resultTypeBuilder = resultTypeBuilder,
+    )
 
     /**
      * Builds the inner scope parameters for the function, applying the provided [definition] lambda

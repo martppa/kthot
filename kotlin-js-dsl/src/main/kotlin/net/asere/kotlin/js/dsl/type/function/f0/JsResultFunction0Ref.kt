@@ -1,9 +1,8 @@
 package net.asere.kotlin.js.dsl.type.function.f0
 
-import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.JsElement
-import net.asere.kotlin.js.dsl.type.function.JsFunctionRefCommons
+import net.asere.kotlin.js.dsl.type.function.JsFunctionRef
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 /**
@@ -16,7 +15,7 @@ import net.asere.kotlin.js.dsl.type.value.JsValue
 class JsResultFunction0Ref<Result : JsValue>(
     name: String,
     internal val resultTypeBuilder: (JsElement) -> Result,
-) : JsFunctionRefCommons(name) {
+) : JsFunctionRef(name) {
     /**
      * Invokes the JavaScript function without any parameters.
      *
@@ -28,7 +27,7 @@ class JsResultFunction0Ref<Result : JsValue>(
      * ```javascript
      * functionReference();
      * ```
-     * @return A [net.asere.kotlin.js.dsl.syntax.JsSyntax] object representing the JavaScript function call.
+     * @return A generic typed object representing the JavaScript function call.
      */
-    operator fun invoke() = resultTypeBuilder(JsSyntax(InvocationOperation(this)))
+    operator fun invoke() = resultTypeBuilder(InvocationOperation(this))
 }

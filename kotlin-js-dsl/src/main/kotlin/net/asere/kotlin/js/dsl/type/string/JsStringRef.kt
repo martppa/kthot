@@ -14,7 +14,7 @@ class JsStringRef internal constructor(
     override fun toString(): String = present()
 }
 
-fun JsString.Companion.ref(name: String? = null, isNullable: Boolean = false): JsStringRef =
+fun JsString.Companion.ref(name: String? = null, isNullable: Boolean = false): JsString =
     JsStringRef(name, isNullable)
 
 fun JsString.Companion.def(name: String? = null, isNullable: Boolean = false) =

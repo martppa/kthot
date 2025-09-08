@@ -1,5 +1,6 @@
 package net.asere.kotlin.js.dsl
 
+import net.asere.kotlin.js.dsl.declaration.Const
 import net.asere.kotlin.js.dsl.ksp.KotlinJsl
 import net.asere.kotlin.js.dsl.ksp.annotation.JsClass
 import net.asere.kotlin.js.dsl.ksp.annotation.JsConstructor
@@ -8,11 +9,11 @@ import net.asere.kotlin.js.dsl.ksp.annotation.JsProperty
 import net.asere.kotlin.js.dsl.ksp.js.Super
 import net.asere.kotlin.js.dsl.ksp.processor.js.JavaScriptClass
 import net.asere.kotlin.js.dsl.log.Log
-import net.asere.kotlin.js.dsl.syntax.Return
+import net.asere.kotlin.js.dsl.syntax.jsreturn.Return
 import net.asere.kotlin.js.dsl.syntax.js
-import net.asere.kotlin.js.dsl.type.function.f0.Async
 import net.asere.kotlin.js.dsl.type.function.f0.AsyncResult
 import net.asere.kotlin.js.dsl.type.function.f0.ResultFunction0
+import net.asere.kotlin.js.dsl.type.isNullable
 import net.asere.kotlin.js.dsl.type.lambda.l1.jsLambda
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.js
@@ -47,14 +48,11 @@ data class Test @JsConstructor constructor(
 fun main() {
     KotlinJsl.initialize()
     val syntax = js {
-        val function = AsyncResult {
-            ResultFunction0("getAsyncText") {
-                Return { JsString.value("Returned by a JavaScript function!") }
-            }
+        val getAsyncText = ResultFunction0("getAsyncText") {
+            val value: JsString = Const { JsString.def("value", isNullable = true) } assign JsString.value("Returned from Js!")
+            Return { value }
         }
-        +function().then(jsLambda(JsString.def("value")) {
-            Log(it)
-        })
+        +getAsyncText().charAt(0.js)
     }
     println(syntax)
 

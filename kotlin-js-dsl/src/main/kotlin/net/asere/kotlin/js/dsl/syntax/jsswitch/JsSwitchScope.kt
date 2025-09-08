@@ -1,4 +1,4 @@
-package net.asere.kotlin.js.dsl.syntax.jswitch
+package net.asere.kotlin.js.dsl.syntax.jsswitch
 
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 

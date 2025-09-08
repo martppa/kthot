@@ -1,7 +1,7 @@
 package net.asere.kotlin.js.dsl.type.function.f1
 
-import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
+import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.type.function.JsFunctionRef
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
@@ -13,8 +13,9 @@ import net.asere.kotlin.js.dsl.type.value.JsValue
  * @param Param1 The type of the first parameter that the JavaScript function expects.
  * @property name The name of the JavaScript function. If `null`, it implies an anonymous function or a reference passed by other means.
  */
-class JsFunction1Ref<Param1 : JsValue>(
-    name: String? = null,
+class JsResultFunction1Ref<Param1 : JsValue, Result : JsValue>(
+    name: String,
+    internal val resultTypeBuilder: (JsElement) -> Result,
 ) : JsFunctionRef(name) {
     /**
      * Invokes the JavaScript function with the provided parameter.
@@ -28,7 +29,7 @@ class JsFunction1Ref<Param1 : JsValue>(
      * functionReference(param);
      * ```
      * @param param The [Param1] value to pass as the first argument to the function.
-     * @return A [JsSyntax] object representing the JavaScript function call.
+     * @return A generic typed object representing the JavaScript function call.
      */
-    operator fun invoke(param: Param1) = JsSyntax(InvocationOperation(this, param))
+    operator fun invoke(param: Param1) = resultTypeBuilder(InvocationOperation(this, param))
 }

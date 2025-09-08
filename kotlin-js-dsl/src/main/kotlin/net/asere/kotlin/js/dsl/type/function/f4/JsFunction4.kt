@@ -99,7 +99,7 @@ class JsFunction4<
         Param3,
         Param4
     ) -> Unit,
-) : net.asere.kotlin.js.dsl.type.function.JsFunctionCommons<JsFunction4Ref<Param1, Param2, Param3, Param4>>(name) {
+) : net.asere.kotlin.js.dsl.type.function.JsFunction<JsFunction4Ref<Param1, Param2, Param3, Param4>>(name) {
 
     /**
      * The [JsFunction4Ref] instance that refers to this function.

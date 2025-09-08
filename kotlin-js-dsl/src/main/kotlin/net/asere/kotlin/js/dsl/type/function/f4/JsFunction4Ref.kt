@@ -2,7 +2,7 @@ package net.asere.kotlin.js.dsl.type.function.f4
 
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
-import net.asere.kotlin.js.dsl.type.function.JsFunctionRefCommons
+import net.asere.kotlin.js.dsl.type.function.JsFunctionRef
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 /**
@@ -18,7 +18,7 @@ import net.asere.kotlin.js.dsl.type.value.JsValue
  */
 class JsFunction4Ref<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue>(
     name: String? = null,
-) : JsFunctionRefCommons(name) {
+) : JsFunctionRef(name) {
     /**
      * Invokes the JavaScript function with the provided parameters.
      *

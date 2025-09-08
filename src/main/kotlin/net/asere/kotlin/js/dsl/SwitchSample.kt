@@ -3,12 +3,10 @@ package net.asere.kotlin.js.dsl
 import net.asere.kotlin.js.dsl.declaration.Const
 import net.asere.kotlin.js.dsl.log.Log
 import net.asere.kotlin.js.dsl.syntax.js
-import net.asere.kotlin.js.dsl.syntax.jswitch.Case
-import net.asere.kotlin.js.dsl.syntax.jswitch.Switch
+import net.asere.kotlin.js.dsl.syntax.jsswitch.Case
+import net.asere.kotlin.js.dsl.syntax.jsswitch.Switch
 import net.asere.kotlin.js.dsl.syntax.loop.Break
-import net.asere.kotlin.js.dsl.type.array.def
 import net.asere.kotlin.js.dsl.type.number.JsNumber
-import net.asere.kotlin.js.dsl.type.bool.js
 import net.asere.kotlin.js.dsl.type.number.def
 import net.asere.kotlin.js.dsl.type.number.js
 

@@ -2,7 +2,7 @@ package net.asere.kotlin.js.dsl.type.function.f0
 
 import net.asere.kotlin.js.dsl.JsNothing
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
-import net.asere.kotlin.js.dsl.type.function.JsFunctionRefCommons
+import net.asere.kotlin.js.dsl.type.function.JsFunctionRef
 import net.asere.kotlin.js.dsl.type.promise.JsPromise
 import net.asere.kotlin.js.dsl.type.promise.syntax
 
@@ -15,19 +15,15 @@ import net.asere.kotlin.js.dsl.type.promise.syntax
  */
 class JsAsyncFunction0Ref(
     name: String? = null,
-) : JsFunctionRefCommons(name) {
+) : JsFunctionRef(name) {
     /**
      * Invokes the JavaScript function without any parameters.
      *
      * In JavaScript, this corresponds to:
      * ```javascript
-     * functionName();
+     * async functionName();
      * ```
-     * or for anonymous functions:
-     * ```javascript
-     * functionReference();
-     * ```
-     * @return A [JsSyntax] object representing the JavaScript function call.
+     * @return A [JsPromise] object representing the JavaScript function call.
      */
-    operator fun invoke(): JsPromise<JsNothing> = JsPromise.Companion.syntax(InvocationOperation(this), isNullable = false)
+    operator fun invoke(): JsPromise<JsNothing> = JsPromise.syntax(InvocationOperation(this), isNullable = false)
 }

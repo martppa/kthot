@@ -5,7 +5,7 @@ package net.asere.kotlin.js.dsl.type.function.f0
 import net.asere.kotlin.js.dsl.syntax.JsScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.tag.JsDsl
-import net.asere.kotlin.js.dsl.type.function.JsFunctionCommons
+import net.asere.kotlin.js.dsl.type.function.JsFunction
 import net.asere.kotlin.js.dsl.type.reference.ReferenceId
 
 /**
@@ -42,7 +42,7 @@ fun JsScope.Function0(
 class JsFunction0(
     name: String,
     private val definition: JsSyntaxScope.() -> Unit,
-) : JsFunctionCommons<JsFunction0Ref>(name) {
+) : JsFunction<JsFunction0Ref>(name) {
 
     /**
      * The [JsFunction0Ref] instance that refers to this function.

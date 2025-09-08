@@ -2,28 +2,24 @@ package net.asere.kotlin.js.dsl.type.function.f0
 
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
-import net.asere.kotlin.js.dsl.type.function.JsFunctionRefCommons
+import net.asere.kotlin.js.dsl.type.function.JsFunctionRef
 
 /**
  * Represents a reference to a JavaScript function that takes no parameters.
  * This class allows you to create a Kotlin object that represents an existing JavaScript function
  * and then invoke it without arguments, generating the corresponding JavaScript call syntax.
  *
- * @property name The name of the JavaScript function. If `null`, it implies an anonymous function or a reference passed by other means.
+ * @property name The name of the JavaScript function. If `null`, a sequenced name will be generated.
  */
 class JsFunction0Ref(
     name: String? = null,
-) : JsFunctionRefCommons(name) {
+) : JsFunctionRef(name) {
     /**
      * Invokes the JavaScript function without any parameters.
      *
      * In JavaScript, this corresponds to:
      * ```javascript
      * functionName();
-     * ```
-     * or for anonymous functions:
-     * ```javascript
-     * functionReference();
      * ```
      * @return A [JsSyntax] object representing the JavaScript function call.
      */
