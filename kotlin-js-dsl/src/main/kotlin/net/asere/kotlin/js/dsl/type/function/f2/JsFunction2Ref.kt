@@ -32,5 +32,5 @@ class JsFunction2Ref<Param1 : JsValue, Param2 : JsValue>(
      * @param param2 The [Param2] value to pass as the second argument to the function.
      * @return A [JsSyntax] object representing the JavaScript function call.
      */
-    operator fun invoke(param1: Param1, param2: Param2) = JsSyntax(InvocationOperation(this, param1, param2))
+    operator fun invoke(param1: Param1, param2: Param2) = InvocationOperation(this, param1, param2)
 }
