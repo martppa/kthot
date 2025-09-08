@@ -1,5 +1,6 @@
 package net.asere.kotlin.js.dsl.type.function.f1
 
+import net.asere.kotlin.js.dsl.JsNothing
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.function.JsFunctionRef
@@ -29,7 +30,7 @@ class JsAsyncFunction1Ref<Param1 : JsValue>(
      * @param param The [Param1] value to pass as the first argument to the function.
      * @return A [JsSyntax] object representing the JavaScript function call.
      */
-    operator fun invoke(param: Param1) = JsPromise.syntax<Param1>(
+    operator fun invoke(param: Param1) = JsPromise.syntax<JsNothing>(
         value = InvocationOperation(this), isNullable = false
     )
 }

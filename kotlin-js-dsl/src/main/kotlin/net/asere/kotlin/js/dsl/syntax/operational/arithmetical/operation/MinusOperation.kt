@@ -14,12 +14,12 @@ class MinusOperation(
     override val operator: ArithmeticalOperator = Minus
 }
 
-operator fun Operable.minus(rightHand: Operable): PlusOperation = PlusOperation(
+operator fun Operable.minus(rightHand: Operable): MinusOperation = MinusOperation(
     leftHand = this,
     rightHand = rightHand.groupIfComparison()
 )
 
-operator fun Operation.minus(rightHand: Operable): PlusOperation = PlusOperation(
+operator fun Operation.minus(rightHand: Operable): MinusOperation = MinusOperation(
     leftHand = this.group(),
     rightHand = rightHand.groupIfComparison()
 )

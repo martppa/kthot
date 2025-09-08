@@ -6,7 +6,7 @@ import net.asere.kotlin.js.dsl.type.function.JsFunctionRef
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 /**
- * Represents a reference to a JavaScript function that takes no parameters.
+ * Represents a reference to a JavaScript function that takes no parameters and returns a result.
  * This class allows you to create a Kotlin object that represents an existing JavaScript function
  * and then invoke it without arguments, generating the corresponding JavaScript call syntax.
  *

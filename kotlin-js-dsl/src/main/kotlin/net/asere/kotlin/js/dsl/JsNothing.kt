@@ -1,8 +1,11 @@
 package net.asere.kotlin.js.dsl
 
+import net.asere.kotlin.js.dsl.type.JsElement
+import net.asere.kotlin.js.dsl.type.Undefined
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
-class JsNothing internal constructor() : JsValue {
-
-    override fun present(): String = throw IllegalStateException("You can't print Nothing!")
+interface JsNothing : JsValue {
+    companion object
 }
+
+fun JsNothing.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsNothing = Undefined

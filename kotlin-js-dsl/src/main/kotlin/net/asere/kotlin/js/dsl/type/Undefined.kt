@@ -1,5 +1,6 @@
 package net.asere.kotlin.js.dsl.type
 
+import net.asere.kotlin.js.dsl.JsNothing
 import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.type.obj.JsObjectSyntax
 
@@ -11,4 +12,4 @@ import net.asere.kotlin.js.dsl.type.obj.JsObjectSyntax
  * or to formal arguments for which there are no actual arguments.
  */
 @JsDsl
-object Undefined : JsObjectSyntax(value = "undefined", isNullable = false)
+object Undefined : JsObjectSyntax(value = "undefined", isNullable = false), JsNothing

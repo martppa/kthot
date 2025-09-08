@@ -11,7 +11,7 @@ import net.asere.kotlin.js.dsl.type.number.JsNumber
 class PlusOperation(
     override val leftHand: Operable,
     override val rightHand: Operable,
-) : ArithmeticalOperation(), JsNumber {
+) : ArithmeticalOperation(), JsNumber { // TODO: Create a concat operation
     override val operator: ArithmeticalOperator = Plus
 }
 

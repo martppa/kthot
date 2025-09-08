@@ -1,6 +1,7 @@
 package net.asere.kotlin.js.dsl.type.string
 
 import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation
+import net.asere.kotlin.js.dsl.syntax.operational.arithmetical.operation.PlusOperation
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.array.JsArray
 import net.asere.kotlin.js.dsl.type.array.syntax
@@ -310,6 +311,8 @@ interface JsString : JsValue {
      * @return A [JsString] object representing the new string with whitespace removed from the beginning.
      */
     fun trimStart(): JsString = JsString.syntax(ChainOperation(this, InvocationOperation("trimStart")))
+
+    operator fun plus(right: JsString): JsString = JsString.syntax(PlusOperation(this, right))
 }
 
 /**

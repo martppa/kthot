@@ -33,7 +33,7 @@ import net.asere.kotlin.js.dsl.type.value.JsValue
  * to define the JavaScript code inside the function body.
  */
 @JsDsl
-fun <Param1Ref: JsReference<Param1>, Param1 : JsValue, Param2Ref: JsReference<Param2>, Param2 : JsValue> JsScope.Function(
+fun <Param1Ref: JsReference<Param1>, Param1 : JsValue, Param2Ref: JsReference<Param2>, Param2 : JsValue> JsScope.Function2(
     name: String = "function_${ReferenceId.nextRefInt()}",
     param1: JsDefinition<Param1Ref, Param1>,
     param2: JsDefinition<Param2Ref, Param2>,

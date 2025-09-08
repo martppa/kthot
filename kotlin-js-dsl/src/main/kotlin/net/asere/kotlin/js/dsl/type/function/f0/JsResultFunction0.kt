@@ -11,7 +11,7 @@ import net.asere.kotlin.js.dsl.type.reference.ReferenceId
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 /**
- * Defines a JavaScript function with no parameters.
+ * Defines a JavaScript function with no parameters and returns a result.
  * This is a DSL extension function for [JsScope], allowing you to declare and define
  * a new JavaScript function.
  *

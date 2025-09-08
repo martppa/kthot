@@ -19,6 +19,7 @@ open class KotlinJslCore : JsDslLib {
         register(builder = JsBoolean::syntax)
         register(builder = JsError::syntax)
         register(builder = JsObject::syntax)
+        register(builder = JsNothing::syntax)
     }
 
     companion object {

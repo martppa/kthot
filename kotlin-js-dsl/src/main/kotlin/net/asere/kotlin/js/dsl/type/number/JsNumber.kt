@@ -81,6 +81,8 @@ interface JsNumber : JsValue, ArithmeticalComparable {
      */
     fun valueOf(): JsNumber = JsNumber.syntax(ChainOperation(this, InvocationOperation("valueOf")))
 
+    operator fun plus(rightHand: JsNumber): JsNumber = JsNumber.syntax()
+
     companion object {
         /**
          * Determines whether the passed value is a finite number.
