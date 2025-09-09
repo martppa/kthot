@@ -15,9 +15,9 @@ class InvocationOperation(
 ) : ReflexiveOperation() {
 
     constructor(leftSideElement: String, vararg args: JsValue)
-            : this(JsObject.Companion.syntax(leftSideElement), *args)
+            : this(JsObject.syntax(leftSideElement), *args)
 
-    override val leftSideElement: JsValue = JsObject.Companion.syntax(operable)
+    override val leftSideElement: JsValue = JsObject.syntax(operable)
     override val rightSideElement: Operator = if (leftSideElement.isNullable())
         OptionalInvocation(*args) else Invocation(*args)
 }

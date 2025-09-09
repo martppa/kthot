@@ -18,7 +18,7 @@ class JsLambda1Value<Param1Ref: JsReference<Param1>, Param1 : JsValue> internal 
         invocationParameters = listOf(param.reference)
     )
 
-    override operator fun invoke(param: Param1) = JsSyntax("($this)($param)")
+    override operator fun invoke(param: Param1) = TODO()
 
     companion object
 }

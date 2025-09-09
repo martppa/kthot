@@ -19,7 +19,7 @@ interface JsLambda : JsValue {
      * ```
      * @return A [JsSyntax] object representing the JavaScript function call.
      */
-    operator fun invoke() = JsSyntax(InvocationOperation(this))
+    operator fun invoke() = InvocationOperation(this)
 
     companion object
 }

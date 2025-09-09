@@ -216,7 +216,7 @@ fun <Param1Ref: JsReference<Param1>, Param1 : JsValue, Param2Ref: JsReference<Pa
  * to define the JavaScript code inside the function body.
  */
 @JsDsl
-inline fun <Param1Ref: JsReference<Param1>, reified Param1 : JsValue, Param2Ref: JsReference<Param2>, reified Param2 : JsValue, reified Result : JsValue> JsScope.ResultFunction2(
+inline fun <Param1Ref: JsReference<Param1>, reified Param1 : JsValue, Param2Ref: JsReference<Param2>, reified Param2 : JsValue, reified Result : JsValue> JsScope.ResultFunction(
     name: String = "function_${ReferenceId.nextRefInt()}",
     param1: JsDefinition<Param1Ref, Param1>,
     param2: JsDefinition<Param2Ref, Param2>,

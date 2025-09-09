@@ -3,9 +3,12 @@ package net.asere.kotlin.js.dsl.type.lambda.l2
 import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
+import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.definition.JsDefinition
 import net.asere.kotlin.js.dsl.type.value.JsValue
 import net.asere.kotlin.js.dsl.type.lambda.JsLambdaValueCommons
+import net.asere.kotlin.js.dsl.type.obj.JsObject
+import net.asere.kotlin.js.dsl.type.obj.syntax
 
 class JsLambda2Value<
         Param1Ref: JsReference<Param1>, Param1 : JsValue,
@@ -21,7 +24,9 @@ class JsLambda2Value<
         invocationParameters = listOf(param1.reference, param2.reference)
     )
 
-    override operator fun invoke(param1: Param1, param2: Param2) = JsSyntax("($this)($param1, $param2)")
+    override operator fun invoke(param1: Param1, param2: Param2) = InvocationOperation(
+        operable = JsObject.syntax("($this)"), param1, param2
+    )
 
     companion object
 }

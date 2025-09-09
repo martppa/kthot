@@ -37,7 +37,7 @@ interface JsLambda5<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4
         param3: Param3,
         param4: Param4,
         param5: Param5,
-    ) = JsSyntax(InvocationOperation(this, param1, param2, param3, param4, param5))
+    ) = InvocationOperation(this, param1, param2, param3, param4, param5)
 
     companion object
 }

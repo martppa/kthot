@@ -22,7 +22,7 @@ interface JsLambda1<Param1 : JsValue> : JsValue {
      * @param param The [Param1] value to pass as the single argument to the lambda.
      * @return A [JsSyntax] object representing the JavaScript function call.
      */
-    operator fun invoke(param: Param1) = JsSyntax(InvocationOperation(this, param))
+    operator fun invoke(param: Param1) = InvocationOperation(this, param)
 
     companion object
 }
