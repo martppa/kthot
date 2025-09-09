@@ -1,48 +1,9 @@
 package net.asere.kotlin.js.dsl.type.function.f0
 
-import net.asere.kotlin.js.dsl.provider.provide
-import net.asere.kotlin.js.dsl.syntax.JsScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
-import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.type.function.JsFunction
-import net.asere.kotlin.js.dsl.type.reference.JsReference
-import net.asere.kotlin.js.dsl.type.reference.ReferenceId
 import net.asere.kotlin.js.dsl.type.value.JsValue
-
-/**
- * Defines a JavaScript function with no parameters and returns a result.
- * This is a DSL extension function for [JsScope], allowing you to declare and define
- * a new JavaScript function.
- *
- * In JavaScript, this corresponds to:
- * ```javascript
- * function functionName() {
- * // ... function body ...
- * }
- * ```
- * @receiver The [JsScope] where the function is being defined.
- * @param name The name of the function. A unique name is generated if not provided.
- * @param resultTypeBuilder The builder for the returned type. It's set by default to be provided. Specify a value if you wish a custom one
- * @param definition A lambda with receiver [JsSyntaxScope] to define the JavaScript code inside the function body.
- */
-@JsDsl
-inline fun <reified Result : JsValue> JsScope.ResultFunction0(
-    name: String = "function_${ReferenceId.nextRefInt()}",
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
-    noinline definition: JsSyntaxScope.() -> Result
-) = +JsReturningFunction0(
-    name = name,
-    resultTypeBuilder = { syntax ->
-        resultTypeBuilder(
-            syntax,
-            with(JsSyntaxScope().run { definition() }) {
-                this is JsReference<*> && this.isNullable
-            }
-        )
-    },
-    definition = definition
-)
 
 /**
  * Represents a JavaScript function that takes no parameters.

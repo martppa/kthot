@@ -2,35 +2,8 @@
 
 package net.asere.kotlin.js.dsl.type.function.f0
 
-import net.asere.kotlin.js.dsl.syntax.JsScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
-import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.type.function.JsFunction
-import net.asere.kotlin.js.dsl.type.reference.ReferenceId
-
-/**
- * Defines a JavaScript function with no parameters.
- * This is a DSL extension function for [JsScope], allowing you to declare and define
- * a new JavaScript function.
- *
- * In JavaScript, this corresponds to:
- * ```javascript
- * function functionName() {
- * // ... function body ...
- * }
- * ```
- * @receiver The [JsScope] where the function is being defined.
- * @param name The name of the function. A unique name is generated if not provided.
- * @param definition A lambda with receiver [JsSyntaxScope] to define the JavaScript code inside the function body.
- */
-@JsDsl
-fun JsScope.Function0(
-    name: String = "function_${ReferenceId.nextRefInt()}",
-    definition: JsSyntaxScope.() -> Unit
-) = +JsFunction0(
-    name = name,
-    definition = definition
-)
 
 /**
  * Represents a JavaScript function that takes no parameters.

@@ -1,5 +1,6 @@
 package net.asere.kotlin.js.dsl.type.function
 
+import net.asere.kotlin.js.dsl.annotation.InternalApi
 import net.asere.kotlin.js.dsl.extension.unaryPlus
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxBuilder
@@ -8,6 +9,7 @@ import net.asere.kotlin.js.dsl.type.JsCallable
 import net.asere.kotlin.js.dsl.type.obj.JsObjectRef
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
+@OptIn(InternalApi::class)
 abstract class JsFunction<FunctionRef : JsFunctionRef>(
     name: String,
 ) : JsObjectRef(name), JsCallable {
