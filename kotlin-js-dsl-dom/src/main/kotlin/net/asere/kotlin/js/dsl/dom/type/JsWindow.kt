@@ -28,10 +28,9 @@ import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
 import net.asere.kotlin.js.dsl.type.bool.syntax
-import net.asere.kotlin.js.dsl.type.lambda.l0.JsLambda
+import net.asere.kotlin.js.dsl.type.lambda.l0.JsLambda0
 import net.asere.kotlin.js.dsl.type.lambda.l1.JsLambda1
 import net.asere.kotlin.js.dsl.type.number.JsNumber
-import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
 import net.asere.kotlin.js.dsl.type.number.js
 import net.asere.kotlin.js.dsl.type.number.syntax
 import net.asere.kotlin.js.dsl.type.obj.JsObjectRef
@@ -107,22 +106,22 @@ object Window : JsObjectRef("window") {
      * Sets a timer which executes a function or specified piece of code once after the timer expires.
      *
      * In JavaScript, this corresponds to `window.setTimeout(handler, delay)`.
-     * @param handler A [JsLambda] object representing the function to be executed.
+     * @param handler A [JsLambda0] object representing the function to be executed.
      * @param delay The time, in milliseconds, the timer should wait before the specified function is executed, as a [net.asere.kotlin.js.dsl.type.number.JsNumber] object.
      * @return A [net.asere.kotlin.js.dsl.type.number.JsNumber] object representing the ID of the timer. This ID can be used with [clearTimeout].
      */
-    fun setTimeout(handler: JsLambda, delay: JsNumber): JsNumber =
+    fun setTimeout(handler: JsLambda0, delay: JsNumber): JsNumber =
         JsNumber.syntax(ChainOperation(this, "setTimeout($handler, $delay)"))
 
     /**
      * Sets a timer which executes a function or specified piece of code once after the timer expires.
      * This is a convenience overload for [setTimeout] that accepts a Kotlin [Int] for delay.
      *
-     * @param handler A [JsLambda] object representing the function to be executed.
+     * @param handler A [JsLambda0] object representing the function to be executed.
      * @param delay The time, in milliseconds, as a Kotlin [Int].
      * @return A [JsNumber] object representing the ID of the timer.
      */
-    fun setTimeout(handler: JsLambda, delay: Int): JsNumber = setTimeout(handler, delay.js)
+    fun setTimeout(handler: JsLambda0, delay: Int): JsNumber = setTimeout(handler, delay.js)
 
     /**
      * Clears a timer set with [setTimeout].
@@ -146,22 +145,22 @@ object Window : JsObjectRef("window") {
      * Repeatedly calls a function or executes a code snippet, with a fixed time delay between each call.
      *
      * In JavaScript, this corresponds to `window.setInterval(handler, delay)`.
-     * @param handler A [JsLambda] object representing the function to be executed.
+     * @param handler A [JsLambda0] object representing the function to be executed.
      * @param delay The time, in milliseconds, the timer should wait between executions, as a [JsNumber] object.
      * @return A [JsNumber] object representing the ID of the interval. This ID can be used with [clearInterval].
      */
-    fun setInterval(handler: JsLambda, delay: JsNumber): JsNumber =
+    fun setInterval(handler: JsLambda0, delay: JsNumber): JsNumber =
         JsNumber.syntax(ChainOperation(this, "setInterval($handler, $delay)"))
 
     /**
      * Repeatedly calls a function or executes a code snippet.
      * This is a convenience overload for [setInterval] that accepts a Kotlin [Int] for delay.
      *
-     * @param handler A [JsLambda] object representing the function to be executed.
+     * @param handler A [JsLambda0] object representing the function to be executed.
      * @param delay The time, in milliseconds, as a Kotlin [Int].
      * @return A [JsNumber] object representing the ID of the interval.
      */
-    fun setInterval(handler: JsLambda, delay: Int): JsNumber = setInterval(handler, delay.js)
+    fun setInterval(handler: JsLambda0, delay: Int): JsNumber = setInterval(handler, delay.js)
 
     /**
      * Clears an interval set with [setInterval].

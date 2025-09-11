@@ -8,7 +8,7 @@ import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.type.definition.JsDefinition
 import net.asere.kotlin.js.dsl.type.function.f0.JsFunction0
-import net.asere.kotlin.js.dsl.type.function.f0.JsReturningFunction0
+import net.asere.kotlin.js.dsl.type.function.f0.JsResultFunction0
 import net.asere.kotlin.js.dsl.type.function.f1.JsFunction1
 import net.asere.kotlin.js.dsl.type.function.f1.JsResultFunction1
 import net.asere.kotlin.js.dsl.type.function.f2.JsFunction2
@@ -68,7 +68,7 @@ inline fun <reified Result : JsValue> JsScope.ResultFunction(
     name: String = "function_${ReferenceId.nextRefInt()}",
     crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
     noinline definition: JsSyntaxScope.() -> Result
-) = +JsReturningFunction0(
+) = +JsResultFunction0(
     name = name,
     resultTypeBuilder = { syntax ->
         resultTypeBuilder(

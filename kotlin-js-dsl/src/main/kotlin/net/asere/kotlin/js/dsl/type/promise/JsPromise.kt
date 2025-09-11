@@ -5,7 +5,7 @@ import net.asere.kotlin.js.dsl.syntax.instantiation.Instantiable
 import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.obj.JsObject
-import net.asere.kotlin.js.dsl.type.lambda.l0.JsLambda
+import net.asere.kotlin.js.dsl.type.lambda.l0.JsLambda0
 import net.asere.kotlin.js.dsl.type.lambda.l1.JsLambda1
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
@@ -62,10 +62,10 @@ interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
      * The callback function takes no arguments.
      *
      * In JavaScript, this corresponds to `promise.finally(onFinally)`.
-     * @param onFinally A [JsLambda] that is called when the Promise is settled.
+     * @param onFinally A [JsLambda0] that is called when the Promise is settled.
      * @return A new [JsPromise] that resolves with the same value or rejection reason as the original Promise.
      */
-    fun `finally`(onFinally: JsLambda): JsPromise<JsValue> =
+    fun `finally`(onFinally: JsLambda0): JsPromise<JsValue> =
         JsPromise.syntax(ChainOperation(this, InvocationOperation("finally", onFinally)))
 
     companion object

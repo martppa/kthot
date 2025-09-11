@@ -1,6 +1,5 @@
 package net.asere.kotlin.js.dsl.type.lambda.l0
 
-import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
@@ -9,17 +8,9 @@ import net.asere.kotlin.js.dsl.type.value.JsValue
  * This interface can be implemented by classes that need to act as a callable
  * JavaScript function without explicit parameters.
  */
-interface JsLambda : JsValue {
-    /**
-     * Invokes the JavaScript lambda without any parameters.
-     *
-     * In JavaScript, this corresponds to:
-     * ```javascript
-     * lambdaReference();
-     * ```
-     * @return A [JsSyntax] object representing the JavaScript function call.
-     */
-    operator fun invoke() = InvocationOperation(this)
+interface JsLambda0 : JsValue {
+
+    operator fun invoke(): InvocationOperation = InvocationOperation(this)
 
     companion object
 }

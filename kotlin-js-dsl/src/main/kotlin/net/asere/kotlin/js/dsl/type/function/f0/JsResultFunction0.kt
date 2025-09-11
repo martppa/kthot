@@ -13,7 +13,7 @@ import net.asere.kotlin.js.dsl.type.value.JsValue
  * @param resultTypeBuilder The builder for the returned type. Use the [ResultFunction0] builder if you don't know what to provide here]
  * @param definition A lambda that defines the content of the function's body.
  */
-open class JsReturningFunction0<Result : JsValue>(
+open class JsResultFunction0<Result : JsValue>(
     name: String,
     resultTypeBuilder: (JsElement) -> Result,
     private val definition: JsSyntaxScope.() -> Result,
