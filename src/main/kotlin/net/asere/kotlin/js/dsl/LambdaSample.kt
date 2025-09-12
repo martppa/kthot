@@ -10,12 +10,11 @@ import net.asere.kotlin.js.dsl.type.array.JsArray
 import net.asere.kotlin.js.dsl.type.array.def
 import net.asere.kotlin.js.dsl.type.array.value
 import net.asere.kotlin.js.dsl.type.function.Function
+import net.asere.kotlin.js.dsl.type.lambda.jsLambda
 import net.asere.kotlin.js.dsl.type.lambda.l1.JsLambda1
 import net.asere.kotlin.js.dsl.type.lambda.l1.def
-import net.asere.kotlin.js.dsl.type.lambda.l1.jsLambda
 import net.asere.kotlin.js.dsl.type.lambda.l2.JsLambda2
 import net.asere.kotlin.js.dsl.type.lambda.l2.def
-import net.asere.kotlin.js.dsl.type.lambda.l2.jsLambda
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.js
 import net.asere.kotlin.js.dsl.type.number.syntax

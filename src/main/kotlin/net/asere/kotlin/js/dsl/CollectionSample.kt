@@ -9,7 +9,7 @@ import net.asere.kotlin.js.dsl.syntax.js
 import net.asere.kotlin.js.dsl.type.array.JsArray
 import net.asere.kotlin.js.dsl.type.array.def
 import net.asere.kotlin.js.dsl.type.array.value
-import net.asere.kotlin.js.dsl.type.lambda.l1.jsLambda
+import net.asere.kotlin.js.dsl.type.lambda.jsLambda
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.def
 import net.asere.kotlin.js.dsl.type.number.js

@@ -2,13 +2,13 @@ package net.asere.kotlin.js.dsl.type.lambda.l1
 
 import net.asere.kotlin.js.dsl.type.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.type.reference.ReferenceId
-import net.asere.kotlin.js.dsl.type.lambda.JsLambdaRefCommons
+import net.asere.kotlin.js.dsl.type.lambda.JsLambdaRef
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 class JsLambda1Ref<Param1 : JsValue>(
     name: String,
     isNullable: Boolean = false,
-) : JsLambdaRefCommons<JsLambda1<Param1>>(name, isNullable), JsLambda1<Param1>
+) : JsLambdaRef<JsLambda1<Param1>>(name, isNullable), JsLambda1<Param1>
 
 fun <Param1 : JsValue> JsLambda1.Companion.ref(
     name: String = "lambda_${ReferenceId.nextRefInt()}",

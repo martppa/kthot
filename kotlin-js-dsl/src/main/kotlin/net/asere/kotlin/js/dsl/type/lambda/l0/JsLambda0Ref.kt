@@ -4,12 +4,12 @@ import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.Invocatio
 import net.asere.kotlin.js.dsl.type.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.type.reference.ReferenceId
 import net.asere.kotlin.js.dsl.type.lambda.l1.JsLambda1
-import net.asere.kotlin.js.dsl.type.lambda.JsLambdaRefCommons
+import net.asere.kotlin.js.dsl.type.lambda.JsLambdaRef
 
 class JsLambda0Ref(
     name: String,
     isNullable: Boolean = false
-) : JsLambdaRefCommons<JsLambda0>(name, isNullable), JsLambda0 {
+) : JsLambdaRef<JsLambda0>(name, isNullable), JsLambda0 {
 
     override operator fun invoke(): InvocationOperation = InvocationOperation(this)
 }

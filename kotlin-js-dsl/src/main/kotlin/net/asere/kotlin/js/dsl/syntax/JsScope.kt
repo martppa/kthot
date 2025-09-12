@@ -13,8 +13,8 @@ import net.asere.kotlin.js.dsl.type.function.JsFunction
 import net.asere.kotlin.js.dsl.type.function.JsFunctionRef
 import net.asere.kotlin.js.dsl.type.function.f0.JsFunction0
 import net.asere.kotlin.js.dsl.type.function.f0.JsFunction0Ref
-import net.asere.kotlin.js.dsl.type.lambda.JsLambdaRefCommons
-import net.asere.kotlin.js.dsl.type.lambda.JsLambdaValueCommons
+import net.asere.kotlin.js.dsl.type.lambda.JsLambdaRef
+import net.asere.kotlin.js.dsl.type.lambda.JsLambdaValue
 import net.asere.kotlin.js.dsl.type.number.js
 import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.type.string.js
@@ -37,7 +37,7 @@ abstract class JsScope {
         return innerObject
     }
 
-    operator fun <Reference : JsLambdaRefCommons<Reference>, Lambda : JsLambdaValueCommons> JsLambdaSyntax<Reference, Lambda>.unaryPlus(): Reference {
+    operator fun <Reference : JsLambdaRef<Reference>, Lambda : JsLambdaValue> JsLambdaSyntax<Reference, Lambda>.unaryPlus(): Reference {
         appendLine(this)
         return innerObject
     }

@@ -20,10 +20,10 @@ import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.value.get
 import net.asere.kotlin.js.dsl.type.array.value
+import net.asere.kotlin.js.dsl.type.lambda.jsLambda
 import net.asere.kotlin.js.dsl.type.number.def
 import net.asere.kotlin.js.dsl.type.number.js
 import net.asere.kotlin.js.dsl.type.obj.def
-import net.asere.kotlin.js.dsl.type.lambda.l1.jsLambda
 
 fun main(vararg args: String) {
     val result = createHTML().body {

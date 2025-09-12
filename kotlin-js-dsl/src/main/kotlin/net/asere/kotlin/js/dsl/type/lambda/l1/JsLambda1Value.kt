@@ -1,16 +1,15 @@
 package net.asere.kotlin.js.dsl.type.lambda.l1
 
-import net.asere.kotlin.js.dsl.type.reference.JsReference
-import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.type.definition.JsDefinition
-import net.asere.kotlin.js.dsl.type.lambda.JsLambdaValueCommons
+import net.asere.kotlin.js.dsl.type.lambda.JsLambdaValue
+import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 class JsLambda1Value<Param1Ref: JsReference<Param1>, Param1 : JsValue> internal constructor(
     private val param: JsDefinition<Param1Ref, Param1>,
     private val definition: JsSyntaxScope.(Param1Ref) -> Unit,
-) : JsLambdaValueCommons(), JsLambda1<Param1> {
+) : JsLambdaValue(), JsLambda1<Param1> {
     override fun buildScopeParameters() = InnerScopeParameters(
         scope = JsSyntaxScope().apply {
             definition(this, param.reference)
@@ -22,11 +21,3 @@ class JsLambda1Value<Param1Ref: JsReference<Param1>, Param1 : JsValue> internal 
 
     companion object
 }
-
-fun <Param1Ref: JsReference<Param1>, Param1 : JsValue> jsLambda(
-    param: JsDefinition<Param1Ref, Param1>,
-    definition: JsSyntaxScope.(Param1Ref) -> Unit,
-): JsLambda1<Param1> = JsLambda1Value(
-    param = param,
-    definition = definition
-)

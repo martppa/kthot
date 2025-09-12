@@ -23,10 +23,6 @@ class JsResultFunction0Ref<Result : JsValue>(
      * ```javascript
      * functionName();
      * ```
-     * or for anonymous functions:
-     * ```javascript
-     * functionReference();
-     * ```
      * @return A generic typed object representing the JavaScript function call.
      */
     operator fun invoke() = resultTypeBuilder(InvocationOperation(this))
