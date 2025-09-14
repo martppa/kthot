@@ -1,6 +1,7 @@
 package net.asere.kotlin.js.dsl.type.lambda.l0
 
 import net.asere.kotlin.js.dsl.annotation.InternalApi
+import net.asere.kotlin.js.dsl.provider.provide
 import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.syntax.JsReferenceSyntax
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
@@ -24,7 +25,7 @@ class JsResultLambda0Syntax<Result : JsValue> @InternalApi constructor(
 @OptIn(InternalApi::class)
 inline fun <reified Result : JsValue> JsResultLambda0.Companion.syntax(
     value: String,
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result,
+    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
     isNullable: Boolean = false,
     isResultNullable: Boolean = false
 ): JsResultLambda0<Result> = JsResultLambda0Syntax(
@@ -36,7 +37,7 @@ inline fun <reified Result : JsValue> JsResultLambda0.Companion.syntax(
 @OptIn(InternalApi::class)
 inline fun <reified Result : JsValue> JsResultLambda0.Companion.syntax(
     value: JsElement,
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result,
+    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
     isNullable: Boolean = false,
     isResultNullable: Boolean = false
 ): JsResultLambda0<Result> = JsResultLambda0Syntax(

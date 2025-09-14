@@ -5,8 +5,8 @@ import net.asere.kotlin.js.dsl.provider.provide
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.type.definition.JsDefinition
-import net.asere.kotlin.js.dsl.type.lambda.l0.JsLambda0
 import net.asere.kotlin.js.dsl.type.lambda.l0.JsLambda0Value
+import net.asere.kotlin.js.dsl.type.lambda.l0.JsResultLambda0
 import net.asere.kotlin.js.dsl.type.lambda.l0.JsResultLambda0Value
 import net.asere.kotlin.js.dsl.type.lambda.l1.JsLambda1
 import net.asere.kotlin.js.dsl.type.lambda.l1.JsLambda1Value
@@ -33,14 +33,14 @@ import net.asere.kotlin.js.dsl.type.value.JsValue
 
 fun jsLambda(
     definition: JsSyntaxScope.() -> Unit,
-): JsLambda0 = JsLambda0Value(
+): JsLambda0Value = JsLambda0Value(
     definition = definition
 )
 
 @OptIn(InternalApi::class)
 fun <Result : JsValue> jsResultLambda(
     definition: JsSyntaxScope.() -> Result,
-): JsLambda0 = JsResultLambda0Value(
+): JsResultLambda0<Result> = JsResultLambda0Value(
     definition = definition
 )
 

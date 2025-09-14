@@ -1,6 +1,7 @@
 package net.asere.kotlin.js.dsl.type.lambda.l5
 
 import net.asere.kotlin.js.dsl.annotation.InternalApi
+import net.asere.kotlin.js.dsl.provider.provide
 import net.asere.kotlin.js.dsl.syntax.JsReferenceSyntax
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.JsElement
@@ -25,7 +26,7 @@ class JsResultLambda5Syntax<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue
 }
 
 @OptIn(InternalApi::class)
-inline fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Param5 : JsValue, Result : JsValue> JsLambda5.Companion.syntax(
+inline fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Param5 : JsValue, Result : JsValue> JsResultLambda5.Companion.syntax(
     value: String,
     crossinline resultTypeBuilder: (JsElement, Boolean) -> Result,
     isNullable: Boolean = false,
@@ -37,9 +38,9 @@ inline fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsVal
 )
 
 @OptIn(InternalApi::class)
-inline fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Param5 : JsValue, Result : JsValue> JsLambda5.Companion.syntax(
+inline fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Param5 : JsValue, reified Result : JsValue> JsResultLambda5.Companion.syntax(
     value: JsElement,
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result,
+    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
     isNullable: Boolean = false,
     isResultNullable: Boolean = false
 ): JsResultLambda5<Param1, Param2, Param3, Param4, Param5, Result> = JsResultLambda5Syntax(

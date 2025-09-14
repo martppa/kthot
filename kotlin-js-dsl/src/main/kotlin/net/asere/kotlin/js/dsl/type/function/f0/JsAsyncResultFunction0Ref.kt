@@ -1,6 +1,5 @@
 package net.asere.kotlin.js.dsl.type.function.f0
 
-import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.type.function.JsFunctionRef
@@ -25,10 +24,6 @@ class JsAsyncResultFunction0Ref<Result : JsValue>(
      * In JavaScript, this corresponds to:
      * ```javascript
      * functionName();
-     * ```
-     * or for anonymous functions:
-     * ```javascript
-     * functionReference();
      * ```
      * @return A [JsPromise] object representing the JavaScript function call.
      */

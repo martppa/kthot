@@ -8,13 +8,13 @@ import net.asere.kotlin.js.dsl.type.value.JsValue
 
 class JsResultLambda0Value<Result : JsValue> @InternalApi constructor(
     private val definition: JsSyntaxScope.() -> Result,
-) : JsLambdaValue(), JsLambda0 {
+) : JsLambdaValue(), JsResultLambda0<Result> {
 
     override fun buildScopeParameters() = InnerScopeParameters(scope = JsSyntaxScope().apply {
         definition()
     })
 
-    override fun invoke(): InvocationOperation = InvocationOperation("($this)")
+    override fun invoke(): Result = TODO()
 
     companion object
 }
