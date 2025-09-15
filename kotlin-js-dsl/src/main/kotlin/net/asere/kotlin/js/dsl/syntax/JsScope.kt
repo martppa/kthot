@@ -69,9 +69,9 @@ abstract class JsScope {
 
     fun <T : JsDefinition<C, Q>, C : JsReference<Q>, Q : JsValue> T.declare(type: DeclarationType): JsDeclarationSyntax<C> {
         val syntax = when (type) {
-            DeclarationType.Const -> JsConstantDeclaration(this.reference)
-            DeclarationType.Let -> JsLetDeclaration(this.reference)
-            DeclarationType.Var -> JsVarDeclaration(this.reference)
+            DeclarationType.CONST -> JsConstantDeclaration(this.reference)
+            DeclarationType.LET -> JsLetDeclaration(this.reference)
+            DeclarationType.VAR -> JsVarDeclaration(this.reference)
         }
         return JsDeclarationSyntax(
             innerObject = this.reference,

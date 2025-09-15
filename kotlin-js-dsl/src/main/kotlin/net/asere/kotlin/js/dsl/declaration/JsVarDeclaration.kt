@@ -13,4 +13,4 @@ class JsVarDeclaration(
 
 @JsDsl
 fun <T : JsDefinition<C, Q>, C : JsReference<Q>, Q : JsValue> JsScope.Var(block: () -> T): JsDeclarationSyntax<C> =
-    block().declare(DeclarationType.Var)
+    block().declare(DeclarationType.VAR)

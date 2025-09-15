@@ -16,8 +16,8 @@ import net.asere.kotlin.js.dsl.type.string.js
 
 fun main(vararg args: String) {
     val syntax = js {
-        val result = +JsNumber.def("result").declare(DeclarationType.Const).assignValue((5.js - 3.js) * (10.js + 2.js))
-        val text = +JsString.def("text").declare(DeclarationType.Const).assignValue("The result is: ".js + result)
+        val result = +JsNumber.def("result").declare(DeclarationType.CONST).assignValue((5.js - 3.js) * (10.js + 2.js))
+        val text = +JsString.def("text").declare(DeclarationType.CONST).assignValue("The result is: ".js + result)
         +Console.log(text)
     }
     println(syntax)

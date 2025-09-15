@@ -13,4 +13,4 @@ class JsLetDeclaration(
 
 @JsDsl
 fun <T : JsDefinition<C, Q>, C : JsReference<Q>, Q : JsValue> JsScope.Let(block: () -> T): JsDeclarationSyntax<C> =
-    block().declare(DeclarationType.Let)
+    block().declare(DeclarationType.LET)
