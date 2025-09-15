@@ -1,9 +1,9 @@
 package net.asere.kotlin.js.dsl.syntax.operational.logical.comparison
 
+import net.asere.kotlin.js.dsl.syntax.group.group
+import net.asere.kotlin.js.dsl.syntax.group.groupIfGroupable
 import net.asere.kotlin.js.dsl.syntax.operational.Operable
 import net.asere.kotlin.js.dsl.syntax.operational.Operation
-import net.asere.kotlin.js.dsl.syntax.operational.group
-import net.asere.kotlin.js.dsl.syntax.operational.groupIfComparison
 import net.asere.kotlin.js.dsl.syntax.operational.logical.comparison.operator.And
 import net.asere.kotlin.js.dsl.syntax.operational.logical.operator.LogicalOperator
 
@@ -16,10 +16,10 @@ class AndComparison(
 
 infix fun Operable.and(rightHand: Operable): AndComparison = AndComparison(
     leftHand = this,
-    rightHand = rightHand.groupIfComparison()
+    rightHand = rightHand.groupIfGroupable()
 )
 
 infix fun Operation.and(rightHand: Operable): AndComparison = AndComparison(
     leftHand = this.group(),
-    rightHand = rightHand.groupIfComparison()
+    rightHand = rightHand.groupIfGroupable()
 )

@@ -1,5 +1,6 @@
 package net.asere.kotlin.js.dsl.syntax.operational
 
+import net.asere.kotlin.js.dsl.syntax.group.groupIfGroupable
 import net.asere.kotlin.js.dsl.type.JsElement
 
 abstract class ReflexiveOperation : Operation() {
@@ -9,7 +10,7 @@ abstract class ReflexiveOperation : Operation() {
 
     override val value: String get() {
         val stringBuilder = StringBuilder()
-        stringBuilder.append("$leftSideElement")
+        stringBuilder.append("${leftSideElement.groupIfGroupable()}")
         stringBuilder.append("$rightSideElement")
         return stringBuilder.toString()
     }

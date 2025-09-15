@@ -1,17 +1,19 @@
 package net.asere.kotlin.js.dsl.type.string
 
+import net.asere.kotlin.js.dsl.syntax.group.groupIfGroupable
+import net.asere.kotlin.js.dsl.syntax.operational.Operable
 import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation
-import net.asere.kotlin.js.dsl.syntax.operational.arithmetical.operation.PlusOperation
+import net.asere.kotlin.js.dsl.syntax.operational.arithmetical.operation.ConcatOperation
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
+import net.asere.kotlin.js.dsl.type.Undefined
 import net.asere.kotlin.js.dsl.type.array.JsArray
 import net.asere.kotlin.js.dsl.type.array.syntax
-import net.asere.kotlin.js.dsl.type.value.JsValue
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
 import net.asere.kotlin.js.dsl.type.bool.syntax
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
 import net.asere.kotlin.js.dsl.type.number.syntax
-import net.asere.kotlin.js.dsl.type.Undefined
+import net.asere.kotlin.js.dsl.type.value.JsValue
 
 /**
  * Represents a JavaScript string primitive value.
@@ -312,7 +314,10 @@ interface JsString : JsValue {
      */
     fun trimStart(): JsString = JsString.syntax(ChainOperation(this, InvocationOperation("trimStart")))
 
-    operator fun plus(right: JsString): JsString = JsString.syntax(PlusOperation(this, right))
+    operator fun plus(rightHand: Operable): JsString = ConcatOperation(
+        leftHand = JsString.syntax(this.groupIfGroupable()),
+        rightHand = rightHand.groupIfGroupable()
+    )
 }
 
 /**

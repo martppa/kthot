@@ -1,11 +1,11 @@
 package net.asere.kotlin.js.dsl.syntax.operational.equality.comparison
 
+import net.asere.kotlin.js.dsl.syntax.group.group
+import net.asere.kotlin.js.dsl.syntax.group.groupIfGroupable
 import net.asere.kotlin.js.dsl.syntax.operational.Operable
 import net.asere.kotlin.js.dsl.syntax.operational.Operation
 import net.asere.kotlin.js.dsl.syntax.operational.equality.operator.EqualityOperator
 import net.asere.kotlin.js.dsl.syntax.operational.equality.operator.Equals
-import net.asere.kotlin.js.dsl.syntax.operational.group
-import net.asere.kotlin.js.dsl.syntax.operational.groupIfComparison
 
 class EqualsComparison(
     override val leftHand: Operable,
@@ -16,10 +16,10 @@ class EqualsComparison(
 
 infix fun Operable.eq(rightHand: Operable): EqualsComparison = EqualsComparison(
     leftHand = this,
-    rightHand = rightHand.groupIfComparison()
+    rightHand = rightHand.groupIfGroupable()
 )
 
 infix fun Operation.eq(rightHand: Operable): EqualsComparison = EqualsComparison(
     leftHand = this.group(),
-    rightHand = rightHand.groupIfComparison()
+    rightHand = rightHand.groupIfGroupable()
 )

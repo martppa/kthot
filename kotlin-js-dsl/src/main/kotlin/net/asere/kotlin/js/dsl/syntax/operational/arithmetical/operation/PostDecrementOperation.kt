@@ -7,12 +7,10 @@ import net.asere.kotlin.js.dsl.type.number.JsNumber
 
 class PostDecrementOperation(
     number: JsNumber,
-) : ReflexiveOperation() {
+) : ReflexiveOperation(), JsNumber {
     override val leftSideElement: JsElement = number
     override val rightSideElement: JsElement = Decrement
 }
-
-val JsNumber.`--` get() = postDec()
 
 fun JsNumber.postDec(): PostDecrementOperation = PostDecrementOperation(
     number = this

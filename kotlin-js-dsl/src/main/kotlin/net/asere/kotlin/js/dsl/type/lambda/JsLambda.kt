@@ -40,14 +40,14 @@ fun jsLambda(
 @OptIn(InternalApi::class)
 fun <Result : JsValue> jsResultLambda(
     definition: JsSyntaxScope.() -> Result,
-): JsResultLambda0<Result> = JsResultLambda0Value(
+): JsResultLambda0Value<Result> = JsResultLambda0Value(
     definition = definition
 )
 
 fun <Param1Ref: JsReference<Param1>, Param1 : JsValue> jsLambda(
     param: JsDefinition<Param1Ref, Param1>,
     definition: JsSyntaxScope.(Param1Ref) -> Unit,
-): JsLambda1<Param1> = JsLambda1Value(
+): JsLambda1Value<Param1Ref, Param1> = JsLambda1Value(
     param = param,
     definition = definition
 )
@@ -57,7 +57,7 @@ inline fun <Param1Ref: JsReference<Param1>, Param1 : JsValue, reified Result : J
     param: JsDefinition<Param1Ref, Param1>,
     noinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
     noinline definition: JsSyntaxScope.(Param1Ref) -> Result,
-): JsResultLambda1<Param1, Result> = JsResultLambda1Value(
+): JsResultLambda1Value<Param1Ref, Param1, Result> = JsResultLambda1Value(
     param = param,
     resultTypeBuilder = resultTypeBuilder,
     definition = definition
@@ -67,7 +67,7 @@ fun <Param1Ref: JsReference<Param1>, Param1 : JsValue, Param2Ref: JsReference<Pa
     param1: JsDefinition<Param1Ref, Param1>,
     param2: JsDefinition<Param2Ref, Param2>,
     definition: JsSyntaxScope.(Param1Ref, Param2Ref) -> Unit,
-): JsLambda2<Param1, Param2> = JsLambda2Value(
+): JsLambda2Value<Param1Ref, Param1, Param2Ref, Param2> = JsLambda2Value(
     param1 = param1,
     param2 = param2,
     definition = definition

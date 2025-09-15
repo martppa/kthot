@@ -7,7 +7,7 @@ import net.asere.kotlin.js.dsl.type.number.JsNumber
 
 class PreDecrementOperation(
     number: JsNumber,
-) : ReflexiveOperation() {
+) : ReflexiveOperation(), JsNumber {
     override val leftSideElement: JsElement = Decrement
     override val rightSideElement: JsElement = number
 }

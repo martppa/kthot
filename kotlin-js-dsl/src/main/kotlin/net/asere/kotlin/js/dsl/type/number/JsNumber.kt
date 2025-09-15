@@ -1,15 +1,17 @@
 package net.asere.kotlin.js.dsl.type.number
 
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
-import net.asere.kotlin.js.dsl.syntax.operational.arithmetical.ArithmeticalComparable
+import net.asere.kotlin.js.dsl.syntax.group.groupIfGroupable
 import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation
+import net.asere.kotlin.js.dsl.syntax.operational.arithmetical.ArithmeticalComparable
+import net.asere.kotlin.js.dsl.syntax.operational.arithmetical.operation.*
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
-import net.asere.kotlin.js.dsl.type.value.JsValue
+import net.asere.kotlin.js.dsl.type.Undefined
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
 import net.asere.kotlin.js.dsl.type.bool.syntax
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.syntax
-import net.asere.kotlin.js.dsl.type.Undefined
+import net.asere.kotlin.js.dsl.type.value.JsValue
 
 /**
  * Represents a JavaScript number primitive value.
@@ -80,6 +82,31 @@ interface JsNumber : JsValue, ArithmeticalComparable {
      * @return A [JsNumber] object representing the JavaScript method call that returns the primitive value.
      */
     fun valueOf(): JsNumber = JsNumber.syntax(ChainOperation(this, InvocationOperation("valueOf")))
+
+    operator fun div(rightHand: JsNumber): DivOperation = DivOperation(
+        leftHand = JsNumber.syntax(this.groupIfGroupable()),
+        rightHand = JsNumber.syntax(rightHand.groupIfGroupable())
+    )
+
+    operator fun minus(rightHand: JsNumber): MinusOperation = MinusOperation(
+        leftHand = JsNumber.syntax(this.groupIfGroupable()),
+        rightHand = JsNumber.syntax(rightHand.groupIfGroupable())
+    )
+
+    operator fun times(rightHand: JsNumber): TimesOperation = TimesOperation(
+        leftHand = JsNumber.syntax(this.groupIfGroupable()),
+        rightHand = JsNumber.syntax(rightHand.groupIfGroupable())
+    )
+
+    operator fun plus(rightHand: JsNumber): PlusOperation = PlusOperation(
+        leftHand = JsNumber.syntax(this.groupIfGroupable()),
+        rightHand = JsNumber.syntax(rightHand.groupIfGroupable())
+    )
+
+    operator fun rem(rightHand: JsNumber): ModOperation = ModOperation(
+        leftHand = JsNumber.syntax(this.groupIfGroupable()),
+        rightHand = JsNumber.syntax(rightHand.groupIfGroupable())
+    )
 
     companion object {
         /**

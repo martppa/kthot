@@ -7,7 +7,7 @@ import net.asere.kotlin.js.dsl.type.number.JsNumber
 
 class PostIncrementOperation(
     number: JsNumber,
-) : ReflexiveOperation() {
+) : ReflexiveOperation(), JsNumber {
     override val leftSideElement: JsElement = number
     override val rightSideElement: JsElement = Increment
 }
