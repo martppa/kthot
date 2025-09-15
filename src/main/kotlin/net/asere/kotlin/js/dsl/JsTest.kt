@@ -9,19 +9,21 @@ import net.asere.kotlin.js.dsl.ksp.annotation.JsProperty
 import net.asere.kotlin.js.dsl.ksp.js.Super
 import net.asere.kotlin.js.dsl.ksp.processor.js.JavaScriptClass
 import net.asere.kotlin.js.dsl.log.Log
-import net.asere.kotlin.js.dsl.syntax.jsreturn.Return
+import net.asere.kotlin.js.dsl.syntax.async.Await
+import net.asere.kotlin.js.dsl.syntax.async.await
+import net.asere.kotlin.js.dsl.syntax.group
 import net.asere.kotlin.js.dsl.syntax.js
-import net.asere.kotlin.js.dsl.type.function.f0.AsyncResult
-import net.asere.kotlin.js.dsl.type.function.f0.ResultFunction0
-import net.asere.kotlin.js.dsl.type.isNullable
-import net.asere.kotlin.js.dsl.type.lambda.l1.jsLambda
+import net.asere.kotlin.js.dsl.syntax.jsreturn.Return
+import net.asere.kotlin.js.dsl.type.lambda.jsLambda
+import net.asere.kotlin.js.dsl.type.lambda.l0.Async
+import net.asere.kotlin.js.dsl.type.lambda.l0.JsResultLambda0
+import net.asere.kotlin.js.dsl.type.lambda.l0.asyncDef
 import net.asere.kotlin.js.dsl.type.number.JsNumber
-import net.asere.kotlin.js.dsl.type.number.js
+import net.asere.kotlin.js.dsl.type.number.def
 import net.asere.kotlin.js.dsl.type.number.ref
+import net.asere.kotlin.js.dsl.type.number.value
 import net.asere.kotlin.js.dsl.type.string.JsString
-import net.asere.kotlin.js.dsl.type.string.def
 import net.asere.kotlin.js.dsl.type.string.ref
-import net.asere.kotlin.js.dsl.type.string.value
 
 @JsClass
 data class Test @JsConstructor constructor(
@@ -48,11 +50,18 @@ data class Test @JsConstructor constructor(
 fun main() {
     KotlinJsl.initialize()
     val syntax = js {
-        val getAsyncText = ResultFunction0("getAsyncText") {
-            val value: JsString = Const { JsString.def("value", isNullable = true) } assign JsString.value("Returned from Js!")
-            Return { value }
+        val lambda = Const { JsResultLambda0.asyncDef<JsNumber>("lambda") } assign Async {
+            jsLambda {
+                Log("Hi")
+                Return { JsNumber.value(5) }
+            }
         }
-        +getAsyncText().charAt(0.js)
+        +lambda().then(jsLambda(JsNumber.def("value")) {
+            Log(it)
+        })
+        +group { await { lambda() } }.toExponential()
+        val result = Const { JsNumber.def("result") } assign await { lambda() }
+        Log(result)
     }
     println(syntax)
 
