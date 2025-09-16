@@ -4,6 +4,7 @@ package net.asere.kotlin.js.dsl.type.function.f2
 
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.type.definition.JsDefinition
+import net.asere.kotlin.js.dsl.type.function.JsFunction
 import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
@@ -28,7 +29,7 @@ class JsFunction2<Param1Ref: JsReference<Param1>, Param1 : JsValue, Param2Ref: J
         Param1,
         Param2,
     ) -> Unit,
-) : net.asere.kotlin.js.dsl.type.function.JsFunction<JsFunction2Ref<Param1, Param2>>(name) {
+) : JsFunction<JsFunction2Ref<Param1, Param2>>(name) {
 
     /**
      * The [JsFunction2Ref] instance that refers to this function.
