@@ -8,7 +8,6 @@ import net.asere.kotlin.js.dsl.type.error.JsError
 import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.lambda.l0.JsLambda0
 import net.asere.kotlin.js.dsl.type.lambda.l1.JsLambda1
-import net.asere.kotlin.js.dsl.type.obj.JsContainer
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 /**
@@ -20,7 +19,7 @@ import net.asere.kotlin.js.dsl.type.value.JsValue
  *
  * @param T The type of [JsValue] that the Promise will resolve to upon successful completion.
  */
-interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable, JsContainer<T> {
+interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * This version handles only the fulfillment (success) case.
