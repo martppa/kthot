@@ -6,7 +6,6 @@ import net.asere.kotlin.js.dsl.provider.provide
 import net.asere.kotlin.js.dsl.syntax.JsScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.syntax.async.JsAsyncSyntax
-import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.type.definition.JsDefinition
 import net.asere.kotlin.js.dsl.type.lambda.l0.JsLambda0Value
@@ -21,26 +20,20 @@ import net.asere.kotlin.js.dsl.type.lambda.l2.JsLambda2Value
 import net.asere.kotlin.js.dsl.type.lambda.l2.JsResultLambda2
 import net.asere.kotlin.js.dsl.type.lambda.l2.JsResultLambda2Value
 import net.asere.kotlin.js.dsl.type.lambda.l2.syntax
-import net.asere.kotlin.js.dsl.type.lambda.l3.JsLambda3
-import net.asere.kotlin.js.dsl.type.lambda.l3.JsLambda3Value
-import net.asere.kotlin.js.dsl.type.lambda.l3.JsResultLambda3
-import net.asere.kotlin.js.dsl.type.lambda.l3.JsResultLambda3Value
-import net.asere.kotlin.js.dsl.type.lambda.l3.syntax
-import net.asere.kotlin.js.dsl.type.lambda.l4.JsLambda4
-import net.asere.kotlin.js.dsl.type.lambda.l4.JsLambda4Value
-import net.asere.kotlin.js.dsl.type.lambda.l4.JsResultLambda4
-import net.asere.kotlin.js.dsl.type.lambda.l4.JsResultLambda4Value
-import net.asere.kotlin.js.dsl.type.lambda.l4.syntax
-import net.asere.kotlin.js.dsl.type.lambda.l5.JsLambda5
-import net.asere.kotlin.js.dsl.type.lambda.l5.JsLambda5Value
-import net.asere.kotlin.js.dsl.type.lambda.l5.JsResultLambda5
-import net.asere.kotlin.js.dsl.type.lambda.l5.JsResultLambda5Value
-import net.asere.kotlin.js.dsl.type.lambda.l5.syntax
+import net.asere.kotlin.js.dsl.type.lambda.l3.*
+import net.asere.kotlin.js.dsl.type.lambda.l4.*
+import net.asere.kotlin.js.dsl.type.lambda.l5.*
 import net.asere.kotlin.js.dsl.type.promise.JsPromise
 import net.asere.kotlin.js.dsl.type.promise.syntax
 import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
+/**
+ * Creates an asynchronous lambda with no parameters that returns a [JsPromise] that resolves with no value.
+ *
+ * @param definition A block containing the body of the lambda.
+ * @return A [JsResultLambda0] representing the asynchronous lambda.
+ */
 fun jsAsyncLambda(definition: JsScope.() -> Unit): JsResultLambda0<JsPromise<JsNothing>> {
     val scope = JsSyntaxScope()
     val value = scope.run {
@@ -51,6 +44,12 @@ fun jsAsyncLambda(definition: JsScope.() -> Unit): JsResultLambda0<JsPromise<JsN
     return JsResultLambda0.syntax<JsPromise<JsNothing>>(JsAsyncSyntax(value = value), isNullable = false)
 }
 
+/**
+ * Creates an asynchronous lambda with no parameters that returns a [JsPromise] containing a value of type [Result].
+ *
+ * @param definition A block containing the body of the lambda that returns a [Result].
+ * @return A [JsResultLambda0] representing the asynchronous lambda with a returning value.
+ */
 inline fun <reified Result : JsValue> jsAsyncResultLambda(
     crossinline definition: JsScope.() -> Result
 ): JsResultLambda0<JsPromise<Result>> {
@@ -69,6 +68,13 @@ inline fun <reified Result : JsValue> jsAsyncResultLambda(
     )
 }
 
+/**
+ * Creates an asynchronous lambda with one parameter that returns a [JsPromise] that resolves with no value.
+ *
+ * @param param1 A [JsDefinition] for the first parameter.
+ * @param definition A block containing the body of the lambda.
+ * @return A [JsResultLambda1] representing the asynchronous lambda.
+ */
 fun <Param1Ref : JsReference<Param1>, Param1 : JsValue> jsAsyncLambda(
     param1: JsDefinition<Param1Ref, Param1>,
     definition: JsScope.() -> Unit
@@ -82,6 +88,13 @@ fun <Param1Ref : JsReference<Param1>, Param1 : JsValue> jsAsyncLambda(
     return JsResultLambda1.syntax<Param1, JsPromise<JsNothing>>(JsAsyncSyntax(value = value), isNullable = false)
 }
 
+/**
+ * Creates an asynchronous lambda with one parameter that returns a [JsPromise] containing a value of type [Result].
+ *
+ * @param param1 A [JsDefinition] for the first parameter.
+ * @param definition A block containing the body of the lambda that receives a reference to the parameter and returns a [Result].
+ * @return A [JsResultLambda1] representing the asynchronous lambda with a returning value.
+ */
 inline fun <Param1Ref : JsReference<Param1>, Param1 : JsValue, reified Result : JsValue> jsAsyncResultLambda(
     param1: JsDefinition<Param1Ref, Param1>,
     crossinline definition: JsScope.(Param1Ref) -> Result
@@ -99,6 +112,14 @@ inline fun <Param1Ref : JsReference<Param1>, Param1 : JsValue, reified Result : 
     )
 }
 
+/**
+ * Creates an asynchronous lambda with two parameters that returns a [JsPromise] that resolves with no value.
+ *
+ * @param param1 A [JsDefinition] for the first parameter.
+ * @param param2 A [JsDefinition] for the second parameter.
+ * @param definition A block containing the body of the lambda that receives references to the parameters.
+ * @return A [JsResultLambda2] representing the asynchronous lambda.
+ */
 fun <Param1Ref : JsReference<Param1>, Param1 : JsValue, Param2Ref : JsReference<Param2>, Param2 : JsValue> jsAsyncLambda(
     param1: JsDefinition<Param1Ref, Param1>,
     param2: JsDefinition<Param2Ref, Param2>,
@@ -116,6 +137,14 @@ fun <Param1Ref : JsReference<Param1>, Param1 : JsValue, Param2Ref : JsReference<
     )
 }
 
+/**
+ * Creates an asynchronous lambda with two parameters that returns a [JsPromise] containing a value of type [Result].
+ *
+ * @param param1 A [JsDefinition] for the first parameter.
+ * @param param2 A [JsDefinition] for the second parameter.
+ * @param definition A block containing the body of the lambda that receives references to the parameters and returns a [Result].
+ * @return A [JsResultLambda2] representing the asynchronous lambda with a returning value.
+ */
 inline fun <Param1Ref : JsReference<Param1>, Param1 : JsValue, Param2Ref : JsReference<Param2>, Param2 : JsValue, reified Result : JsValue> jsAsyncResultLambda(
     param1: JsDefinition<Param1Ref, Param1>,
     param2: JsDefinition<Param2Ref, Param2>,
@@ -134,6 +163,15 @@ inline fun <Param1Ref : JsReference<Param1>, Param1 : JsValue, Param2Ref : JsRef
     )
 }
 
+/**
+ * Creates an asynchronous lambda with three parameters that returns a [JsPromise] that resolves with no value.
+ *
+ * @param param1 A [JsDefinition] for the first parameter.
+ * @param param2 A [JsDefinition] for the second parameter.
+ * @param param3 A [JsDefinition] for the third parameter.
+ * @param definition A block containing the body of the lambda that receives references to the parameters.
+ * @return A [JsResultLambda3] representing the asynchronous lambda.
+ */
 fun <
         Param1Ref : JsReference<Param1>, Param1 : JsValue,
         Param2Ref : JsReference<Param2>, Param2 : JsValue,
@@ -156,6 +194,15 @@ fun <
     )
 }
 
+/**
+ * Creates an asynchronous lambda with three parameters that returns a [JsPromise] containing a value of type [Result].
+ *
+ * @param param1 A [JsDefinition] for the first parameter.
+ * @param param2 A [JsDefinition] for the second parameter.
+ * @param param3 A [JsDefinition] for the third parameter.
+ * @param definition A block containing the body of the lambda that receives references to the parameters and returns a [Result].
+ * @return A [JsResultLambda3] representing the asynchronous lambda with a returning value.
+ */
 inline fun <
         Param1Ref : JsReference<Param1>, Param1 : JsValue,
         Param2Ref : JsReference<Param2>, Param2 : JsValue,
@@ -180,6 +227,16 @@ inline fun <
     )
 }
 
+/**
+ * Creates an asynchronous lambda with four parameters that returns a [JsPromise] that resolves with no value.
+ *
+ * @param param1 A [JsDefinition] for the first parameter.
+ * @param param2 A [JsDefinition] for the second parameter.
+ * @param param3 A [JsDefinition] for the third parameter.
+ * @param param4 A [JsDefinition] for the fourth parameter.
+ * @param definition A block containing the body of the lambda that receives references to the parameters.
+ * @return A [JsResultLambda4] representing the asynchronous lambda.
+ */
 fun <
         Param1Ref : JsReference<Param1>, Param1 : JsValue,
         Param2Ref : JsReference<Param2>, Param2 : JsValue,
@@ -204,6 +261,16 @@ fun <
     )
 }
 
+/**
+ * Creates an asynchronous lambda with four parameters that returns a [JsPromise] containing a value of type [Result].
+ *
+ * @param param1 A [JsDefinition] for the first parameter.
+ * @param param2 A [JsDefinition] for the second parameter.
+ * @param param3 A [JsDefinition] for the third parameter.
+ * @param param4 A [JsDefinition] for the fourth parameter.
+ * @param definition A block containing the body of the lambda that receives references to the parameters and returns a [Result].
+ * @return A [JsResultLambda4] representing the asynchronous lambda with a returning value.
+ */
 inline fun <
         Param1Ref : JsReference<Param1>, Param1 : JsValue,
         Param2Ref : JsReference<Param2>, Param2 : JsValue,
@@ -230,6 +297,17 @@ inline fun <
     )
 }
 
+/**
+ * Creates an asynchronous lambda with five parameters that returns a [JsPromise] that resolves with no value.
+ *
+ * @param param1 A [JsDefinition] for the first parameter.
+ * @param param2 A [JsDefinition] for the second parameter.
+ * @param param3 A [JsDefinition] for the third parameter.
+ * @param param4 A [JsDefinition] for the fourth parameter.
+ * @param param5 A [JsDefinition] for the fifth parameter.
+ * @param definition A block containing the body of the lambda that receives references to the parameters.
+ * @return A [JsResultLambda5] representing the asynchronous lambda.
+ */
 fun <
         Param1Ref : JsReference<Param1>, Param1 : JsValue,
         Param2Ref : JsReference<Param2>, Param2 : JsValue,
@@ -262,6 +340,17 @@ fun <
     )
 }
 
+/**
+ * Creates an asynchronous lambda with five parameters that returns a [JsPromise] containing a value of type [Result].
+ *
+ * @param param1 A [JsDefinition] for the first parameter.
+ * @param param2 A [JsDefinition] for the second parameter.
+ * @param param3 A [JsDefinition] for the third parameter.
+ * @param param4 A [JsDefinition] for the fourth parameter.
+ * @param param5 A [JsDefinition] for the fifth parameter.
+ * @param definition A block containing the body of the lambda that receives references to the parameters and returns a [Result].
+ * @return A [JsResultLambda5] representing the asynchronous lambda with a returning value.
+ */
 inline fun <
         Param1Ref : JsReference<Param1>, Param1 : JsValue,
         Param2Ref : JsReference<Param2>, Param2 : JsValue,
@@ -296,12 +385,22 @@ inline fun <
     )
 }
 
+/**
+ * Creates a standard lambda with no parameters.
+ * @param definition The body of the lambda.
+ * @return A [JsLambda0Value] representing the lambda.
+ */
 fun jsLambda(
     definition: JsSyntaxScope.() -> Unit,
 ): JsLambda0Value = JsLambda0Value(
     definition = definition
 )
 
+/**
+ * Creates a standard lambda with no parameters that returns a value.
+ * @param definition The body of the lambda that returns a value of type [Result].
+ * @return A [JsResultLambda0Value] representing the lambda.
+ */
 @OptIn(InternalApi::class)
 fun <Result : JsValue> jsResultLambda(
     definition: JsSyntaxScope.() -> Result,
@@ -309,6 +408,12 @@ fun <Result : JsValue> jsResultLambda(
     definition = definition
 )
 
+/**
+ * Creates a standard lambda with one parameter.
+ * @param param1 A [JsDefinition] for the first parameter.
+ * @param definition The body of the lambda that receives a reference to the parameter.
+ * @return A [JsLambda1Value] representing the lambda.
+ */
 fun <Param1Ref : JsReference<Param1>, Param1 : JsValue> jsLambda(
     param1: JsDefinition<Param1Ref, Param1>,
     definition: JsSyntaxScope.(Param1Ref) -> Unit,
@@ -317,6 +422,13 @@ fun <Param1Ref : JsReference<Param1>, Param1 : JsValue> jsLambda(
     definition = definition
 )
 
+/**
+ * Creates a standard lambda with one parameter that returns a value.
+ * @param param1 A [JsDefinition] for the first parameter.
+ * @param resultTypeBuilder A function to build the result type.
+ * @param definition The body of the lambda that receives a reference to the parameter and returns a value of type [Result].
+ * @return A [JsResultLambda1Value] representing the lambda.
+ */
 @OptIn(InternalApi::class)
 inline fun <Param1Ref : JsReference<Param1>, Param1 : JsValue, reified Result : JsValue> jsResultLambda(
     param1: JsDefinition<Param1Ref, Param1>,
@@ -328,6 +440,13 @@ inline fun <Param1Ref : JsReference<Param1>, Param1 : JsValue, reified Result : 
     definition = definition
 )
 
+/**
+ * Creates a standard lambda with two parameters.
+ * @param param1 A [JsDefinition] for the first parameter.
+ * @param param2 A [JsDefinition] for the second parameter.
+ * @param definition The body of the lambda that receives references to the parameters.
+ * @return A [JsLambda2Value] representing the lambda.
+ */
 fun <Param1Ref : JsReference<Param1>, Param1 : JsValue, Param2Ref : JsReference<Param2>, Param2 : JsValue> jsLambda(
     param1: JsDefinition<Param1Ref, Param1>,
     param2: JsDefinition<Param2Ref, Param2>,
@@ -338,6 +457,14 @@ fun <Param1Ref : JsReference<Param1>, Param1 : JsValue, Param2Ref : JsReference<
     definition = definition
 )
 
+/**
+ * Creates a standard lambda with two parameters that returns a value.
+ * @param param1 A [JsDefinition] for the first parameter.
+ * @param param2 A [JsDefinition] for the second parameter.
+ * @param resultTypeBuilder A function to build the result type.
+ * @param definition The body of the lambda that receives references to the parameters and returns a value of type [Result].
+ * @return A [JsResultLambda2] representing the lambda.
+ */
 @OptIn(InternalApi::class)
 inline fun <Param1Ref : JsReference<Param1>, Param1 : JsValue, Param2Ref : JsReference<Param2>, Param2 : JsValue, reified Result : JsValue> jsResultLambda(
     param1: JsDefinition<Param1Ref, Param1>,
@@ -351,6 +478,14 @@ inline fun <Param1Ref : JsReference<Param1>, Param1 : JsValue, Param2Ref : JsRef
     definition = definition
 )
 
+/**
+ * Creates a standard lambda with three parameters.
+ * @param param1 A [JsDefinition] for the first parameter.
+ * @param param2 A [JsDefinition] for the second parameter.
+ * @param param3 A [JsDefinition] for the third parameter.
+ * @param definition The body of the lambda that receives references to the parameters.
+ * @return A [JsLambda3] representing the lambda.
+ */
 fun <
         Param1Ref : JsReference<Param1>, Param1 : JsValue,
         Param2Ref : JsReference<Param2>, Param2 : JsValue,
@@ -366,6 +501,15 @@ fun <
     definition = definition
 )
 
+/**
+ * Creates a standard lambda with three parameters that returns a value.
+ * @param param1 A [JsDefinition] for the first parameter.
+ * @param param2 A [JsDefinition] for the second parameter.
+ * @param param3 A [JsDefinition] for the third parameter.
+ * @param resultTypeBuilder A function to build the result type.
+ * @param definition The body of the lambda that receives references to the parameters and returns a value of type [Result].
+ * @return A [JsResultLambda3] representing the lambda.
+ */
 @OptIn(InternalApi::class)
 inline fun <
         Param1Ref : JsReference<Param1>, Param1 : JsValue,
@@ -385,6 +529,15 @@ inline fun <
     definition = definition
 )
 
+/**
+ * Creates a standard lambda with four parameters.
+ * @param param1 A [JsDefinition] for the first parameter.
+ * @param param2 A [JsDefinition] for the second parameter.
+ * @param param3 A [JsDefinition] for the third parameter.
+ * @param param4 A [JsDefinition] for the fourth parameter.
+ * @param definition The body of the lambda that receives references to the parameters.
+ * @return A [JsLambda4] representing the lambda.
+ */
 fun <
         Param1Ref : JsReference<Param1>, Param1 : JsValue,
         Param2Ref : JsReference<Param2>, Param2 : JsValue,
@@ -403,6 +556,16 @@ fun <
     definition = definition
 )
 
+/**
+ * Creates a standard lambda with four parameters that returns a value.
+ * @param param1 A [JsDefinition] for the first parameter.
+ * @param param2 A [JsDefinition] for the second parameter.
+ * @param param3 A [JsDefinition] for the third parameter.
+ * @param param4 A [JsDefinition] for the fourth parameter.
+ * @param resultTypeBuilder A function to build the result type.
+ * @param definition The body of the lambda that receives references to the parameters and returns a value of type [Result].
+ * @return A [JsResultLambda4] representing the lambda.
+ */
 @OptIn(InternalApi::class)
 inline fun <
         Param1Ref : JsReference<Param1>, Param1 : JsValue,
@@ -425,6 +588,16 @@ inline fun <
     definition = definition
 )
 
+/**
+ * Creates a standard lambda with five parameters.
+ * @param param1 A [JsDefinition] for the first parameter.
+ * @param param2 A [JsDefinition] for the second parameter.
+ * @param param3 A [JsDefinition] for the third parameter.
+ * @param param4 A [JsDefinition] for the fourth parameter.
+ * @param param5 A [JsDefinition] for the fifth parameter.
+ * @param definition The body of the lambda that receives references to the parameters.
+ * @return A [JsLambda5] representing the lambda.
+ */
 fun <
         Param1Ref : JsReference<Param1>, Param1 : JsValue,
         Param2Ref : JsReference<Param2>, Param2 : JsValue,
@@ -446,6 +619,17 @@ fun <
     definition = definition
 )
 
+/**
+ * Creates a standard lambda with five parameters that returns a value.
+ * @param param1 A [JsDefinition] for the first parameter.
+ * @param param2 A [JsDefinition] for the second parameter.
+ * @param param3 A [JsDefinition] for the third parameter.
+ * @param param4 A [JsDefinition] for the fourth parameter.
+ * @param param5 A [JsDefinition] for the fifth parameter.
+ * @param resultTypeBuilder A function to build the result type.
+ * @param definition The body of the lambda that receives references to the parameters and returns a value of type [Result].
+ * @return A [JsResultLambda5] representing the lambda.
+ */
 @OptIn(InternalApi::class)
 inline fun <
         Param1Ref : JsReference<Param1>, Param1 : JsValue,

@@ -1,12 +1,34 @@
 package net.asere.kotlin.js.dsl.type.lambda.l0
 
+import net.asere.kotlin.js.dsl.JsNothing
 import net.asere.kotlin.js.dsl.provider.provide
 import net.asere.kotlin.js.dsl.type.JsElement
+import net.asere.kotlin.js.dsl.type.Undefined
 import net.asere.kotlin.js.dsl.type.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.type.promise.JsPromise
 import net.asere.kotlin.js.dsl.type.promise.syntax
 import net.asere.kotlin.js.dsl.type.reference.ReferenceId
 import net.asere.kotlin.js.dsl.type.value.JsValue
+
+fun JsLambda0.Companion.asyncRef(
+    name: String = "lambda_${ReferenceId.nextRefInt()}",
+    isNullable: Boolean = false,
+): JsResultLambda0<JsPromise<JsNothing>> = JsResultLambda0Ref(
+    name = name,
+    resultTypeBuilder = { element -> JsPromise.syntax(Undefined)},
+    isNullable = isNullable
+)
+
+fun JsLambda0.Companion.asyncDef(
+    name: String = "lambda_${ReferenceId.nextRefInt()}",
+    isNullable: Boolean = false,
+) = object : JsPrintableDefinition<JsResultLambda0Ref<JsPromise<JsNothing>>, JsResultLambda0<JsPromise<JsNothing>>>() {
+    override val reference: JsResultLambda0Ref<JsPromise<JsNothing>> = JsResultLambda0Ref(
+        name = name,
+        resultTypeBuilder = { element -> JsPromise.syntax(element)},
+        isNullable = isNullable
+    )
+}
 
 inline fun <reified Result : JsValue> JsResultLambda0.Companion.asyncRef(
     name: String = "lambda_${ReferenceId.nextRefInt()}",

@@ -1,9 +1,13 @@
 package net.asere.kotlin.js.dsl.type.promise
 
+import net.asere.kotlin.js.dsl.annotation.InternalApi
+import net.asere.kotlin.js.dsl.syntax.JsScope
+import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.syntax.async.JsAsyncCallable
 import net.asere.kotlin.js.dsl.syntax.instantiation.Instantiable
 import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
+import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.type.error.JsError
 import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.lambda.l0.JsLambda0
@@ -20,6 +24,16 @@ import net.asere.kotlin.js.dsl.type.value.JsValue
  * @param T The type of [JsValue] that the Promise will resolve to upon successful completion.
  */
 interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
+    /**
+     * Attaches callbacks for the resolution of the Promise.
+     * This version handles parameter.
+     *
+     * In JavaScript, this corresponds to `promise.then()`.
+     * @return A new [JsPromise] that resolves with the return value of `onFulfilled` (or the original value if `onFulfilled` is not a function).
+     */
+    fun then(): JsPromise<T> =
+        JsPromise.syntax(ChainOperation(this, InvocationOperation("then")))
+
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * This version handles only the fulfillment (success) case.
