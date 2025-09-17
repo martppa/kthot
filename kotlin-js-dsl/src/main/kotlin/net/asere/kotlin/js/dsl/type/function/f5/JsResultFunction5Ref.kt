@@ -25,7 +25,7 @@ class JsResultFunction5Ref<
         Param5 : JsValue,
         Result : JsValue>(
     name: String? = null,
-    internal val resultTypeBuilder: (JsElement) -> Result,
+    internal val resultTypeBuilder: (JsElement, Boolean) -> Result,
 ) : JsFunctionRef(name) {
     /**
      * Invokes the JavaScript function with the provided parameters.
@@ -43,5 +43,5 @@ class JsResultFunction5Ref<
      * @return A [Result] object representing the JavaScript function call and its return value.
      */
     operator fun invoke(param1: Param1, param2: Param2, param3: Param3, param4: Param4, param5: Param5) =
-        resultTypeBuilder(InvocationOperation(this, param1, param2, param3, param4, param5))
+        resultTypeBuilder(InvocationOperation(this, param1, param2, param3, param4, param5), false)
 }

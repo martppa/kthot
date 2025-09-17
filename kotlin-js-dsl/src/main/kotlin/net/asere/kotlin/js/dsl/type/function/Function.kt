@@ -86,7 +86,7 @@ inline fun <reified Result : JsValue> JsScope.ResultFunction(
     noinline definition: JsSyntaxScope.() -> Result
 ) = +JsResultFunction0(
     name = name,
-    resultTypeBuilder = { syntax ->
+    resultTypeBuilder = { syntax, _ ->
         resultTypeBuilder(
             syntax,
             with(JsSyntaxScope().run { definition() }) {
@@ -159,7 +159,7 @@ inline fun <Param1Ref: JsReference<Param1>, reified Param1 : JsValue, reified Re
     noinline definition: JsSyntaxScope.(Param1) -> Result
 ) = +JsResultFunction1(
     name = name,
-    resultTypeBuilder = { syntax ->
+    resultTypeBuilder = { syntax, _ ->
         val param1Builder: (JsElement, Boolean) -> Param1 = ::provide
         val param1: Param1 = param1Builder(JsEmptySyntax, false)
         resultTypeBuilder(
@@ -246,7 +246,7 @@ inline fun <Param1Ref: JsReference<Param1>, reified Param1 : JsValue, Param2Ref:
     ) -> Result
 ) = +JsResultFunction2(
     name = name,
-    resultTypeBuilder = { syntax ->
+    resultTypeBuilder = { syntax, _ ->
         val param1Builder: (JsElement, Boolean) -> Param1 = ::provide
         val param1: Param1 = param1Builder(JsEmptySyntax, false)
         val param2Builder: (JsElement, Boolean) -> Param2 = ::provide
@@ -353,7 +353,7 @@ inline fun <
     noinline definition: JsSyntaxScope.(Param1, Param2, Param3) -> Result
 ) = +JsResultFunction3(
     name = name,
-    resultTypeBuilder = { syntax ->
+    resultTypeBuilder = { syntax, _ ->
         val param1Builder: (JsElement, Boolean) -> Param1 = ::provide
         val param2Builder: (JsElement, Boolean) -> Param2 = ::provide
         val param3Builder: (JsElement, Boolean) -> Param3 = ::provide
@@ -611,7 +611,7 @@ inline fun <
     noinline definition: JsSyntaxScope.(Param1, Param2, Param3, Param4, Param5) -> Result
 ) = +JsResultFunction5(
     name = name,
-    resultTypeBuilder = { syntax ->
+    resultTypeBuilder = { syntax, _ ->
         val param1Builder: (JsElement, Boolean) -> Param1 = ::provide
         val param2Builder: (JsElement, Boolean) -> Param2 = ::provide
         val param3Builder: (JsElement, Boolean) -> Param3 = ::provide
@@ -700,7 +700,7 @@ inline fun <reified Result : JsValue> JsScope.AsyncResultFunction(
     +JsAsyncSyntax(value = scope)
     return JsAsyncResultFunction0Ref(
         name = name,
-        resultTypeBuilder = { syntax ->
+        resultTypeBuilder = { syntax, _ ->
             resultTypeBuilder(
                 syntax,
                 result.isNullable
@@ -784,7 +784,7 @@ inline fun <Param1Ref: JsReference<Param1>, reified Param1 : JsValue, reified Re
     +JsAsyncSyntax(value = scope)
     return JsAsyncResultFunction1Ref(
         name = name,
-        resultTypeBuilder = { syntax ->
+        resultTypeBuilder = { syntax, _ ->
             resultTypeBuilder(
                 syntax,
                 result.isNullable
@@ -877,7 +877,7 @@ inline fun <Param1Ref : JsReference<Param1>, reified Param1 : JsValue, Param2Ref
     +JsAsyncSyntax(value = scope)
     return JsAsyncResultFunction2Ref(
         name = name,
-        resultTypeBuilder = { syntax ->
+        resultTypeBuilder = { syntax, _ ->
             resultTypeBuilder(
                 syntax,
                 result.isNullable
@@ -988,7 +988,7 @@ inline fun <
     +JsAsyncSyntax(value = scope)
     return JsAsyncResultFunction3Ref(
         name = name,
-        resultTypeBuilder = { syntax ->
+        resultTypeBuilder = { syntax, _ ->
             resultTypeBuilder(
                 syntax,
                 result.isNullable
@@ -1110,7 +1110,7 @@ inline fun <
     +JsAsyncSyntax(value = scope)
     return JsAsyncResultFunction4Ref(
         name = name,
-        resultTypeBuilder = { syntax ->
+        resultTypeBuilder = { syntax, _ ->
             resultTypeBuilder(
                 syntax,
                 result.isNullable
@@ -1243,7 +1243,7 @@ inline fun <
     +JsAsyncSyntax(value = scope)
     return JsAsyncResultFunction5Ref(
         name = name,
-        resultTypeBuilder = { syntax ->
+        resultTypeBuilder = { syntax, _ ->
             resultTypeBuilder(
                 syntax,
                 result.isNullable

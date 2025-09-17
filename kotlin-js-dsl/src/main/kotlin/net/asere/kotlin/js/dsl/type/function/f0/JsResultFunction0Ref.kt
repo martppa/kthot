@@ -14,7 +14,7 @@ import net.asere.kotlin.js.dsl.type.value.JsValue
  */
 class JsResultFunction0Ref<Result : JsValue>(
     name: String,
-    internal val resultTypeBuilder: (JsElement) -> Result,
+    internal val resultTypeBuilder: (JsElement, Boolean) -> Result,
 ) : JsFunctionRef(name) {
     /**
      * Invokes the JavaScript function without any parameters.
@@ -25,5 +25,5 @@ class JsResultFunction0Ref<Result : JsValue>(
      * ```
      * @return A generic typed object representing the JavaScript function call.
      */
-    operator fun invoke() = resultTypeBuilder(InvocationOperation(this))
+    operator fun invoke() = resultTypeBuilder(InvocationOperation(this), false) // TODO: Improve nullability feature toa void depending on local property 'isNullable'
 }

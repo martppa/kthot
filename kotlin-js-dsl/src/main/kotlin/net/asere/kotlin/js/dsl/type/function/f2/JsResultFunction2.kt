@@ -24,7 +24,7 @@ import net.asere.kotlin.js.dsl.type.value.JsValue
  */
 class JsResultFunction2<Param1Ref: JsReference<Param1>, Param1 : JsValue, Param2Ref: JsReference<Param2>, Param2 : JsValue, Result : JsValue>(
     name: String,
-    resultTypeBuilder: (JsElement) -> Result,
+    resultTypeBuilder: (JsElement, Boolean) -> Result,
     private val param1: JsDefinition<Param1Ref, Param1>,
     private val param2: JsDefinition<Param2Ref, Param2>,
     private val definition: JsSyntaxScope.(

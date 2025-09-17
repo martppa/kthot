@@ -34,7 +34,7 @@ class JsResultFunction3<
         Result : JsValue
         >(
     name: String,
-    resultTypeBuilder: (JsElement) -> Result,
+    resultTypeBuilder: (JsElement, Boolean) -> Result,
     private val param1: JsDefinition<Param1Ref, Param1>,
     private val param2: JsDefinition<Param2Ref, Param2>,
     private val param3: JsDefinition<Param3Ref, Param3>,

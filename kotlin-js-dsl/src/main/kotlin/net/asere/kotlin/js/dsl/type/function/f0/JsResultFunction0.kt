@@ -15,7 +15,7 @@ import net.asere.kotlin.js.dsl.type.value.JsValue
  */
 open class JsResultFunction0<Result : JsValue>(
     name: String,
-    resultTypeBuilder: (JsElement) -> Result,
+    resultTypeBuilder: (JsElement, Boolean) -> Result,
     private val definition: JsSyntaxScope.() -> Result,
 ) : JsFunction<JsResultFunction0Ref<Result>>(name) {
 

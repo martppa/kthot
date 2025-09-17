@@ -18,7 +18,7 @@ import net.asere.kotlin.js.dsl.type.value.JsValue
  */
 class JsResultFunction2Ref<Param1 : JsValue, Param2 : JsValue, Result : JsValue>(
     name: String? = null,
-    internal val resultTypeBuilder: (JsElement) -> Result,
+    internal val resultTypeBuilder: (JsElement, Boolean) -> Result,
 ) : JsFunctionRef(name) {
     /**
      * Invokes the JavaScript function with the provided parameters.
@@ -32,5 +32,5 @@ class JsResultFunction2Ref<Param1 : JsValue, Param2 : JsValue, Result : JsValue>
      * @param param2 The [Param2] value to pass as the second argument to the function.
      * @return A [JsSyntax] object representing the JavaScript function call.
      */
-    operator fun invoke(param1: Param1, param2: Param2) = resultTypeBuilder(InvocationOperation(this, param1, param2))
+    operator fun invoke(param1: Param1, param2: Param2) = resultTypeBuilder(InvocationOperation(this, param1, param2), false) // TODO: Improve nullability feature toa void depending on local property 'isNullable'
 }

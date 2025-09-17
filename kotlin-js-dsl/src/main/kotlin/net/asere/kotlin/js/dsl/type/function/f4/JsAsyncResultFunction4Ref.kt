@@ -20,7 +20,7 @@ import net.asere.kotlin.js.dsl.type.value.JsValue
  */
 class JsAsyncResultFunction4Ref<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Result : JsValue>(
     name: String,
-    internal val resultTypeBuilder: (JsElement) -> Result,
+    internal val resultTypeBuilder: (JsElement, Boolean) -> Result,
 ) : JsFunctionRef(name) {
 
     /**
@@ -38,7 +38,8 @@ class JsAsyncResultFunction4Ref<Param1 : JsValue, Param2 : JsValue, Param3 : JsV
      * @return A [JsPromise] object representing the JavaScript function call.
      */
     operator fun invoke(param1: Param1, param2: Param2, param3: Param3, param4: Param4) =
-        JsPromise.syntax<Result>(
-            value = resultTypeBuilder(InvocationOperation(this, param1, param2, param3, param4))
+        JsPromise.syntax(
+            value = resultTypeBuilder(InvocationOperation(this, param1, param2, param3, param4), false), // TODO: Improve nullability feature toa void depending on local property 'isNullable'
+            typeBuilder = resultTypeBuilder
         )
 }

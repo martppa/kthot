@@ -2,6 +2,7 @@ package net.asere.kotlin.js.dsl.type.promise
 
 import net.asere.kotlin.js.dsl.annotation.InternalApi
 import net.asere.kotlin.js.dsl.syntax.JsScope
+import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.syntax.async.JsAsyncCallable
 import net.asere.kotlin.js.dsl.syntax.instantiation.Instantiable
@@ -12,6 +13,7 @@ import net.asere.kotlin.js.dsl.type.error.JsError
 import net.asere.kotlin.js.dsl.type.obj.JsObject
 import net.asere.kotlin.js.dsl.type.lambda.l0.JsLambda0
 import net.asere.kotlin.js.dsl.type.lambda.l1.JsLambda1
+import net.asere.kotlin.js.dsl.type.obj.syntax
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 /**
@@ -24,6 +26,14 @@ import net.asere.kotlin.js.dsl.type.value.JsValue
  * @param T The type of [JsValue] that the Promise will resolve to upon successful completion.
  */
 interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
+    @InternalApi
+    val typeBuilder: (JsElement, Boolean) -> T
+
+    @OptIn(InternalApi::class)
+    fun then(onFulfilled: JsScope.(T) -> Unit) {
+        val scope = JsSyntaxScope()
+        onFulfilled(scope, typeBuilder(JsSyntax("value"), false))
+    }
     /**
      * Attaches callbacks for the resolution of the Promise.
      * This version handles parameter.
@@ -31,8 +41,12 @@ interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
      * In JavaScript, this corresponds to `promise.then()`.
      * @return A new [JsPromise] that resolves with the return value of `onFulfilled` (or the original value if `onFulfilled` is not a function).
      */
+    @OptIn(InternalApi::class)
     fun then(): JsPromise<T> =
-        JsPromise.syntax(ChainOperation(this, InvocationOperation("then")))
+        JsPromise.syntax(
+            value = ChainOperation(this,InvocationOperation("then")),
+            typeBuilder = typeBuilder
+        )
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -43,8 +57,12 @@ interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
      * The lambda receives the fulfilled value of the Promise as its single argument.
      * @return A new [JsPromise] that resolves with the return value of `onFulfilled` (or the original value if `onFulfilled` is not a function).
      */
+    @OptIn(InternalApi::class)
     fun then(onFulfilled: JsLambda1<T>): JsPromise<T> =
-        JsPromise.syntax(ChainOperation(this, InvocationOperation("then", onFulfilled)))
+        JsPromise.syntax(
+            value = ChainOperation(this, InvocationOperation("then", onFulfilled)),
+            typeBuilder = typeBuilder
+        )
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -54,8 +72,12 @@ interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
      * @param onFulfilled A [JsLambda0] that is called when the Promise is fulfilled.
      * @return A new [JsPromise] that resolves with the return value of `onFulfilled` (or the original value if `onFulfilled` is not a function).
      */
+    @OptIn(InternalApi::class)
     fun then(onFulfilled: JsLambda0): JsPromise<T> =
-        JsPromise.syntax(ChainOperation(this, InvocationOperation("then", onFulfilled)))
+        JsPromise.syntax(
+            value = ChainOperation(this, InvocationOperation("then", onFulfilled)),
+            typeBuilder = typeBuilder
+        )
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -68,8 +90,12 @@ interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
      * The lambda receives the reason for rejection (error) as its single argument.
      * @return A new [JsPromise] that resolves with the return value of `onFulfilled` or `onRejected`.
      */
+    @OptIn(InternalApi::class)
     fun then(onFulfilled: JsLambda1<T>, onRejected: JsLambda1<JsError>): JsPromise<T> =
-        JsPromise.syntax(ChainOperation(this, InvocationOperation("then", onFulfilled, onRejected)))
+        JsPromise.syntax(
+            value = ChainOperation(this, InvocationOperation("then", onFulfilled, onRejected)),
+            typeBuilder = typeBuilder
+        )
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -81,8 +107,12 @@ interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
      * The lambda receives the reason for rejection (error) as its single argument.
      * @return A new [JsPromise] that resolves with the return value of `onFulfilled` or `onRejected`.
      */
+    @OptIn(InternalApi::class)
     fun then(onFulfilled: JsLambda0, onRejected: JsLambda1<JsError>): JsPromise<T> =
-        JsPromise.syntax(ChainOperation(this, InvocationOperation("then", onFulfilled, onRejected)))
+        JsPromise.syntax(
+            value = ChainOperation(this, InvocationOperation("then", onFulfilled, onRejected)),
+            typeBuilder = typeBuilder
+        )
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -93,8 +123,12 @@ interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
      * @param onRejected A [JsLambda0] that is called when the Promise is rejected.
      * @return A new [JsPromise] that resolves with the return value of `onFulfilled` or `onRejected`.
      */
+    @OptIn(InternalApi::class)
     fun then(onFulfilled: JsLambda0, onRejected: JsLambda0): JsPromise<T> =
-        JsPromise.syntax(ChainOperation(this, InvocationOperation("then", onFulfilled, onRejected)))
+        JsPromise.syntax(
+            value = ChainOperation(this, InvocationOperation("then", onFulfilled, onRejected)),
+            typeBuilder = typeBuilder
+        )
 
 
     /**
@@ -106,8 +140,12 @@ interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
      * The lambda receives the reason for rejection (error) as its single argument.
      * @return A new [JsPromise] that resolves with the return value of `onRejected` if the Promise is rejected.
      */
+    @OptIn(InternalApi::class)
     fun doCatch(onRejected: JsLambda1<JsValue>): JsPromise<T> =
-        JsPromise.syntax(ChainOperation(this, InvocationOperation("catch", onRejected)))
+        JsPromise.syntax(
+            value = ChainOperation(this, InvocationOperation("catch", onRejected)),
+            typeBuilder = typeBuilder,
+        )
 
     /**
      * Attaches a callback for only the rejection (failure) of the Promise.
@@ -117,8 +155,12 @@ interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
      * @param onRejected A [JsLambda0] that is called when the Promise is rejected.
      * @return A new [JsPromise] that resolves with the return value of `onRejected` if the Promise is rejected.
      */
+    @OptIn(InternalApi::class)
     fun doCatch(onRejected: JsLambda0): JsPromise<T> =
-        JsPromise.syntax(ChainOperation(this, InvocationOperation("catch", onRejected)))
+        JsPromise.syntax(
+            value = ChainOperation(this, InvocationOperation("catch", onRejected)),
+            typeBuilder = typeBuilder
+        )
 
     /**
      * Attaches a callback that is invoked when the Promise is settled (either fulfilled or rejected).
@@ -128,8 +170,12 @@ interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
      * @param onFinally A [JsLambda0] that is called when the Promise is settled.
      * @return A new [JsPromise] that resolves with the same value or rejection reason as the original Promise.
      */
+    @OptIn(InternalApi::class)
     fun doFinally(onFinally: JsLambda0): JsPromise<JsValue> =
-        JsPromise.syntax(ChainOperation(this, InvocationOperation("finally", onFinally)))
+        JsPromise.syntax(
+            value = ChainOperation(this, InvocationOperation("finally", onFinally)),
+            typeBuilder = typeBuilder
+        )
 
     companion object
 }
