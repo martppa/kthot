@@ -1,17 +1,12 @@
 package net.asere.kotlin.js.dsl.ksp.processor.writer
 
-import com.google.devtools.ksp.isPrivate
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import net.asere.kotlin.js.dsl.ksp.extension.*
-import net.asere.kotlin.js.dsl.ksp.processor.CodeBuilder
-import net.asere.kotlin.js.dsl.ksp.processor.jsClassWriterName
-import net.asere.kotlin.js.dsl.ksp.processor.jsDslAnnotationName
-import net.asere.kotlin.js.dsl.ksp.processor.jsProvideFunctionName
-import net.asere.kotlin.js.dsl.ksp.processor.jsSyntaxName
+import net.asere.kotlin.js.dsl.ksp.processor.*
 import java.io.OutputStreamWriter
 
 class JsClassWriterBuilder(
@@ -35,6 +30,7 @@ class JsClassWriterBuilder(
         imports.add("import ${jsDslAnnotation.fullName}\n")
         imports.add("import ${classWriter.fullName}\n")
         imports.add("import ${declaration.packageName.asString()}.syntax\n")
+        imports.add("import ${resolver.loadClass(jsValueName).fullName}\n")
         declaration.findJsConstructors().firstOrNull()?.parameters?.forEach {
             imports.add("import ${it.type.resolve().declaration.fullName}\n")
         }
@@ -47,7 +43,7 @@ class JsClassWriterBuilder(
         codeBuilder.append("class $writerName(path: String) : ${classWriter.name}(path) {\n")
         codeBuilder.append("\n")
         codeBuilder.append("   override fun write() {\n")
-        codeBuilder.append("        val instance = ${declaration.name}(\n${
+        codeBuilder.append("        val instance = ${declaration.name}${declaration.genericTypesAsJsValueString}(\n${
             declaration.findJsConstructors().firstOrNull()?.parameters?.mapIndexed { index, item -> item.name?.asString() ?: "p$index" }?.joinToString { "            $it = provide(element = JsSyntax(\"$it\"), isNullable = false)\n" } ?: ""
         }        )\n")
         codeBuilder.append("        addClassHeader(\"${declaration.jsName}\")\n")
@@ -69,7 +65,7 @@ class JsClassWriterBuilder(
 
         codeBuilder.append("\n")
         codeBuilder.append("@${jsDslAnnotation.name}\n")
-        codeBuilder.append("val ${declaration.name}.This get() = ${declaration.jsName}.syntax(\"this\")")
+        codeBuilder.append("val ${declaration.name}${declaration.genericTypesAsStarString}.This get() = ${declaration.jsName}.syntax${declaration.genericTypesAsJsValueString}(\"this\")")
 
         writeToFile(
             fileName = writerName,

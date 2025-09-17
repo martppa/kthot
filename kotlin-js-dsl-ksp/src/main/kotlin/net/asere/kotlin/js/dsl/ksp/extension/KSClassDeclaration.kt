@@ -112,6 +112,18 @@ val KSClassDeclaration.genericTypesString: String get() {
     return "<${genericTypes.joinToString()}>"
 }
 
+fun KSClassDeclaration.buildGenericTypesAsString(value: String): String {
+    val genericTypes = mutableListOf<String>()
+    typeParameters.forEach { parameter ->
+        genericTypes.add(value)
+    }
+    if (genericTypes.isEmpty()) return ""
+    return "<${genericTypes.joinToString()}>"
+}
+
+val KSClassDeclaration.genericTypesAsJsValueString: String get() = buildGenericTypesAsString("JsValue")
+val KSClassDeclaration.genericTypesAsStarString: String get() = buildGenericTypesAsString("*")
+
 val KSClassDeclaration.constructors: List<KSFunctionDeclaration> get() {
     return declarations
         .filterIsInstance<KSFunctionDeclaration>()
