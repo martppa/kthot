@@ -21,7 +21,7 @@ fun main() {
         Log("Screen height: ${array[0].height}")
 
         val numbers = Const { JsArray.def<JsNumber>("numbers") } assign JsArray.value(0.js, 1.js, 2.js)
-        +numbers.forEach(jsLambda(param = JsNumber.def("number")) {
+        +numbers.forEach(jsLambda(param1 = JsNumber.def("number")) {
             Log(it)
         })
     }

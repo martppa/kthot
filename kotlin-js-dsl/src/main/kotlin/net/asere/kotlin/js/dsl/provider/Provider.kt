@@ -17,7 +17,7 @@ fun register(key: String, builder: (JsElement, Boolean) -> Any) {
 
 fun provide(key: String, value: JsElement, isNullable: Boolean): Any {
     val beacon = beacons[key]
-        ?: throw BeaconNotFoundException(key)
+        ?: throw ProviderNotFoundException(key)
     return beacon.invoke(value, isNullable)
 }
 
