@@ -6,7 +6,7 @@ import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.tag.JsDsl
 
-open class JsTrySyntax internal constructor(value: JsElement? = null) : JsSyntax("$value")
+open class JsTrySyntax internal constructor(value: JsElement? = null) : JsSyntax(value?.let { "$it" } ?: "")
 
 internal class JsTry(
     private val block: JsScope.() -> Unit
