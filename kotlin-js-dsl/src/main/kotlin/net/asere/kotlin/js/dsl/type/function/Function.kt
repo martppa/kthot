@@ -6,6 +6,7 @@ import net.asere.kotlin.js.dsl.syntax.JsScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.syntax.async.JsAsyncSyntax
 import net.asere.kotlin.js.dsl.syntax.jsreturn.Return
+import net.asere.kotlin.js.dsl.syntax.jsreturn.jsReturn
 import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.type.definition.JsDefinition
@@ -659,7 +660,7 @@ fun JsScope.AsyncFunction(
 ): JsAsyncFunction0Ref {
     val scope = JsSyntaxScope()
     scope.run {
-        Function {
+        Function(name) {
             definition()
         }
     }
@@ -693,7 +694,7 @@ inline fun <reified Result : JsValue> JsScope.AsyncResultFunction(
 ): JsAsyncResultFunction0Ref<Result> {
     val scope = JsSyntaxScope()
     val result = scope.run {
-        ResultFunction<Result> {
+        ResultFunction<Result>(name) {
             Return { definition() }
         }
     }
@@ -738,7 +739,7 @@ fun <Param1Ref: JsReference<Param1>, Param1 : JsValue> JsScope.AsyncFunction(
 ): JsAsyncFunction1Ref<Param1> {
     val scope = JsSyntaxScope()
     scope.run {
-        Function(param1 = param1) {
+        Function(name = name, param1 = param1) {
             definition(this, it)
         }
     }
@@ -777,8 +778,8 @@ inline fun <Param1Ref: JsReference<Param1>, reified Param1 : JsValue, reified Re
 ): JsAsyncResultFunction1Ref<Param1, Result> {
     val scope = JsSyntaxScope()
     val result = scope.run {
-        ResultFunction(param1 = param1) {
-            Return { definition(this, it) }
+        ResultFunction(name = name, param1 = param1) {
+            definition(this, it)
         }
     }
     +JsAsyncSyntax(value = scope)
@@ -827,7 +828,7 @@ fun <Param1Ref : JsReference<Param1>, Param1 : JsValue, Param2Ref : JsReference<
 ): JsAsyncFunction2Ref<Param1, Param2> {
     val scope = JsSyntaxScope()
     scope.run {
-        Function(param1 = param1, param2 = param2) { p1, p2 ->
+        Function(name = name, param1 = param1, param2 = param2) { p1, p2 ->
             definition(this, p1, p2)
         }
     }
@@ -870,8 +871,8 @@ inline fun <Param1Ref : JsReference<Param1>, reified Param1 : JsValue, Param2Ref
 ): JsAsyncResultFunction2Ref<Param1, Param2, Result> {
     val scope = JsSyntaxScope()
     val result = scope.run {
-        ResultFunction(param1 = param1, param2 = param2) { p1, p2 ->
-            Return { definition(this, p1, p2) }
+        ResultFunction(name = name, param1 = param1, param2 = param2) { p1, p2 ->
+            definition(this, p1, p2)
         }
     }
     +JsAsyncSyntax(value = scope)
@@ -929,7 +930,7 @@ fun <
 ): JsAsyncFunction3Ref<Param1, Param2, Param3> {
     val scope = JsSyntaxScope()
     scope.run {
-        Function(param1 = param1, param2 = param2, param3 = param3) { p1, p2, p3 ->
+        Function(name = name, param1 = param1, param2 = param2, param3 = param3) { p1, p2, p3 ->
             definition(this, p1, p2, p3)
         }
     }
@@ -981,8 +982,8 @@ inline fun <
 ): JsAsyncResultFunction3Ref<Param1, Param2, Param3, Result> {
     val scope = JsSyntaxScope()
     val result = scope.run {
-        ResultFunction(param1 = param1, param2 = param2, param3 = param3) { p1, p2, p3 ->
-            Return { definition(this, p1, p2, p3) }
+        ResultFunction(name = name, param1 = param1, param2 = param2, param3 = param3) { p1, p2, p3 ->
+            definition(this, p1, p2, p3)
         }
     }
     +JsAsyncSyntax(value = scope)
@@ -1046,7 +1047,7 @@ fun <
 ): JsAsyncFunction4Ref<Param1, Param2, Param3, Param4> {
     val scope = JsSyntaxScope()
     scope.run {
-        Function(param1 = param1, param2 = param2, param3 = param3, param4 = param4) { p1, p2, p3, p4 ->
+        Function(name = name, param1 = param1, param2 = param2, param3 = param3, param4 = param4) { p1, p2, p3, p4 ->
             definition(this, p1, p2, p3, p4)
         }
     }
@@ -1103,8 +1104,8 @@ inline fun <
 ): JsAsyncResultFunction4Ref<Param1, Param2, Param3, Param4, Result> {
     val scope = JsSyntaxScope()
     val result = scope.run {
-        ResultFunction(param1 = param1, param2 = param2, param3 = param3, param4 = param4) { p1, p2, p3, p4 ->
-            Return { definition(this, p1, p2, p3, p4) }
+        ResultFunction(name = name, param1 = param1, param2 = param2, param3 = param3, param4 = param4) { p1, p2, p3, p4 ->
+            definition(this, p1, p2, p3, p4)
         }
     }
     +JsAsyncSyntax(value = scope)
@@ -1174,7 +1175,7 @@ fun <
 ): JsAsyncFunction5Ref<Param1, Param2, Param3, Param4, Param5> {
     val scope = JsSyntaxScope()
     scope.run {
-        Function(param1 = param1, param2 = param2, param3 = param3, param4 = param4, param5 = param5) { p1, p2, p3, p4, p5 ->
+        Function(name = name, param1 = param1, param2 = param2, param3 = param3, param4 = param4, param5 = param5) { p1, p2, p3, p4, p5 ->
             definition(this, p1, p2, p3, p4, p5)
         }
     }
@@ -1236,8 +1237,8 @@ inline fun <
 ): JsAsyncResultFunction5Ref<Param1, Param2, Param3, Param4, Param5, Result> {
     val scope = JsSyntaxScope()
     val result = scope.run {
-        ResultFunction(param1 = param1, param2 = param2, param3 = param3, param4 = param4, param5 = param5) { p1, p2, p3, p4, p5 ->
-            Return { definition(this, p1, p2, p3, p4, p5) }
+        ResultFunction(name = name, param1 = param1, param2 = param2, param3 = param3, param4 = param4, param5 = param5) { p1, p2, p3, p4, p5 ->
+            definition(this, p1, p2, p3, p4, p5)
         }
     }
     +JsAsyncSyntax(value = scope)
