@@ -12,6 +12,8 @@ class JsStringRef internal constructor(
     isNullable = isNullable,
 ) {
     override fun toString(): String = present()
+
+    override fun stringify(): String = $$$"${$$${super.name}}"
 }
 
 fun JsString.Companion.ref(name: String? = null, isNullable: Boolean = false): JsString =

@@ -318,6 +318,8 @@ interface JsString : JsValue {
         leftHand = JsString.syntax(this.groupIfGroupable()),
         rightHand = rightHand.groupIfGroupable()
     )
+
+    fun stringify(): String = "$this"
 }
 
 /**
