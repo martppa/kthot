@@ -13,13 +13,13 @@ import net.asere.kotlin.js.dsl.syntax.jstry.jsThrow
 import net.asere.kotlin.js.dsl.syntax.jstry.jsTry
 import net.asere.kotlin.js.dsl.type.error.JsError
 import net.asere.kotlin.js.dsl.type.error.def
-import net.asere.kotlin.js.dsl.type.error.value
+import net.asere.kotlin.js.dsl.type.error.new
 
 fun main(vararg args: String) {
     val syntax = js {
         +jsTry {
             +Console.log("From inside a try")
-            +jsThrow(JsError.value("Thrown error"))
+            +jsThrow(JsError.new("Thrown error"))
         }.jsCatch(JsError.def("error")) {
             Log("Caught error: $it")
         }.jsFinally {
@@ -28,7 +28,7 @@ fun main(vararg args: String) {
 
         Try {
             Log("From inside a try")
-            Throw { JsError.value("Thrown error") }
+            Throw { JsError.new("Thrown error") }
         }
         Catch(JsError.def("error")) {
             Log("Caught error: $it")
