@@ -402,9 +402,11 @@ fun jsLambda(
  * @return A [JsResultLambda0Value] representing the lambda.
  */
 @OptIn(InternalApi::class)
-fun <Result : JsValue> jsResultLambda(
-    definition: JsSyntaxScope.() -> Result,
+inline fun <reified Result : JsValue> jsResultLambda(
+    noinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
+    noinline definition: JsSyntaxScope.() -> Result,
 ): JsResultLambda0Value<Result> = JsResultLambda0Value(
+    resultTypeBuilder = resultTypeBuilder,
     definition = definition
 )
 
