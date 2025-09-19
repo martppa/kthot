@@ -3,19 +3,20 @@ package net.asere.kotlin.js.dsl.type.string
 import net.asere.kotlin.js.dsl.type.toJsString
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
-class JsStringHolderValue(
+internal class JsStringHolderValue(
     value: String,
     vararg val params: JsValue,
+    val holder: String
 ) : JsStringValue(value) {
 
     override fun present(): String {
         var auxValue = value
         params.forEachIndexed { index, param ->
-            auxValue = auxValue.replace("#$index", param.toJsString().stringify())
+            auxValue = auxValue.replace("$holder$index", param.toJsString().stringify())
         }
         return "`$auxValue`"
     }
 
 }
 
-fun JsString.Companion.value(value: String, vararg params: JsString): JsString = JsStringHolderValue(value, *params)
+fun JsString.Companion.value(value: String, vararg params: JsValue, holder: String = "#"): JsString = JsStringHolderValue(value, *params, holder = holder)

@@ -695,7 +695,7 @@ inline fun <reified Result : JsValue> JsScope.AsyncResultFunction(
     val scope = JsSyntaxScope()
     val result = scope.run {
         ResultFunction<Result>(name) {
-            Return { definition() }
+            definition()
         }
     }
     +JsAsyncSyntax(value = scope)
