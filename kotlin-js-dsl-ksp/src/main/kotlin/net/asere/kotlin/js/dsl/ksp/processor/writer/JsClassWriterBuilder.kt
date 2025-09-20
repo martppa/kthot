@@ -24,15 +24,19 @@ class JsClassWriterBuilder(
 
         val classWriter = resolver.loadClass(jsClassWriterName)
         val jsDslAnnotation = resolver.loadClass(jsDslAnnotationName)
-
+        val jsObjectClass = resolver.loadClass(jsObjectName)
         val imports = mutableSetOf<String>()
 
         imports.add("import ${jsDslAnnotation.fullName}\n")
         imports.add("import ${classWriter.fullName}\n")
         imports.add("import ${declaration.packageName.asString()}.syntax\n")
         imports.add("import ${resolver.loadClass(jsValueName).fullName}\n")
+        imports.add("import ${jsObjectClass.fullName}\n")
+        imports.add("import ${jsObjectClass.packageName.asString()}.syntax\n")
+
         declaration.findJsConstructors().firstOrNull()?.parameters?.forEach {
-            imports.add("import ${it.type.resolve().declaration.fullName}\n")
+            if (!it.type.isGenericTypeParameter())
+                imports.add("import ${it.type.resolve().declaration.fullName}\n")
         }
         imports.add("import $jsProvideFunctionName\n")
         imports.add("import $jsSyntaxName\n")
@@ -44,8 +48,16 @@ class JsClassWriterBuilder(
         codeBuilder.append("\n")
         codeBuilder.append("   override fun write() {\n")
         codeBuilder.append("        val instance = ${declaration.name}${declaration.genericTypesAsJsValueString}(\n${
-            declaration.findJsConstructors().firstOrNull()?.parameters?.mapIndexed { index, item -> item.name?.asString() ?: "p$index" }?.joinToString { "            $it = provide(element = JsSyntax(\"$it\"), isNullable = false)\n" } ?: ""
-        }        )\n")
+            declaration.findJsConstructors().firstOrNull()?.parameters?.mapIndexed { index, item -> 
+                (item.name?.asString() ?: "p$index").let { name -> 
+                    if (item.type.isGenericTypeParameter()) {
+                        "           $name = JsObject.syntax(\"$name\", false)\n"
+                    } else {
+                        "           $name = provide(element = JsSyntax(\"$name\"), isNullable = false)\n"
+                    }
+                }
+            }?.joinToString { it } ?: ""
+        })\n")
         codeBuilder.append("        addClassHeader(\"${declaration.jsName}\")\n")
         declaration.findJsConstructors().forEach {
             codeBuilder.append("        addConstructor(${it.parameters.joinToString { param -> 
@@ -55,7 +67,15 @@ class JsClassWriterBuilder(
         declaration.findJsFunctions().forEach { function ->
             codeBuilder.append("        addFunction(name = \"${function.name}\", parameters = listOf(${function.parameters.joinToString { param ->
                 "\"${param.name?.asString() ?: "" }\""
-            }}), body = instance.${function.name}(${function.parameters.mapIndexed { index, item -> item.name?.asString() ?: "p$index" }.joinToString { "            $it = provide(element = JsSyntax(\"$it\"), isNullable = false)\n" }}))\n")
+            }}), body = instance.${function.name}(${function.parameters.mapIndexed { index, item ->
+                (item.name?.asString() ?: "p$index").let { name ->
+                    if (item.type.isGenericTypeParameter()) {
+                        "           $name = JsObject.syntax(\"$name\", false)\n"
+                    } else {
+                        "           $name = provide(element = JsSyntax(\"$name\"), isNullable = false)\n"
+                    }
+                }
+            }.joinToString { it } }))\n")
         }
         codeBuilder.append("        finishClassDeclaration()\n")
         codeBuilder.append("        writeToFile(\"${declaration.jsName}.js\", \"${declaration.packageName.asString()}\")\n")
