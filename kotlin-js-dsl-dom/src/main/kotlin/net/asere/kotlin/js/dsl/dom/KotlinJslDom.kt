@@ -5,6 +5,12 @@ import net.asere.kotlin.js.dsl.dom.type.array.JsDomArray
 import net.asere.kotlin.js.dsl.dom.type.array.syntax
 import net.asere.kotlin.js.dsl.dom.type.document.JsDocument
 import net.asere.kotlin.js.dsl.dom.type.document.syntax
+import net.asere.kotlin.js.dsl.dom.type.form.JsForm
+import net.asere.kotlin.js.dsl.dom.type.form.button.JsButton
+import net.asere.kotlin.js.dsl.dom.type.form.button.syntax
+import net.asere.kotlin.js.dsl.dom.type.form.syntax
+import net.asere.kotlin.js.dsl.dom.type.form.validity.JsValidityState
+import net.asere.kotlin.js.dsl.dom.type.form.validity.syntax
 import net.asere.kotlin.js.dsl.dom.type.obj.JsDomObject
 import net.asere.kotlin.js.dsl.dom.type.obj.syntax
 import net.asere.kotlin.js.dsl.dom.type.screen.JsScreen
@@ -18,6 +24,9 @@ open class KotlinJslDom : KotlinJslCore() {
         register(builder = JsScreen::syntax)
         register(builder = JsDomArray::syntax)
         register(builder = JsDocument::syntax)
+        register(builder = JsButton::syntax)
+        register(builder = JsValidityState::syntax)
+        register(builder = JsForm::syntax)
     }
 
     companion object {

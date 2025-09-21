@@ -13,6 +13,3 @@ interface JsValue : JsElement, Operable
 
 fun JsValue.raw(syntax: JsSyntax) = JsSyntax(ChainOperation(this, "$syntax"))
 fun JsValue.raw(syntax: String) = JsSyntax(ChainOperation(this, syntax))
-operator fun JsValue.get(value: JsNumber) = JsArithmeticalSyntax(AccessOperation(this, value))
-operator fun JsValue.get(value: JsString) = JsArithmeticalSyntax(AccessOperation(this, value))
-operator fun JsValue.get(value: JsValue) = JsArithmeticalSyntax(AccessOperation(this, value))

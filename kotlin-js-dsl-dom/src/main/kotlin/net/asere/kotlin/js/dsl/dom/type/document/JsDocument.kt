@@ -1,13 +1,17 @@
 package net.asere.kotlin.js.dsl.dom.type.document
 
 import net.asere.kotlin.js.dsl.dom.type.array.JsDomArray
-import net.asere.kotlin.js.dsl.dom.type.obj.JsDomObject
 import net.asere.kotlin.js.dsl.dom.type.array.syntax
+import net.asere.kotlin.js.dsl.dom.type.obj.JsDomObject
 import net.asere.kotlin.js.dsl.dom.type.obj.syntax
+import net.asere.kotlin.js.dsl.provider.provide
 import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
+import net.asere.kotlin.js.dsl.type.bool.JsBoolean
+import net.asere.kotlin.js.dsl.type.bool.js
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.js
+import net.asere.kotlin.js.dsl.type.string.syntax
 
 /**
  * Represents the JavaScript `document` object, which serves as the entry point into the web page's
@@ -24,10 +28,10 @@ interface JsDocument : JsDomObject {
      * @param id The ID of the element to find as a [JsString] object.
      * @return A [JsDomObject] representing the element, or `null` if no element with the specified ID exists.
      */
-    fun getElementById(id: JsString): JsDomObject =
+    fun getDomElementById(id: JsString): JsDomObject =
         JsDomObject.syntax(ChainOperation(this, InvocationOperation("getElementById", id)))
 
-    fun getElementById(id: String): JsDomObject = getElementById(id.js)
+    fun getDomElementById(id: String): JsDomObject = getDomElementById(id.js)
 
     /**
      * Returns a live `HTMLCollection` of all elements in the document with the specified class name.
@@ -113,5 +117,129 @@ interface JsDocument : JsDomObject {
     fun createDocumentFragment(): JsDomObject =
         JsDomObject.syntax(ChainOperation(this, InvocationOperation("createDocumentFragment")))
 
+    /**
+     * Gets the title of the current document.
+     * Corresponds to `document.title` in JavaScript.
+     */
+    val title: JsString
+        get() = JsString.syntax(ChainOperation(this, "title"))
+
+    /**
+     * Gets the URL of the current document.
+     * Corresponds to `document.URL` in JavaScript.
+     */
+    val URL: JsString
+        get() = JsString.syntax(ChainOperation(this, "URL"))
+
+    /**
+     * Gets the domain of the current document.
+     * Corresponds to `document.domain` in JavaScript.
+     */
+    val domain: JsString
+        get() = JsString.syntax(ChainOperation(this, "domain"))
+
+    /**
+     * Returns the `<html>` element.
+     * Corresponds to `document.documentElement` in JavaScript.
+     */
+    val documentElement: JsDomObject
+        get() = JsDomObject.syntax(ChainOperation(this, "documentElement"))
+
+    /**
+     * Returns the `<body>` element.
+     * Corresponds to `document.body` in JavaScript.
+     */
+    val body: JsDomObject
+        get() = JsDomObject.syntax(ChainOperation(this, "body"))
+
+    /**
+     * Returns the `<head>` element.
+     * Corresponds to `document.head` in JavaScript.
+     */
+    val head: JsDomObject
+        get() = JsDomObject.syntax(ChainOperation(this, "head"))
+
+    /**
+     * Returns a live `HTMLCollection` of all forms in the document.
+     * Corresponds to `document.forms` in JavaScript.
+     */
+    val forms: JsDomArray
+        get() = JsDomArray.syntax(ChainOperation(this, "forms"))
+
+    /**
+     * Returns a live `HTMLCollection` of all images in the document.
+     * Corresponds to `document.images` in JavaScript.
+     */
+    val images: JsDomArray
+        get() = JsDomArray.syntax(ChainOperation(this, "images"))
+
+    /**
+     * Returns a live `HTMLCollection` of all links in the document.
+     * Corresponds to `document.links` in JavaScript.
+     */
+    val links: JsDomArray
+        get() = JsDomArray.syntax(ChainOperation(this, "links"))
+
+    /**
+     * Creates a new attribute node with the specified name.
+     * Corresponds to `document.createAttribute(attributeName)`.
+     */
+    fun createAttribute(attributeName: JsString): JsDomObject =
+        JsDomObject.syntax(ChainOperation(this, InvocationOperation("createAttribute", attributeName)))
+
+    fun createAttribute(attributeName: String): JsDomObject = createAttribute(attributeName.js)
+
+    /**
+     * Creates a new event object of the specified type.
+     * Corresponds to `document.createEvent(type)`.
+     */
+    fun createEvent(type: JsString): JsDomObject =
+        JsDomObject.syntax(ChainOperation(this, InvocationOperation("createEvent", type)))
+
+    fun createEvent(type: String): JsDomObject = createEvent(type.js)
+
+    /**
+     * Creates a new `Range` object.
+     * Corresponds to `document.createRange()`.
+     */
+    fun createRange(): JsDomObject =
+        JsDomObject.syntax(ChainOperation(this, InvocationOperation("createRange")))
+
+    /**
+     * Clones a node from an external document.
+     * Corresponds to `document.importNode(node, deep)`.
+     */
+    fun importNode(node: JsDomObject, deep: JsBoolean): JsDomObject =
+        JsDomObject.syntax(ChainOperation(this, InvocationOperation("importNode", node, deep)))
+
+    fun importNode(node: JsDomObject, deep: Boolean): JsDomObject = importNode(node, deep.js)
+
+    /**
+     * Writes a string of text to a document stream opened by `document.open()`.
+     * Corresponds to `document.write(text)`.
+     */
+    fun write(text: JsString) = ChainOperation(this, InvocationOperation("write", text))
+
+    fun write(text: String) = write(text.js)
+
+    /**
+     * Writes a string of text followed by a newline to a document stream.
+     * Corresponds to `document.writeln(text)`.
+     */
+    fun writeln(text: JsString) = ChainOperation(this, InvocationOperation("writeln", text))
+
+    fun writeln(text: String) = writeln(text.js)
+
     companion object
 }
+
+/**
+ * Returns a reference to the element by its ID.
+ *
+ * In JavaScript, this corresponds to `document.getElementById(id)`.
+ * @param id The ID of the element to find as a [JsString] object.
+ * @return A [T] representing the element, or `null` if no element with the specified ID exists.
+ */
+inline fun <reified T : JsDomObject> JsDocument.getElementById(id: JsString): T = provide(ChainOperation(this, InvocationOperation("getElementById", id)), false)
+
+inline fun <reified T : JsDomObject> JsDocument.getElementById(id: String): T = getElementById(id.js)

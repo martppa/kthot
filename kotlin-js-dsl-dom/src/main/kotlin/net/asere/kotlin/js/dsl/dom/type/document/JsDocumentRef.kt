@@ -1,7 +1,5 @@
 package net.asere.kotlin.js.dsl.dom.type.document
 
-import net.asere.kotlin.js.dsl.dom.type.obj.JsDomObject
-import net.asere.kotlin.js.dsl.dom.type.obj.JsDomObjectRef
 import net.asere.kotlin.js.dsl.type.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.type.reference.JsValueRef
@@ -23,6 +21,6 @@ fun JsDocument.Companion.ref(name: String? = null, isNullable: Boolean = false):
     JsDocumentRef(name, isNullable)
 
 fun JsDocument.Companion.def(name: String? = null, isNullable: Boolean = false) =
-    object : JsPrintableDefinition<JsDomObjectRef, JsDomObject>() {
-        override val reference: JsDomObjectRef = JsDomObjectRef(name = name, isNullable)
+    object : JsPrintableDefinition<JsDocumentRef, JsDocument>() {
+        override val reference: JsDocumentRef = JsDocumentRef(name = name, isNullable)
     }

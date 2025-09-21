@@ -103,8 +103,6 @@ interface JsDomEvent : JsObject {
         JsSyntax(ChainOperation(this, InvocationOperation("stopImmediatePropagation")))
 
     companion object {
-        // --- Common DOM Event Names ---
-
         /** Event type constant: Fired when an element is clicked. */
         const val EVENT_CLICK = "click"
         /** Event type constant: Fired when a user double-clicks an element. */
