@@ -29,7 +29,7 @@ fun main(vararg args: String) {
     val result = createHTML().body {
         jslScript {
             val collection = Const { JsArray.def<JsNumber>() } assign JsArray.value(0.js, 1.js, 2.js, 3.js)
-            For ({ Let { JsNumber.def("i") } assign 0 }, { it lt collection.getLength() }, { it.postInc() }) {
+            For ({ Let { JsNumber.def("i") } assign 0.js }, { it lt collection.getLength() }, { it.postInc() }) {
                 Log(it)
                 If (it lt 2) {
                     Break

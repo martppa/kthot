@@ -10,6 +10,7 @@ import net.asere.kotlin.js.dsl.type.array.JsArray
 import net.asere.kotlin.js.dsl.type.array.syntax
 import net.asere.kotlin.js.dsl.type.bool.JsBoolean
 import net.asere.kotlin.js.dsl.type.bool.syntax
+import net.asere.kotlin.js.dsl.type.bool.value
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.JsNumberSyntax
 import net.asere.kotlin.js.dsl.type.number.syntax
@@ -327,3 +328,5 @@ interface JsString : JsValue {
  * This provides a convenient way to use Kotlin strings directly in JavaScript DSL.
  */
 val String.js: JsString get() = JsString.value(this)
+
+operator fun String.unaryPlus(): JsString = this.js

@@ -12,7 +12,7 @@ import net.asere.kotlin.js.dsl.type.number.js
 
 fun main(vararg args: String) {
     val syntax = js {
-        val number = Const { JsNumber.def("number") } assign 4
+        val number = Const { JsNumber.def("number") } assign 4.js
         Switch(number) {
             Case(2.js) {
                 Log("Es un" + 2)

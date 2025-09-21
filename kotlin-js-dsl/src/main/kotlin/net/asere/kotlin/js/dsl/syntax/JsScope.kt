@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package net.asere.kotlin.js.dsl.syntax
 
 import net.asere.kotlin.js.dsl.declaration.DeclarationType
@@ -72,12 +74,12 @@ abstract class JsScope {
         )
     }
 
-    fun <T : JsReference<*>> T.assignValue(element: JsElement): JsAssignationSyntax<T> {
+    fun <T : JsReference<C>, C : JsValue> T.assignValue(element: JsElement): JsAssignationSyntax<C> {
         val assignOperation = AssignmentOperation(this, element.toOperable())
-        return JsAssignationSyntax(this, assignOperation)
+        return JsAssignationSyntax(this as C, assignOperation)
     }
 
-    fun <T : JsReference<*>> JsResultSyntax<T>.assignValue(element: JsElement): JsAssignationSyntax<T> {
+    fun <T : JsReference<C>, C : JsValue> JsResultSyntax<T>.assignValue(element: JsElement): JsAssignationSyntax<T> {
         val assignOperation = AssignmentOperation(this.toOperable(), element.toOperable())
         return JsAssignationSyntax(innerObject, assignOperation)
     }
@@ -87,17 +89,17 @@ abstract class JsScope {
         rightHand = element.toOperable()
     )
 
-    fun <T : JsReference<*>> T.assignValue(value: String) = assignValue(element = value.js)
-    fun <T : JsReference<*>> T.assignValue(value: Number) = assignValue(element = value.js)
-    fun <T : JsReference<*>> T.assignValue(value: Boolean) = assignValue(element = value.js)
+    fun <T : JsReference<C>, C : JsValue> T.assignValue(value: String) = assignValue(element = value.js)
+    fun <T : JsReference<C>, C : JsValue> T.assignValue(value: Number) = assignValue(element = value.js)
+    fun <T : JsReference<C>, C : JsValue> T.assignValue(value: Boolean) = assignValue(element = value.js)
 
-    fun <T : JsReference<*>> JsResultSyntax<T>.assignValue(value: String) = assignValue(element = value.js)
-    fun <T : JsReference<*>> JsResultSyntax<T>.assignValue(value: Number) = assignValue(element = value.js)
-    fun <T : JsReference<*>> JsResultSyntax<T>.assignValue(value: Boolean) = assignValue(element = value.js)
+    fun <T : JsReference<C>, C : JsValue> JsResultSyntax<T>.assignValue(value: String) = assignValue(element = value.js)
+    fun <T : JsReference<C>, C : JsValue> JsResultSyntax<T>.assignValue(value: Number) = assignValue(element = value.js)
+    fun <T : JsReference<C>, C : JsValue> JsResultSyntax<T>.assignValue(value: Boolean) = assignValue(element = value.js)
 
-    private fun <T : JsReference<*>> JsAssignationSyntax<T>.render(): T {
+    private fun <T : JsReference<C>, C : JsValue> JsAssignationSyntax<T>.render(): C {
         this@JsScope.append(toLine())
-        return innerObject
+        return innerObject as C
     }
 
     private fun <T : JsElement> T.render(): T {
@@ -106,28 +108,13 @@ abstract class JsScope {
     }
 
     @JsDsl
-    infix fun <T : JsReference<*>> JsResultSyntax<T>.assign(
-        value: Boolean
-    ): T = assignValue(element = value.js).render()
-
-    @JsDsl
-    infix fun <T : JsReference<*>> JsResultSyntax<T>.assign(
-        value: Number
-    ): T = assignValue(element = value.js).render()
-
-    @JsDsl
-    infix fun <T : JsReference<*>> JsResultSyntax<T>.assign(
-        value: String
-    ): T = assignValue(element = value.js).render()
-
-    @JsDsl
-    infix fun <T : JsReference<*>> JsResultSyntax<T>.assign(
+    infix fun <T : JsReference<C>, C : JsValue> JsResultSyntax<T>.assign(
         value: JsElement
-    ): T = assignValue(element = value).render()
+    ): C = assignValue(element = value).render()
 
     @JsDsl
-    infix fun JsElement.assign(
-        value: JsElement
+    infix fun <T : JsElement> JsElement.assign(
+        value: T
     ): AssignmentOperation = assignValue(element = value).render()
 }
 

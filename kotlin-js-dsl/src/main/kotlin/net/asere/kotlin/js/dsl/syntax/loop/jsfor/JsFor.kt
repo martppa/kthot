@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package net.asere.kotlin.js.dsl.syntax.loop.jsfor
 
 import net.asere.kotlin.js.dsl.type.reference.JsReference
@@ -27,21 +29,21 @@ class JsForSyntax(value: String) : JsLoopSyntax(value)
  * ```
  * @receiver The [JsScope] where the `for` loop is being defined.
  * @param T The type of the [JsReference] used for the loop variable.
- * @param assignment A lambda with receiver [JsSyntaxScope] to define the loop variable's initialization (e.g., `Var("i", 0.js)`). It should return a [JsReference] to the loop variable.
- * @param comparison A lambda with receiver [JsSyntaxScope] and the loop variable [T] as an argument, to define the loop's continuation condition (e.g., `it lt 10.js`).
- * @param operation A lambda with receiver [JsSyntaxScope] and the loop variable [T] as an argument, to define the iteration expression (e.g., `it.inc()`).
+ * @param initialExpression A lambda with receiver [JsSyntaxScope] to define the loop variable's initialization (e.g., `Var("i", 0.js)`). It should return a [JsReference] to the loop variable.
+ * @param condition A lambda with receiver [JsSyntaxScope] and the loop variable [T] as an argument, to define the loop's continuation condition (e.g., `it lt 10.js`).
+ * @param finalExpression A lambda with receiver [JsSyntaxScope] and the loop variable [T] as an argument, to define the iteration expression (e.g., `it.inc()`).
  * @param block A lambda with receiver [JsSyntaxScope] and the loop variable [T] as an argument, to define the JavaScript code inside the loop body.
  */
 @JsDsl
-fun <T : JsReference<*>> JsScope.For(
-    assignment: JsSyntaxScope.() -> T,
-    comparison: JsSyntaxScope.(T) -> Operation,
-    operation: JsSyntaxScope.(T) -> Operation,
-    block: JsSyntaxScope.(T) -> Unit,
+fun <C : JsValue> JsScope.For(
+    initialExpression: JsSyntaxScope.() -> C,
+    condition: JsSyntaxScope.(C) -> Operation,
+    finalExpression: JsSyntaxScope.(C) -> Operation,
+    block: JsSyntaxScope.(C) -> Unit,
 ) = +jsFor(
-    assignment = assignment,
-    comparison = comparison,
-    operation = operation,
+    initialExpression = initialExpression,
+    condition = condition,
+    finalExpression = finalExpression,
     block = block
 )
 
@@ -50,25 +52,25 @@ fun <T : JsReference<*>> JsScope.For(
  * This internal function is used by the [For] DSL extension for traditional `for` loops.
  *
  * @param T The type of the [JsReference] used for the loop variable.
- * @param assignment A lambda to define the loop variable's initialization.
- * @param comparison A lambda to define the loop's continuation condition.
- * @param operation A lambda to define the iteration expression.
+ * @param initialExpression A lambda to define the loop variable's initialization.
+ * @param condition A lambda to define the loop's continuation condition.
+ * @param finalExpression A lambda to define the iteration expression.
  * @param block A lambda to define the JavaScript code inside the loop body.
  * @return A [JsForSyntax] object representing the `for` loop's JavaScript string.
  */
-fun <T : JsReference<*>> jsFor(
-    assignment: JsSyntaxScope.() -> T,
-    comparison: JsSyntaxScope.(T) -> Operation,
-    operation: JsSyntaxScope.(T) -> Operation,
-    block: JsSyntaxScope.(T) -> Unit,
+fun <T : JsReference<C>, C : JsValue> jsFor(
+    initialExpression: JsSyntaxScope.() -> C,
+    condition: JsSyntaxScope.(C) -> Operation,
+    finalExpression: JsSyntaxScope.(C) -> Operation,
+    block: JsSyntaxScope.(C) -> Unit,
 ): JsForSyntax {
-    val assignmentScope = JsSyntaxScope()
-    val reference = assignment(assignmentScope)
+    val initialExpressionScope = JsSyntaxScope()
+    val reference = initialExpression(initialExpressionScope)
     val blockScope = JsSyntaxScope()
     block(blockScope, reference)
     return JsForSyntax(
-        """for (${assignmentScope.apply { forceSingleLine() }}; ${comparison(JsSyntaxScope(), reference)}; ${
-            operation(
+        """for (${initialExpressionScope.apply { forceSingleLine() }}; ${condition(JsSyntaxScope(), reference)}; ${
+            finalExpression(
                 JsSyntaxScope(),
                 reference
             )
@@ -94,10 +96,10 @@ fun <T : JsReference<*>> jsFor(
  * @param block A lambda with receiver [JsSyntaxScope] and the loop variable [T] as an argument, to define the JavaScript code inside the loop body.
  */
 @JsDsl
-fun <T : JsReference<*>> JsScope.For(
+fun <T : JsReference<C>, C : JsValue> JsScope.For(
     definition: JsSyntaxScope.() -> JsDeclarationSyntax<T>,
     obj: JsValue,
-    block: JsSyntaxScope.(T) -> Unit,
+    block: JsSyntaxScope.(C) -> Unit,
 ) = +jsFor(
     definition = definition,
     obj = obj,
@@ -114,15 +116,15 @@ fun <T : JsReference<*>> JsScope.For(
  * @param block A lambda to define the JavaScript code inside the loop body.
  * @return A [JsForSyntax] object representing the `for...in` loop's JavaScript string.
  */
-fun <T : JsReference<*>> jsFor(
+fun <T : JsReference<C>, C : JsValue> jsFor(
     definition: JsSyntaxScope.() -> JsDeclarationSyntax<T>,
     obj: JsValue,
-    block: JsSyntaxScope.(T) -> Unit,
+    block: JsSyntaxScope.(C) -> Unit,
 ): JsForSyntax {
     val definitionScope = JsSyntaxScope()
     val reference = definitionScope.run { +definition(definitionScope) }
     val blockScope = JsSyntaxScope()
-    block(blockScope, reference)
+    block(blockScope, reference as C)
     return JsForSyntax(
         """for (${definitionScope.apply { forceSingleLine() }} in $obj) {
                     $blockScope
@@ -147,10 +149,10 @@ fun <T : JsReference<*>> jsFor(
  * @param block A lambda with receiver [JsSyntaxScope] and the loop variable [T] as an argument, to define the JavaScript code inside the loop body.
  */
 @JsDsl
-fun <T : JsReference<*>> JsScope.For(
+fun <T : JsReference<C>, C : JsValue> JsScope.For(
     definition: JsSyntaxScope.() -> JsDeclarationSyntax<T>,
     obj: JsArray<*>,
-    block: JsSyntaxScope.(T) -> Unit,
+    block: JsSyntaxScope.(C) -> Unit,
 ) = +jsFor(
     definition = definition,
     obj = obj,
@@ -167,15 +169,15 @@ fun <T : JsReference<*>> JsScope.For(
  * @param block A lambda to define the JavaScript code inside the loop body.
  * @return A [JsForSyntax] object representing the `for...of` loop's JavaScript string.
  */
-fun <T : JsReference<*>> jsFor(
+fun <T : JsReference<C>, C : JsValue> jsFor(
     definition: JsSyntaxScope.() -> JsDeclarationSyntax<T>,
     obj: JsArray<*>,
-    block: JsSyntaxScope.(T) -> Unit,
+    block: JsSyntaxScope.(C) -> Unit,
 ): JsForSyntax {
     val definitionScope = JsSyntaxScope()
     val reference = definitionScope.run { +definition(definitionScope) }
     val blockScope = JsSyntaxScope()
-    block(blockScope, reference)
+    block(blockScope, reference as C)
     return JsForSyntax(
         """for (${definitionScope.apply { forceSingleLine() }} of $obj) {
                     $blockScope

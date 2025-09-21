@@ -29,3 +29,5 @@ interface JsBoolean : JsValue, LogicalComparable {
  * This provides a convenient way to use Kotlin booleans directly in JavaScript DSL.
  */
 val Boolean.js: JsBoolean get() = JsBoolean.value(this)
+
+operator fun Boolean.unaryPlus(): JsBoolean = this.js
