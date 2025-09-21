@@ -16,6 +16,7 @@ import net.asere.kotlin.js.dsl.type.lambda.l1.def
 import net.asere.kotlin.js.dsl.type.lambda.l2.JsLambda2
 import net.asere.kotlin.js.dsl.type.lambda.l2.def
 import net.asere.kotlin.js.dsl.type.number.JsNumber
+import net.asere.kotlin.js.dsl.type.number.def
 import net.asere.kotlin.js.dsl.type.number.js
 import net.asere.kotlin.js.dsl.type.number.syntax
 import net.asere.kotlin.js.dsl.type.string.JsString
@@ -26,8 +27,8 @@ fun main(vararg args: String) {
     val result = createHTML().body {
         jslScript {
             val sum = Const { JsLambda2.def<JsNumber, JsNumber>() } assign jsLambda(
-                JsString.def("first"),
-                JsString.def("second")
+                JsNumber.def("first"),
+                JsNumber.def("second")
             ) { first, second ->
                 Return { first + second }
             }
@@ -41,7 +42,7 @@ fun main(vararg args: String) {
             })
 
             val printItem = Const { JsLambda1.def<JsNumber>("printItem") } assign jsLambda(
-                JsString.def("item"),
+                JsNumber.def("item"),
             ) { item ->
                 Log(item)
             }

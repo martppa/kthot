@@ -24,6 +24,7 @@ import net.asere.kotlin.js.dsl.type.number.def
 import net.asere.kotlin.js.dsl.type.number.js
 import net.asere.kotlin.js.dsl.type.obj.def
 import net.asere.kotlin.js.dsl.type.obj.get
+import net.asere.kotlin.js.dsl.type.obj.value
 
 fun main(vararg args: String) {
     val result = createHTML().body {
@@ -36,7 +37,7 @@ fun main(vararg args: String) {
                 }
             }
 
-            val obj = Const { JsObject.def("obj") } assign JsSyntax("{ a: 5 }")
+            val obj = Const { JsObject.def("obj") } assign JsObject.value("{ a: 5 }")
             For ({ Const { JsObject.def("key") } }, obj) {
                 Log(obj[it])
             }

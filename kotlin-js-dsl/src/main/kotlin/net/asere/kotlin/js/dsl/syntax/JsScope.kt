@@ -9,15 +9,12 @@ import net.asere.kotlin.js.dsl.declaration.JsVarDeclaration
 import net.asere.kotlin.js.dsl.syntax.operational.access.operation.AssignmentOperation
 import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.type.JsElement
-import net.asere.kotlin.js.dsl.type.bool.js
 import net.asere.kotlin.js.dsl.type.definition.JsDefinition
 import net.asere.kotlin.js.dsl.type.function.JsFunction
 import net.asere.kotlin.js.dsl.type.function.JsFunctionRef
 import net.asere.kotlin.js.dsl.type.function.f0.JsFunction0
 import net.asere.kotlin.js.dsl.type.function.f0.JsFunction0Ref
-import net.asere.kotlin.js.dsl.type.number.js
 import net.asere.kotlin.js.dsl.type.reference.JsReference
-import net.asere.kotlin.js.dsl.type.string.js
 import net.asere.kotlin.js.dsl.type.toLine
 import net.asere.kotlin.js.dsl.type.toSyntax
 import net.asere.kotlin.js.dsl.type.value.JsValue
@@ -74,48 +71,50 @@ abstract class JsScope {
         )
     }
 
-    fun <T : JsReference<C>, C : JsValue> T.assignValue(element: JsElement): JsAssignationSyntax<C> {
+    fun <T : JsReference<C>, C : JsValue> T.assignValue(element: C): JsAssignationSyntax<C> {
         val assignOperation = AssignmentOperation(this, element.toOperable())
         return JsAssignationSyntax(this as C, assignOperation)
     }
 
-    fun <T : JsReference<C>, C : JsValue> JsResultSyntax<T>.assignValue(element: JsElement): JsAssignationSyntax<T> {
+    fun <T : JsReference<C>, C : JsValue> JsResultSyntax<T>.assignValue(element: JsElement): JsAssignationSyntax<C> {
         val assignOperation = AssignmentOperation(this.toOperable(), element.toOperable())
-        return JsAssignationSyntax(innerObject, assignOperation)
+        return JsAssignationSyntax(innerObject as C, assignOperation)
     }
 
-    fun JsElement.assignValue(element: JsElement): AssignmentOperation = AssignmentOperation(
-        leftHand = this.toOperable(),
-        rightHand = element.toOperable()
-    )
+    fun <T : JsValue> T.assignValue(element: T): JsAssignationSyntax<T> {
+        val assignOperation = AssignmentOperation(this.toOperable(), element.toOperable())
+        return JsAssignationSyntax(this, assignOperation)
+    }
 
-    fun <T : JsReference<C>, C : JsValue> T.assignValue(value: String) = assignValue(element = value.js)
-    fun <T : JsReference<C>, C : JsValue> T.assignValue(value: Number) = assignValue(element = value.js)
-    fun <T : JsReference<C>, C : JsValue> T.assignValue(value: Boolean) = assignValue(element = value.js)
-
-    fun <T : JsReference<C>, C : JsValue> JsResultSyntax<T>.assignValue(value: String) = assignValue(element = value.js)
-    fun <T : JsReference<C>, C : JsValue> JsResultSyntax<T>.assignValue(value: Number) = assignValue(element = value.js)
-    fun <T : JsReference<C>, C : JsValue> JsResultSyntax<T>.assignValue(value: Boolean) = assignValue(element = value.js)
-
-    private fun <T : JsReference<C>, C : JsValue> JsAssignationSyntax<T>.render(): C {
+    private fun <T : JsValue> JsAssignationSyntax<T>.render(): T {
         this@JsScope.append(toLine())
-        return innerObject as C
+        return innerObject
     }
 
-    private fun <T : JsElement> T.render(): T {
+    private fun <T : JsValue> T.render(): T {
         this@JsScope.append(toLine())
         return this
     }
 
     @JsDsl
-    infix fun <T : JsReference<C>, C : JsValue> JsResultSyntax<T>.assign(
-        value: JsElement
+    infix fun <T : JsReference<C>, C : JsValue> T.assign(
+        value: C
     ): C = assignValue(element = value).render()
 
     @JsDsl
-    infix fun <T : JsElement> JsElement.assign(
+    infix fun <T : JsReference<C>, C : JsValue> T.assign(
         value: T
-    ): AssignmentOperation = assignValue(element = value).render()
+    ): T = assignValue(element = value).render()
+
+    @JsDsl
+    infix fun <T : JsReference<C>, C : JsValue> JsResultSyntax<T>.assign(
+        value: C
+    ): C = assignValue(element = value).render()
+
+    @JsDsl
+    infix fun <T : JsValue> T.assign(
+        value: T
+    ): T = assignValue(element = value).render()
 }
 
 fun js(block: JsSyntaxScope.() -> Unit): JsSyntax {
