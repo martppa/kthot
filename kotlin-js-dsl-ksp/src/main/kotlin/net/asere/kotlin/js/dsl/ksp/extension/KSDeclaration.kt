@@ -11,13 +11,23 @@ import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSTypeArgument
 import com.google.devtools.ksp.symbol.Visibility
-import net.asere.kotlin.js.dsl.ksp.processor.jsClassAnnotationName
 import net.asere.kotlin.js.dsl.ksp.processor.jsElementName
 import kotlin.sequences.forEach
 
+private fun String.stripSuffix(): String = this.let {
+    when {
+        it.endsWith("Ref") -> it.dropLast(3)
+        it.endsWith("Syntax") -> it.dropLast(6)
+        it.endsWith("Value") -> it.dropLast(5)
+        else -> it
+    }
+}
+
+val KSDeclaration.fullBasicTypeName: String get() = qualifiedName?.asString()?.stripSuffix() ?: "Any"
 val KSDeclaration.fullName: String get() = qualifiedName?.asString() ?: "Any"
 val KSDeclaration.fullJsName: String get() = "${packageName.asString()}.${jsName}"
 val KSDeclaration.name: String get() = simpleName.asString()
+val KSDeclaration.basicTypeName: String get() = simpleName.asString().stripSuffix()
 
 fun KSDeclaration?.isJsElement(resolver: Resolver): Boolean {
     val jsElement = resolver.loadClass(jsElementName)
@@ -82,3 +92,5 @@ val KSDeclaration.jsName: String get() {
     if (this is KSClassDeclaration) return jsName
     return name
 }
+
+val KSDeclaration.basicJsName: String get() = name.stripSuffix()

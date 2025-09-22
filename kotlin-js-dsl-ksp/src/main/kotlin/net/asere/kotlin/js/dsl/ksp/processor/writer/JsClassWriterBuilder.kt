@@ -35,8 +35,13 @@ class JsClassWriterBuilder(
         imports.add("import ${jsObjectClass.packageName.asString()}.syntax\n")
 
         declaration.findJsConstructors().firstOrNull()?.parameters?.forEach {
-            if (!it.type.isGenericTypeParameter())
+            if (!it.type.isGenericTypeParameter()) {
                 imports.add("import ${it.type.resolve().declaration.fullName}\n")
+                if (it.type.resolve().declaration.fullName.endsWith("Ref")) {
+                    imports.add("import ${it.type.resolve().declaration.fullBasicTypeName}\n")
+                }
+                imports.add("import ${it.type.resolve().declaration.packageName.asString()}.ref\n")
+            }
         }
         imports.add("import $jsProvideFunctionName\n")
         imports.add("import $jsSyntaxName\n")
@@ -53,7 +58,7 @@ class JsClassWriterBuilder(
                     if (item.type.isGenericTypeParameter()) {
                         "           $name = JsObject.syntax(\"$name\", false)\n"
                     } else {
-                        "           $name = provide(element = JsSyntax(\"$name\"), isNullable = false)\n"
+                        "           $name = ${item.type.resolve().declaration.basicJsName}.ref(\"$name\")\n"
                     }
                 }
             }?.joinToString { it } ?: ""
@@ -72,7 +77,7 @@ class JsClassWriterBuilder(
                     if (item.type.isGenericTypeParameter()) {
                         "           $name = JsObject.syntax(\"$name\", false)\n"
                     } else {
-                        "           $name = provide(element = JsSyntax(\"$name\"), isNullable = false)\n"
+                        "           $name = ${item.type.resolve().declaration.basicJsName}.ref(\"$name\")\n"
                     }
                 }
             }.joinToString { it } }))\n")
