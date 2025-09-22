@@ -102,19 +102,9 @@ abstract class JsScope {
     ): C = assignValue(element = value).render()
 
     @JsDsl
-    infix fun <T : JsReference<C>, C : JsValue> T.assign(
-        value: T
-    ): T = assignValue(element = value).render()
-
-    @JsDsl
     infix fun <T : JsReference<C>, C : JsValue> JsResultSyntax<T>.assign(
         value: C
     ): C = assignValue(element = value).render()
-
-    @JsDsl
-    infix fun <T : JsValue> T.assign(
-        value: T
-    ): T = assignValue(element = value).render()
 }
 
 fun js(block: JsSyntaxScope.() -> Unit): JsSyntax {

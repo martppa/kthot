@@ -16,7 +16,7 @@ open class JsObjectRef @InternalApi constructor(
 }
 
 @OptIn(InternalApi::class)
-fun JsObject.Companion.ref(name: String? = null, isNullable: Boolean = false) = JsObjectRef(name, isNullable)
+fun JsObject.Companion.ref(name: String? = null, isNullable: Boolean = false): JsObjectRef = JsObjectRef(name, isNullable)
 
 @OptIn(InternalApi::class)
 fun JsObject.Companion.def(name: String? = null, isNullable: Boolean = false) =

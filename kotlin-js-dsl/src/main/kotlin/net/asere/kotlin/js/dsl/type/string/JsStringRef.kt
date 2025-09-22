@@ -1,10 +1,11 @@
 package net.asere.kotlin.js.dsl.type.string
 
+import net.asere.kotlin.js.dsl.annotation.InternalApi
 import net.asere.kotlin.js.dsl.type.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.type.reference.JsValueRef
 import net.asere.kotlin.js.dsl.type.reference.ReferenceId
 
-class JsStringRef internal constructor(
+class JsStringRef @InternalApi constructor(
     name: String? = null,
     isNullable: Boolean = false
 ) : JsString, JsValueRef<JsString>(
@@ -16,9 +17,11 @@ class JsStringRef internal constructor(
     override fun stringify(): String = $$$"${$$${super.name}}"
 }
 
-fun JsString.Companion.ref(name: String? = null, isNullable: Boolean = false): JsString =
+@OptIn(InternalApi::class)
+fun JsString.Companion.ref(name: String? = null, isNullable: Boolean = false): JsStringRef =
     JsStringRef(name, isNullable)
 
+@OptIn(InternalApi::class)
 fun JsString.Companion.def(name: String? = null, isNullable: Boolean = false) =
     object : JsPrintableDefinition<JsStringRef, JsString>() {
         override val reference: JsStringRef = JsStringRef(name, isNullable)

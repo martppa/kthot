@@ -17,6 +17,7 @@ class JsInterfaceBuilder(
     private lateinit var jsSyntaxDeclaration: KSClassDeclaration
     private lateinit var jsElementDeclaration: KSClassDeclaration
     private lateinit var jsAccessOperationDeclaration: KSClassDeclaration
+    private lateinit var jsInternalApiAnnotationDeclaration: KSClassDeclaration
 
     override fun build(resolver: Resolver, declaration: KSClassDeclaration) {
         resolver.checkDependencies()
@@ -27,6 +28,7 @@ class JsInterfaceBuilder(
         }
         codeBuilder.appendImports(declaration, resolver)
         val interfaceName = declaration.jsName
+        codeBuilder.append("@OptIn(InternalApi::class)\n")
         codeBuilder.append("interface ${declaration.getDeclaration(interfaceName)} {\n")
         codeBuilder.appendProperties(declaration, resolver)
         codeBuilder.appendMethods(declaration, resolver)
@@ -54,6 +56,7 @@ class JsInterfaceBuilder(
         jsSyntaxDeclaration = loadClass(jsSyntaxName)
         jsElementDeclaration = loadClass(jsElementName)
         jsAccessOperationDeclaration = loadClass(jsAccessOperationName)
+        jsInternalApiAnnotationDeclaration = loadClass(jsInternalApiAnnotationName)
     }
 
     private fun StringBuilder.appendImports(declaration: KSClassDeclaration, resolver: Resolver) {
@@ -62,6 +65,7 @@ class JsInterfaceBuilder(
         imports.add(jsChainOperationDeclaration.fullName)
         imports.add(jsInvocationOperationDeclaration.fullName)
         imports.add(jsAccessOperationDeclaration.fullName)
+        imports.add(jsInternalApiAnnotationDeclaration.fullName)
         if (declaration.getGenericReturnTypes(resolver).isNotEmpty()) {
             imports.add(jsElementDeclaration.fullName)
         }
@@ -126,13 +130,13 @@ class JsInterfaceBuilder(
                 append("  val $propertyName: $propertyDefinitionName get() = ${property.type.resolve().builderName}(${resolver.loadClass(jsAccessOperationName)}(this, \"$propertyName\"), ${property.type.isNullable()})")
             } else if (property.hasArgumentsTypes()) {
                 val builderParameters = property.getArgumentsTypes()
-                append("  val $propertyName: $propertyDefinitionName get() = $propertyTypeSimpleName.syntax(${
+                append("  val $propertyName: $propertyDefinitionName get() = $propertyTypeSimpleName(${
                     builderParameters.joinToString(
                         ", "
                     ) { it.builderName }
-                }, ${jsChainOperationDeclaration.name}(this, \"$propertyName\"))\n")
+                }, ${jsChainOperationDeclaration.name}(this, \"$propertyName\").present())\n")
             } else {
-                append("  val $propertyName: $propertyDefinitionName get() = $propertyDefinitionName.syntax(${jsChainOperationDeclaration.name}(this, \"$propertyName\"))\n")
+                append("  val $propertyName: $propertyDefinitionName get() = $propertyDefinitionName(${jsChainOperationDeclaration.name}(this, \"$propertyName\").present())\n")
             }
         }
     }
