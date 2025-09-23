@@ -71,17 +71,22 @@ abstract class JsScope {
         )
     }
 
-    fun <T : JsReference<C>, C : JsValue> T.assignValue(element: C): JsAssignationSyntax<C> {
+    fun <T : JsReference<C>, C : JsValue> T.assignValue(element: C): JsAssignationSyntax<T> {
         val assignOperation = AssignmentOperation(this, element.toOperable())
-        return JsAssignationSyntax(this as C, assignOperation)
+        return JsAssignationSyntax(this, assignOperation)
     }
 
-    fun <T : JsReference<C>, C : JsValue> JsResultSyntax<T>.assignValue(element: JsElement): JsAssignationSyntax<C> {
+    fun <T : JsReference<C>, C : JsValue> JsResultSyntax<T>.assignValue(element: C): JsResultSyntax<T> {
         val assignOperation = AssignmentOperation(this.toOperable(), element.toOperable())
-        return JsAssignationSyntax(innerObject as C, assignOperation)
+        return JsAssignationSyntax(innerObject, assignOperation)
     }
 
-    private fun <T : JsValue> JsAssignationSyntax<T>.render(): T {
+    private fun <T : JsReference<C>, C : JsValue> JsAssignationSyntax<T>.render(): T {
+        this@JsScope.append(toLine())
+        return innerObject
+    }
+
+    private fun <T : JsReference<C>, C : JsValue> JsResultSyntax<T>.render(): T {
         this@JsScope.append(toLine())
         return innerObject
     }
@@ -89,12 +94,12 @@ abstract class JsScope {
     @JsDsl
     infix fun <T : JsReference<C>, C : JsValue> T.assign(
         value: C
-    ): C = assignValue(element = value).render()
+    ): T = assignValue(element = value).render()
 
     @JsDsl
     infix fun <T : JsReference<C>, C : JsValue> JsResultSyntax<T>.assign(
         value: C
-    ): C = assignValue(element = value).render()
+    ): T = assignValue(element = value).render()
 }
 
 fun js(block: JsSyntaxScope.() -> Unit): JsSyntax {

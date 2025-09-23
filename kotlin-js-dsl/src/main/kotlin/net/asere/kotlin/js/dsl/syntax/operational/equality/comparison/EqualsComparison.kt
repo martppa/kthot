@@ -6,11 +6,12 @@ import net.asere.kotlin.js.dsl.syntax.operational.Operable
 import net.asere.kotlin.js.dsl.syntax.operational.Operation
 import net.asere.kotlin.js.dsl.syntax.operational.equality.operator.EqualityOperator
 import net.asere.kotlin.js.dsl.syntax.operational.equality.operator.Equals
+import net.asere.kotlin.js.dsl.type.bool.JsBoolean
 
 class EqualsComparison(
     override val leftHand: Operable,
     override val rightHand: Operable,
-) : EqualityComparison() {
+) : EqualityComparison(), JsBoolean {
     override val operator: EqualityOperator = Equals
 }
 
