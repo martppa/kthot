@@ -1,8 +1,8 @@
 package net.asere.kotlin.js.dsl
 
 import net.asere.kotlin.js.dsl.declaration.Const
-import net.asere.kotlin.js.dsl.dom.type.Window
-import net.asere.kotlin.js.dsl.dom.type.screen.JsScreen
+import net.asere.kotlin.js.dsl.dom.type.window.Window
+import net.asere.kotlin.js.dsl.dom.type.window.screen.JsScreen
 import net.asere.kotlin.js.dsl.ksp.KotlinJsl
 import net.asere.kotlin.js.dsl.log.Log
 import net.asere.kotlin.js.dsl.syntax.js

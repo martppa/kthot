@@ -81,19 +81,9 @@ abstract class JsScope {
         return JsAssignationSyntax(innerObject as C, assignOperation)
     }
 
-    fun <T : JsValue> T.assignValue(element: T): JsAssignationSyntax<T> {
-        val assignOperation = AssignmentOperation(this.toOperable(), element.toOperable())
-        return JsAssignationSyntax(this, assignOperation)
-    }
-
     private fun <T : JsValue> JsAssignationSyntax<T>.render(): T {
         this@JsScope.append(toLine())
         return innerObject
-    }
-
-    private fun <T : JsValue> T.render(): T {
-        this@JsScope.append(toLine())
-        return this
     }
 
     @JsDsl

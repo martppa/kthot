@@ -1,83 +1,69 @@
 package net.asere.kotlin.js.dsl
 
-import net.asere.kotlin.js.dsl.declaration.Const
+import net.asere.kotlin.js.dsl.dom.type.data.event.dom.JsDomEvent
+import net.asere.kotlin.js.dsl.dom.type.data.event.dom.def
+import net.asere.kotlin.js.dsl.dom.type.structure.form.button.JsButton
+import net.asere.kotlin.js.dsl.dom.type.structure.form.button.ref
 import net.asere.kotlin.js.dsl.ksp.KotlinJsl
 import net.asere.kotlin.js.dsl.ksp.annotation.JsClass
 import net.asere.kotlin.js.dsl.ksp.annotation.JsConstructor
 import net.asere.kotlin.js.dsl.ksp.annotation.JsFunction
 import net.asere.kotlin.js.dsl.ksp.annotation.JsProperty
-import net.asere.kotlin.js.dsl.ksp.js.Super
 import net.asere.kotlin.js.dsl.ksp.processor.js.JavaScriptClass
 import net.asere.kotlin.js.dsl.log.Log
-import net.asere.kotlin.js.dsl.syntax.async.await
 import net.asere.kotlin.js.dsl.syntax.js
-import net.asere.kotlin.js.dsl.syntax.jsreturn.Return
-import net.asere.kotlin.js.dsl.syntax.loop.jsfor.For
-import net.asere.kotlin.js.dsl.syntax.operational.arithmetical.comparison.lt
-import net.asere.kotlin.js.dsl.syntax.operational.arithmetical.operation.postInc
 import net.asere.kotlin.js.dsl.type.lambda.jsLambda
-import net.asere.kotlin.js.dsl.type.lambda.jsResultLambda
-import net.asere.kotlin.js.dsl.type.lambda.l0.Async
-import net.asere.kotlin.js.dsl.type.lambda.l0.AsyncResult
-import net.asere.kotlin.js.dsl.type.lambda.l0.JsResultLambda0
-import net.asere.kotlin.js.dsl.type.lambda.l0.asyncDef
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.JsNumberRef
-import net.asere.kotlin.js.dsl.type.number.def
-import net.asere.kotlin.js.dsl.type.number.js
 import net.asere.kotlin.js.dsl.type.number.ref
-import net.asere.kotlin.js.dsl.type.number.value
-import net.asere.kotlin.js.dsl.type.obj.JsObject
-import net.asere.kotlin.js.dsl.type.obj.def
 import net.asere.kotlin.js.dsl.type.string.JsString
+import net.asere.kotlin.js.dsl.type.string.JsStringRef
 import net.asere.kotlin.js.dsl.type.string.ref
+import net.asere.kotlin.js.dsl.type.value.JsValue
 
 @JsClass
-data class Test @JsConstructor constructor(
+data class Test<T : JsValue> @JsConstructor constructor(
     @JsProperty
-    val property: JsString = JsString.ref("property")
+    val property: JsStringRef = JsString.ref("property"),
+    @JsProperty
+    val valuex: T
 ) : JavaScriptClass() {
 
     @JsProperty
-    val number: JsNumber = JsNumber.ref("number")
+    val number: JsNumberRef = JsNumber.ref("number")
 
     init {
         Constructor {
-            Super(number)
             This.property assign property
         }
     }
 
     @JsFunction
-    fun function1(value: JsNumber) = js {
-        This.property assign value
+    fun function1(value: JsString) = js {
+       This.property assign value
     }
 }
 
 fun main() {
     KotlinJsl.initialize()
     val syntax = js {
-        val lambda = Const { JsResultLambda0.asyncDef<JsNumber>("lambda") } assign AsyncResult {
-            jsResultLambda {
-                Log("Hi")
-                Return { JsNumber.value(5) }
-            }
-        }
-        +lambda().then(jsLambda(JsNumber.def("value")) {
+        val button = JsButton.ref("btn")
+        +button.setOnClick(jsLambda(param1 = JsDomEvent.def("event1")) {
             Log(it)
         })
-
-        val result = Const { JsObject.def("result") } assign await { lambda() }.toExponential()
-        Log(result)
     }
     println(syntax)
 
     // Output:
-    // async function getAsyncText() {
-    //     return 'Returned by a JavaScript function!'
+    // async function printMessage(message) {
+    //     console.log(message)
+    //     throw Error('Thrown error')
+    //     return 'Value returned!'
     // }
-
-    // getAsyncText().then((value) => {
-    //     console.log(value)
-    // })
+    // try {
+    //     const result = await printMessage('Printed from inside an async function!')
+    //     console.log(result)
+    // } catch(error) {
+    //     console.log('An error occurred error')
+    // }
 }
