@@ -10,7 +10,10 @@ import net.asere.kotlin.js.dsl.ksp.processor.jsFunctionAnnotationName
 import net.asere.kotlin.js.dsl.ksp.processor.jsNullableAnnotationName
 import net.asere.kotlin.js.dsl.ksp.processor.jsPropertyAnnotationName
 
-fun KSClassDeclaration.getJsAvailableFunctions(resolver: Resolver) = declarations
+/**
+ * Returns a sequence of available functions annotated as @JsFunction
+ */
+fun KSClassDeclaration.getJsAvailableFunctions(resolver: Resolver): Sequence<KSFunctionDeclaration> = declarations
     .filterIsInstance<KSFunctionDeclaration>()
     .filter {
         annotations.find {
@@ -21,6 +24,9 @@ fun KSClassDeclaration.getJsAvailableFunctions(resolver: Resolver) = declaration
     .filter { !it.isConstructor() }
     .filter { it.returnType?.resolve()?.declaration.isJsElement(resolver) }
 
+/**
+ * Returns a sequence of available properties annotated as @JsFunction
+ */
 fun KSClassDeclaration.getJsAvailableProperties(resolver: Resolver) = getAllProperties()
     .filter {
         it.annotations.find { annotation ->
@@ -30,6 +36,9 @@ fun KSClassDeclaration.getJsAvailableProperties(resolver: Resolver) = getAllProp
     .apply { println(this.joinToString { it.name }) }
     .filter { it.getVisibility() == Visibility.PUBLIC && it.isJsElement(resolver) }
 
+/**
+ * Searches for all super classes that are interfaces and returns them
+ */
 val KSClassDeclaration.superTypeInterfaces: List<KSType>
     get() = superTypes
         .filter {
@@ -38,6 +47,9 @@ val KSClassDeclaration.superTypeInterfaces: List<KSType>
         }
         .map { it.resolve() }.toList()
 
+/**
+ * Tells whether the provided declaration is a subclass or not
+ */
 fun KSClassDeclaration.isSubclassOf(superClass: KSClassDeclaration): Boolean {
     if (qualifiedName?.asString() == superClass.qualifiedName?.asString()) {
         return true
@@ -53,10 +65,16 @@ fun KSClassDeclaration.isSubclassOf(superClass: KSClassDeclaration): Boolean {
     return false
 }
 
+/**
+ * Whether this declaration is nullable or nor
+ */
 fun KSClassDeclaration.isNullable(): Boolean = annotations.find {
     it.annotationType.resolve().declaration.qualifiedName?.asString() == jsNullableAnnotationName
 } != null
 
+/**
+ * The name provided to annotation at declaration
+ */
 val KSClassDeclaration.jsName: String get() {
     val jsClassAnnotation = annotations.find {
         it.annotationType.resolve().declaration.qualifiedName?.asString() == jsClassAnnotationName
@@ -72,6 +90,10 @@ val KSClassDeclaration.jsName: String get() {
     return className
 }
 
+/**
+ * Returns a definition string of all generic types in the class including boundaries.
+ * For example, <T : JsString, C : JsElement>. If none is found, it returns an empty string.
+ */
 fun KSClassDeclaration.genericTypesDeclarationString(modifier: String? = null): String {
     val stringBuilder = StringBuilder()
     val genericTypesDeclarations = mutableListOf<String>()
@@ -94,6 +116,9 @@ fun KSClassDeclaration.genericTypesDeclarationString(modifier: String? = null): 
     return stringBuilder.toString()
 }
 
+/**
+ * Returns the where clause for multiple generics bounding. If none is found, it returns an empty string.
+ */
 val KSClassDeclaration.whereClauseString: String get() {
     val whereClause = typeParameters.filter { it.bounds.toList().size > 1 }.map { parameter ->
         parameter.bounds.filter { !it.resolve().declaration.isAny() }
@@ -103,27 +128,9 @@ val KSClassDeclaration.whereClauseString: String get() {
     return whereClause
 }
 
-val KSClassDeclaration.genericTypesString: String get() {
-    val genericTypes = mutableListOf<String>()
-    typeParameters.forEach { parameter ->
-        genericTypes.add(parameter.name.asString())
-    }
-    if (genericTypes.isEmpty()) return ""
-    return "<${genericTypes.joinToString()}>"
-}
-
-fun KSClassDeclaration.buildGenericTypesAsString(value: String): String {
-    val genericTypes = mutableListOf<String>()
-    typeParameters.forEach { parameter ->
-        genericTypes.add(value)
-    }
-    if (genericTypes.isEmpty()) return ""
-    return "<${genericTypes.joinToString()}>"
-}
-
-val KSClassDeclaration.genericTypesAsJsValueString: String get() = buildGenericTypesAsString("JsValue")
-val KSClassDeclaration.genericTypesAsStarString: String get() = buildGenericTypesAsString("*")
-
+/**
+ * The list of constructors defined
+ */
 val KSClassDeclaration.constructors: List<KSFunctionDeclaration> get() {
     return declarations
         .filterIsInstance<KSFunctionDeclaration>()
@@ -131,12 +138,18 @@ val KSClassDeclaration.constructors: List<KSFunctionDeclaration> get() {
         .toList()
 }
 
+/**
+ * The list of properties defined in the class
+ */
 val KSClassDeclaration.properties: List<KSPropertyDeclaration> get() {
     return declarations
         .filterIsInstance<KSPropertyDeclaration>()
         .toList()
 }
 
+/**
+ * Returns a list of constructors defined in the class that were annotated with @JsConstructor
+ */
 fun KSClassDeclaration.findJsConstructors(): List<KSFunctionDeclaration> = declarations
     .filterIsInstance<KSFunctionDeclaration>()
     .filter { function ->
@@ -146,6 +159,9 @@ fun KSClassDeclaration.findJsConstructors(): List<KSFunctionDeclaration> = decla
     }
     .toList()
 
+/**
+ * Returns a list of functions defined in the class that were annotated with @JsFunction
+ */
 fun KSClassDeclaration.findJsFunctions(): List<KSFunctionDeclaration> = declarations
     .filterIsInstance<KSFunctionDeclaration>()
     .filter { function ->

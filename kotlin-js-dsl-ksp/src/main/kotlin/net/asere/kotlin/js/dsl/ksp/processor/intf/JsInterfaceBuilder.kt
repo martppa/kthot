@@ -15,6 +15,7 @@ class JsInterfaceBuilder(
     private lateinit var jsInvocationOperationDeclaration: KSClassDeclaration
     private lateinit var jsObjectDeclaration: KSClassDeclaration
     private lateinit var jsSyntaxDeclaration: KSClassDeclaration
+    private lateinit var jsReferenceDeclaration: KSClassDeclaration
     private lateinit var jsElementDeclaration: KSClassDeclaration
     private lateinit var jsAccessOperationDeclaration: KSClassDeclaration
     private lateinit var jsInternalApiAnnotationDeclaration: KSClassDeclaration
@@ -54,6 +55,7 @@ class JsInterfaceBuilder(
         jsInvocationOperationDeclaration = loadClass(jsInvocationOperationName)
         jsObjectDeclaration = loadClass(jsObjectName)
         jsSyntaxDeclaration = loadClass(jsSyntaxName)
+        jsReferenceDeclaration = loadClass(jsSyntaxName)
         jsElementDeclaration = loadClass(jsElementName)
         jsAccessOperationDeclaration = loadClass(jsAccessOperationName)
         jsInternalApiAnnotationDeclaration = loadClass(jsInternalApiAnnotationName)
@@ -75,14 +77,19 @@ class JsInterfaceBuilder(
         declaration.constructors.forEach { constructor ->
             constructor.parameters.forEach { parameter ->
                 imports.add(parameter.type.resolve().declaration.fullName)
+                imports.add(parameter.type.resolve().declaration.fullBasicTypeName)
             }
         }
         declaration.getJsAvailableProperties(resolver)
             .filter { it.type.resolve().declaration !is KSTypeParameter }
             .forEach { property ->
                 imports.add(property.typeFullName)
+                imports.add(property.basicTypeFullName)
                 if (!property.isTypeSubclassOf(jsSyntaxDeclaration)) {
                     imports.add("${property.typePackage}.syntax")
+                }
+                if (!property.isTypeSubclassOf(jsReferenceDeclaration)) {
+                    imports.add("${property.typePackage}.ref")
                 }
             }
         if (declaration.superTypeInterfaces.isEmpty()) {
@@ -90,17 +97,23 @@ class JsInterfaceBuilder(
         } else {
             declaration.superTypeInterfaces.forEach {
                 imports.add(it.declaration.fullName)
+                imports.add(it.declaration.fullBasicTypeName)
             }
         }
         for (function in declaration.getJsAvailableFunctions(resolver)) {
             if (function.returnType?.resolve() !is KSTypeParameter) {
                 imports.add(function.returnType!!.resolve().declaration.fullName)
+                imports.add(function.returnType!!.resolve().declaration.fullBasicTypeName)
                 if (!function.returnType.isSubclassOf(jsSyntaxDeclaration)) {
                     imports.add("${function.returnType!!.packageName}.syntax")
+                }
+                if (!function.returnType.isSubclassOf(jsReferenceDeclaration)) {
+                    imports.add("${function.returnType!!.packageName}.ref")
                 }
             }
             function.parameters.filter { it.type.resolve() !is KSTypeParameter }.forEach { param ->
                 imports.add(param.type.resolve().declaration.fullName)
+                imports.add(param.type.resolve().declaration.fullBasicTypeName)
             }
         }
         declaration.typeParameters
@@ -125,18 +138,16 @@ class JsInterfaceBuilder(
         declaration.getJsAvailableProperties(resolver).forEach { property ->
             val propertyName = property.name
             val propertyDefinitionName = property.type.resolve().definitionName
-            val propertyTypeSimpleName = property.type.resolve().declaration.name
             if (property.isGenericTypeParameter()) {
-                append("  val $propertyName: $propertyDefinitionName get() = ${property.type.resolve().builderName}(${resolver.loadClass(jsAccessOperationName)}(this, \"$propertyName\"), ${property.type.isNullable()})")
-            } else if (property.hasArgumentsTypes()) {
-                val builderParameters = property.getArgumentsTypes()
-                append("  val $propertyName: $propertyDefinitionName get() = $propertyTypeSimpleName(${
-                    builderParameters.joinToString(
-                        ", "
-                    ) { it.builderName }
-                }, ${jsChainOperationDeclaration.name}(this, \"$propertyName\").present())\n")
+                append(
+                    "  val $propertyName: $propertyDefinitionName get() = ${property.type.resolve().builderName}(${
+                        resolver.loadClass(
+                            jsAccessOperationName
+                        )
+                    }(this, \"$propertyName\"), ${property.type.isNullable()})"
+                )
             } else {
-                append("  val $propertyName: $propertyDefinitionName get() = $propertyDefinitionName(${jsChainOperationDeclaration.name}(this, \"$propertyName\").present())\n")
+                append("  val $propertyName: $propertyDefinitionName get() = ${property.type.resolve().declaration.basicJsName}.ref${property.type.resolve().declaration.genericTypesString}(${jsChainOperationDeclaration.name}(this, \"$propertyName\"))\n")
             }
         }
     }

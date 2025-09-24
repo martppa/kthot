@@ -4,43 +4,72 @@ import com.google.devtools.ksp.closestClassDeclaration
 import com.google.devtools.ksp.getVisibility
 import com.google.devtools.ksp.isConstructor
 import com.google.devtools.ksp.processing.Resolver
-import com.google.devtools.ksp.symbol.KSClassDeclaration
-import com.google.devtools.ksp.symbol.KSDeclaration
-import com.google.devtools.ksp.symbol.KSFunctionDeclaration
-import com.google.devtools.ksp.symbol.KSPropertyDeclaration
-import com.google.devtools.ksp.symbol.KSType
-import com.google.devtools.ksp.symbol.KSTypeArgument
-import com.google.devtools.ksp.symbol.Visibility
+import com.google.devtools.ksp.symbol.*
 import net.asere.kotlin.js.dsl.ksp.processor.jsElementName
-import kotlin.sequences.forEach
 
-private fun String.stripSuffix(): String = this.let {
+/**
+ * Removes the helper suffix. Any value ending on "Ref", "Syntax" or "Value" will be removed.
+ */
+internal fun String.stripHelperSuffix(): String = this.let {
     when {
         it.endsWith("Ref") -> it.dropLast(3)
         it.endsWith("Syntax") -> it.dropLast(6)
-        it.endsWith("Value") -> it.dropLast(5)
+        it.endsWith("Value") && it != "JsValue" -> it.dropLast(5)
         else -> it
     }
 }
 
-val KSDeclaration.fullBasicTypeName: String get() = qualifiedName?.asString()?.stripSuffix() ?: "Any"
-val KSDeclaration.fullName: String get() = qualifiedName?.asString() ?: "Any"
-val KSDeclaration.fullJsName: String get() = "${packageName.asString()}.${jsName}"
-val KSDeclaration.name: String get() = simpleName.asString()
-val KSDeclaration.basicTypeName: String get() = simpleName.asString().stripSuffix()
+/**
+ * Package + basic type. Basic type is the basic type of helper. Helpers are references, syntax or value.
+ * For example, JsNumberRef is the reference helper of JsNumber.
+ */
+val KSDeclaration.fullBasicTypeName: String get() = qualifiedName?.asString()?.stripHelperSuffix() ?: "Any"
 
+/**
+ * Package + declaration name
+ */
+val KSDeclaration.fullName: String get() = qualifiedName?.asString() ?: "Any"
+
+/**
+ * Package + javascript declaration name declared in class definition
+ */
+val KSDeclaration.fullJsName: String get() = "${packageName.asString()}.${jsName}"
+
+/**
+ * Simple name of the declaration
+ */
+val KSDeclaration.name: String get() = simpleName.asString()
+
+/**
+ * Simple basic type. Basic type is the base type of helper.
+ * For example, JsNumberRef is the reference helper of JsNumber.
+ */
+val KSDeclaration.basicTypeName: String get() = simpleName.asString().stripHelperSuffix()
+
+/**
+ * Returns whether a declaration is a JsElement or not.
+ */
 fun KSDeclaration?.isJsElement(resolver: Resolver): Boolean {
     val jsElement = resolver.loadClass(jsElementName)
     return this.isSubclassOf(jsElement)
 }
 
+/**
+ * Returns whether a declaration is a subclass of the parameter or not.
+ */
 fun KSDeclaration?.isSubclassOf(classDeclaration: KSClassDeclaration) = this
     ?.closestClassDeclaration()
     ?.isSubclassOf(classDeclaration)
     ?: false
 
+/**
+ * Returns whether the declaration is a non-null Any or not
+ */
 fun KSDeclaration.isAny() = qualifiedName?.asString() == "kotlin.Any"
 
+/**
+ * Returns a list of publicly exposed generic types
+ */
 fun KSDeclaration.getGenericReturnTypes(resolver: Resolver): Set<KSType> {
     val types: MutableSet<KSType> = mutableSetOf()
     fun checkArguments(argument: KSTypeArgument) {
@@ -88,9 +117,50 @@ fun KSDeclaration.getGenericReturnTypes(resolver: Resolver): Set<KSType> {
     return types
 }
 
+/**
+ * The name provided to annotation at declaration
+ */
 val KSDeclaration.jsName: String get() {
     if (this is KSClassDeclaration) return jsName
     return name
 }
 
-val KSDeclaration.basicJsName: String get() = name.stripSuffix()
+/**
+ * The name of its basic type. For example, JsNumberRef -> JsNumber
+ */
+val KSDeclaration.basicJsName: String get() = name.stripHelperSuffix()
+
+val KSDeclaration.genericTypesString: String get() {
+    val genericTypes = mutableListOf<String>()
+    typeParameters.forEach { parameter ->
+        genericTypes.add(parameter.name.asString())
+    }
+    if (genericTypes.isEmpty()) return ""
+    return "<${genericTypes.joinToString()}>"
+}
+
+/**
+ * Replace all generic types with a string and returns the definition syntax as string. For example,
+ * for generic class Foo<String, Number>, if you provide "JsValue" it will return "<JsValue, JsValue>". If none
+ * is found, it will return an empty string.
+ */
+fun KSDeclaration.buildGenericTypesAsString(value: String): String {
+    val genericTypes = mutableListOf<String>()
+    typeParameters.forEach { parameter ->
+        genericTypes.add(value)
+    }
+    if (genericTypes.isEmpty()) return ""
+    return "<${genericTypes.joinToString()}>"
+}
+
+/**
+ * Returns all generic types of the declaration as JsValue in a string format. For example, for
+ * Foo<String, Number> it will literally return <JsValue, JsValue> string. If none is found, returns an empty string.
+ */
+val KSDeclaration.genericTypesAsJsValueString: String get() = buildGenericTypesAsString("JsValue")
+
+/**
+ * Returns all generic types of the declaration as * in a string format. For example, for
+ * Foo<String, Number> it will literally return <*, *> string. If none is found, it returns an empty string.
+ */
+val KSDeclaration.genericTypesAsStarString: String get() = buildGenericTypesAsString("*")

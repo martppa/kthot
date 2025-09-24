@@ -9,6 +9,7 @@ const val jsChainOperationName = "net.asere.kotlin.js.dsl.syntax.operational.acc
 const val jsInvocationOperationName = "net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation"
 const val jsObjectName = "net.asere.kotlin.js.dsl.type.obj.JsObject"
 const val jsSyntaxName = "net.asere.kotlin.js.dsl.syntax.JsSyntax"
+const val jsReferenceName = "net.asere.kotlin.js.dsl.type.reference.JsReference"
 const val jsElementName = "net.asere.kotlin.js.dsl.type.JsElement"
 const val jsValueRefName = "net.asere.kotlin.js.dsl.type.reference.JsValueRef"
 const val jsValueName = "net.asere.kotlin.js.dsl.type.value.JsValue"
