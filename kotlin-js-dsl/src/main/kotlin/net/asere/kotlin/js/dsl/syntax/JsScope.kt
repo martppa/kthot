@@ -10,6 +10,7 @@ import net.asere.kotlin.js.dsl.syntax.operational.access.operation.AssignmentOpe
 import net.asere.kotlin.js.dsl.tag.JsDsl
 import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.type.definition.JsDefinition
+import net.asere.kotlin.js.dsl.type.definition.validation.isValidVariableName
 import net.asere.kotlin.js.dsl.type.function.JsFunction
 import net.asere.kotlin.js.dsl.type.function.JsFunctionRef
 import net.asere.kotlin.js.dsl.type.function.f0.JsFunction0
@@ -60,6 +61,8 @@ abstract class JsScope {
     }
 
     fun <T : JsDefinition<C, Q>, C : JsReference<Q>, Q : JsValue> T.declare(type: DeclarationType): JsDeclarationSyntax<C> {
+        if (!isValidVariableName("$this"))
+            throw IllegalArgumentException("The definition name '$this' is not an allowed JavaScript variable name. Please choose a proper one.")
         val syntax = when (type) {
             DeclarationType.CONST -> JsConstantDeclaration(this.reference)
             DeclarationType.LET -> JsLetDeclaration(this.reference)
@@ -76,17 +79,12 @@ abstract class JsScope {
         return JsAssignationSyntax(this, assignOperation)
     }
 
-    fun <T : JsReference<C>, C : JsValue> JsResultSyntax<T>.assignValue(element: C): JsResultSyntax<T> {
+    fun <T : JsReference<C>, C : JsValue> JsDeclarationSyntax<T>.assignValue(element: C): JsAssignationSyntax<T> {
         val assignOperation = AssignmentOperation(this.toOperable(), element.toOperable())
         return JsAssignationSyntax(innerObject, assignOperation)
     }
 
     private fun <T : JsReference<C>, C : JsValue> JsAssignationSyntax<T>.render(): T {
-        this@JsScope.append(toLine())
-        return innerObject
-    }
-
-    private fun <T : JsReference<C>, C : JsValue> JsResultSyntax<T>.render(): T {
         this@JsScope.append(toLine())
         return innerObject
     }
@@ -97,7 +95,7 @@ abstract class JsScope {
     ): T = assignValue(element = value).render()
 
     @JsDsl
-    infix fun <T : JsReference<C>, C : JsValue> JsResultSyntax<T>.assign(
+    infix fun <T : JsReference<C>, C : JsValue> JsDeclarationSyntax<T>.assign(
         value: C
     ): T = assignValue(element = value).render()
 }

@@ -28,6 +28,14 @@ inline fun <reified T : JsValue> JsArray.Companion.ref(
     JsArrayRef(typeBuilder, name, isNullable)
 
 @OptIn(InternalApi::class)
+inline fun <reified T : JsValue> JsArray.Companion.ref(
+    element: JsElement,
+    isNullable: Boolean = false,
+    noinline typeBuilder: (JsElement, isNullable: Boolean) -> T = ::provide
+): JsArrayRef<T> =
+    JsArrayRef(typeBuilder, element.present(), isNullable)
+
+@OptIn(InternalApi::class)
 inline fun <reified T : JsValue> JsArray.Companion.def(
     name: String? = null,
     isNullable: Boolean = false,

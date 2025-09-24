@@ -1,11 +1,13 @@
 package net.asere.kotlin.js.dsl.dom.type.window.screen
 
+import net.asere.kotlin.js.dsl.annotation.InternalApi
+import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.type.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.type.reference.JsValueRef
 import net.asere.kotlin.js.dsl.type.reference.ReferenceId
 
-open class JsScreenRef internal constructor(
+open class JsScreenRef @InternalApi constructor(
     name: String? = null,
     isNullable: Boolean = false,
 ) : JsValueRef<JsScreen>(
@@ -15,9 +17,15 @@ open class JsScreenRef internal constructor(
     override fun toString(): String = present()
 }
 
+@OptIn(InternalApi::class)
 fun JsScreen.Companion.ref(name: String? = null, isNullable: Boolean = false): JsScreenRef =
     JsScreenRef(name, isNullable)
 
+@OptIn(InternalApi::class)
+fun JsScreen.Companion.ref(element: JsElement, isNullable: Boolean = false): JsScreenRef =
+    JsScreenRef(element.present(), isNullable)
+
+@OptIn(InternalApi::class)
 fun JsScreen.Companion.def(
     name: String? = null,
     isNullable: Boolean = false

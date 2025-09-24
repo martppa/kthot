@@ -1,11 +1,13 @@
 package net.asere.kotlin.js.dsl.dom.type.structure.form.validity
 
+import net.asere.kotlin.js.dsl.annotation.InternalApi
+import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.type.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.type.reference.JsValueRef
 import net.asere.kotlin.js.dsl.type.reference.ReferenceId
 
-class JsValidityStateRef internal constructor(
+class JsValidityStateRef @InternalApi constructor(
     name: String? = null,
     isNullable: Boolean = false,
 ) : JsValueRef<JsValidityState>(
@@ -15,9 +17,15 @@ class JsValidityStateRef internal constructor(
     override fun toString(): String = present()
 }
 
+@OptIn(InternalApi::class)
 fun JsValidityState.Companion.ref(name: String? = null, isNullable: Boolean = false): JsValidityStateRef =
     JsValidityStateRef(name, isNullable)
 
+@OptIn(InternalApi::class)
+fun JsValidityState.Companion.ref(element: JsElement, isNullable: Boolean = false): JsValidityStateRef =
+    JsValidityStateRef(element.present(), isNullable)
+
+@OptIn(InternalApi::class)
 fun JsValidityState.Companion.def(name: String? = null, isNullable: Boolean = false) =
     object : JsPrintableDefinition<JsValidityStateRef, JsValidityState>() {
         override val reference: JsValidityStateRef = JsValidityStateRef(name = name, isNullable)

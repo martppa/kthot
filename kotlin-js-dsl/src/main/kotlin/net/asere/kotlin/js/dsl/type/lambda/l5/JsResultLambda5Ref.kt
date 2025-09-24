@@ -28,6 +28,17 @@ inline fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsVal
     isNullable = isNullable
 )
 
+inline fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Param5 : JsValue, reified Result : JsValue> JsResultLambda5.Companion.ref(
+    element: JsElement,
+    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
+    isNullable: Boolean = false,
+    isResultNullable: Boolean = false,
+): JsResultLambda5Ref<Param1, Param2, Param3, Param4, Param5, Result> = JsResultLambda5Ref(
+    name = element.present(),
+    resultTypeBuilder = { element -> resultTypeBuilder(element, isResultNullable)},
+    isNullable = isNullable
+)
+
 inline fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Param5 : JsValue, reified Result : JsValue> JsLambda5.Companion.def(
     name: String = "lambda_${ReferenceId.nextRefInt()}",
     crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,

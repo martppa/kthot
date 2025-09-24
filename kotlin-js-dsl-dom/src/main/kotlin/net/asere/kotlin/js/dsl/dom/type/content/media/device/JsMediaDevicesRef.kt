@@ -1,12 +1,14 @@
 package net.asere.kotlin.js.dsl.dom.type.content.media.device
 
+import net.asere.kotlin.js.dsl.annotation.InternalApi
 import net.asere.kotlin.js.dsl.dom.type.window.location.JsLocation
+import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.type.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.type.reference.JsValueRef
 import net.asere.kotlin.js.dsl.type.reference.ReferenceId
 
-class JsMediaDevicesRef internal constructor(
+class JsMediaDevicesRef @InternalApi constructor(
     name: String? = null,
     isNullable: Boolean = false
 ) : JsValueRef<JsMediaDevices>(
@@ -16,9 +18,15 @@ class JsMediaDevicesRef internal constructor(
     override fun toString(): String = present()
 }
 
+@OptIn(InternalApi::class)
 fun JsMediaDevices.Companion.ref(name: String? = null, isNullable: Boolean = false): JsMediaDevicesRef =
     JsMediaDevicesRef(name, isNullable)
 
+@OptIn(InternalApi::class)
+fun JsMediaDevices.Companion.ref(element: JsElement, isNullable: Boolean = false): JsMediaDevicesRef =
+    JsMediaDevicesRef(element.present(), isNullable)
+
+@OptIn(InternalApi::class)
 fun JsLocation.Companion.def(name: String? = null, isNullable: Boolean = false) =
     object : JsPrintableDefinition<JsMediaDevicesRef, JsMediaDevices>() {
         override val reference: JsMediaDevicesRef = JsMediaDevicesRef(name, isNullable)

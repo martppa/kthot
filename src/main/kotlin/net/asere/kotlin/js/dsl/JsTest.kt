@@ -1,9 +1,6 @@
 package net.asere.kotlin.js.dsl
 
-import net.asere.kotlin.js.dsl.dom.type.data.event.dom.JsDomEvent
-import net.asere.kotlin.js.dsl.dom.type.data.event.dom.def
-import net.asere.kotlin.js.dsl.dom.type.structure.form.button.JsButton
-import net.asere.kotlin.js.dsl.dom.type.structure.form.button.ref
+import net.asere.kotlin.js.dsl.declaration.Const
 import net.asere.kotlin.js.dsl.ksp.KotlinJsl
 import net.asere.kotlin.js.dsl.ksp.annotation.JsClass
 import net.asere.kotlin.js.dsl.ksp.annotation.JsConstructor
@@ -11,18 +8,26 @@ import net.asere.kotlin.js.dsl.ksp.annotation.JsFunction
 import net.asere.kotlin.js.dsl.ksp.annotation.JsProperty
 import net.asere.kotlin.js.dsl.ksp.processor.js.JavaScriptClass
 import net.asere.kotlin.js.dsl.log.Log
+import net.asere.kotlin.js.dsl.syntax.async.await
 import net.asere.kotlin.js.dsl.syntax.js
+import net.asere.kotlin.js.dsl.type.array.JsArray
 import net.asere.kotlin.js.dsl.type.lambda.jsLambda
+import net.asere.kotlin.js.dsl.type.lambda.l1.JsLambda1
+import net.asere.kotlin.js.dsl.type.lambda.l1.def
 import net.asere.kotlin.js.dsl.type.number.JsNumber
 import net.asere.kotlin.js.dsl.type.number.JsNumberRef
+import net.asere.kotlin.js.dsl.type.number.def
 import net.asere.kotlin.js.dsl.type.number.ref
+import net.asere.kotlin.js.dsl.type.promise.JsPromise
+import net.asere.kotlin.js.dsl.type.promise.def
+import net.asere.kotlin.js.dsl.type.promise.new
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.JsStringRef
 import net.asere.kotlin.js.dsl.type.string.ref
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
 @JsClass
-data class Test<T : JsValue> @JsConstructor constructor(
+data class Test<T : JsArray<JsPromise<JsNumber>>> @JsConstructor constructor(
     @JsProperty
     val property: JsStringRef = JsString.ref("property"),
     @JsProperty
@@ -47,23 +52,17 @@ data class Test<T : JsValue> @JsConstructor constructor(
 fun main() {
     KotlinJsl.initialize()
     val syntax = js {
-        val button = JsButton.ref("btn")
-        +button.setOnClick(jsLambda(param1 = JsDomEvent.def("event1")) {
-            Log(it)
-        })
+        val number = Const { JsNumber.def("5") } assign JsNumber.ref("a")
+        val promise = Const { JsPromise.def<JsNumber>() } assign JsPromise.new {
+            jsLambda(
+                param1 = JsLambda1.def("onResolve"),
+                param2 = JsLambda1.def("onError")
+            ) { onResolve, onError ->
+                +onResolve(number)
+            }
+        }
+        val result = Const { JsNumber.def("result") } assign await { promise }
+        Log(result)
     }
     println(syntax)
-
-    // Output:
-    // async function printMessage(message) {
-    //     console.log(message)
-    //     throw Error('Thrown error')
-    //     return 'Value returned!'
-    // }
-    // try {
-    //     const result = await printMessage('Printed from inside an async function!')
-    //     console.log(result)
-    // } catch(error) {
-    //     console.log('An error occurred error')
-    // }
 }

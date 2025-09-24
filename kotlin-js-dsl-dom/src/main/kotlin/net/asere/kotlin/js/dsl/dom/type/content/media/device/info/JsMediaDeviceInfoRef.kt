@@ -1,11 +1,13 @@
 package net.asere.kotlin.js.dsl.dom.type.content.media.device.info
 
+import net.asere.kotlin.js.dsl.annotation.InternalApi
+import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.type.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.type.reference.JsReference
 import net.asere.kotlin.js.dsl.type.reference.JsValueRef
 import net.asere.kotlin.js.dsl.type.reference.ReferenceId
 
-class JsMediaDeviceInfoRef internal constructor(
+class JsMediaDeviceInfoRef @InternalApi constructor(
     name: String? = null,
     isNullable: Boolean = false
 ) : JsValueRef<JsMediaDeviceInfo>(
@@ -15,9 +17,15 @@ class JsMediaDeviceInfoRef internal constructor(
     override fun toString(): String = present()
 }
 
+@OptIn(InternalApi::class)
 fun JsMediaDeviceInfo.Companion.ref(name: String? = null, isNullable: Boolean = false): JsMediaDeviceInfoRef =
     JsMediaDeviceInfoRef(name, isNullable)
 
+@OptIn(InternalApi::class)
+fun JsMediaDeviceInfo.Companion.ref(element: JsElement, isNullable: Boolean = false): JsMediaDeviceInfoRef =
+    JsMediaDeviceInfoRef(element.present(), isNullable)
+
+@OptIn(InternalApi::class)
 fun JsMediaDeviceInfo.Companion.def(name: String? = null, isNullable: Boolean = false) =
     object : JsPrintableDefinition<JsMediaDeviceInfoRef, JsMediaDeviceInfo>() {
         override val reference: JsMediaDeviceInfoRef = JsMediaDeviceInfoRef(name, isNullable)
