@@ -88,6 +88,7 @@ class JsSyntaxBuilder(
             }
         }
 
+        codeBuilder.append("\n\n")
         codeBuilder.append("@OptIn(InternalApi::class)\n")
         codeBuilder.append("fun ${declaration.genericTypesDeclarationString()} ${declaration.jsName}.Companion.syntax(\n")
         codeBuilder.append("  value: ${resolver.loadClass(jsElementName)},\n")
@@ -139,13 +140,8 @@ class JsSyntaxBuilder(
         imports.add(resolver.loadClass(jsElementName).fullName)
         imports.add(resolver.loadClass(jsSyntaxName).fullName)
         imports.add(jsProvideFunctionName)
-        declaration.typeParameters.forEach { parameter ->
-            parameter.bounds.map { type ->
-                imports.add(type.resolve().declaration.fullName)
-                type.resolve().getAllTypes()
-            }.flatten().forEach {
-                imports.add(it.declaration.fullName)
-            }
+        declaration.getAllTypes().forEach {
+            imports.add(it.declaration.fullName)
         }
         declaration.findJsConstructors().forEach { constructor ->
             constructor.parameters.forEach { parameter ->

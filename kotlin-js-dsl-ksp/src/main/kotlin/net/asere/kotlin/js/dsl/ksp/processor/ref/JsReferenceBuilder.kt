@@ -106,13 +106,8 @@ class JsReferenceBuilder(
         imports.add(resolver.loadClass(jsInternalApiAnnotationName).fullName)
         imports.add(jsProvideFunctionName)
 
-        declaration.typeParameters.forEach { parameter ->
-            parameter.bounds.map { type ->
-                imports.add(type.resolve().declaration.fullName)
-                type.resolve().getAllTypes()
-            }.flatten().forEach {
-                imports.add(it.declaration.fullName)
-            }
+        declaration.getAllTypes().forEach {
+            imports.add(it.declaration.fullName)
         }
         imports.remove("kotlin.Any")
         imports.forEach {

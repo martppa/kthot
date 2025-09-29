@@ -2,6 +2,7 @@ package net.asere.kotlin.js.dsl.ksp.extension
 
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSType
+import net.asere.kotlin.js.dsl.type.reference.ReferenceId
 
 /**
  * The definition name includes all generic type parameters and its types
@@ -54,10 +55,21 @@ fun KSType.getAllTypes(): Set<KSType> {
 /**
  * Creates a name for a generic type builder
  */
-val KSType.builderName: String get() = "${declaration.name.replaceFirstChar { it.lowercase() }}Builder"
+val KSType.builderName: String get() = if (declaration.typeParameters.isEmpty())
+    "${declaration.name.replaceFirstChar { it.lowercase() }}Builder"
+else
+    "${getAllTypes().joinToString("") {
+        it.declaration.jsName
+    }.replaceFirstChar { it.lowercase() }}Builder"
 
 /**
- * Creates a definition for a generic type builder following a syntax builder pattern.
+ * Creates a definition for a generic type builder lambda following a syntax builder pattern.
  */
 fun KSType.getBuilderDefinition(argument: KSClassDeclaration) =
     "${declaration.name.replaceFirstChar { it.lowercase() }}Builder: (${argument.asStarProjectedType().definitionName}, isNullable: Boolean) -> $definitionName"
+
+/**
+ * Returns the parameters as a list of parameters definition, e.g jsString: JsString, jsValue: JsValue,
+ * if the parameter has no name a random one will be provided
+ */
+fun KSType.getTypesAsParametersDefinition() = arguments.joinToString { "${it.type?.resolve()?.declaration?.jsName?.replaceFirstChar { char -> char.lowercase() } ?: "p${ReferenceId.nextRefInt()}"} : ${it.type}" }

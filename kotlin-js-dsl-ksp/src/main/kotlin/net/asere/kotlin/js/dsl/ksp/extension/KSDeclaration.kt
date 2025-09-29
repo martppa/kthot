@@ -6,6 +6,7 @@ import com.google.devtools.ksp.isConstructor
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.*
 import net.asere.kotlin.js.dsl.ksp.processor.jsElementName
+import kotlin.reflect.KType
 
 /**
  * Removes the helper suffix. Any value ending on "Ref", "Syntax" or "Value" will be removed.
@@ -164,3 +165,48 @@ val KSDeclaration.genericTypesAsJsValueString: String get() = buildGenericTypesA
  * Foo<String, Number> it will literally return <*, *> string. If none is found, it returns an empty string.
  */
 val KSDeclaration.genericTypesAsStarString: String get() = buildGenericTypesAsString("*")
+
+/**
+ * Recursively collects all KSTypes from a starting type reference, including
+ * all nested generic types.
+ *
+ * @param typeReference The starting KSTypeReference to analyze.
+ * @param collectedTypes The mutable set to store the collected types.
+ */
+private fun collectTypesRecursively(
+    typeReference: KSTypeReference,
+    collectedTypes: MutableSet<KSType>
+) {
+    val type = typeReference.resolve()
+    collectedTypes.add(type)
+
+    for (argument in type.arguments) {
+        val argumentTypeReference = argument.type
+        if (argumentTypeReference != null) {
+            collectTypesRecursively(argumentTypeReference, collectedTypes)
+        }
+    }
+}
+
+/**
+ * Collects all KSTypes associated with a given KSDeclaration, including
+ * its type parameters and their bounds.
+ *
+ * @return A set of all unique KSTypes found in the declaration's type hierarchy.
+ */
+fun KSDeclaration.getAllTypes(): Set<KSType> {
+    val types = mutableSetOf<KSType>()
+
+    if (this is KSPropertyDeclaration) {
+        val typeReference = this.type
+        collectTypesRecursively(typeReference, types)
+    }
+
+    typeParameters.forEach { parameter ->
+        parameter.bounds.forEach { bound ->
+            collectTypesRecursively(bound, types)
+        }
+    }
+
+    return types
+}

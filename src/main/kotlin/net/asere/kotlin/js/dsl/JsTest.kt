@@ -8,9 +8,12 @@ import net.asere.kotlin.js.dsl.ksp.annotation.JsFunction
 import net.asere.kotlin.js.dsl.ksp.annotation.JsProperty
 import net.asere.kotlin.js.dsl.ksp.processor.js.JavaScriptClass
 import net.asere.kotlin.js.dsl.log.Log
+import net.asere.kotlin.js.dsl.provider.provide
+import net.asere.kotlin.js.dsl.provider.register
 import net.asere.kotlin.js.dsl.syntax.async.await
 import net.asere.kotlin.js.dsl.syntax.js
 import net.asere.kotlin.js.dsl.type.array.JsArray
+import net.asere.kotlin.js.dsl.type.array.syntax
 import net.asere.kotlin.js.dsl.type.lambda.jsLambda
 import net.asere.kotlin.js.dsl.type.lambda.l1.JsLambda1
 import net.asere.kotlin.js.dsl.type.lambda.l1.def
@@ -21,6 +24,7 @@ import net.asere.kotlin.js.dsl.type.number.ref
 import net.asere.kotlin.js.dsl.type.promise.JsPromise
 import net.asere.kotlin.js.dsl.type.promise.def
 import net.asere.kotlin.js.dsl.type.promise.new
+import net.asere.kotlin.js.dsl.type.promise.syntax
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.JsStringRef
 import net.asere.kotlin.js.dsl.type.string.ref
@@ -50,6 +54,7 @@ data class Test<T : JsArray<JsPromise<JsNumber>>> @JsConstructor constructor(
 }
 
 fun main() {
+    register { element, isNullable -> JsArray.syntax<JsPromise<JsNumber>>(typeBuilder = ::provide, element, isNullable) }
     KotlinJsl.initialize()
     val syntax = js {
         val number = Const { JsNumber.def("5") } assign JsNumber.ref("a")

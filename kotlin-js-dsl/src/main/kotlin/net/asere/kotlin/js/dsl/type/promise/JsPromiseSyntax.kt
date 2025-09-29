@@ -10,8 +10,8 @@ class JsPromiseSyntax<T : JsValue> internal constructor(value: String, isNullabl
     internal constructor(value: JsElement, isNullable: Boolean) : this("$value", isNullable)
 }
 
-fun <T : JsValue> JsPromise.Companion.syntax(value: String, isNullable: Boolean = false): JsPromiseSyntax<T> =
+fun <T : JsValue> JsPromise.Companion.syntax(value: String, isNullable: Boolean = false): JsPromise<T> =
     JsPromiseSyntax(value, isNullable)
 
-fun <T : JsValue> JsPromise.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsPromiseSyntax<T> =
+fun <T : JsValue> JsPromise.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsPromise<T> =
     JsPromiseSyntax(value, isNullable)

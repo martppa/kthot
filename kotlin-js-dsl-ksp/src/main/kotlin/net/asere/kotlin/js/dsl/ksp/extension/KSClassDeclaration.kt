@@ -33,7 +33,6 @@ fun KSClassDeclaration.getJsAvailableProperties(resolver: Resolver) = getAllProp
             annotation.annotationType.resolve().declaration.qualifiedName?.asString() == jsPropertyAnnotationName
         } != null
     }
-    .apply { println(this.joinToString { it.name }) }
     .filter { it.getVisibility() == Visibility.PUBLIC && it.isJsElement(resolver) }
 
 /**

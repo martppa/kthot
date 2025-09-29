@@ -33,6 +33,9 @@ class JsClassWriterBuilder(
         imports.add("import ${resolver.loadClass(jsValueName).fullName}\n")
         imports.add("import ${jsObjectClass.fullName}\n")
         imports.add("import ${jsObjectClass.packageName.asString()}.syntax\n")
+        declaration.getAllTypes().forEach {
+            imports.add("import ${it.declaration.fullName}\n")
+        }
 
         declaration.findJsConstructors().firstOrNull()?.parameters?.forEach {
             if (!it.type.isGenericTypeParameter()) {
@@ -50,11 +53,11 @@ class JsClassWriterBuilder(
         codeBuilder.append("class $writerName(path: String) : ${classWriter.name}(path) {\n")
         codeBuilder.append("\n")
         codeBuilder.append("   override fun write() {\n")
-        codeBuilder.append("        val instance = ${declaration.name}${declaration.genericTypesAsJsValueString}(\n${
+        codeBuilder.append("        val instance = ${declaration.name}(\n${
             declaration.findJsConstructors().firstOrNull()?.parameters?.mapIndexed { index, item -> 
                 (item.name?.asString() ?: "p$index").let { name -> 
                     if (item.type.isGenericTypeParameter()) {
-                        "           $name = JsObject.syntax(\"$name\", false)\n"
+                        "           $name = provide(JsSyntax(), false)\n"
                     } else {
                         "           $name = ${item.type.resolve().declaration.basicJsName}.ref${item.type.resolve().declaration.genericTypesString}(\"$name\")\n"
                     }
@@ -88,7 +91,7 @@ class JsClassWriterBuilder(
 
         codeBuilder.append("\n")
         codeBuilder.append("@${jsDslAnnotation.name}\n")
-        codeBuilder.append("val ${declaration.name}${declaration.genericTypesAsStarString}.This get() = ${declaration.jsName}.syntax${declaration.genericTypesAsJsValueString}(\"this\")")
+        codeBuilder.append("val ${declaration.genericTypesDeclarationString()} ${declaration.name}${declaration.genericTypesString}.This get() = ${declaration.jsName}.syntax(\"this\", tBuilder = ::provide)")
 
         writeToFile(
             fileName = writerName,
