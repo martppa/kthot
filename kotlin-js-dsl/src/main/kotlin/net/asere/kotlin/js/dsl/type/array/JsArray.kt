@@ -1,5 +1,6 @@
 package net.asere.kotlin.js.dsl.type.array
 
+import net.asere.kotlin.js.dsl.annotation.InternalApi
 import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
 import net.asere.kotlin.js.dsl.syntax.operational.access.operation.AccessOperation
@@ -23,7 +24,8 @@ interface JsArray<T : JsValue> : JsObject {
 
     companion object
 
-    val typeBuilder: (JsElement, isNullable: Boolean) -> T get() = { _, _ -> throw IllegalStateException("Builder not set!") }
+    @InternalApi
+    val typeBuilder: (JsElement, isNullable: Boolean) -> T get() = { _, _ -> throw IllegalStateException("JsArray type builder not set!") }
 
     /**
      * Returns the element at the specified index in the array.
@@ -32,6 +34,7 @@ interface JsArray<T : JsValue> : JsObject {
      * @param index The zero-based index of the element to retrieve as a [JsNumber] object.
      * @return A [T] reference to the element at the specified index.
      */
+    @OptIn(InternalApi::class)
     fun getByIndex(index: JsNumber): T = typeBuilder(AccessOperation(this, index), false)
 
     /**
@@ -59,6 +62,7 @@ interface JsArray<T : JsValue> : JsObject {
      * In JavaScript, this corresponds to `array.pop()`.
      * @return A [T] reference to the removed element.
      */
+    @OptIn(InternalApi::class)
     fun pop(): T = typeBuilder(
         ChainOperation(
             leftHand = this,
@@ -117,6 +121,8 @@ interface JsArray<T : JsValue> : JsObject {
     fun mapIndexed(lambda: JsLambda2<T, JsNumber>): JsSyntax =
         JsSyntax(ChainOperation(this, InvocationOperation("map", lambda)))
 
+    @OptIn(InternalApi::class)
     operator fun get(index: JsNumber): T = typeBuilder(AccessOperation(this, index), false)
+    @OptIn(InternalApi::class)
     operator fun get(index: Int): T = typeBuilder(AccessOperation(this, index.js), false)
 }

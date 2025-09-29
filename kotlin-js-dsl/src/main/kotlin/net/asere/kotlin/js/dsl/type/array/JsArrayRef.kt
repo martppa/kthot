@@ -1,3 +1,5 @@
+@file:OptIn(InternalApi::class)
+
 package net.asere.kotlin.js.dsl.type.array
 
 import net.asere.kotlin.js.dsl.type.JsElement
@@ -19,7 +21,6 @@ class JsArrayRef<T : JsValue> @InternalApi constructor(
     override fun toString(): String = present()
 }
 
-@OptIn(InternalApi::class)
 inline fun <reified T : JsValue> JsArray.Companion.ref(
     name: String? = null,
     isNullable: Boolean = false,
@@ -27,7 +28,6 @@ inline fun <reified T : JsValue> JsArray.Companion.ref(
 ): JsArrayRef<T> =
     JsArrayRef(typeBuilder, name, isNullable)
 
-@OptIn(InternalApi::class)
 inline fun <reified T : JsValue> JsArray.Companion.ref(
     element: JsElement,
     isNullable: Boolean = false,
@@ -35,7 +35,6 @@ inline fun <reified T : JsValue> JsArray.Companion.ref(
 ): JsArrayRef<T> =
     JsArrayRef(typeBuilder, element.present(), isNullable)
 
-@OptIn(InternalApi::class)
 inline fun <reified T : JsValue> JsArray.Companion.def(
     name: String? = null,
     isNullable: Boolean = false,

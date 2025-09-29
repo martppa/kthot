@@ -24,11 +24,9 @@ import net.asere.kotlin.js.dsl.type.number.ref
 import net.asere.kotlin.js.dsl.type.promise.JsPromise
 import net.asere.kotlin.js.dsl.type.promise.def
 import net.asere.kotlin.js.dsl.type.promise.new
-import net.asere.kotlin.js.dsl.type.promise.syntax
 import net.asere.kotlin.js.dsl.type.string.JsString
 import net.asere.kotlin.js.dsl.type.string.JsStringRef
 import net.asere.kotlin.js.dsl.type.string.ref
-import net.asere.kotlin.js.dsl.type.value.JsValue
 
 @JsClass
 data class Test<T : JsArray<JsPromise<JsNumber>>> @JsConstructor constructor(
@@ -54,7 +52,7 @@ data class Test<T : JsArray<JsPromise<JsNumber>>> @JsConstructor constructor(
 }
 
 fun main() {
-    register { element, isNullable -> JsArray.syntax<JsPromise<JsNumber>>(typeBuilder = ::provide, element, isNullable) }
+    register { element, isNullable -> JsArray.syntax<JsPromise<JsNumber>>(value = element, isNullable = isNullable, typeBuilder = ::provide) }
     KotlinJsl.initialize()
     val syntax = js {
         val number = Const { JsNumber.def("5") } assign JsNumber.ref("a")
