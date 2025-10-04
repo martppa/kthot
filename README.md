@@ -1,7 +1,7 @@
 # KotlinJSL ![](https://img.shields.io/badge/maven_central-0.1.5-004475)
 A typesafe Kotlin DSL for JavaScript. Write, reuse and interact with Javascript without [WASM](https://kotlinlang.org/docs/wasm-overview.html).
 
-<img width="819" height="260" alt="Gemini_Generated_Image_9dyhip9dyhip9dyh_cropped-2" src="https://github.com/user-attachments/assets/b08775fa-af73-4842-845c-29cb8e419074" />
+![Gemini_Generated_Image_vy4v8hvy4v8hvy4v (1)](https://github.com/user-attachments/assets/0e69ad71-7358-4ec6-a70c-e508f76e652f)
 
 ## Motivation
 
