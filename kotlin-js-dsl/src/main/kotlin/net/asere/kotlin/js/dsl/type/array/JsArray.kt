@@ -1,8 +1,12 @@
+@file:OptIn(JsInternalApi::class)
+
 package net.asere.kotlin.js.dsl.type.array
 
-import net.asere.kotlin.js.dsl.annotation.InternalApi
+import net.asere.kotlin.js.dsl.annotation.JsInternalApi
+import net.asere.kotlin.js.dsl.syntax.JsScope
 import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.syntax.JsSyntax
+import net.asere.kotlin.js.dsl.syntax.js
 import net.asere.kotlin.js.dsl.syntax.operational.access.operation.AccessOperation
 import net.asere.kotlin.js.dsl.syntax.operational.access.operation.ChainOperation
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
@@ -24,7 +28,7 @@ interface JsArray<T : JsValue> : JsObject {
 
     companion object
 
-    @InternalApi
+    @JsInternalApi
     val typeBuilder: (JsElement, isNullable: Boolean) -> T get() = { _, _ -> throw IllegalStateException("JsArray type builder not set!") }
 
     /**
@@ -34,7 +38,7 @@ interface JsArray<T : JsValue> : JsObject {
      * @param index The zero-based index of the element to retrieve as a [JsNumber] object.
      * @return A [T] reference to the element at the specified index.
      */
-    @OptIn(InternalApi::class)
+    @OptIn(JsInternalApi::class)
     fun getByIndex(index: JsNumber): T = typeBuilder(AccessOperation(this, index), false)
 
     /**
@@ -62,7 +66,7 @@ interface JsArray<T : JsValue> : JsObject {
      * In JavaScript, this corresponds to `array.pop()`.
      * @return A [T] reference to the removed element.
      */
-    @OptIn(InternalApi::class)
+    @OptIn(JsInternalApi::class)
     fun pop(): T = typeBuilder(
         ChainOperation(
             leftHand = this,
@@ -100,6 +104,16 @@ interface JsArray<T : JsValue> : JsObject {
     fun forEach(lambda: JsLambda1<T>): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("forEach", lambda)))
 
     /**
+     * Executes a provided function once for each array element.
+     *
+     * In JavaScript, this corresponds to `array.forEach(callback)`.
+     * @param lambda A Kotlin lambda representing the JavaScript function to execute for each element.
+     * The function typically receives the current element as its first argument.
+     * @return A [JsSyntax] object representing the JavaScript method call.
+     */
+    fun forEach(lambda: JsScope.(T) -> Unit): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("forEach", lambda.js(typeBuilder))))
+
+    /**
      * Creates a new array populated with the results of calling a provided function on every element in the calling array.
      *
      * In JavaScript, this corresponds to `array.map(callback)`.
@@ -121,8 +135,9 @@ interface JsArray<T : JsValue> : JsObject {
     fun mapIndexed(lambda: JsLambda2<T, JsNumber>): JsSyntax =
         JsSyntax(ChainOperation(this, InvocationOperation("map", lambda)))
 
-    @OptIn(InternalApi::class)
+    @OptIn(JsInternalApi::class)
     operator fun get(index: JsNumber): T = typeBuilder(AccessOperation(this, index), false)
-    @OptIn(InternalApi::class)
+
+    @OptIn(JsInternalApi::class)
     operator fun get(index: Int): T = typeBuilder(AccessOperation(this, index.js), false)
 }

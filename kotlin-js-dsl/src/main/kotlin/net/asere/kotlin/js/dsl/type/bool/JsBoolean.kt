@@ -31,3 +31,6 @@ interface JsBoolean : JsValue, LogicalComparable {
 val Boolean.js: JsBoolean get() = JsBoolean.value(this)
 
 operator fun Boolean.unaryPlus(): JsBoolean = this.js
+
+val True = true.js
+val False = false.js

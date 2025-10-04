@@ -1,12 +1,12 @@
 package net.asere.kotlin.js.dsl.type.promise
 
-import net.asere.kotlin.js.dsl.annotation.InternalApi
+import net.asere.kotlin.js.dsl.annotation.JsInternalApi
 import net.asere.kotlin.js.dsl.provider.provide
 import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.syntax.JsReferenceSyntax
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
-@InternalApi
+@JsInternalApi
 class JsPromiseSyntax<T : JsValue>(
     value: String,
     isNullable: Boolean,
@@ -16,7 +16,7 @@ class JsPromiseSyntax<T : JsValue>(
             : this(value = "$value", isNullable = isNullable, typeBuilder = typeBuilder)
 }
 
-@OptIn(InternalApi::class)
+@OptIn(JsInternalApi::class)
 fun <T : JsValue> JsPromise.Companion.syntax(
     value: String,
     isNullable: Boolean = false,
@@ -27,7 +27,7 @@ fun <T : JsValue> JsPromise.Companion.syntax(
     typeBuilder = typeBuilder
 )
 
-@OptIn(InternalApi::class)
+@OptIn(JsInternalApi::class)
 fun <T : JsValue> JsPromise.Companion.syntax(
     value: JsElement,
     isNullable: Boolean = false,
@@ -38,7 +38,7 @@ fun <T : JsValue> JsPromise.Companion.syntax(
     typeBuilder = typeBuilder,
 )
 
-@OptIn(InternalApi::class)
+@OptIn(JsInternalApi::class)
 inline fun <reified T : JsValue> JsPromise.Companion.syntax(
     value: String,
     isNullable: Boolean = false,
@@ -48,7 +48,7 @@ inline fun <reified T : JsValue> JsPromise.Companion.syntax(
     typeBuilder = ::provide
 )
 
-@OptIn(InternalApi::class)
+@OptIn(JsInternalApi::class)
 inline fun <reified T : JsValue> JsPromise.Companion.syntax(
     value: JsElement,
     isNullable: Boolean = false,

@@ -1,7 +1,7 @@
 package net.asere.kotlin.js.dsl.type.lambda
 
 import net.asere.kotlin.js.dsl.JsNothing
-import net.asere.kotlin.js.dsl.annotation.InternalApi
+import net.asere.kotlin.js.dsl.annotation.JsInternalApi
 import net.asere.kotlin.js.dsl.provider.provide
 import net.asere.kotlin.js.dsl.syntax.JsScope
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
@@ -401,7 +401,7 @@ fun jsLambda(
  * @param definition The body of the lambda that returns a value of type [Result].
  * @return A [JsResultLambda0Value] representing the lambda.
  */
-@OptIn(InternalApi::class)
+@OptIn(JsInternalApi::class)
 inline fun <reified Result : JsValue> jsResultLambda(
     noinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
     noinline definition: JsSyntaxScope.() -> Result,
@@ -431,7 +431,7 @@ fun <Param1Ref : JsReference<Param1>, Param1 : JsValue> jsLambda(
  * @param definition The body of the lambda that receives a reference to the parameter and returns a value of type [Result].
  * @return A [JsResultLambda1Value] representing the lambda.
  */
-@OptIn(InternalApi::class)
+@OptIn(JsInternalApi::class)
 inline fun <Param1Ref : JsReference<Param1>, Param1 : JsValue, reified Result : JsValue> jsResultLambda(
     param1: JsDefinition<Param1Ref, Param1>,
     noinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
@@ -467,7 +467,7 @@ fun <Param1Ref : JsReference<Param1>, Param1 : JsValue, Param2Ref : JsReference<
  * @param definition The body of the lambda that receives references to the parameters and returns a value of type [Result].
  * @return A [JsResultLambda2] representing the lambda.
  */
-@OptIn(InternalApi::class)
+@OptIn(JsInternalApi::class)
 inline fun <Param1Ref : JsReference<Param1>, Param1 : JsValue, Param2Ref : JsReference<Param2>, Param2 : JsValue, reified Result : JsValue> jsResultLambda(
     param1: JsDefinition<Param1Ref, Param1>,
     param2: JsDefinition<Param2Ref, Param2>,
@@ -512,7 +512,7 @@ fun <
  * @param definition The body of the lambda that receives references to the parameters and returns a value of type [Result].
  * @return A [JsResultLambda3] representing the lambda.
  */
-@OptIn(InternalApi::class)
+@OptIn(JsInternalApi::class)
 inline fun <
         Param1Ref : JsReference<Param1>, Param1 : JsValue,
         Param2Ref : JsReference<Param2>, Param2 : JsValue,
@@ -568,7 +568,7 @@ fun <
  * @param definition The body of the lambda that receives references to the parameters and returns a value of type [Result].
  * @return A [JsResultLambda4] representing the lambda.
  */
-@OptIn(InternalApi::class)
+@OptIn(JsInternalApi::class)
 inline fun <
         Param1Ref : JsReference<Param1>, Param1 : JsValue,
         Param2Ref : JsReference<Param2>, Param2 : JsValue,
@@ -632,7 +632,7 @@ fun <
  * @param definition The body of the lambda that receives references to the parameters and returns a value of type [Result].
  * @return A [JsResultLambda5] representing the lambda.
  */
-@OptIn(InternalApi::class)
+@OptIn(JsInternalApi::class)
 inline fun <
         Param1Ref : JsReference<Param1>, Param1 : JsValue,
         Param2Ref : JsReference<Param2>, Param2 : JsValue,

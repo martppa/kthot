@@ -29,7 +29,7 @@ class JsInterfaceBuilder(
         }
         codeBuilder.appendImports(declaration, resolver)
         val interfaceName = declaration.jsName
-        codeBuilder.append("@OptIn(InternalApi::class)\n")
+        codeBuilder.append("@OptIn(JsInternalApi::class)\n")
         codeBuilder.append("interface ${declaration.getDeclaration(interfaceName)} {\n")
         codeBuilder.appendProperties(declaration, resolver)
         codeBuilder.appendMethods(declaration, resolver)

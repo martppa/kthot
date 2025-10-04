@@ -1,16 +1,16 @@
-@file:OptIn(InternalApi::class)
+@file:OptIn(JsInternalApi::class)
 
 package net.asere.kotlin.js.dsl.type.array
 
 import net.asere.kotlin.js.dsl.type.JsElement
-import net.asere.kotlin.js.dsl.annotation.InternalApi
+import net.asere.kotlin.js.dsl.annotation.JsInternalApi
 import net.asere.kotlin.js.dsl.provider.provide
 import net.asere.kotlin.js.dsl.type.definition.JsPrintableDefinition
 import net.asere.kotlin.js.dsl.type.reference.JsValueRef
 import net.asere.kotlin.js.dsl.type.reference.ReferenceId
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
-class JsArrayRef<T : JsValue> @InternalApi constructor(
+class JsArrayRef<T : JsValue> @JsInternalApi constructor(
     override val typeBuilder: (JsElement, isNullable: Boolean) -> T,
     name: String? = null,
     isNullable: Boolean = false,

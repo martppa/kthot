@@ -1,6 +1,6 @@
 package net.asere.kotlin.js.dsl.type.lambda.l3
 
-import net.asere.kotlin.js.dsl.annotation.InternalApi
+import net.asere.kotlin.js.dsl.annotation.JsInternalApi
 import net.asere.kotlin.js.dsl.syntax.JsSyntaxScope
 import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.type.definition.JsDefinition
@@ -13,7 +13,7 @@ class JsResultLambda3Value<
         Param1Ref: JsReference<Param1>, Param1 : JsValue,
         Param2Ref: JsReference<Param2>, Param2 : JsValue,
         Param3Ref: JsReference<Param3>, Param3 : JsValue,
-        Result : JsValue> @InternalApi constructor(
+        Result : JsValue> @JsInternalApi constructor(
     private val param1: JsDefinition<Param1Ref, Param1>,
     private val param2: JsDefinition<Param2Ref, Param2>,
     private val param3: JsDefinition<Param3Ref, Param3>,

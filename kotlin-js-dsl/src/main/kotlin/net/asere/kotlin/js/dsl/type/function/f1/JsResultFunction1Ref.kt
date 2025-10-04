@@ -16,7 +16,7 @@ import net.asere.kotlin.js.dsl.type.value.JsValue
  */
 class JsResultFunction1Ref<Param1 : JsValue, Result : JsValue>(
     name: String,
-    internal val resultTypeBuilder: (JsElement) -> Result,
+    internal val resultTypeBuilder: (JsElement, Boolean) -> Result,
 ) : JsFunctionRef(name) {
     /**
      * Invokes the JavaScript function with the provided parameter.
@@ -28,5 +28,5 @@ class JsResultFunction1Ref<Param1 : JsValue, Result : JsValue>(
      * @param param The [Param1] value to pass as the first argument to the function.
      * @return A generic typed object representing the JavaScript function call.
      */
-    operator fun invoke(param: Param1) = resultTypeBuilder(InvocationOperation(this, param))
+    operator fun invoke(param: Param1) = resultTypeBuilder(InvocationOperation(this, param), false)
 }

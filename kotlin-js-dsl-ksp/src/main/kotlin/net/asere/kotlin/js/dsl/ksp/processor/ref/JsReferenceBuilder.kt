@@ -33,7 +33,7 @@ class JsReferenceBuilder(
         }
         codeBuilder.appendImports(declaration, resolver)
         val className = declaration.jsName + "Ref"
-        codeBuilder.append("class $className${declaration.genericTypesDeclarationString()} @InternalApi constructor(\n")
+        codeBuilder.append("class $className${declaration.genericTypesDeclarationString()} @JsInternalApi constructor(\n")
         codeBuilder.append("  name: String? = null,\n")
         codeBuilder.append("  isNullable: Boolean = false${declaration.getComma(resolver)}\n")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
@@ -47,7 +47,7 @@ class JsReferenceBuilder(
         codeBuilder.append("   override fun toString(): String = present()\n")
         codeBuilder.append("}\n\n")
 
-        codeBuilder.append("@OptIn(InternalApi::class)\n")
+        codeBuilder.append("@OptIn(JsInternalApi::class)\n")
         codeBuilder.append("${if (declaration.typeParameters.isNotEmpty()) "inline " else ""}fun ${declaration.genericTypesDeclarationString("reified")} ${declaration.jsName}.Companion.ref(\n")
         codeBuilder.append("  name: String? = null,\n")
         codeBuilder.append("  isNullable: Boolean = false,\n")
@@ -60,7 +60,7 @@ class JsReferenceBuilder(
         }
         codeBuilder.append(")\n\n")
 
-        codeBuilder.append("@OptIn(InternalApi::class)\n")
+        codeBuilder.append("@OptIn(JsInternalApi::class)\n")
         codeBuilder.append("${if (declaration.typeParameters.isNotEmpty()) "inline " else ""}fun ${declaration.genericTypesDeclarationString("reified")} ${declaration.jsName}.Companion.ref(\n")
         codeBuilder.append("  element: JsElement,\n")
         codeBuilder.append("  isNullable: Boolean = false,\n")
@@ -73,7 +73,7 @@ class JsReferenceBuilder(
         }
         codeBuilder.append(")\n\n")
 
-        codeBuilder.append("@OptIn(InternalApi::class)\n")
+        codeBuilder.append("@OptIn(JsInternalApi::class)\n")
         codeBuilder.append("${if (declaration.typeParameters.isNotEmpty()) "inline " else ""}fun ${declaration.genericTypesDeclarationString("reified")} ${declaration.jsName}.Companion.def(\n")
         codeBuilder.append("  name: String? = null,\n")
         codeBuilder.append("  isNullable: Boolean = false,\n")

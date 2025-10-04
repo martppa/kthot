@@ -150,6 +150,7 @@ tasks.register('publishToSonatypeCentral') {
                         def errorBody = errorReader.collect( { it } ).join('\n')
                         errorReader.close()
                         println "Failed to promote repository '${repositoryKey}'. HTTP Error: ${responseCode} - ${connection.getResponseMessage()}. Response: ${errorBody}"
+                        dropFailedRepository(repositoryKey, authEncoded, connectTimeoutMs, readTimeoutMs)
                     }
                 } catch (Exception e) {
                     println "Error during POST request for repository '${repositoryKey}' to Sonatype API: ${e.message}"
@@ -159,5 +160,53 @@ tasks.register('publishToSonatypeCentral') {
             }
         }
         println "Sonatype Central publishing process completed for all found 'open' repositories."
+    }
+}
+
+def dropFailedRepository(String repositoryKey, String authEncoded, int connectTimeoutMs, int readTimeoutMs) {
+    def dropUrl = "https://ossrh-staging-api.central.sonatype.com/service/local/staging/bulk/drop"
+
+    def jsonPayload = """{
+           "data":{
+              "stagedRepositoryIds":[
+                 "${repositoryKey}"
+              ],
+              "description":"Dropping failed staged repository.",
+              "autoDropAfterRelease": true
+           }
+        }"""
+
+    println "!! Attempting to DROP FAILED repository '${repositoryKey}' using POST to: ${dropUrl}"
+
+    try {
+        def url = new URL(dropUrl)
+        def connection = url.openConnection() as HttpURLConnection
+        connection.setRequestMethod("POST") // Use POST method
+        connection.setRequestProperty("Authorization", "Basic ${authEncoded}")
+        connection.setRequestProperty("Content-Type", "application/json") // Required for JSON body
+        connection.setDoOutput(true)
+        connection.setConnectTimeout(connectTimeoutMs)
+        connection.setReadTimeout(readTimeoutMs)
+
+        def outputStream = connection.getOutputStream()
+        outputStream.write(jsonPayload.getBytes('UTF-8'))
+        outputStream.close()
+
+        def responseCode = connection.getResponseCode()
+        println "!! POST (Drop) response code for '${repositoryKey}': ${responseCode}"
+
+        if (responseCode >= 200 && responseCode < 300) {
+            def reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))
+            def responseBody = reader.collect( { it } ).join('\n')
+            reader.close()
+            println "!! Successfully DROPPED repository '${repositoryKey}'. Response: ${responseBody}"
+        } else {
+            def errorReader = new BufferedReader(new InputStreamReader(connection.getErrorStream()))
+            def errorBody = errorReader.collect( { it } ).join('\n')
+            errorReader.close()
+            println "!! WARNING: Failed to drop repository '${repositoryKey}'. HTTP Error: ${responseCode} - ${connection.getResponseMessage()}. Response: ${errorBody}"
+        }
+    } catch (Exception e) {
+        println "!! FATAL: Error during POST (Drop) request for repository '${repositoryKey}'. Manual cleanup may be required: ${e.message}"
     }
 }

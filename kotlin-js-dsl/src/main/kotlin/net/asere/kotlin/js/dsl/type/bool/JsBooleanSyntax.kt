@@ -8,8 +8,8 @@ class JsBooleanSyntax internal constructor(value: String, isNullable: Boolean) :
     internal constructor(value: JsElement, isNullable: Boolean) : this("$value", isNullable)
 }
 
-fun JsBoolean.Companion.syntax(value: String, isNullable: Boolean = false): JsBooleanSyntax =
+fun JsBoolean.Companion.syntax(value: String, isNullable: Boolean = false): JsBoolean =
     JsBooleanSyntax(value, isNullable)
 
-fun JsBoolean.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsBooleanSyntax =
+fun JsBoolean.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsBoolean =
     JsBooleanSyntax(value, isNullable)

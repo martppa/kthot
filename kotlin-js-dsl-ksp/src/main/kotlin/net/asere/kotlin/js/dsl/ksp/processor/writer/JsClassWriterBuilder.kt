@@ -91,7 +91,11 @@ class JsClassWriterBuilder(
 
         codeBuilder.append("\n")
         codeBuilder.append("@${jsDslAnnotation.name}\n")
-        codeBuilder.append("val ${declaration.genericTypesDeclarationString()} ${declaration.name}${declaration.genericTypesString}.This get() = ${declaration.jsName}.syntax(\"this\", tBuilder = ::provide)")
+        if (declaration.typeParameters.isNotEmpty()) {
+            codeBuilder.append("val ${declaration.genericTypesDeclarationString()} ${declaration.name}${declaration.genericTypesString}.This get() = ${declaration.jsName}.syntax(\"this\", tBuilder = ::provide)")
+        } else {
+            codeBuilder.append("val ${declaration.name}.This get() = ${declaration.jsName}.syntax(\"this\")")
+        }
 
         writeToFile(
             fileName = writerName,

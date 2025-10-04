@@ -99,9 +99,3 @@ abstract class JsScope {
         value: C
     ): T = assignValue(element = value).render()
 }
-
-fun js(block: JsSyntaxScope.() -> Unit): JsSyntax {
-    val scope = JsSyntaxScope()
-    block(scope)
-    return scope.toSyntax()
-}

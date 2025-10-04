@@ -1,19 +1,19 @@
 package net.asere.kotlin.js.dsl.type.lambda.l3
 
-import net.asere.kotlin.js.dsl.annotation.InternalApi
+import net.asere.kotlin.js.dsl.annotation.JsInternalApi
 import net.asere.kotlin.js.dsl.provider.provide
 import net.asere.kotlin.js.dsl.syntax.JsReferenceSyntax
 import net.asere.kotlin.js.dsl.syntax.operational.invocation.operation.InvocationOperation
 import net.asere.kotlin.js.dsl.type.JsElement
 import net.asere.kotlin.js.dsl.type.value.JsValue
 
-class JsResultLambda3Syntax<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Result : JsValue> @InternalApi constructor(
+class JsResultLambda3Syntax<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Result : JsValue> @JsInternalApi constructor(
     value: String,
     private val resultTypeBuilder: (JsElement) -> Result,
     isNullable: Boolean
 ) : JsReferenceSyntax<JsLambda3<Param1, Param2, Param3>>(value, isNullable), JsResultLambda3<Param1, Param2, Param3, Result> {
 
-    @InternalApi constructor(
+    @JsInternalApi constructor(
         value: JsElement,
         resultTypeBuilder: (JsElement) -> Result,
         isNullable: Boolean
@@ -23,7 +23,7 @@ class JsResultLambda3Syntax<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue
         resultTypeBuilder(InvocationOperation(this, param1, param2, param3))
 }
 
-@OptIn(InternalApi::class)
+@OptIn(JsInternalApi::class)
 inline fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, reified Result : JsValue> JsResultLambda3.Companion.syntax(
     value: String,
     crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
@@ -35,7 +35,7 @@ inline fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, reified Result
     isNullable = isNullable,
 )
 
-@OptIn(InternalApi::class)
+@OptIn(JsInternalApi::class)
 inline fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, reified Result : JsValue> JsResultLambda3.Companion.syntax(
     value: JsElement,
     crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,

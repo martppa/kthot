@@ -36,7 +36,7 @@ publishing {
                     }
                 }
                 scm {
-                    connection.set("scm:git:git://github.com/martppa/omni-mvi.git")
+                    connection.set("scm:git:git://github.com/martppa/kotlin-js-dsl.git")
                     developerConnection.set("scm:git@github.com:martppa/kotlin-js-dsl.git")
                     url.set("https://github.com/martppa/kotlin-js-dsl")
                 }

@@ -26,14 +26,14 @@ class JsSyntaxBuilder(
         }
         codeBuilder.appendImports(declaration, resolver)
         val className = declaration.jsName + "Syntax"
-        codeBuilder.append("class $className${declaration.genericTypesDeclarationString()} @InternalApi constructor(\n")
+        codeBuilder.append("class $className${declaration.genericTypesDeclarationString()} @JsInternalApi constructor(\n")
         codeBuilder.append("  value: String,\n")
         codeBuilder.append("  isNullable: Boolean${declaration.getComma(resolver)}")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("  override val ${type.getBuilderDefinition(resolver.loadClass(jsElementName))},\n")
         }
         codeBuilder.append(") : ${resolver.loadClass(jsReferenceSyntaxName)}<${declaration.jsName}${declaration.genericTypesString}>(value, isNullable), ${declaration.jsName}${declaration.genericTypesString}${declaration.whereClauseString} {\n")
-        codeBuilder.append("   @InternalApi constructor(value: ${resolver.loadClass(jsElementName).name}, isNullable: Boolean${declaration.getComma(resolver)} ")
+        codeBuilder.append("   @JsInternalApi constructor(value: ${resolver.loadClass(jsElementName).name}, isNullable: Boolean${declaration.getComma(resolver)} ")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("${type.getBuilderDefinition(resolver.loadClass(jsElementName))},")
         }
@@ -47,7 +47,7 @@ class JsSyntaxBuilder(
         codeBuilder.append("}\n\n")
 
         if (declaration.typeParameters.isNotEmpty() && declaration.getGenericReturnTypes(resolver).isNotEmpty()) {
-            codeBuilder.append("@OptIn(InternalApi::class)\n")
+            codeBuilder.append("@OptIn(JsInternalApi::class)\n")
             codeBuilder.append("inline fun ${declaration.genericTypesDeclarationString("reified")} ${declaration.jsName}.Companion.syntax(\n")
             codeBuilder.append("  value: String,\n")
             codeBuilder.append("  isNullable: Boolean = false,\n")
@@ -61,7 +61,7 @@ class JsSyntaxBuilder(
             }
             codeBuilder.append(")\n\n")
 
-            codeBuilder.append("@OptIn(InternalApi::class)\n")
+            codeBuilder.append("@OptIn(JsInternalApi::class)\n")
             codeBuilder.append("inline fun ${declaration.genericTypesDeclarationString("reified")} ${declaration.jsName}.Companion.syntax(\n")
             codeBuilder.append("  value: JsElement,\n")
             codeBuilder.append("  isNullable: Boolean = false,\n")
@@ -89,7 +89,7 @@ class JsSyntaxBuilder(
         }
 
         codeBuilder.append("\n\n")
-        codeBuilder.append("@OptIn(InternalApi::class)\n")
+        codeBuilder.append("@OptIn(JsInternalApi::class)\n")
         codeBuilder.append("fun ${declaration.genericTypesDeclarationString()} ${declaration.jsName}.Companion.syntax(\n")
         codeBuilder.append("  value: ${resolver.loadClass(jsElementName)},\n")
         codeBuilder.append("  isNullable: Boolean = false${declaration.getComma(resolver)}\n")
@@ -107,7 +107,7 @@ class JsSyntaxBuilder(
 
         codeBuilder.append(")\n\n")
 
-        codeBuilder.append("@OptIn(InternalApi::class)\n")
+        codeBuilder.append("@OptIn(JsInternalApi::class)\n")
         codeBuilder.append("fun ${declaration.genericTypesDeclarationString()} ${declaration.jsName}.Companion.syntax(\n")
         codeBuilder.append("  value: String,\n")
         codeBuilder.append("  isNullable: Boolean = false${declaration.getComma(resolver)}\n")
