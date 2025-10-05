@@ -11,7 +11,7 @@ task javadocJar(type: Jar) {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            groupId = 'net.asere.kotlin'
+            groupId = 'net.asere.kthot'
             artifactId = ARTIFACT_ID
             version = VERSION
             from components.java
