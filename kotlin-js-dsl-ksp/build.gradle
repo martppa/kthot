@@ -14,9 +14,9 @@ version = '0.1.5'
 
 ext {
     VERSION = version
-    ARTIFACT_ID = 'js-dsl-ksp'
-    POM_NAME = 'Js-Dsl-Ksp'
-    POM_DESCRIPTION = 'Kotlin Js Dsl Ksp integration for Kotlin class generation for JavaScript'
+    ARTIFACT_ID = 'kthot-ksp'
+    POM_NAME = 'Kthot-KSP'
+    POM_DESCRIPTION = 'Kotlin JavaScript DSL integration for class generation'
 }
 
 apply from: "${rootProject.projectDir}/scripts/base_publish.gradle"
