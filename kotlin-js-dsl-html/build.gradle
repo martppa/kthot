@@ -5,15 +5,15 @@ plugins {
     id 'signing'
 }
 
-group = 'net.asere'
+group = 'net.asere.kthot'
 
 version = '0.1.5'
 
 ext {
     VERSION = version
-    ARTIFACT_ID = 'js-dsl-html'
-    POM_NAME = 'Js-Dsl-Html'
-    POM_DESCRIPTION = 'Kotlin Js Dsl integration for Kotlin Html Dsl'
+    ARTIFACT_ID = 'kthot-html'
+    POM_NAME = 'Kthot-Html'
+    POM_DESCRIPTION = 'Kotlin JavaScript DSL integration for Kotlin Html DSL'
 }
 
 apply from: "${rootProject.projectDir}/scripts/base_publish.gradle"

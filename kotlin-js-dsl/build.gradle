@@ -4,15 +4,15 @@ plugins {
     id 'maven-publish'
     id 'signing'
 }
-group = 'net.asere'
+group = 'net.asere.kthot'
 
 version = '0.1.5'
 
 ext {
     VERSION = version
-    ARTIFACT_ID = 'js-dsl'
-    POM_NAME = 'Js-Dsl'
-    POM_DESCRIPTION = 'Kotlin Js Dsl integration for Kotlin Html Dsl'
+    ARTIFACT_ID = 'kthot'
+    POM_NAME = 'Kthot'
+    POM_DESCRIPTION = 'Kotlin DSL to generate JavaScript code'
 }
 
 apply from: "${rootProject.projectDir}/scripts/base_publish.gradle"
