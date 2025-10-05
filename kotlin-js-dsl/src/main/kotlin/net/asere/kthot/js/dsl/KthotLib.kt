@@ -1,5 +1,5 @@
 package net.asere.kthot.js.dsl
 
-interface JsDslLib {
+interface KthotLib {
     fun initialize()
 }

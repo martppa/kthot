@@ -1,6 +1,6 @@
 package net.asere.kthot.js.dsl.dom
 
-import net.asere.kthot.js.dsl.KotlinJslCore
+import net.asere.kthot.js.dsl.KthotCore
 import net.asere.kthot.js.dsl.dom.type.data.array.JsDomArray
 import net.asere.kthot.js.dsl.dom.type.data.array.syntax
 import net.asere.kthot.js.dsl.dom.type.content.document.JsDocument
@@ -21,7 +21,7 @@ import net.asere.kthot.js.dsl.dom.type.window.screen.JsScreen
 import net.asere.kthot.js.dsl.dom.type.window.screen.syntax
 import net.asere.kthot.js.dsl.provider.register
 
-open class KotlinJslDom : KotlinJslCore() {
+open class KthotDom : KthotCore() {
     override fun initialize() {
         super.initialize()
         register(builder = JsDomObject::syntax)
@@ -36,6 +36,6 @@ open class KotlinJslDom : KotlinJslCore() {
     }
 
     companion object {
-        fun initialize() = object : KotlinJslDom() {}.initialize()
+        fun initialize() = object : KthotDom() {}.initialize()
     }
 }

@@ -12,7 +12,7 @@ import net.asere.kthot.js.dsl.type.obj.syntax
 import net.asere.kthot.js.dsl.type.string.JsString
 import net.asere.kthot.js.dsl.type.string.syntax
 
-open class KotlinJslCore : JsDslLib {
+open class KthotCore : KthotLib {
     override fun initialize() {
         register(builder = JsString::syntax)
         register(builder = JsNumber::syntax)
@@ -23,6 +23,6 @@ open class KotlinJslCore : JsDslLib {
     }
 
     companion object {
-        fun initialize() = object : KotlinJslCore() {}.initialize()
+        fun initialize() = object : KthotCore() {}.initialize()
     }
 }

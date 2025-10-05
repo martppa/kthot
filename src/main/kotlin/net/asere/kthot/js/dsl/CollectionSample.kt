@@ -3,7 +3,7 @@ package net.asere.kthot.js.dsl
 import net.asere.kthot.js.dsl.declaration.Const
 import net.asere.kthot.js.dsl.dom.type.window.Window
 import net.asere.kthot.js.dsl.dom.type.window.screen.JsScreen
-import net.asere.kthot.js.dsl.ksp.KotlinJsl
+import net.asere.kthot.js.dsl.ksp.Kthot
 import net.asere.kthot.js.dsl.log.Log
 import net.asere.kthot.js.dsl.syntax.js
 import net.asere.kthot.js.dsl.type.array.JsArray
@@ -15,7 +15,7 @@ import net.asere.kthot.js.dsl.type.number.def
 import net.asere.kthot.js.dsl.type.number.js
 
 fun main() {
-    KotlinJsl.initialize()
+    Kthot.initialize()
     val syntax = js {
         val array = Const { JsArray.def<JsScreen>("array") } assign JsArray.value(Window.screen)
         Log("Screen height: ${array[0].height}")

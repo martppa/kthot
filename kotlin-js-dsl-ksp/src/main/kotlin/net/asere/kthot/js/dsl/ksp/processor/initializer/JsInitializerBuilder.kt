@@ -12,8 +12,8 @@ import net.asere.kthot.js.dsl.ksp.extension.getClass
 import net.asere.kthot.js.dsl.ksp.extension.jsName
 import net.asere.kthot.js.dsl.ksp.extension.loadClass
 import net.asere.kthot.js.dsl.ksp.extension.name
-import net.asere.kthot.js.dsl.ksp.processor.jsKotlinJslCoreName
-import net.asere.kthot.js.dsl.ksp.processor.jsKotlinJslDomName
+import net.asere.kthot.js.dsl.ksp.processor.jsKthotCoreName
+import net.asere.kthot.js.dsl.ksp.processor.jsKthotDomName
 import net.asere.kthot.js.dsl.ksp.processor.jsInitConfigName
 import net.asere.kthot.js.dsl.ksp.processor.jsRegisterFunctionName
 import java.io.OutputStreamWriter
@@ -26,7 +26,7 @@ class JsInitializerBuilder(
     fun build(
         resolver: Resolver,
     ) {
-        val className = "KotlinJsl"
+        val className = "Kthot"
         val packageName = "net.asere.kthot.js.dsl.ksp"
         val codeBuilder = StringBuilder()
         codeBuilder.append("package $packageName\n\n")
@@ -40,8 +40,8 @@ class JsInitializerBuilder(
             imports.add("import ${it.packageName.asString()}.syntax\n")
         }
 
-        val domJsTypeRegister = resolver.getClass(jsKotlinJslDomName)
-        val basicJsTypeRegister = resolver.loadClass(jsKotlinJslCoreName)
+        val domJsTypeRegister = resolver.getClass(jsKthotDomName)
+        val basicJsTypeRegister = resolver.loadClass(jsKthotCoreName)
 
         domJsTypeRegister?.let {
             imports.add("import ${it.fullName}\n")
@@ -58,15 +58,15 @@ class JsInitializerBuilder(
         codeBuilder.append("import $jsInitConfigName\n")
         codeBuilder.append("import $jsRegisterFunctionName\n")
         codeBuilder.append("\n\n")
-        if (resolver.classExist(jsKotlinJslDomName)) {
-            codeBuilder.append("object $className : ${resolver.loadClass(jsKotlinJslDomName).jsName}() {\n")
+        if (resolver.classExist(jsKthotDomName)) {
+            codeBuilder.append("object $className : ${resolver.loadClass(jsKthotDomName).jsName}() {\n")
         } else {
-            codeBuilder.append("object $className : ${resolver.loadClass(jsKotlinJslCoreName).jsName}() {\n")
+            codeBuilder.append("object $className : ${resolver.loadClass(jsKthotCoreName).jsName}() {\n")
         }
         val config = resolver.loadClass(jsInitConfigName)
         codeBuilder.append("    private var config: ${config.name} = ${config.name}()\n")
         codeBuilder.append("\n")
-        codeBuilder.append("    fun setConfig(config: ${config.name}): KotlinJsl {\n")
+        codeBuilder.append("    fun setConfig(config: ${config.name}): Kthot {\n")
         codeBuilder.append("        this.config = config\n")
         codeBuilder.append("        return this\n")
         codeBuilder.append("    }\n")
