@@ -6,7 +6,7 @@ plugins {
     id "com.google.devtools.ksp" version "2.2.0-2.0.2"
 }
 
-group = 'net.asere.kotlin'
+group = 'net.asere.kthot'
 version = '0.1.5'
 
 repositories {
@@ -69,7 +69,7 @@ tasks.register('publishToSonatypeCentral') {
         def authString = "${ossrhUsername}:${ossrhPassword}"
         def authEncoded = authString.bytes.encodeBase64().toString()
 
-        def searchUrl = "https://ossrh-staging-api.central.sonatype.com/manual/search/repositories?ip=any&profile_id=net.asere.kotlin"
+        def searchUrl = "https://ossrh-staging-api.central.sonatype.com/manual/search/repositories?ip=any&profile_id=net.asere.kthot"
         def repositoriesToPromote = []
 
         println "Attempting to fetch staged repository keys from: ${searchUrl}"

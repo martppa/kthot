@@ -9,7 +9,7 @@ repositories {
     mavenCentral()
 }
 
-group = 'net.asere.kotlin'
+group = 'net.asere.kthot'
 version = '0.1.5'
 
 ext {
