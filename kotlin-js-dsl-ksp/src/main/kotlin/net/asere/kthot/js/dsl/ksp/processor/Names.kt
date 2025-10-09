@@ -1,6 +1,7 @@
 package net.asere.kthot.js.dsl.ksp.processor
 
 const val jsClassAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsClass"
+const val jsApiAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsApi"
 const val jsPropertyAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsProperty"
 const val jsFunctionAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsFunction"
 const val jsDslAnnotationName = "net.asere.kthot.js.dsl.tag.JsDsl"

@@ -1,1 +1,2 @@
 net.asere.kthot.js.dsl.ksp.processor.clazz.JsClassProcessorProvider
+net.asere.kthot.js.dsl.ksp.processor.api.JsApiProcessorProvider

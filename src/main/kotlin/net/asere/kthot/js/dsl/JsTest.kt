@@ -1,7 +1,7 @@
 package net.asere.kthot.js.dsl
 
 import net.asere.kthot.js.dsl.declaration.Const
-import net.asere.kthot.js.dsl.ksp.KotlinJsl
+import net.asere.kthot.js.dsl.ksp.Kthot
 import net.asere.kthot.js.dsl.ksp.annotation.JsClass
 import net.asere.kthot.js.dsl.ksp.annotation.JsConstructor
 import net.asere.kthot.js.dsl.ksp.annotation.JsFunction
@@ -10,21 +10,14 @@ import net.asere.kthot.js.dsl.ksp.processor.js.JavaScriptClass
 import net.asere.kthot.js.dsl.log.Log
 import net.asere.kthot.js.dsl.provider.provide
 import net.asere.kthot.js.dsl.provider.register
-import net.asere.kthot.js.dsl.syntax.async.await
 import net.asere.kthot.js.dsl.syntax.js
+import net.asere.kthot.js.dsl.syntax.jsswitch.Case
+import net.asere.kthot.js.dsl.syntax.jsswitch.Switch
+import net.asere.kthot.js.dsl.syntax.loop.Break
 import net.asere.kthot.js.dsl.type.array.JsArray
 import net.asere.kthot.js.dsl.type.array.syntax
-import net.asere.kthot.js.dsl.type.error.JsError
-import net.asere.kthot.js.dsl.type.lambda.jsLambda
-import net.asere.kthot.js.dsl.type.lambda.l1.JsLambda1
-import net.asere.kthot.js.dsl.type.lambda.l1.def
-import net.asere.kthot.js.dsl.type.number.JsNumber
-import net.asere.kthot.js.dsl.type.number.JsNumberRef
-import net.asere.kthot.js.dsl.type.number.def
-import net.asere.kthot.js.dsl.type.number.ref
+import net.asere.kthot.js.dsl.type.number.*
 import net.asere.kthot.js.dsl.type.promise.JsPromise
-import net.asere.kthot.js.dsl.type.promise.def
-import net.asere.kthot.js.dsl.type.promise.new
 import net.asere.kthot.js.dsl.type.string.JsString
 import net.asere.kthot.js.dsl.type.string.JsStringRef
 import net.asere.kthot.js.dsl.type.string.ref
@@ -54,19 +47,19 @@ data class Test<T : JsArray<JsPromise<JsNumber>>> @JsConstructor constructor(
 
 fun main() {
     register { element, isNullable -> JsArray.syntax<JsPromise<JsNumber>>(value = element, isNullable = isNullable, typeBuilder = ::provide) }
-    KotlinJsl.initialize()
+    Kthot.initialize()
     val syntax = js {
-        val number = Const { JsNumber.def("5") } assign JsNumber.ref("a")
-        val promise = Const { JsPromise.def<JsNumber>() } assign JsPromise.new(
-            jsLambda(
-                param1 = JsLambda1.def("onResolve"),
-                param2 = JsLambda1.def("onError")
-            ) { onResolve, onError ->
-                +onResolve(number)
+        val number = Const { JsNumber.def("number") } assign 4.js
+        Switch(number) {
+            Case(2.js) {
+                Log("Es un" + 2)
+                Break
             }
-        )
-        val result = Const { JsNumber.def("result") } assign await { promise }
-        Log(result)
+            Case(4.js, 8.js) {
+                Log("Es un " + 4 + " o un " + 8)
+                Break
+            }
+        }
     }
     println(syntax)
 }

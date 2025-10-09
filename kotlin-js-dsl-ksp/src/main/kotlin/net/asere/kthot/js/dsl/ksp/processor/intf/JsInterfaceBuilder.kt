@@ -7,7 +7,7 @@ import net.asere.kthot.js.dsl.ksp.extension.*
 import net.asere.kthot.js.dsl.ksp.processor.*
 import java.io.OutputStreamWriter
 
-class JsInterfaceBuilder(
+abstract class JsInterfaceBuilder(
     private val codeGenerator: CodeGenerator,
     private val logger: KSPLogger,
 ) : CodeBuilder {
@@ -46,9 +46,11 @@ class JsInterfaceBuilder(
     private fun StringBuilder.appendCompanion(declaration: KSClassDeclaration) {
         append("\n")
         append("   companion object {\n")
-        append("       const val Source = \"${declaration.packageName.asString().replace(".", "/")}/${declaration.jsName}.js\"\n")
+        append("       const val Source = \"${getImportPath(declaration)}\"\n")
         append("   }\n")
     }
+
+    protected abstract fun getImportPath(declaration: KSClassDeclaration): String
 
     private fun Resolver.checkDependencies() {
         jsChainOperationDeclaration = loadClass(jsChainOperationName)

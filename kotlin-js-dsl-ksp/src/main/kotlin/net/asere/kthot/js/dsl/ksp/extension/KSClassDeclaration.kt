@@ -4,6 +4,7 @@ import com.google.devtools.ksp.getVisibility
 import com.google.devtools.ksp.isConstructor
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.*
+import net.asere.kthot.js.dsl.ksp.processor.jsApiAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsClassAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsConstructorAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsFunctionAnnotationName
@@ -76,7 +77,8 @@ fun KSClassDeclaration.isNullable(): Boolean = annotations.find {
  */
 val KSClassDeclaration.jsName: String get() {
     val jsClassAnnotation = annotations.find {
-        it.annotationType.resolve().declaration.qualifiedName?.asString() == jsClassAnnotationName
+        it.annotationType.resolve().declaration.qualifiedName?.asString() == jsClassAnnotationName ||
+        it.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiAnnotationName
     } ?: return name
 
     val nameFromAnnotation =
