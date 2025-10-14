@@ -3,7 +3,7 @@ package net.asere.kthot.js.dsl.ksp.processor.intf
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSClassDeclaration
-import net.asere.kthot.js.dsl.ksp.extension.jsName
+import net.asere.kthot.js.dsl.ksp.processor.jsApiAnnotationName
 
 class JsApiInterfaceBuilder(
     codeGenerator: CodeGenerator,
@@ -11,7 +11,15 @@ class JsApiInterfaceBuilder(
 ) : JsInterfaceBuilder(
     codeGenerator, logger
 ) {
-    override fun getImportPath(declaration: KSClassDeclaration): String = "${
-        declaration.packageName.asString().replace(".", "/")
-    }/${declaration.jsName}.js"
+    override fun getImportPath(declaration: KSClassDeclaration): String? {
+        val jsClassAnnotation = declaration.annotations.find {
+            it.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiAnnotationName
+        } ?: throw IllegalArgumentException("The declaration has no import path associated")
+        val value =  jsClassAnnotation.arguments.find {
+            it.name?.asString() == "import"
+        }?.value as? String
+        return if (value.isNullOrBlank()) {
+            null
+        } else value
+    }
 }

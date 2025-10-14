@@ -2,6 +2,7 @@ package net.asere.kthot.js.dsl
 
 import net.asere.kthot.js.dsl.declaration.Const
 import net.asere.kthot.js.dsl.ksp.Kthot
+import net.asere.kthot.js.dsl.ksp.annotation.JsApiClass
 import net.asere.kthot.js.dsl.ksp.annotation.JsClass
 import net.asere.kthot.js.dsl.ksp.annotation.JsConstructor
 import net.asere.kthot.js.dsl.ksp.annotation.JsFunction
@@ -21,6 +22,9 @@ import net.asere.kthot.js.dsl.type.promise.JsPromise
 import net.asere.kthot.js.dsl.type.string.JsString
 import net.asere.kthot.js.dsl.type.string.JsStringRef
 import net.asere.kthot.js.dsl.type.string.ref
+
+@JsApiClass(import = "lolin")
+class ApiSample
 
 @JsClass
 data class Test<T : JsArray<JsPromise<JsNumber>>> @JsConstructor constructor(

@@ -46,11 +46,13 @@ abstract class JsInterfaceBuilder(
     private fun StringBuilder.appendCompanion(declaration: KSClassDeclaration) {
         append("\n")
         append("   companion object {\n")
-        append("       const val Source = \"${getImportPath(declaration)}\"\n")
+        getImportPath(declaration)?.let {
+            append("       const val Source = \"$it\"\n")
+        }
         append("   }\n")
     }
 
-    protected abstract fun getImportPath(declaration: KSClassDeclaration): String
+    protected abstract fun getImportPath(declaration: KSClassDeclaration): String?
 
     private fun Resolver.checkDependencies() {
         jsChainOperationDeclaration = loadClass(jsChainOperationName)
