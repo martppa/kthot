@@ -5,6 +5,7 @@ import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSTypeParameter
 import net.asere.kthot.js.dsl.ksp.extension.*
 import net.asere.kthot.js.dsl.ksp.processor.*
 import java.io.OutputStreamWriter
@@ -101,7 +102,7 @@ class JsSyntaxBuilder(
         codeBuilder.append("$className(")
         codeBuilder.append("value, ")
         codeBuilder.append("isNullable${declaration.getComma(resolver)}")
-        declaration.getGenericReturnTypes(resolver).joinToString { item -> "${item.declaration.name.replaceFirstChar { it.lowercase() }}Builder" }.let {
+        declaration.getGenericReturnTypes(resolver).joinToString { item -> item.builderName }.let {
             codeBuilder.append(it)
         }
 
@@ -119,7 +120,7 @@ class JsSyntaxBuilder(
         codeBuilder.append("$className(")
         codeBuilder.append("value, ")
         codeBuilder.append("isNullable${declaration.getComma(resolver)}")
-        declaration.getGenericReturnTypes(resolver).joinToString { item -> "${item.declaration.name.replaceFirstChar { it.lowercase() }}Builder" }.let {
+        declaration.getGenericReturnTypes(resolver).joinToString { item -> item.builderName }.let {
             codeBuilder.append(it)
         }
         codeBuilder.append(")\n\n")
@@ -147,6 +148,22 @@ class JsSyntaxBuilder(
             constructor.parameters.forEach { parameter ->
                 if (!parameter.type.isGenericTypeParameter())
                     imports.add(parameter.type.resolve().declaration.fullJsName)
+            }
+        }
+        declaration.getJsAvailableProperties(resolver)
+            .filter { it.type.resolve().declaration !is KSTypeParameter }
+            .forEach { property ->
+                imports.add(property.typeFullName)
+                imports.add(property.basicTypeFullName)
+            }
+        for (function in declaration.getJsAvailableFunctions(resolver)) {
+            if (function.returnType?.resolve() !is KSTypeParameter) {
+                imports.add(function.returnType!!.resolve().declaration.fullName)
+                imports.add(function.returnType!!.resolve().declaration.fullBasicTypeName)
+            }
+            function.parameters.filter { it.type.resolve() !is KSTypeParameter }.forEach { param ->
+                imports.add(param.type.resolve().declaration.fullName)
+                imports.add(param.type.resolve().declaration.fullBasicTypeName)
             }
         }
         imports.remove("kotlin.Any")

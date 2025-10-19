@@ -66,7 +66,7 @@ else
  * Creates a definition for a generic type builder lambda following a syntax builder pattern.
  */
 fun KSType.getBuilderDefinition(argument: KSClassDeclaration) =
-    "${declaration.name.replaceFirstChar { it.lowercase() }}Builder: (${argument.asStarProjectedType().definitionName}, isNullable: Boolean) -> $definitionName"
+    "$builderName: (${argument.asStarProjectedType().definitionName}, isNullable: Boolean) -> $definitionName"
 
 /**
  * Returns the parameters as a list of parameters definition, e.g jsString: JsString, jsValue: JsValue,

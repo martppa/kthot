@@ -99,11 +99,13 @@ class JsFunctionInterfaceBuilder(
                     function.parameters.definitionString()}): ${
                     function.returnType?.resolve()?.definitionName} = ${
                     function.returnType?.resolve()?.declaration?.name}$syntaxInvocationString(${
+                    jsChainOperationDeclaration.name}(this, ${
+                    jsInvocationOperationDeclaration.name}(\"$functionName\", ${
+                    function.parameters.listString()})), false, ${
                     builderParameters.joinToString(
                         ", "
                     ) { it.builderName }
-                }, ${jsInvocationOperationDeclaration.name}(\"$functionName\", ${
-                    function.parameters.listString()}))\n")
+                })\n")
             } else {
                 append("  fun $functionName(${
                     function.parameters.definitionString()}): ${
