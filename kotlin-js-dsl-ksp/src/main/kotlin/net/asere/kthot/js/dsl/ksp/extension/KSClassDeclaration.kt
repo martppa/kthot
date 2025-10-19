@@ -5,6 +5,7 @@ import com.google.devtools.ksp.isConstructor
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.*
 import net.asere.kthot.js.dsl.ksp.processor.jsApiAnnotationName
+import net.asere.kthot.js.dsl.ksp.processor.jsApiFunctionClassAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsClassAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsConstructorAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsFunctionAnnotationName
@@ -17,8 +18,8 @@ import net.asere.kthot.js.dsl.ksp.processor.jsPropertyAnnotationName
 fun KSClassDeclaration.getJsAvailableFunctions(resolver: Resolver): Sequence<KSFunctionDeclaration> = declarations
     .filterIsInstance<KSFunctionDeclaration>()
     .filter {
-        annotations.find {
-            it.annotationType.resolve().declaration.qualifiedName?.asString() == jsFunctionAnnotationName
+        it.annotations.find { annotation ->
+            annotation.annotationType.resolve().declaration.qualifiedName?.asString() == jsFunctionAnnotationName
         } != null
     }
     .filter { it.getVisibility() == Visibility.PUBLIC }
@@ -75,21 +76,23 @@ fun KSClassDeclaration.isNullable(): Boolean = annotations.find {
 /**
  * The name provided to annotation at declaration
  */
-val KSClassDeclaration.jsName: String get() {
-    val jsClassAnnotation = annotations.find {
-        it.annotationType.resolve().declaration.qualifiedName?.asString() == jsClassAnnotationName ||
-        it.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiAnnotationName
-    } ?: return name
+val KSClassDeclaration.jsName: String
+    get() {
+        val jsClassAnnotation = annotations.find {
+            it.annotationType.resolve().declaration.qualifiedName?.asString() == jsClassAnnotationName ||
+                    it.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiAnnotationName ||
+            it.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiFunctionClassAnnotationName
+        } ?: return name
 
-    val nameFromAnnotation =
-        jsClassAnnotation.arguments.find { it.name?.asString() == "name" }?.value as? String
-    val className = if (nameFromAnnotation.isNullOrBlank()) {
-        "${if (name.startsWith("Js")) "" else "Js"}${name}"
-    } else {
-        nameFromAnnotation
+        val nameFromAnnotation =
+            jsClassAnnotation.arguments.find { it.name?.asString() == "name" }?.value as? String
+        val className = if (nameFromAnnotation.isNullOrBlank()) {
+            "${if (name.startsWith("Js")) "" else "Js"}${name}"
+        } else {
+            nameFromAnnotation
+        }
+        return className
     }
-    return className
-}
 
 /**
  * Returns a definition string of all generic types in the class including boundaries.
@@ -101,12 +104,21 @@ fun KSClassDeclaration.genericTypesDeclarationString(modifier: String? = null): 
     typeParameters.forEach { parameter ->
         val bounds = parameter.bounds.filter { !it.resolve().declaration.isAny() }.toList()
         when (bounds.size) {
-            1 -> genericTypesDeclarations.add("${modifier?.let { 
-                "$it " 
-            }.orEmpty()}${parameter.name.asString()} : ${bounds.first().resolve().definitionName}")
-            else -> genericTypesDeclarations.add("${modifier?.let { 
-                "$it " 
-            }.orEmpty()}${parameter.name.asString()}")
+            1 -> genericTypesDeclarations.add(
+                "${
+                    modifier?.let {
+                        "$it "
+                    }.orEmpty()
+                }${parameter.name.asString()} : ${bounds.first().resolve().definitionName}"
+            )
+
+            else -> genericTypesDeclarations.add(
+                "${
+                    modifier?.let {
+                        "$it "
+                    }.orEmpty()
+                }${parameter.name.asString()}"
+            )
         }
     }
     if (genericTypesDeclarations.isNotEmpty()) {
@@ -120,33 +132,36 @@ fun KSClassDeclaration.genericTypesDeclarationString(modifier: String? = null): 
 /**
  * Returns the where clause for multiple generics bounding. If none is found, it returns an empty string.
  */
-val KSClassDeclaration.whereClauseString: String get() {
-    val whereClause = typeParameters.filter { it.bounds.toList().size > 1 }.map { parameter ->
-        parameter.bounds.filter { !it.resolve().declaration.isAny() }
-            .map { bound ->  "${parameter.name.asString()} : ${bound.resolve().definitionName}" }
-            .joinToString()
-    }.filter { it.isNotBlank() }.let { if (it.isEmpty()) "" else "where ${it.joinToString()}" }
-    return whereClause
-}
+val KSClassDeclaration.whereClauseString: String
+    get() {
+        val whereClause = typeParameters.filter { it.bounds.toList().size > 1 }.map { parameter ->
+            parameter.bounds.filter { !it.resolve().declaration.isAny() }
+                .map { bound -> "${parameter.name.asString()} : ${bound.resolve().definitionName}" }
+                .joinToString()
+        }.filter { it.isNotBlank() }.let { if (it.isEmpty()) "" else "where ${it.joinToString()}" }
+        return whereClause
+    }
 
 /**
  * The list of constructors defined
  */
-val KSClassDeclaration.constructors: List<KSFunctionDeclaration> get() {
-    return declarations
-        .filterIsInstance<KSFunctionDeclaration>()
-        .filter { it.simpleName.asString().isEmpty() }
-        .toList()
-}
+val KSClassDeclaration.constructors: List<KSFunctionDeclaration>
+    get() {
+        return declarations
+            .filterIsInstance<KSFunctionDeclaration>()
+            .filter { it.simpleName.asString().isEmpty() }
+            .toList()
+    }
 
 /**
  * The list of properties defined in the class
  */
-val KSClassDeclaration.properties: List<KSPropertyDeclaration> get() {
-    return declarations
-        .filterIsInstance<KSPropertyDeclaration>()
-        .toList()
-}
+val KSClassDeclaration.properties: List<KSPropertyDeclaration>
+    get() {
+        return declarations
+            .filterIsInstance<KSPropertyDeclaration>()
+            .toList()
+    }
 
 /**
  * Returns a list of constructors defined in the class that were annotated with @JsConstructor

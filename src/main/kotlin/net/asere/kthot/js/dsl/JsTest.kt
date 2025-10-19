@@ -3,6 +3,7 @@ package net.asere.kthot.js.dsl
 import net.asere.kthot.js.dsl.declaration.Const
 import net.asere.kthot.js.dsl.ksp.Kthot
 import net.asere.kthot.js.dsl.ksp.annotation.JsApiClass
+import net.asere.kthot.js.dsl.ksp.annotation.JsApiFunctionClass
 import net.asere.kthot.js.dsl.ksp.annotation.JsClass
 import net.asere.kthot.js.dsl.ksp.annotation.JsConstructor
 import net.asere.kthot.js.dsl.ksp.annotation.JsFunction
@@ -23,15 +24,27 @@ import net.asere.kthot.js.dsl.type.string.JsString
 import net.asere.kthot.js.dsl.type.string.JsStringRef
 import net.asere.kthot.js.dsl.type.string.ref
 
+@JsApiFunctionClass(name = "prebadName")
+internal interface _ApiTestPrieba {
+    @JsFunction
+    fun prueba() = js {
+
+    }
+}
+
 @JsApiClass(import = "lolin")
 class ApiSample
 
 @JsClass
 data class Test<T : JsArray<JsPromise<JsNumber>>> @JsConstructor constructor(
     @JsProperty
-    val property: JsStringRef = JsString.ref("property"),
+    val property2: JsStringRef,
+
     @JsProperty
-    val valuex: T
+    val valuex: T,
+
+    @JsProperty
+    val syntaxSample: JsString
 ) : JavaScriptClass() {
 
     @JsProperty
@@ -39,13 +52,13 @@ data class Test<T : JsArray<JsPromise<JsNumber>>> @JsConstructor constructor(
 
     init {
         Constructor {
-            This.property assign property
+            This.property2 assign property2
         }
     }
 
     @JsFunction
     fun function1(value: JsString) = js {
-       This.property assign value
+       This.property2 assign value
     }
 }
 

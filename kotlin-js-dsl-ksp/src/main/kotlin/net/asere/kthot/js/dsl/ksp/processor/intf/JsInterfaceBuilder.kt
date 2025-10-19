@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter
 abstract class JsInterfaceBuilder(
     private val codeGenerator: CodeGenerator,
     private val logger: KSPLogger,
-) : CodeBuilder {
+) : ClassCodeBuilder {
     private lateinit var jsChainOperationDeclaration: KSClassDeclaration
     private lateinit var jsInvocationOperationDeclaration: KSClassDeclaration
     private lateinit var jsObjectDeclaration: KSClassDeclaration
@@ -140,6 +140,8 @@ abstract class JsInterfaceBuilder(
             append("  val ${type.getBuilderDefinition(jsElementDeclaration)}\n")
         }
         declaration.getJsAvailableProperties(resolver).forEach { property ->
+            if (property.type.isSubclassOf(jsSyntaxDeclaration))
+                throw IllegalArgumentException("Properties of generated classes can't be of type JsSyntax")
             val propertyName = property.name
             val propertyDefinitionName = property.type.resolve().definitionName
             if (property.isGenericTypeParameter()) {
@@ -158,6 +160,7 @@ abstract class JsInterfaceBuilder(
 
     private fun StringBuilder.appendMethods(declaration: KSClassDeclaration, resolver: Resolver) {
         declaration.getJsAvailableFunctions(resolver).forEach { function ->
+            val syntaxInvocationString: String = if (function.returnType?.resolve()?.declaration?.fullName == jsSyntaxName) "" else ".syntax"
             val functionName = function.name
             if (function.returnType.isGenericTypeParameter()) {
                 append("  fun $functionName(${
@@ -172,18 +175,18 @@ abstract class JsInterfaceBuilder(
                 append("  fun $functionName(${
                     function.parameters.definitionString()}): ${
                         function.returnType?.resolve()?.definitionName} = ${
-                            function.returnType?.resolve()?.declaration?.name}.syntax(${
+                            function.returnType?.resolve()?.declaration?.name}$syntaxInvocationString(${
                     builderParameters.joinToString(
                         ", "
                     ) { it.builderName }
                 }, ${jsChainOperationDeclaration.name}(this, ${
                     jsInvocationOperationDeclaration.name}(\"$functionName\", ${
                         function.parameters.listString()})))\n")
-            } else {
+            } else if (function.returnType?.resolve()?.declaration.isJsElement(resolver)) {
                 append("  fun $functionName(${
                     function.parameters.definitionString()}): ${
                         function.returnType?.resolve()?.definitionName} = ${
-                            function.returnType?.resolve()?.declaration?.name}.syntax(${
+                            function.returnType?.resolve()?.declaration?.name}$syntaxInvocationString(${
                                 jsChainOperationDeclaration.name}(this, ${
                                     jsInvocationOperationDeclaration.name}(\"$functionName\", ${
                                         function.parameters.listString()})))\n")

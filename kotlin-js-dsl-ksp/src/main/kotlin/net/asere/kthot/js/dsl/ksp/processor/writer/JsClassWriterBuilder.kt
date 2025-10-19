@@ -12,7 +12,7 @@ import java.io.OutputStreamWriter
 class JsClassWriterBuilder(
     private val codeGenerator: CodeGenerator,
     private val logger: KSPLogger
-) : CodeBuilder {
+) : ClassCodeBuilder {
 
     override fun build(resolver: Resolver, declaration: KSClassDeclaration) {
         val writerName = "${declaration.jsName}Writer"

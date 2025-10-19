@@ -6,7 +6,7 @@ import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import net.asere.kthot.js.dsl.ksp.extension.*
-import net.asere.kthot.js.dsl.ksp.processor.CodeBuilder
+import net.asere.kthot.js.dsl.ksp.processor.ClassCodeBuilder
 import net.asere.kthot.js.dsl.ksp.processor.jsElementName
 import net.asere.kthot.js.dsl.ksp.processor.jsInternalApiAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsPrintableDefinitionName
@@ -18,7 +18,7 @@ import java.io.OutputStreamWriter
 class JsReferenceBuilder(
     private val codeGenerator: CodeGenerator,
     private val logger: KSPLogger
-) : CodeBuilder {
+) : ClassCodeBuilder {
 
     override fun build(resolver: Resolver, declaration: KSClassDeclaration) {
         createReference(declaration, resolver)

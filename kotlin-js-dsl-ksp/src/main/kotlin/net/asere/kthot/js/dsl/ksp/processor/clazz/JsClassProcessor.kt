@@ -6,8 +6,10 @@ import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.symbol.KSAnnotated
 import net.asere.kthot.js.dsl.ksp.extension.findJsApiClasses
+import net.asere.kthot.js.dsl.ksp.extension.findJsApiFunctionsClasses
 import net.asere.kthot.js.dsl.ksp.extension.findJsClasses
 import net.asere.kthot.js.dsl.ksp.processor.composite.CodeBuilderComposite
+import net.asere.kthot.js.dsl.ksp.processor.function.JsFunctionInterfaceBuilder
 import net.asere.kthot.js.dsl.ksp.processor.initializer.JsInitializerBuilder
 import net.asere.kthot.js.dsl.ksp.processor.intf.JsApiInterfaceBuilder
 import net.asere.kthot.js.dsl.ksp.processor.intf.JsClassInterfaceBuilder
@@ -31,6 +33,9 @@ class JsClassProcessor(
         JsReferenceBuilder(codeGenerator, logger),
         JsSyntaxBuilder(codeGenerator, logger),
     )
+    private val jsApiFunctionBuilder = CodeBuilderComposite(
+        JsFunctionInterfaceBuilder(codeGenerator, logger),
+    )
     private val initializerBuilder: JsInitializerBuilder = JsInitializerBuilder(
         codeGenerator = codeGenerator,
         logger = logger
@@ -50,7 +55,13 @@ class JsClassProcessor(
             jsApiClassBuilder.build(resolver, declaration)
         }
 
-        if ((apiDeclarations + classDeclarations).toList().isNotEmpty()) {
+        val apiFunctionClassDeclarations = resolver.findJsApiFunctionsClasses()
+
+        for (declaration in apiFunctionClassDeclarations) {
+            jsApiFunctionBuilder.build(resolver, declaration)
+        }
+
+        if ((apiDeclarations + classDeclarations + apiFunctionClassDeclarations).toList().isNotEmpty()) {
             initializerBuilder.build(resolver)
         }
 

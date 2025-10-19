@@ -12,7 +12,7 @@ import java.io.OutputStreamWriter
 class JsSyntaxBuilder(
     private val codeGenerator: CodeGenerator,
     private val logger: KSPLogger
-) : CodeBuilder {
+) : ClassCodeBuilder {
 
     override fun build(resolver: Resolver, declaration: KSClassDeclaration) {
         createSyntax(declaration, resolver)

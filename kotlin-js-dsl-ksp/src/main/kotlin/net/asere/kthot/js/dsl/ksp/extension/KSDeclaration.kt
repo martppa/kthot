@@ -6,6 +6,7 @@ import com.google.devtools.ksp.isConstructor
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.*
 import net.asere.kthot.js.dsl.ksp.processor.jsElementName
+import net.asere.kthot.js.dsl.syntax.JsSyntax
 
 /**
  * Removes the helper suffix. Any value ending on "Ref", "Syntax" or "Value" will be removed.
@@ -13,14 +14,14 @@ import net.asere.kthot.js.dsl.ksp.processor.jsElementName
 internal fun String.stripHelperSuffix(): String = this.let {
     when {
         it.endsWith("Ref") -> it.dropLast(3)
-        it.endsWith("Syntax") -> it.dropLast(6)
-        it.endsWith("Value") && it != "JsValue" -> it.dropLast(5)
+        it.endsWith("Syntax") && !it.endsWith("JsSyntax") -> it.dropLast(6)
+        it.endsWith("Value") && it.endsWith("JsValue") -> it.dropLast(5)
         else -> it
     }
 }
 
 /**
- * Package + basic type. Basic type is the basic type of helper. Helpers are references, syntax or value.
+ * Package + basic type. Basic type is the basic type of helper. Helpers are references, syntax or values.
  * For example, JsNumberRef is the reference helper of JsNumber.
  */
 val KSDeclaration.fullBasicTypeName: String get() = qualifiedName?.asString()?.stripHelperSuffix() ?: "Any"

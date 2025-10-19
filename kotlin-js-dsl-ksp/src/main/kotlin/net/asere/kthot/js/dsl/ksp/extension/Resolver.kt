@@ -4,6 +4,7 @@ import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import net.asere.kthot.js.dsl.ksp.processor.jsApiAnnotationName
+import net.asere.kthot.js.dsl.ksp.processor.jsApiFunctionClassAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsClassAnnotationName
 
 fun Resolver.classExist(className: String): Boolean = getClassDeclarationByName(
@@ -37,6 +38,12 @@ fun Resolver.findJsClasses(): Sequence<KSClassDeclaration> {
 
 fun Resolver.findJsApiClasses(): Sequence<KSClassDeclaration> {
     val symbols = getSymbolsWithAnnotation(jsApiAnnotationName)
+        .filterIsInstance<KSClassDeclaration>()
+    return symbols
+}
+
+fun Resolver.findJsApiFunctionsClasses(): Sequence<KSClassDeclaration> {
+    val symbols = getSymbolsWithAnnotation(jsApiFunctionClassAnnotationName)
         .filterIsInstance<KSClassDeclaration>()
     return symbols
 }
