@@ -47,3 +47,5 @@ fun Resolver.findJsApiFunctionsClasses(): Sequence<KSClassDeclaration> {
         .filterIsInstance<KSClassDeclaration>()
     return symbols
 }
+
+fun Resolver.fileExists(fileName: String): Boolean = getAllFiles().find { it.fileName == fileName } != null

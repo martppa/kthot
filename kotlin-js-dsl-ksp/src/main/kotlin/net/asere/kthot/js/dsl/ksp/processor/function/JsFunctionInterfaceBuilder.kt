@@ -5,6 +5,7 @@ import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.KSTypeParameter
 import net.asere.kthot.js.dsl.ksp.extension.*
 import net.asere.kthot.js.dsl.ksp.processor.*
@@ -59,7 +60,18 @@ class JsFunctionInterfaceBuilder(
         imports.add(jsInvocationOperationDeclaration.fullName)
         imports.add(jsAccessOperationDeclaration.fullName)
         imports.add(jsInternalApiAnnotationDeclaration.fullName)
+        declaration.getAllTypes().forEach {
+            imports.add(it.declaration.fullName)
+        }
         for (function in declaration.getJsAvailableFunctions(resolver)) {
+            function.typeParameters
+                .map { type ->
+                    type.bounds.toList().map {
+                        it.resolve().getAllTypes()
+                    }
+                }.flatten().flatten().map { it.declaration.fullName }.forEach {
+                    imports.add(it)
+                }
             if (function.returnType?.resolve() !is KSTypeParameter) {
                 imports.add(function.returnType!!.resolve().declaration.fullName)
                 imports.add(function.returnType!!.resolve().declaration.fullBasicTypeName)
@@ -87,29 +99,25 @@ class JsFunctionInterfaceBuilder(
             val syntaxInvocationString: String = if (function.returnType?.resolve()?.declaration?.fullName == jsSyntaxName) "" else ".syntax"
             val functionName = function.name
             if (function.returnType.isGenericTypeParameter()) {
-                append("  fun $functionName(${
+                append("  inline fun ${function.getDeclaration(functionName)}(${
                     function.parameters.definitionString()}): ${
-                    function.returnType?.resolve()?.definitionName} = ${
+                    function.returnType?.resolve()?.definitionName}${function.whereClauseString} = ${
                     function.returnType?.resolve()?.builderName}(${
                     jsInvocationOperationDeclaration.name}(\"$functionName\", ${
                     function.parameters.listString()}), ${function.returnType.isNullable()})")
             } else if (function.returnType?.resolve().hasArgumentsTypes()) {
-                val builderParameters = function.returnType!!.resolve().getArgumentsTypes()
-                append("  fun $functionName(${
+                append("  inline fun ${function.getDeclaration(functionName)}(${
                     function.parameters.definitionString()}): ${
-                    function.returnType?.resolve()?.definitionName} = ${
+                    function.returnType?.resolve()?.definitionName}${function.whereClauseString} = ${
                     function.returnType?.resolve()?.declaration?.name}$syntaxInvocationString(${
-                    jsChainOperationDeclaration.name}(this, ${
-                    jsInvocationOperationDeclaration.name}(\"$functionName\", ${
-                    function.parameters.listString()})), false, ${
-                    builderParameters.joinToString(
-                        ", "
-                    ) { it.builderName }
-                })\n")
+                    jsInvocationOperationDeclaration.name
+                }(\"$functionName\", ${
+                    function.parameters.listString()
+                }))\n")
             } else {
-                append("  fun $functionName(${
+                append("  inline fun ${function.getDeclaration(functionName)}(${
                     function.parameters.definitionString()}): ${
-                    function.returnType?.resolve()?.definitionName} = ${
+                    function.returnType?.resolve()?.definitionName}${function.whereClauseString} = ${
                     function.returnType?.resolve()?.declaration?.name}$syntaxInvocationString(${
                     jsInvocationOperationDeclaration.name}(\"$functionName\", ${
                     function.parameters.listString()}))\n")
@@ -131,4 +139,24 @@ class JsFunctionInterfaceBuilder(
         )
         OutputStreamWriter(file).use { it.write(codeBuilder.toString()) }
     }
+}
+
+private fun KSFunctionDeclaration.getDeclaration(name: String? = null): String {
+    val stringBuilder = StringBuilder()
+    val genericTypes = mutableListOf<String>()
+    typeParameters.forEach { parameter ->
+        val bounds = parameter.bounds.filter { !it.resolve().declaration.isAny() }.toList()
+        when (bounds.size) {
+            1 -> genericTypes.add("${parameter.name.asString()} : ${bounds.first().resolve().definitionName}")
+            else -> genericTypes.add(parameter.name.asString())
+        }
+    }
+    if (genericTypes.isNotEmpty()) {
+        stringBuilder.append("<")
+        stringBuilder.append(genericTypes.joinToString(", "))
+        stringBuilder.append("> ")
+    }
+    stringBuilder.append(name ?: this.name)
+
+    return stringBuilder.toString()
 }

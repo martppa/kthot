@@ -1,5 +1,6 @@
 package net.asere.kthot.js.dsl.ksp.extension
 
+import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 
 /**
@@ -24,3 +25,16 @@ val KSFunctionDeclaration.parametersNames: List<String> get() = parameters.mapIn
 val KSFunctionDeclaration.parametersNamesString: String get() = parameters.mapIndexed { index, parameter ->
     parameter.name?.asString() ?: "p$index"
 }.joinToString(", ")
+
+/**
+ * Returns the where clause for multiple generics bounding. If none is found, it returns an empty string.
+ */
+val KSFunctionDeclaration.whereClauseString: String
+    get() {
+        val whereClause = typeParameters.filter { it.bounds.toList().size > 1 }.map { parameter ->
+            parameter.bounds.filter { !it.resolve().declaration.isAny() }
+                .map { bound -> "${parameter.name.asString()} : ${bound.resolve().definitionName}" }
+                .joinToString()
+        }.filter { it.isNotBlank() }.let { if (it.isEmpty()) "" else "where ${it.joinToString()}" }
+        return whereClause
+    }

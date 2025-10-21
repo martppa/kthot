@@ -5,6 +5,8 @@ import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.symbol.KSAnnotated
+import com.google.devtools.ksp.symbol.KSDeclaration
+import com.google.devtools.ksp.validate
 import net.asere.kthot.js.dsl.ksp.extension.findJsApiClasses
 import net.asere.kthot.js.dsl.ksp.extension.findJsApiFunctionsClasses
 import net.asere.kthot.js.dsl.ksp.extension.findJsClasses
@@ -43,28 +45,43 @@ class JsClassProcessor(
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
 
+        val nonProcessedSymbols: MutableList<KSDeclaration> = mutableListOf()
+
         val classDeclarations = resolver.findJsClasses()
 
         for (declaration in classDeclarations) {
-            jsClassBuilder.build(resolver, declaration)
+            if (declaration.validate()) {
+                jsClassBuilder.build(resolver, declaration)
+                initializerBuilder.addClass(declaration)
+            } else {
+                nonProcessedSymbols.add(declaration)
+            }
         }
 
         val apiDeclarations = resolver.findJsApiClasses()
 
         for (declaration in apiDeclarations) {
-            jsApiClassBuilder.build(resolver, declaration)
+            if (declaration.validate()) {
+                jsApiClassBuilder.build(resolver, declaration)
+            } else {
+                nonProcessedSymbols.add(declaration)
+            }
         }
 
         val apiFunctionClassDeclarations = resolver.findJsApiFunctionsClasses()
 
         for (declaration in apiFunctionClassDeclarations) {
-            jsApiFunctionBuilder.build(resolver, declaration)
+            if (declaration.validate()) {
+                jsApiFunctionBuilder.build(resolver, declaration)
+            } else {
+                nonProcessedSymbols.add(declaration)
+            }
         }
 
-        if ((apiDeclarations + classDeclarations + apiFunctionClassDeclarations).toList().isNotEmpty()) {
+        if (nonProcessedSymbols.isEmpty()) {
             initializerBuilder.build(resolver)
         }
 
-        return emptyList()
+        return nonProcessedSymbols
     }
 }
