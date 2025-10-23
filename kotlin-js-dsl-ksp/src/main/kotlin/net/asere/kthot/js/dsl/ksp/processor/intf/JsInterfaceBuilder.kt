@@ -150,7 +150,7 @@ abstract class JsInterfaceBuilder(
                         resolver.loadClass(
                             jsAccessOperationName
                         )
-                    }(this, \"$propertyName\"), ${property.type.isNullable()})"
+                    }(this, \"$propertyName\"), ${property.type.isNullable()})\n"
                 )
             } else {
                 append("  val $propertyName: $propertyDefinitionName get() = ${property.type.resolve().declaration.basicJsName}.ref${property.type.resolve().declaration.genericTypesString}(${jsChainOperationDeclaration.name}(this, \"$propertyName\"))\n")

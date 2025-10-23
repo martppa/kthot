@@ -6,11 +6,12 @@ import net.asere.kthot.js.dsl.syntax.operational.CompoundOperation
 import net.asere.kthot.js.dsl.syntax.operational.Operable
 import net.asere.kthot.js.dsl.syntax.operational.instance.operator.InstanceOf
 import net.asere.kthot.js.dsl.syntax.operational.Operator
+import net.asere.kthot.js.dsl.type.bool.JsBoolean
 
 class InstanceOfComparison(
     override val leftHand: Operable,
     override val rightHand: Operable,
-) : CompoundOperation() {
+) : CompoundOperation(), JsBoolean {
     override val operator: Operator = InstanceOf
 }
 

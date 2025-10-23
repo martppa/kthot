@@ -1,6 +1,7 @@
 package net.asere.kthot.js.dsl.ksp.processor.writer
 
 import net.asere.kthot.js.dsl.syntax.JsSyntax
+import net.asere.kthot.js.dsl.type.JsElement
 import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
@@ -28,7 +29,7 @@ abstract class JsClassWriter(
     protected fun addFunction(
         name: String,
         parameters: List<String>,
-        body: JsSyntax,
+        body: JsElement,
         isStatic: Boolean = false,
         isPrivate: Boolean = false
     ) {

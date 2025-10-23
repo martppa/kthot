@@ -186,3 +186,5 @@ fun KSClassDeclaration.findJsFunctions(): List<KSFunctionDeclaration> = declarat
         }
     }
     .toList()
+
+fun KSClassDeclaration.isInterface(): Boolean = classKind == ClassKind.INTERFACE

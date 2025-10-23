@@ -44,6 +44,13 @@ class JsClassWriterBuilder(
                 imports.add("import ${it.type.resolve().declaration.packageName.asString()}.ref\n")
             }
         }
+        declaration.findJsFunctions().map { it.parameters }.flatten().forEach {
+            if (!it.type.isGenericTypeParameter()) {
+                imports.add("import ${it.type.resolve().declaration.fullName}\n")
+                imports.add("import ${it.type.resolve().declaration.fullBasicTypeName}\n")
+                imports.add("import ${it.type.resolve().declaration.packageName.asString()}.ref\n")
+            }
+        }
         imports.add("import $jsProvideFunctionName\n")
         imports.add("import $jsSyntaxName\n")
 
@@ -94,7 +101,7 @@ class JsClassWriterBuilder(
         if (declaration.typeParameters.isNotEmpty()) {
             codeBuilder.append("val ${declaration.genericTypesDeclarationString()} ${declaration.name}${declaration.genericTypesString}.This get() = ${declaration.jsName}.syntax(\"this\", tBuilder = ::provide)")
         } else {
-            codeBuilder.append("val ${declaration.name}.This get() = ${declaration.jsName}.syntax(\"this\")")
+            codeBuilder.append("internal val ${declaration.name}.This get() = ${declaration.jsName}.syntax(\"this\")")
         }
 
         writeToFile(
