@@ -13,7 +13,6 @@ As Kotlin developers and users of [Kotlin Html Dsl](https://kotlinlang.org/docs/
 createHTML().html {
     head {
         jslScript {
-            Kthot.initialize()
             val button = Const { JsButton.def("button") } assign Document.getElementById("button")
             +button.setOnClick {
                 val title = Const { JsParagraph.def("title") } assign Document.getElementById("title")
