@@ -11,7 +11,7 @@ import net.asere.kthot.js.dsl.ksp.extension.*
 import net.asere.kthot.js.dsl.ksp.processor.*
 import java.io.OutputStreamWriter
 
-class JsFunctionInterfaceBuilder(
+class JsFunctionFileBuilder(
     private val codeGenerator: CodeGenerator,
     private val logger: KSPLogger,
 ) : ClassCodeBuilder {
@@ -24,24 +24,6 @@ class JsFunctionInterfaceBuilder(
     private lateinit var jsAccessOperationDeclaration: KSClassDeclaration
     private lateinit var jsInternalApiAnnotationDeclaration: KSClassDeclaration
 
-    override fun build(resolver: Resolver, declaration: KSClassDeclaration) {
-        resolver.checkDependencies()
-        val packageName = declaration.packageName.asString()
-        val codeBuilder = StringBuilder()
-        if (packageName.isNotBlank()) {
-            codeBuilder.append("package $packageName\n\n")
-        }
-        codeBuilder.appendImports(declaration, resolver)
-        val fileName = declaration.jsName
-        codeBuilder.appendMethods(declaration, resolver)
-        writeToFile(
-            fileName = fileName,
-            packageName = packageName,
-            declaration = declaration,
-            codeBuilder = codeBuilder
-        )
-    }
-
     private fun Resolver.checkDependencies() {
         jsChainOperationDeclaration = loadClass(jsChainOperationName)
         jsInvocationOperationDeclaration = loadClass(jsInvocationOperationName)
@@ -51,6 +33,29 @@ class JsFunctionInterfaceBuilder(
         jsElementDeclaration = loadClass(jsElementName)
         jsAccessOperationDeclaration = loadClass(jsAccessOperationName)
         jsInternalApiAnnotationDeclaration = loadClass(jsInternalApiAnnotationName)
+    }
+
+    override fun build(resolver: Resolver, declaration: KSClassDeclaration) {
+        resolver.checkDependencies()
+        val packageName = declaration.packageName.asString()
+        val codeBuilder = StringBuilder()
+        if (packageName.isNotBlank()) {
+            codeBuilder.append("package $packageName\n\n")
+        }
+        codeBuilder.appendImports(declaration, resolver)
+        val interfaceName = declaration.jsName
+        codeBuilder.append("interface $interfaceName {\n")
+        codeBuilder.append("    companion object {\n")
+        codeBuilder.append("        const val Source = \"${declaration.getImportPath()}\"\n")
+        codeBuilder.appendMethods(declaration, resolver)
+        codeBuilder.append("    }\n")
+        codeBuilder.append("}\n")
+        writeToFile(
+            fileName = interfaceName,
+            packageName = packageName,
+            declaration = declaration,
+            codeBuilder = codeBuilder
+        )
     }
 
     private fun StringBuilder.appendImports(declaration: KSClassDeclaration, resolver: Resolver) {

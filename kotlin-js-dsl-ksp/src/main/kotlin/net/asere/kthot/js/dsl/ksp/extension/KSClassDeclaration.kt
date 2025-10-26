@@ -9,6 +9,7 @@ import net.asere.kthot.js.dsl.ksp.processor.jsApiFunctionClassAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsClassAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsConstructorAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsFunctionAnnotationName
+import net.asere.kthot.js.dsl.ksp.processor.jsFunctionFileAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsNullableAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsPropertyAnnotationName
 
@@ -81,7 +82,8 @@ val KSClassDeclaration.jsName: String
         val jsClassAnnotation = annotations.find {
             it.annotationType.resolve().declaration.qualifiedName?.asString() == jsClassAnnotationName ||
                     it.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiAnnotationName ||
-            it.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiFunctionClassAnnotationName
+            it.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiFunctionClassAnnotationName ||
+            it.annotationType.resolve().declaration.qualifiedName?.asString() == jsFunctionFileAnnotationName
         } ?: return name
 
         val nameFromAnnotation =
@@ -188,3 +190,7 @@ fun KSClassDeclaration.findJsFunctions(): List<KSFunctionDeclaration> = declarat
     .toList()
 
 fun KSClassDeclaration.isInterface(): Boolean = classKind == ClassKind.INTERFACE
+
+fun KSClassDeclaration.getImportPath(): String = "${
+    packageName.asString().replace(".", "/")
+}/${jsName}.js"

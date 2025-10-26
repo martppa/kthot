@@ -2,9 +2,10 @@ package net.asere.kthot.js.dsl.ksp.processor
 
 const val jsClassAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsClass"
 const val jsApiAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsApiClass"
-const val jsApiFunctionClassAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsApiFunctionClass"
+const val jsApiFunctionClassAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsApiFunctionFile"
 const val jsPropertyAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsProperty"
 const val jsFunctionAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsFunction"
+const val jsFunctionFileAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsFunctionFile"
 const val jsDslAnnotationName = "net.asere.kthot.js.dsl.tag.JsDsl"
 const val jsConstructorAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsConstructor"
 const val jsChainOperationName = "net.asere.kthot.js.dsl.syntax.operational.access.operation.ChainOperation"

@@ -10,7 +10,6 @@ import net.asere.kthot.js.dsl.ksp.processor.jsInitConfigName
 import net.asere.kthot.js.dsl.ksp.processor.jsKthotCoreName
 import net.asere.kthot.js.dsl.ksp.processor.jsKthotDomName
 import net.asere.kthot.js.dsl.ksp.processor.jsRegisterFunctionName
-import java.io.File
 import java.io.OutputStreamWriter
 
 class JsInitializerBuilder(
@@ -22,12 +21,15 @@ class JsInitializerBuilder(
     private val registers = mutableListOf<String>()
     private val writers = mutableListOf<String>()
 
-    fun addClass(clazz: KSClassDeclaration) {
+    fun addType(clazz: KSClassDeclaration) {
         if (clazz.typeParameters.isEmpty()) {
             imports.add("import ${clazz.fullJsName}\n")
             imports.add("import ${clazz.packageName.asString()}.syntax\n")
             registers.add("        register(builder = ${clazz.jsName}::syntax)\n")
         }
+    }
+
+    fun addWriter(clazz: KSClassDeclaration) {
         imports.add("import ${clazz.fullJsName}Writer\n")
         writers.add("        ${clazz.jsName}Writer(config.jsOutputPath).write()\n")
     }
