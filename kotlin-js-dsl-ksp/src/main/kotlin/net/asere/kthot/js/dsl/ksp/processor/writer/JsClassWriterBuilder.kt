@@ -32,7 +32,6 @@ class JsClassWriterBuilder(
 
         imports.add("import ${jsDslAnnotation.fullName}\n")
         imports.add("import ${classWriter.fullName}\n")
-        imports.add("import ${declaration.packageName.asString()}.syntax\n")
         imports.add("import ${resolver.loadClass(jsValueName).fullName}\n")
         imports.add("import ${jsObjectClass.fullName}\n")
         imports.add("import ${jsObjectClass.packageName.asString()}.syntax\n")
