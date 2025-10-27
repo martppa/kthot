@@ -8,6 +8,7 @@ const val jsFunctionAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsFu
 const val jsFunctionFileAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsFunctionFile"
 const val jsDslAnnotationName = "net.asere.kthot.js.dsl.tag.JsDsl"
 const val jsConstructorAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsConstructor"
+const val jsImportableAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsImportable"
 const val jsChainOperationName = "net.asere.kthot.js.dsl.syntax.operational.access.operation.ChainOperation"
 const val jsInvocationOperationName = "net.asere.kthot.js.dsl.syntax.operational.invocation.operation.InvocationOperation"
 const val jsObjectName = "net.asere.kthot.js.dsl.type.obj.JsObject"

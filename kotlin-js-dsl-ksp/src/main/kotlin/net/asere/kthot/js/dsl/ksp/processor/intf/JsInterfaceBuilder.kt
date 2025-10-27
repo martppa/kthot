@@ -11,14 +11,21 @@ abstract class JsInterfaceBuilder(
     private val codeGenerator: CodeGenerator,
     private val logger: KSPLogger,
 ) : ClassCodeBuilder {
-    private lateinit var jsChainOperationDeclaration: KSClassDeclaration
-    private lateinit var jsInvocationOperationDeclaration: KSClassDeclaration
-    private lateinit var jsObjectDeclaration: KSClassDeclaration
-    private lateinit var jsSyntaxDeclaration: KSClassDeclaration
-    private lateinit var jsReferenceDeclaration: KSClassDeclaration
-    private lateinit var jsElementDeclaration: KSClassDeclaration
-    private lateinit var jsAccessOperationDeclaration: KSClassDeclaration
-    private lateinit var jsInternalApiAnnotationDeclaration: KSClassDeclaration
+    protected lateinit var jsChainOperationDeclaration: KSClassDeclaration
+    protected lateinit var jsInvocationOperationDeclaration: KSClassDeclaration
+    protected lateinit var jsObjectDeclaration: KSClassDeclaration
+    protected lateinit var jsSyntaxDeclaration: KSClassDeclaration
+    protected lateinit var jsReferenceDeclaration: KSClassDeclaration
+    protected lateinit var jsElementDeclaration: KSClassDeclaration
+    protected lateinit var jsAccessOperationDeclaration: KSClassDeclaration
+    protected lateinit var jsInternalApiAnnotationDeclaration: KSClassDeclaration
+    protected lateinit var jsImportableAnnotationDeclaration: KSClassDeclaration
+
+    protected open fun StringBuilder.appendHeader(declaration: KSClassDeclaration) {
+        append("@OptIn(${jsInternalApiAnnotationDeclaration.name}::class)\n")
+        append("@${jsImportableAnnotationDeclaration.name}\n")
+        append("interface ${declaration.getDeclaration(declaration.jsName)} {\n")
+    }
 
     override fun build(resolver: Resolver, declaration: KSClassDeclaration) {
         resolver.checkDependencies()
@@ -28,15 +35,13 @@ abstract class JsInterfaceBuilder(
             codeBuilder.append("package $packageName\n\n")
         }
         codeBuilder.appendImports(declaration, resolver)
-        val interfaceName = declaration.jsName
-        codeBuilder.append("@OptIn(JsInternalApi::class)\n")
-        codeBuilder.append("interface ${declaration.getDeclaration(interfaceName)} {\n")
+        codeBuilder.appendHeader(declaration)
         codeBuilder.appendProperties(declaration, resolver)
         codeBuilder.appendMethods(declaration, resolver)
         codeBuilder.appendCompanion(declaration)
         codeBuilder.append("}\n")
         writeToFile(
-            fileName = interfaceName,
+            fileName = declaration.jsName,
             packageName = packageName,
             declaration = declaration,
             codeBuilder = codeBuilder
@@ -63,6 +68,7 @@ abstract class JsInterfaceBuilder(
         jsElementDeclaration = loadClass(jsElementName)
         jsAccessOperationDeclaration = loadClass(jsAccessOperationName)
         jsInternalApiAnnotationDeclaration = loadClass(jsInternalApiAnnotationName)
+        jsImportableAnnotationDeclaration = loadClass(jsImportableAnnotationName)
     }
 
     private fun StringBuilder.appendImports(declaration: KSClassDeclaration, resolver: Resolver) {
@@ -72,6 +78,7 @@ abstract class JsInterfaceBuilder(
         imports.add(jsInvocationOperationDeclaration.fullName)
         imports.add(jsAccessOperationDeclaration.fullName)
         imports.add(jsInternalApiAnnotationDeclaration.fullName)
+        imports.add(jsImportableAnnotationDeclaration.fullName)
         if (declaration.getGenericReturnTypes(resolver).isNotEmpty()) {
             imports.add(jsElementDeclaration.fullName)
         }
@@ -209,31 +216,4 @@ abstract class JsInterfaceBuilder(
         )
         OutputStreamWriter(file).use { it.write(codeBuilder.toString()) }
     }
-}
-
-private fun KSClassDeclaration.getDeclaration(name: String? = null): String {
-    val stringBuilder = StringBuilder()
-    stringBuilder.append(name ?: this.name)
-    val genericTypes = mutableListOf<String>()
-    typeParameters.forEach { parameter ->
-        val bounds = parameter.bounds.filter { !it.resolve().declaration.isAny() }.toList()
-        when (bounds.size) {
-            1 -> genericTypes.add("${parameter.name.asString()} : ${bounds.first().resolve().definitionName}")
-            else -> genericTypes.add(parameter.name.asString())
-        }
-    }
-    if (genericTypes.isNotEmpty()) {
-        stringBuilder.append("<")
-        stringBuilder.append(genericTypes.joinToString(", "))
-        stringBuilder.append(">")
-    }
-    stringBuilder.append(" : ")
-    val superTypes = superTypeInterfaces
-    stringBuilder.append(
-        if (superTypes.isNotEmpty()) superTypes.joinToString(", ") { it.definitionName } else "JsObject"
-    )
-
-    stringBuilder.append(" $whereClauseString")
-
-    return stringBuilder.toString()
 }

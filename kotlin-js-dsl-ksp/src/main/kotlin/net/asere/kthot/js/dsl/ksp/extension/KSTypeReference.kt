@@ -1,6 +1,7 @@
 package net.asere.kthot.js.dsl.ksp.extension
 
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSTypeParameter
 import com.google.devtools.ksp.symbol.KSTypeReference
 import net.asere.kthot.js.dsl.ksp.processor.jsNullableAnnotationName
@@ -30,4 +31,22 @@ val KSTypeReference.packageName: String get() = resolve().declaration.packageNam
 fun KSTypeReference?.isGenericTypeParameter(): Boolean {
     val resolvedType = this?.resolve() ?: return false
     return resolvedType.declaration is KSTypeParameter
+}
+
+/**
+ * Recursively collects all KSTypes from a starting type reference, including
+ * all nested generic types.
+ *
+ * @param collectedTypes The mutable set to store the collected types.
+ */
+fun KSTypeReference.collectTypesRecursively(
+    collectedTypes: MutableSet<KSType>
+) {
+    val type = resolve()
+    collectedTypes.add(type)
+
+    for (argument in type.arguments) {
+        val argumentTypeReference = argument.type
+        argumentTypeReference?.collectTypesRecursively(collectedTypes)
+    }
 }

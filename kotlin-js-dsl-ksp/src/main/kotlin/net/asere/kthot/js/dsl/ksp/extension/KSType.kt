@@ -1,6 +1,7 @@
 package net.asere.kthot.js.dsl.ksp.extension
 
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSDeclaration
 import com.google.devtools.ksp.symbol.KSType
 import net.asere.kthot.js.dsl.type.reference.ReferenceId
 
@@ -15,6 +16,24 @@ val KSType.definitionName: String get() {
         val argumentNames = this.arguments.joinToString(separator = ", ") { arg ->
             val argumentType = arg.type?.resolve()
             argumentType?.definitionName ?: "???"
+        }
+        return "$baseName<$argumentNames>"
+    }
+
+    return baseName
+}
+
+/**
+ * The basic definition name includes all generic type parameters and its types
+ */
+val KSType.basicDefinitionName: String get() {
+    val baseDeclaration = this.declaration
+    val baseName = baseDeclaration.basicJsName
+
+    if (this.arguments.isNotEmpty()) {
+        val argumentNames = this.arguments.joinToString(separator = ", ") { arg ->
+            val argumentType = arg.type?.resolve()
+            argumentType?.basicDefinitionName ?: "???"
         }
         return "$baseName<$argumentNames>"
     }

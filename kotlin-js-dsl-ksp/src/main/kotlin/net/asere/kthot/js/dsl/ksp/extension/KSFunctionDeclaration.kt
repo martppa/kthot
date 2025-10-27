@@ -5,10 +5,18 @@ import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 
 /**
  * Returns the list of parameters of the function as definition string. For example,
- * "value1: String, value2: String, value3: Int"
+ * "value1: JsStringRef, value2: JsStringRef, value3: JsNumberRef"
  */
 val KSFunctionDeclaration.parametersDefinitionString: String get() = parameters.mapIndexed { index, parameter ->
     "${parameter.name?.asString() ?: "p$index"}: ${parameter.type.resolve().definitionName}"
+}.joinToString(", ")
+
+/**
+ * Returns the list of basic type parameters of the function as definition string. For example,
+ * "value1: JsString, value2: JsString, value3: JsNumber"
+ */
+val KSFunctionDeclaration.parametersDefinitionBasicString: String get() = parameters.mapIndexed { index, parameter ->
+    "${parameter.name?.asString() ?: "p$index"}: ${parameter.type.resolve().basicDefinitionName}"
 }.joinToString(", ")
 
 /**

@@ -5,6 +5,7 @@ import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSDeclaration
 import net.asere.kthot.js.dsl.ksp.extension.*
 import net.asere.kthot.js.dsl.ksp.processor.*
 import java.io.OutputStreamWriter
@@ -13,6 +14,9 @@ class JsFunctionFileWriterBuilder(
     private val codeGenerator: CodeGenerator,
     private val logger: KSPLogger
 ) : ClassCodeBuilder {
+
+    private val requirements = mutableSetOf<String>()
+    private val imports = mutableSetOf<String>()
 
     override fun build(resolver: Resolver, declaration: KSClassDeclaration) {
         val writerName = "${declaration.jsName}Writer"
@@ -25,7 +29,6 @@ class JsFunctionFileWriterBuilder(
         val classWriter = resolver.loadClass(jsClassWriterName)
         val jsDslAnnotation = resolver.loadClass(jsDslAnnotationName)
         val jsObjectClass = resolver.loadClass(jsObjectName)
-        val imports = mutableSetOf<String>()
 
         imports.add("import ${jsDslAnnotation.fullName}\n")
         imports.add("import ${classWriter.fullName}\n")
@@ -35,6 +38,8 @@ class JsFunctionFileWriterBuilder(
         imports.add("import ${jsObjectClass.packageName.asString()}.syntax\n")
         declaration.getAllTypes().forEach {
             imports.add("import ${it.declaration.fullName}\n")
+            if (it.declaration.isImportable)
+                requirements.add("${it.declaration.jsName}.Source")
         }
 
         declaration.findJsConstructors().firstOrNull()?.parameters?.forEach {
@@ -42,6 +47,8 @@ class JsFunctionFileWriterBuilder(
                 imports.add("import ${it.type.resolve().declaration.fullName}\n")
                 imports.add("import ${it.type.resolve().declaration.fullBasicTypeName}\n")
                 imports.add("import ${it.type.resolve().declaration.packageName.asString()}.ref\n")
+                if (it.type.resolve().declaration.isImportable)
+                    requirements.add("${it.type.resolve().declaration.jsName}.Source")
             }
         }
         declaration.findJsFunctions().map { it.parameters }.flatten().forEach {
@@ -49,6 +56,8 @@ class JsFunctionFileWriterBuilder(
                 imports.add("import ${it.type.resolve().declaration.fullName}\n")
                 imports.add("import ${it.type.resolve().declaration.fullBasicTypeName}\n")
                 imports.add("import ${it.type.resolve().declaration.packageName.asString()}.ref\n")
+                if (it is KSDeclaration && it.isImportable)
+                    requirements.add("${it.jsName}.Source")
             }
         }
         imports.add("import $jsProvideFunctionName\n")
@@ -60,6 +69,11 @@ class JsFunctionFileWriterBuilder(
         codeBuilder.append("class $writerName(path: String) : ${classWriter.name}(path) {\n")
         codeBuilder.append("\n")
         codeBuilder.append("   override fun write() {\n")
+        requirements.forEach {
+            codeBuilder.append("    addRequire($it)\n")
+        }
+        codeBuilder.append("        val instance = ${declaration.name}()\n")
+        codeBuilder.append("        instance.requirements.forEach { it -> addRequire(it) }\n")
         declaration.findJsFunctions().forEach { function ->
             codeBuilder.append("        addFunction(name = \"${function.name}\", parameters = listOf(${function.parameters.joinToString { param ->
                 "\"${param.name?.asString() ?: "" }\""

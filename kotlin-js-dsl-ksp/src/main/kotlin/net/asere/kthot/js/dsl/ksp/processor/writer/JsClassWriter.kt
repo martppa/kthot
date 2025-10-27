@@ -14,6 +14,10 @@ abstract class JsClassWriter(
 ) {
     protected val codeBuilder: StringBuilder = StringBuilder()
 
+    protected fun addRequire(url: String) {
+        codeBuilder.append("require('$url')\n")
+    }
+
     protected fun addProperty(name: String, isStatic: Boolean = false, isPrivate: Boolean = false) {
         codeBuilder.append("        ${if (isStatic) "static " else ""}${if (isPrivate) "#" else ""}$name")
     }

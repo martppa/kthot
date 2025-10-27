@@ -23,6 +23,7 @@ class JsFunctionFileBuilder(
     private lateinit var jsElementDeclaration: KSClassDeclaration
     private lateinit var jsAccessOperationDeclaration: KSClassDeclaration
     private lateinit var jsInternalApiAnnotationDeclaration: KSClassDeclaration
+    private lateinit var jsImportableAnnotationDeclaration: KSClassDeclaration
 
     private fun Resolver.checkDependencies() {
         jsChainOperationDeclaration = loadClass(jsChainOperationName)
@@ -33,6 +34,7 @@ class JsFunctionFileBuilder(
         jsElementDeclaration = loadClass(jsElementName)
         jsAccessOperationDeclaration = loadClass(jsAccessOperationName)
         jsInternalApiAnnotationDeclaration = loadClass(jsInternalApiAnnotationName)
+        jsImportableAnnotationDeclaration = loadClass(jsImportableAnnotationName)
     }
 
     override fun build(resolver: Resolver, declaration: KSClassDeclaration) {
@@ -44,6 +46,7 @@ class JsFunctionFileBuilder(
         }
         codeBuilder.appendImports(declaration, resolver)
         val interfaceName = declaration.jsName
+        codeBuilder.append("@${jsImportableAnnotationDeclaration.name}\n")
         codeBuilder.append("interface $interfaceName {\n")
         codeBuilder.append("    companion object {\n")
         codeBuilder.append("        const val Source = \"${declaration.getImportPath()}\"\n")
@@ -65,6 +68,7 @@ class JsFunctionFileBuilder(
         imports.add(jsInvocationOperationDeclaration.fullName)
         imports.add(jsAccessOperationDeclaration.fullName)
         imports.add(jsInternalApiAnnotationDeclaration.fullName)
+        imports.add(jsImportableAnnotationDeclaration.fullName)
         declaration.getAllTypes().forEach {
             imports.add(it.declaration.fullName)
         }

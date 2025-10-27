@@ -10,6 +10,7 @@ import net.asere.kthot.js.dsl.ksp.processor.jsClassAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsConstructorAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsFunctionAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsFunctionFileAnnotationName
+import net.asere.kthot.js.dsl.ksp.processor.jsImportableAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsNullableAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsPropertyAnnotationName
 
@@ -194,3 +195,34 @@ fun KSClassDeclaration.isInterface(): Boolean = classKind == ClassKind.INTERFACE
 fun KSClassDeclaration.getImportPath(): String = "${
     packageName.asString().replace(".", "/")
 }/${jsName}.js"
+
+val KSClassDeclaration.isImportable: Boolean get() = annotations.any { annotation ->
+    annotation.annotationType.resolve().declaration.qualifiedName?.asString() == jsImportableAnnotationName
+}
+
+fun KSClassDeclaration.getDeclaration(name: String? = null): String {
+    val stringBuilder = StringBuilder()
+    stringBuilder.append(name ?: this.name)
+    val genericTypes = mutableListOf<String>()
+    typeParameters.forEach { parameter ->
+        val bounds = parameter.bounds.filter { !it.resolve().declaration.isAny() }.toList()
+        when (bounds.size) {
+            1 -> genericTypes.add("${parameter.name.asString()} : ${bounds.first().resolve().definitionName}")
+            else -> genericTypes.add(parameter.name.asString())
+        }
+    }
+    if (genericTypes.isNotEmpty()) {
+        stringBuilder.append("<")
+        stringBuilder.append(genericTypes.joinToString(", "))
+        stringBuilder.append(">")
+    }
+    stringBuilder.append(" : ")
+    val superTypes = superTypeInterfaces
+    stringBuilder.append(
+        if (superTypes.isNotEmpty()) superTypes.joinToString(", ") { it.definitionName } else "JsObject"
+    )
+
+    stringBuilder.append(" $whereClauseString")
+
+    return stringBuilder.toString()
+}

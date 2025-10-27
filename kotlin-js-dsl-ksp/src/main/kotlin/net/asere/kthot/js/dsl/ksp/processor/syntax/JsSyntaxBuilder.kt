@@ -79,13 +79,13 @@ class JsSyntaxBuilder(
             codeBuilder.append("\n")
             declaration.findJsConstructors().firstOrNull()?.let { constructor ->
                 codeBuilder.append("inline fun ${declaration.genericTypesDeclarationString(modifier = "reified")} ${declaration.jsName}.Companion.new(${
-                    constructor.parametersDefinitionString}): ${declaration.jsName}${declaration.genericTypesString} = ${declaration.jsName}.syntax${declaration.genericTypesString}(JsSyntax(\"new ${declaration.jsName}(${constructor.parametersNames.joinToString { "$$it" }})\"), isNullable = false)")
+                    constructor.parametersDefinitionBasicString}): ${declaration.jsName}${declaration.genericTypesString} = ${declaration.jsName}.syntax${declaration.genericTypesString}(JsSyntax(\"new ${declaration.jsName}(${constructor.parametersNames.joinToString { "$$it" }})\"), isNullable = false)")
             }
         } else {
             codeBuilder.append("\n")
             declaration.findJsConstructors().firstOrNull()?.let { constructor ->
                 codeBuilder.append("fun ${declaration.jsName}.Companion.new(${
-                    constructor.parametersDefinitionString}): ${declaration.jsName} = ${declaration.jsName}.syntax(JsSyntax(\"new ${declaration.jsName}(${constructor.parametersNames.joinToString { "$$it" }})\"), isNullable = false)")
+                    constructor.parametersDefinitionBasicString}): ${declaration.jsName} = ${declaration.jsName}.syntax(JsSyntax(\"new ${declaration.jsName}(${constructor.parametersNames.joinToString { "$$it" }})\"), isNullable = false)")
             }
         }
 

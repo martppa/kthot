@@ -6,7 +6,7 @@ import net.asere.kthot.js.dsl.syntax.instantiation.Instantiable
 import net.asere.kthot.js.dsl.tag.JsDsl
 import net.asere.kthot.js.dsl.type.toSyntax
 
-abstract class JavaScriptClass : Instantiable {
+abstract class JavaScriptClass : JavaScriptFile(), Instantiable {
     var constructorBody: JsSyntax? = null
         private set
 
