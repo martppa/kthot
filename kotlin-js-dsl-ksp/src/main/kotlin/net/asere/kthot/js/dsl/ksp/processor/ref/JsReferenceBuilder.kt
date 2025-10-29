@@ -39,8 +39,8 @@ class JsReferenceBuilder(
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("  override val ${type.getBuilderDefinition(resolver.loadClass(jsElementName))},\n")
         }
-        codeBuilder.append(") : ${declaration.jsName}${declaration.genericTypesString}, ")
-        codeBuilder.append("${resolver.loadClass(jsValueRefName)}<${declaration.jsName}${declaration.genericTypesString}>(\n")
+        codeBuilder.append(") : ${declaration.jsName}${declaration.genericTypesNamesString}, ")
+        codeBuilder.append("${resolver.loadClass(jsValueRefName)}<${declaration.jsName}${declaration.genericTypesNamesString}>(\n")
         codeBuilder.append($$$"   name = name ?: \"$$${declaration.jsName.lowercase()}_${ReferenceId.nextRefInt()}\",\n")
         codeBuilder.append("   \n")
         codeBuilder.append(") ${declaration.whereClauseString} {\n")
@@ -54,7 +54,7 @@ class JsReferenceBuilder(
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("  noinline ${type.getBuilderDefinition(resolver.loadClass(jsElementName))} = ::provide,\n")
         }
-        codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesString} ${declaration.whereClauseString} = $className(name${declaration.getComma(resolver)}")
+        codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesNamesString} ${declaration.whereClauseString} = $className(name${declaration.getComma(resolver)}")
         declaration.getGenericReturnTypes(resolver).joinToString { item -> item.builderName }.let {
             codeBuilder.append(it)
         }
@@ -67,7 +67,7 @@ class JsReferenceBuilder(
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("  noinline ${type.getBuilderDefinition(resolver.loadClass(jsElementName))} = ::provide,\n")
         }
-        codeBuilder.append($$$"): $$${declaration.jsName}$$${declaration.genericTypesString} $$${declaration.whereClauseString} = $$$className(element.present()$$${declaration.getComma(resolver)}")
+        codeBuilder.append($$$"): $$${declaration.jsName}$$${declaration.genericTypesNamesString} $$${declaration.whereClauseString} = $$$className(element.present()$$${declaration.getComma(resolver)}")
         declaration.getGenericReturnTypes(resolver).joinToString { item -> item.builderName }.let {
             codeBuilder.append(it)
         }
@@ -80,9 +80,9 @@ class JsReferenceBuilder(
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("  noinline ${type.getBuilderDefinition(resolver.loadClass(jsElementName))} = ::provide,\n")
         }
-        codeBuilder.append("): ${printableDefinition.name}<${declaration.jsName}Ref${declaration.genericTypesString}, ${declaration.jsName}${declaration.genericTypesString}>\n")
-        codeBuilder.append("${declaration.whereClauseString} = object : ${printableDefinition.name}<${declaration.jsName}Ref${declaration.genericTypesString}, ${declaration.jsName}${declaration.genericTypesString}>() {\n")
-        codeBuilder.append("  override val reference: ${declaration.jsName}Ref${declaration.genericTypesString} = $className(name${declaration.getComma(resolver)}")
+        codeBuilder.append("): ${printableDefinition.name}<${declaration.jsName}Ref${declaration.genericTypesNamesString}, ${declaration.jsName}${declaration.genericTypesNamesString}>\n")
+        codeBuilder.append("${declaration.whereClauseString} = object : ${printableDefinition.name}<${declaration.jsName}Ref${declaration.genericTypesNamesString}, ${declaration.jsName}${declaration.genericTypesNamesString}>() {\n")
+        codeBuilder.append("  override val reference: ${declaration.jsName}Ref${declaration.genericTypesNamesString} = $className(name${declaration.getComma(resolver)}")
         declaration.getGenericReturnTypes(resolver).joinToString { item -> item.builderName }.let {
             codeBuilder.append(it)
         }

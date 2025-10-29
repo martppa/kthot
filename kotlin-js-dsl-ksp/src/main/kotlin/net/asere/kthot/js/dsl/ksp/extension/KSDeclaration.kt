@@ -130,10 +130,14 @@ val KSDeclaration.jsName: String get() {
  */
 val KSDeclaration.basicJsName: String get() = name.stripHelperSuffix()
 
-val KSDeclaration.genericTypesString: String get() {
+/**
+ * Returns the generic types names as string, For example,
+ * <T, C, X>
+ */
+val KSDeclaration.genericTypesNamesString: String get() {
     val genericTypes = mutableListOf<String>()
     typeParameters.forEach { parameter ->
-        genericTypes.add(parameter.name.asString())
+        genericTypes.add(parameter.jsName)
     }
     if (genericTypes.isEmpty()) return ""
     return "<${genericTypes.joinToString()}>"

@@ -79,6 +79,7 @@ abstract class JsInterfaceBuilder(
         imports.add(jsAccessOperationDeclaration.fullName)
         imports.add(jsInternalApiAnnotationDeclaration.fullName)
         imports.add(jsImportableAnnotationDeclaration.fullName)
+        imports.add(jsProvideFunctionName)
         if (declaration.getGenericReturnTypes(resolver).isNotEmpty()) {
             imports.add(jsElementDeclaration.fullName)
         }
@@ -160,7 +161,7 @@ abstract class JsInterfaceBuilder(
                     }(this, \"$propertyName\"))\n"
                 )
             } else {
-                append("  val $propertyName: $propertyDefinitionName get() = ${property.type.resolve().declaration.basicJsName}.ref${property.type.resolve().declaration.genericTypesString}(${jsChainOperationDeclaration.name}(this, \"$propertyName\"))\n")
+                append("  val $propertyName: $propertyDefinitionName get() = ${property.type.resolve().declaration.basicJsName}.ref(${jsChainOperationDeclaration.name}(this, \"$propertyName\"))\n")
             }
         }
     }
@@ -185,10 +186,10 @@ abstract class JsInterfaceBuilder(
                             function.returnType?.resolve()?.declaration?.name}$syntaxInvocationString(${
                                 jsChainOperationDeclaration.name}(this, ${
                     jsInvocationOperationDeclaration.name}(\"$functionName\", ${
-                        function.parameters.listString()})), false, ${
+                        function.parameters.listString()})), ${
                     builderParameters.joinToString(
                         ", "
-                    ) { it.builderName }
+                    ) { "::provide" }
                 })\n")
             } else if (function.returnType?.resolve()?.declaration.isJsElement(resolver)) {
                 append("  fun $functionName(${

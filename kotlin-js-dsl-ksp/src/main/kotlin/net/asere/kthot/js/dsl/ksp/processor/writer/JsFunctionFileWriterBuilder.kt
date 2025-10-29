@@ -81,7 +81,7 @@ class JsFunctionFileWriterBuilder(
                     if (item.type.isGenericTypeParameter()) {
                         "           $name = JsObject.syntax(\"$name\", false)\n"
                     } else {
-                        "           $name = ${item.type.resolve().declaration.basicJsName}.ref${item.type.resolve().declaration.genericTypesString}(\"$name\")\n"
+                        "           $name = ${item.type.resolve().declaration.basicJsName}.ref${item.type.resolve().declaration.genericTypesNamesString}(\"$name\")\n"
                     }
                 }
             }.joinToString { it } }))\n")

@@ -84,6 +84,7 @@ class JsFunctionFileBuilder(
             if (function.returnType?.resolve() !is KSTypeParameter) {
                 imports.add(function.returnType!!.resolve().declaration.fullName)
                 imports.add(function.returnType!!.resolve().declaration.fullBasicTypeName)
+                function.returnType!!.resolve().getAllTypes().forEach { imports.add(it.declaration.fullName) }
                 if (!function.returnType.isSubclassOf(jsSyntaxDeclaration)) {
                     imports.add("${function.returnType!!.packageName}.syntax")
                 }

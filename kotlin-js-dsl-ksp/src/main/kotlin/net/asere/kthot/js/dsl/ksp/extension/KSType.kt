@@ -3,6 +3,7 @@ package net.asere.kthot.js.dsl.ksp.extension
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSDeclaration
 import com.google.devtools.ksp.symbol.KSType
+import com.google.devtools.ksp.symbol.KSTypeParameter
 import net.asere.kthot.js.dsl.type.reference.ReferenceId
 
 /**
@@ -92,3 +93,5 @@ fun KSType.getBuilderDefinition(argument: KSClassDeclaration) =
  * if the parameter has no name a random one will be provided
  */
 fun KSType.getTypesAsParametersDefinition() = arguments.joinToString { "${it.type?.resolve()?.declaration?.jsName?.replaceFirstChar { char -> char.lowercase() } ?: "p${ReferenceId.nextRefInt()}"} : ${it.type}" }
+
+val KSType.isGenericType: Boolean get() = declaration is KSTypeParameter

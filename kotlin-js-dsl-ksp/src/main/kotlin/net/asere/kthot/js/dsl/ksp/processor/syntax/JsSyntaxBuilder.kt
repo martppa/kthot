@@ -32,7 +32,7 @@ class JsSyntaxBuilder(
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("  override val ${type.getBuilderDefinition(resolver.loadClass(jsElementName))},\n")
         }
-        codeBuilder.append(") : ${resolver.loadClass(jsReferenceSyntaxName)}<${declaration.jsName}${declaration.genericTypesString}>(value), ${declaration.jsName}${declaration.genericTypesString}${declaration.whereClauseString} {\n")
+        codeBuilder.append(") : ${resolver.loadClass(jsReferenceSyntaxName)}<${declaration.jsName}${declaration.genericTypesNamesString}>(value), ${declaration.jsName}${declaration.genericTypesNamesString}${declaration.whereClauseString} {\n")
         codeBuilder.append("   @JsInternalApi constructor(value: ${resolver.loadClass(jsElementName).name}${declaration.getComma(resolver)} ")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("${type.getBuilderDefinition(resolver.loadClass(jsElementName))},")
@@ -50,7 +50,7 @@ class JsSyntaxBuilder(
             codeBuilder.append("inline fun ${declaration.genericTypesDeclarationString("reified")} ${declaration.jsName}.Companion.syntax(\n")
             codeBuilder.append("  value: String,\n")
             codeBuilder.append("  \n")
-            codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesString}${declaration.whereClauseString}")
+            codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesNamesString}${declaration.whereClauseString}")
             codeBuilder.append(" = ")
             codeBuilder.append("$className(")
             codeBuilder.append("value${declaration.getComma(resolver)}")
@@ -63,7 +63,7 @@ class JsSyntaxBuilder(
             codeBuilder.append("inline fun ${declaration.genericTypesDeclarationString("reified")} ${declaration.jsName}.Companion.syntax(\n")
             codeBuilder.append("  value: JsElement,\n")
             codeBuilder.append("  \n")
-            codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesString}${declaration.whereClauseString}")
+            codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesNamesString}${declaration.whereClauseString}")
             codeBuilder.append(" = ")
             codeBuilder.append("$className(")
             codeBuilder.append("value${declaration.getComma(resolver)}")
@@ -75,7 +75,7 @@ class JsSyntaxBuilder(
             codeBuilder.append("\n")
             declaration.findJsConstructors().firstOrNull()?.let { constructor ->
                 codeBuilder.append("inline fun ${declaration.genericTypesDeclarationString(modifier = "reified")} ${declaration.jsName}.Companion.new(${
-                    constructor.parametersDefinitionBasicString}): ${declaration.jsName}${declaration.genericTypesString} = ${declaration.jsName}.syntax${declaration.genericTypesString}(JsSyntax(\"new ${declaration.jsName}(${constructor.parametersNames.joinToString { "$$it" }})\"))")
+                    constructor.parametersDefinitionBasicString}): ${declaration.jsName}${declaration.genericTypesNamesString} = ${declaration.jsName}.syntax${declaration.genericTypesNamesString}(JsSyntax(\"new ${declaration.jsName}(${constructor.parametersNames.joinToString { "$$it" }})\"))")
             }
         } else {
             codeBuilder.append("\n")
@@ -92,7 +92,7 @@ class JsSyntaxBuilder(
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("  ${type.getBuilderDefinition(resolver.loadClass(jsElementName))},\n")
         }
-        codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesString} ${declaration.whereClauseString}")
+        codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesNamesString} ${declaration.whereClauseString}")
         codeBuilder.append(" = ")
         codeBuilder.append("$className(")
         codeBuilder.append("value${declaration.getComma(resolver)}")
@@ -108,7 +108,7 @@ class JsSyntaxBuilder(
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("  ${type.getBuilderDefinition(resolver.loadClass(jsElementName))},\n")
         }
-        codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesString}${declaration.whereClauseString}")
+        codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesNamesString}${declaration.whereClauseString}")
         codeBuilder.append(" = ")
         codeBuilder.append("$className(")
         codeBuilder.append("value${declaration.getComma(resolver)}")

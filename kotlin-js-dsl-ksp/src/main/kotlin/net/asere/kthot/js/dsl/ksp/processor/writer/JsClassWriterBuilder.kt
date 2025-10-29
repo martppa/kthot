@@ -78,7 +78,7 @@ class JsClassWriterBuilder(
                     if (item.type.isGenericTypeParameter()) {
                         "           $name = provide(JsSyntax())\n"
                     } else {
-                        "           $name = ${item.type.resolve().declaration.basicJsName}.ref${item.type.resolve().declaration.genericTypesString}(\"$name\")\n"
+                        "           $name = ${item.type.resolve().declaration.basicJsName}.ref(\"$name\")\n"
                     }
                 }
             }?.joinToString { it } ?: ""
@@ -98,7 +98,7 @@ class JsClassWriterBuilder(
                     if (item.type.isGenericTypeParameter()) {
                         "           $name = JsObject.syntax(\"$name\", false)\n"
                     } else {
-                        "           $name = ${item.type.resolve().declaration.basicJsName}.ref${item.type.resolve().declaration.genericTypesString}(\"$name\")\n"
+                        "           $name = ${item.type.resolve().declaration.basicJsName}.ref${item.type.resolve().declaration.genericTypesNamesString}(\"$name\")\n"
                     }
                 }
             }.joinToString { it } }))\n")
@@ -112,7 +112,9 @@ class JsClassWriterBuilder(
         codeBuilder.append("\n")
         codeBuilder.append("@${jsDslAnnotation.name}\n")
         if (declaration.typeParameters.isNotEmpty()) {
-            codeBuilder.append("val ${declaration.genericTypesDeclarationString()} ${declaration.name}${declaration.genericTypesString}.This get() = ${declaration.jsName}.syntax(\"this\", tBuilder = ::provide)")
+            codeBuilder.append("internal val ${declaration.genericTypesDeclarationString()} ${declaration.name}${declaration.genericTypesNamesString}.This get() = ${declaration.jsName}.syntax(\"this\", ${
+                declaration.getGenericReturnTypes(resolver).joinToString { item -> "::provide" }
+            })")
         } else {
             codeBuilder.append("internal val ${declaration.name}.This get() = ${declaration.jsName}.syntax(\"this\")")
         }
