@@ -12,5 +12,4 @@ interface JsElement {
 
 fun JsElement.toSyntax() = JsSyntax(present())
 fun JsElement.toLine() = JsLine(present())
-fun JsElement.isNullable() = this is JsReference<*> && this.isNullable
 fun JsElement.toJsString() = JsString.syntax(this)

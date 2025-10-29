@@ -6,10 +6,9 @@ import net.asere.kthot.js.dsl.type.value.JsValue
 
 abstract class JsReferenceSyntax<T : JsValue>(
     value: String,
-    override val isNullable: Boolean,
 ) : JsSyntax(value), JsReference<T> {
 
-    constructor(value: JsElement, isNullable: Boolean) : this("$value", isNullable)
+    constructor(value: JsElement) : this("$value")
 
     override val name: String get() = value
 

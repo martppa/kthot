@@ -9,24 +9,24 @@ import net.asere.kthot.js.dsl.type.reference.ReferenceId
 
 open class JsDomTokenListRef @JsInternalApi constructor(
     name: String? = null,
-    isNullable: Boolean = false,
+    
 ) : JsValueRef<JsDomTokenList>(
     name ?: "token_list_${ReferenceId.nextRefInt()}",
-    isNullable = isNullable,
+    
 ), JsDomTokenList, JsReference<JsDomTokenList> {
     override fun toString(): String = present()
 }
 
 @OptIn(JsInternalApi::class)
-fun JsDomTokenList.Companion.ref(name: String? = null, isNullable: Boolean = false): JsDomTokenListRef =
-    JsDomTokenListRef(name, isNullable)
+fun JsDomTokenList.Companion.ref(name: String? = null): JsDomTokenListRef =
+    JsDomTokenListRef(name)
 
 @OptIn(JsInternalApi::class)
-fun JsDomTokenList.Companion.ref(element: JsElement, isNullable: Boolean = false): JsDomTokenListRef =
-    JsDomTokenListRef(element.present(), isNullable)
+fun JsDomTokenList.Companion.ref(element: JsElement): JsDomTokenListRef =
+    JsDomTokenListRef(element.present())
 
 @OptIn(JsInternalApi::class)
-fun JsDomTokenList.Companion.def(name: String? = null, isNullable: Boolean = false) =
+fun JsDomTokenList.Companion.def(name: String? = null) =
     object : JsPrintableDefinition<JsDomTokenListRef, JsDomTokenList>() {
-        override val reference: JsDomTokenListRef = JsDomTokenListRef(name = name, isNullable)
+        override val reference: JsDomTokenListRef = JsDomTokenListRef(name = name)
     }

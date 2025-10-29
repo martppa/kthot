@@ -2,12 +2,7 @@ package net.asere.kthot.js.dsl
 
 import net.asere.kthot.js.dsl.declaration.Const
 import net.asere.kthot.js.dsl.ksp.Kthot
-import net.asere.kthot.js.dsl.ksp.annotation.JsApiClass
-import net.asere.kthot.js.dsl.ksp.annotation.JsApiFunctionClass
-import net.asere.kthot.js.dsl.ksp.annotation.JsClass
-import net.asere.kthot.js.dsl.ksp.annotation.JsConstructor
-import net.asere.kthot.js.dsl.ksp.annotation.JsFunction
-import net.asere.kthot.js.dsl.ksp.annotation.JsProperty
+import net.asere.kthot.js.dsl.ksp.annotation.*
 import net.asere.kthot.js.dsl.ksp.processor.js.JavaScriptClass
 import net.asere.kthot.js.dsl.log.Log
 import net.asere.kthot.js.dsl.provider.provide
@@ -22,9 +17,8 @@ import net.asere.kthot.js.dsl.type.number.*
 import net.asere.kthot.js.dsl.type.promise.JsPromise
 import net.asere.kthot.js.dsl.type.string.JsString
 import net.asere.kthot.js.dsl.type.string.JsStringRef
-import net.asere.kthot.js.dsl.type.string.ref
 
-@JsApiFunctionClass(name = "prebadName")
+@JsApiFunctionFile(name = "prebadName")
 internal interface _ApiTestPrieba {
     @JsFunction
     fun prueba() = js {
@@ -32,7 +26,7 @@ internal interface _ApiTestPrieba {
     }
 }
 
-@JsApiClass(import = "lolin")
+@JsApiClass
 class ApiSample
 
 @JsClass
@@ -63,7 +57,7 @@ data class Test<T : JsArray<JsPromise<JsNumber>>> @JsConstructor constructor(
 }
 
 fun main() {
-    register { element, isNullable -> JsArray.syntax<JsPromise<JsNumber>>(value = element, isNullable = isNullable, typeBuilder = ::provide) }
+    register { element -> JsArray.syntax<JsPromise<JsNumber>>(value = element, typeBuilder = ::provide) }
     Kthot.initialize()
     val syntax = js {
         val number = Const { JsNumber.def("number") } assign 4.js

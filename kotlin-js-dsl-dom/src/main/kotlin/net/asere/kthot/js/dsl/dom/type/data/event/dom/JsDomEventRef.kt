@@ -9,24 +9,24 @@ import net.asere.kthot.js.dsl.type.reference.ReferenceId
 
 class JsDomEventRef @JsInternalApi constructor(
     name: String? = null,
-    isNullable: Boolean = false
+    
 ) : JsValueRef<JsDomEvent>(
     name ?: "dom_event_${ReferenceId.nextRefInt()}",
-    isNullable = isNullable,
+    
 ), JsDomEvent, JsReference<JsDomEvent> {
     override fun toString(): String = present()
 }
 
 @OptIn(JsInternalApi::class)
-fun JsDomEvent.Companion.ref(name: String? = null, isNullable: Boolean = false): JsDomEventRef =
-    JsDomEventRef(name, isNullable)
+fun JsDomEvent.Companion.ref(name: String? = null): JsDomEventRef =
+    JsDomEventRef(name)
 
 @OptIn(JsInternalApi::class)
-fun JsDomEvent.Companion.ref(element: JsElement, isNullable: Boolean = false): JsDomEventRef =
-    JsDomEventRef(element.present(), isNullable)
+fun JsDomEvent.Companion.ref(element: JsElement): JsDomEventRef =
+    JsDomEventRef(element.present())
 
 @OptIn(JsInternalApi::class)
-fun JsDomEvent.Companion.def(name: String? = null, isNullable: Boolean = false) =
+fun JsDomEvent.Companion.def(name: String? = null) =
     object : JsPrintableDefinition<JsDomEventRef, JsDomEvent>() {
-        override val reference: JsDomEventRef = JsDomEventRef(name, isNullable)
+        override val reference: JsDomEventRef = JsDomEventRef(name)
     }

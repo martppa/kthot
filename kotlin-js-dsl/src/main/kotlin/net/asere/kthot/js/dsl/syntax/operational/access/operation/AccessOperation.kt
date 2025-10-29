@@ -1,10 +1,8 @@
 package net.asere.kthot.js.dsl.syntax.operational.access.operation
 
-import net.asere.kthot.js.dsl.type.isNullable
+import net.asere.kthot.js.dsl.syntax.operational.Operator
 import net.asere.kthot.js.dsl.syntax.operational.ReflexiveOperation
 import net.asere.kthot.js.dsl.syntax.operational.access.operator.Access
-import net.asere.kthot.js.dsl.syntax.operational.Operator
-import net.asere.kthot.js.dsl.syntax.operational.access.operator.OptionalAccess
 import net.asere.kthot.js.dsl.type.obj.JsObject
 import net.asere.kthot.js.dsl.type.obj.syntax
 import net.asere.kthot.js.dsl.type.string.JsString
@@ -23,6 +21,5 @@ class AccessOperation(
             : this(leftSideElement, JsString.syntax(arg))
 
     override val leftSideElement: JsValue = JsObject.syntax(operable)
-    override val rightSideElement: Operator = if (leftSideElement.isNullable())
-        OptionalAccess(arg) else Access(arg)
+    override val rightSideElement: Operator = Access(arg)
 }

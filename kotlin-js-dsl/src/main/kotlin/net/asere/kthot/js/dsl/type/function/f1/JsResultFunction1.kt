@@ -21,7 +21,7 @@ import net.asere.kthot.js.dsl.type.value.JsValue
  */
 class JsResultFunction1<Param1Ref: JsReference<Param1>, Param1 : JsValue, Result : JsValue>(
     name: String,
-    resultTypeBuilder: (JsElement, Boolean) -> Result,
+    resultTypeBuilder: (JsElement) -> Result,
     private val param1: JsDefinition<Param1Ref, Param1>,
     private val definition: JsSyntaxScope.(Param1) -> Result,
 ) : JsFunction<JsResultFunction1Ref<Param1, Result>>(name) {

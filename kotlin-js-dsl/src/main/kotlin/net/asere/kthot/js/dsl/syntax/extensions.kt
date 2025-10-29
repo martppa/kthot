@@ -20,32 +20,32 @@ fun js(block: JsSyntaxScope.() -> Unit): JsSyntax {
 val (JsScope.() -> Unit).js get(): JsLambda0 {
     val scope = JsSyntaxScope()
     this(scope)
-    return JsLambda0.syntax("() => {\n$scope\n}", false)
+    return JsLambda0.syntax("() => {\n$scope\n}")
 }
 
-fun <T : JsValue> (JsScope.(T) -> Unit).js(typeBuilder: (JsElement, Boolean) -> T): JsLambda1<T> {
+fun <T : JsValue> (JsScope.(T) -> Unit).js(typeBuilder: (JsElement) -> T): JsLambda1<T> {
     val scope = JsSyntaxScope()
-    val param: T = typeBuilder(JsSyntax("value"), false)
+    val param: T = typeBuilder(JsSyntax("value"))
     this(scope, param)
-    return JsLambda1.syntax("($param) => {\n$scope\n}", false)
+    return JsLambda1.syntax("($param) => {\n$scope\n}")
 }
 
 val <reified T : JsValue> (JsScope.(T) -> Unit).js inline get(): JsLambda1<T> {
     val scope = JsSyntaxScope()
-    val param: T = provide(JsSyntax("value"), false)
+    val param: T = provide(JsSyntax("value"))
     this(scope, param)
-    return JsLambda1.syntax("($param) => {\n$scope\n}", false)
+    return JsLambda1.syntax("($param) => {\n$scope\n}")
 }
 
 fun <T : JsValue, C : JsValue> (JsScope.(T, C) -> Unit).js(
     param1Name: String = "value1",
     param2Name: String = "value2",
-    tBuilder: (JsElement, Boolean) -> T,
-    cBuilder: (JsElement, Boolean) -> C
+    tBuilder: (JsElement) -> T,
+    cBuilder: (JsElement) -> C
 ): JsLambda2<T, C> {
     val scope = JsSyntaxScope()
-    val param1: T = tBuilder(JsSyntax(param1Name), false)
-    val param2: C = cBuilder(JsSyntax(param2Name), false)
+    val param1: T = tBuilder(JsSyntax(param1Name))
+    val param2: C = cBuilder(JsSyntax(param2Name))
     this(scope, param1, param2)
-    return JsLambda2.syntax("($param1, $param2) => {\n$scope\n}", false)
+    return JsLambda2.syntax("($param1, $param2) => {\n$scope\n}")
 }

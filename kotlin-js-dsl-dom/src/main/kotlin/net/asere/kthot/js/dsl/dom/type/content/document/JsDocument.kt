@@ -240,6 +240,6 @@ interface JsDocument : JsDomObject {
  * @param id The ID of the element to find as a [JsString] object.
  * @return A [T] representing the element, or `null` if no element with the specified ID exists.
  */
-inline fun <reified T : JsDomObject> JsDocument.getElementById(id: JsString): T = provide(ChainOperation(this, InvocationOperation("getElementById", id)), false)
+inline fun <reified T : JsDomObject> JsDocument.getElementById(id: JsString): T = provide(ChainOperation(this, InvocationOperation("getElementById", id)))
 
 inline fun <reified T : JsDomObject> JsDocument.getElementById(id: String): T = getElementById(id.js)

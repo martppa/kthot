@@ -11,43 +11,33 @@ import net.asere.kthot.js.dsl.type.value.JsValue
 class JsResultLambda0Ref<Result : JsValue>(
     name: String,
     internal val resultTypeBuilder: (JsElement) -> Result,
-    isNullable: Boolean = false
-) : JsLambdaRef<JsResultLambda0<Result>>(name, isNullable), JsResultLambda0<Result> {
+) : JsLambdaRef<JsResultLambda0<Result>>(name), JsResultLambda0<Result> {
 
     override fun invoke(): Result = resultTypeBuilder(InvocationOperation(this))
 }
 
 inline fun <reified Result : JsValue> JsResultLambda0.Companion.ref(
     name: String = "lambda_${ReferenceId.nextRefInt()}",
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
-    isNullable: Boolean = false,
-    isResultNullable: Boolean = false,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
 ): JsResultLambda0<Result> = JsResultLambda0Ref(
     name = name,
-    resultTypeBuilder = { element -> resultTypeBuilder(element, isResultNullable)},
-    isNullable = isNullable
+    resultTypeBuilder = resultTypeBuilder,
 )
 
 inline fun <reified Result : JsValue> JsResultLambda0.Companion.ref(
     element: JsElement,
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
-    isNullable: Boolean = false,
-    isResultNullable: Boolean = false,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
 ): JsResultLambda0<Result> = JsResultLambda0Ref(
     name = element.present(),
-    resultTypeBuilder = { element -> resultTypeBuilder(element, isResultNullable)},
-    isNullable = isNullable
+    resultTypeBuilder = resultTypeBuilder,
 )
 
 inline fun <reified Result : JsValue> JsResultLambda0.Companion.def(
     name: String = "lambda_${ReferenceId.nextRefInt()}",
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
-    isNullable: Boolean = false,
-    isResultNullable: Boolean = false,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
 ) = object : JsPrintableDefinition<JsResultLambda0Ref<Result>, JsResultLambda0<Result>>() {
     override val reference: JsResultLambda0Ref<Result> = JsResultLambda0Ref(
         name = name,
-        resultTypeBuilder = { element -> resultTypeBuilder(element, isResultNullable)},
-        isNullable = isNullable
+        resultTypeBuilder = resultTypeBuilder,
     )
 }

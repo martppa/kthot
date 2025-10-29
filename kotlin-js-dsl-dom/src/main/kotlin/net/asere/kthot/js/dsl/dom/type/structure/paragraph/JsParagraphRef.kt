@@ -9,24 +9,24 @@ import net.asere.kthot.js.dsl.type.reference.ReferenceId
 
 class JsParagraphRef @JsInternalApi constructor(
     name: String? = null,
-    isNullable: Boolean = false,
+    
 ) : JsValueRef<JsParagraph>(
     name ?: "paragraph_${ReferenceId.nextRefInt()}",
-    isNullable = isNullable,
+    
 ), JsParagraph, JsReference<JsParagraph> {
     override fun toString(): String = present()
 }
 
 @OptIn(JsInternalApi::class)
-fun JsParagraph.Companion.ref(name: String? = null, isNullable: Boolean = false): JsParagraphRef =
-    JsParagraphRef(name, isNullable)
+fun JsParagraph.Companion.ref(name: String? = null): JsParagraphRef =
+    JsParagraphRef(name)
 
 @OptIn(JsInternalApi::class)
-fun JsParagraph.Companion.ref(element: JsElement, isNullable: Boolean = false): JsParagraphRef =
-    JsParagraphRef(element.present(), isNullable)
+fun JsParagraph.Companion.ref(element: JsElement): JsParagraphRef =
+    JsParagraphRef(element.present())
 
 @OptIn(JsInternalApi::class)
-fun JsParagraph.Companion.def(name: String? = null, isNullable: Boolean = false) =
+fun JsParagraph.Companion.def(name: String? = null) =
     object : JsPrintableDefinition<JsParagraphRef, JsParagraph>() {
-        override val reference: JsParagraphRef = JsParagraphRef(name = name, isNullable)
+        override val reference: JsParagraphRef = JsParagraphRef(name = name)
     }

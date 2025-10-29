@@ -8,13 +8,13 @@ import net.asere.kthot.js.dsl.type.JsElement
 /**
  * A [JsSyntax] implementation specifically for [JsButton].
  */
-class JsButtonSyntax internal constructor(value: String, isNullable: Boolean) :
-    JsReferenceSyntax<JsButton>(value, isNullable), JsButton {
-    internal constructor (value: JsElement, isNullable: Boolean) : this("$value", isNullable)
+class JsButtonSyntax internal constructor(value: String) :
+    JsReferenceSyntax<JsButton>(value), JsButton {
+    internal constructor (value: JsElement) : this("$value")
 }
 
-fun JsButton.Companion.syntax(value: String, isNullable: Boolean = false): JsButton =
-    JsButtonSyntax(value, isNullable)
+fun JsButton.Companion.syntax(value: String): JsButton =
+    JsButtonSyntax(value)
 
-fun JsButton.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsButton =
-    JsButtonSyntax(value, isNullable)
+fun JsButton.Companion.syntax(value: JsElement): JsButton =
+    JsButtonSyntax(value)

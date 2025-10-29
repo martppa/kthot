@@ -11,43 +11,33 @@ import net.asere.kthot.js.dsl.type.value.JsValue
 class JsResultLambda1Ref<Param1 : JsValue, Result : JsValue>(
     name: String,
     internal val resultTypeBuilder: (JsElement) -> Result,
-    isNullable: Boolean = false,
-) : JsLambdaRef<JsResultLambda1<Param1, Result>>(name, isNullable), JsResultLambda1<Param1, Result> {
+) : JsLambdaRef<JsResultLambda1<Param1, Result>>(name), JsResultLambda1<Param1, Result> {
 
     override fun invoke(param: Param1): Result = resultTypeBuilder(InvocationOperation(this))
 }
 
 inline fun <Param1 : JsValue, reified Result : JsValue> JsResultLambda1.Companion.ref(
     name: String = "lambda_${ReferenceId.nextRefInt()}",
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
-    isNullable: Boolean = false,
-    isResultNullable: Boolean = false,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
 ): JsResultLambda1Ref<Param1, Result> = JsResultLambda1Ref(
     name = name,
-    resultTypeBuilder = { element -> resultTypeBuilder(element, isResultNullable)},
-    isNullable = isNullable
+    resultTypeBuilder = resultTypeBuilder,
 )
 
 inline fun <Param1 : JsValue, reified Result : JsValue> JsResultLambda1.Companion.ref(
     element: JsElement,
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
-    isNullable: Boolean = false,
-    isResultNullable: Boolean = false,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
 ): JsResultLambda1Ref<Param1, Result> = JsResultLambda1Ref(
     name = element.present(),
-    resultTypeBuilder = { element -> resultTypeBuilder(element, isResultNullable)},
-    isNullable = isNullable
+    resultTypeBuilder = resultTypeBuilder,
 )
 
 inline fun <Param1 : JsValue, reified Result : JsValue> JsLambda1.Companion.def(
     name: String = "lambda_${ReferenceId.nextRefInt()}",
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
-    isNullable: Boolean = false,
-    isResultNullable: Boolean = false,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
 ) = object : JsPrintableDefinition<JsResultLambda1Ref<Param1, Result>, JsResultLambda1<Param1, Result>>() {
     override val reference: JsResultLambda1Ref<Param1, Result> = JsResultLambda1Ref(
         name = name,
-        resultTypeBuilder = { element -> resultTypeBuilder(element, isResultNullable)},
-        isNullable = isNullable
+        resultTypeBuilder = resultTypeBuilder,
     )
 }

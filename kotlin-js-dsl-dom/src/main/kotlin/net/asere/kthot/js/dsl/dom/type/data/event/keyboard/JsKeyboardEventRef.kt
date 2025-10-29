@@ -9,20 +9,20 @@ import net.asere.kthot.js.dsl.type.reference.ReferenceId
 
 class JsKeyboardEventRef @JsInternalApi constructor(
     name: String? = null,
-    isNullable: Boolean = false
+    
 ) : JsValueRef<JsKeyboardEvent>(
     name ?: "keyboard_event_${ReferenceId.nextRefInt()}",
-    isNullable = isNullable,
+    
 ), JsKeyboardEvent, JsReference<JsKeyboardEvent> {
     override fun toString(): String = present()
 }
 
 @OptIn(JsInternalApi::class)
-fun JsKeyboardEvent.Companion.ref(element: JsElement, isNullable: Boolean = false): JsKeyboardEventRef =
-    JsKeyboardEventRef(element.present(), isNullable)
+fun JsKeyboardEvent.Companion.ref(element: JsElement): JsKeyboardEventRef =
+    JsKeyboardEventRef(element.present())
 
 @OptIn(JsInternalApi::class)
-fun JsKeyboardEvent.Companion.def(name: String? = null, isNullable: Boolean = false) = object :
+fun JsKeyboardEvent.Companion.def(name: String? = null) = object :
     JsPrintableDefinition<JsKeyboardEventRef, JsKeyboardEvent>() {
-    override val reference: JsKeyboardEventRef = JsKeyboardEventRef(name, isNullable)
+    override val reference: JsKeyboardEventRef = JsKeyboardEventRef(name)
 }

@@ -7,32 +7,32 @@ import net.asere.kthot.js.dsl.type.value.JsValue
 private val beacons: MutableMap<String, Beacon> = mutableMapOf()
 
 inline fun <reified T : Any> register(
-    noinline builder: (JsElement, Boolean) -> T
+    noinline builder: (JsElement) -> T
 ) {
     val key = T::class.java.name
     register(key = key, builder = builder)
 }
 
-fun register(key: String, builder: (JsElement, Boolean) -> Any) {
+fun register(key: String, builder: (JsElement) -> Any) {
     beacons[key] = buildBeacon(builder)
 }
 
-fun provide(key: String, value: JsElement, isNullable: Boolean): Any {
+fun provide(key: String, value: JsElement): Any {
     val beacon = beacons[key]
         ?: throw ProviderNotFoundException(key)
-    return beacon.invoke(value, isNullable)
+    return beacon.invoke(value)
 }
 
-inline fun <reified T> provide(element: JsElement, isNullable: Boolean): T {
+inline fun <reified T> provide(element: JsElement): T {
     val key = T::class.java.name
-    return provide(key, element, isNullable) as T
+    return provide(key, element) as T
 }
 
-inline fun <reified T : JsReference<C>, reified C : JsValue> provide(element: T, isNullable: Boolean): C {
+inline fun <reified T : JsReference<C>, reified C : JsValue> provide(element: T): C {
     val key = C::class.java.name
-    return provide(key, element, isNullable) as C
+    return provide(key, element) as C
 }
 
-private fun buildBeacon(builder: (JsElement, Boolean) -> Any): Beacon {
+private fun buildBeacon(builder: (JsElement) -> Any): Beacon {
     return Beacon(builder)
 }

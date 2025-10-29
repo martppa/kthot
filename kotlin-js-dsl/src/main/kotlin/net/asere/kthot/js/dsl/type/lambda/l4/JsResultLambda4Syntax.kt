@@ -10,41 +10,33 @@ import net.asere.kthot.js.dsl.type.value.JsValue
 class JsResultLambda4Syntax<Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Result : JsValue> @JsInternalApi constructor(
     value: String,
     private val resultTypeBuilder: (JsElement) -> Result,
-    isNullable: Boolean
-) : JsReferenceSyntax<JsLambda4<Param1, Param2, Param3, Param4>>(value, isNullable),
+) : JsReferenceSyntax<JsLambda4<Param1, Param2, Param3, Param4>>(value),
     JsResultLambda4<Param1, Param2, Param3, Param4, Result> {
 
     @JsInternalApi
     constructor(
         value: JsElement,
         resultTypeBuilder: (JsElement) -> Result,
-        isNullable: Boolean
-    ) : this("$value", resultTypeBuilder, isNullable)
+    ) : this("$value", resultTypeBuilder)
 
     override fun invoke(param1: Param1, param2: Param2, param3: Param3, param4: Param4): Result =
         resultTypeBuilder(InvocationOperation(this, param1, param2, param3, param4))
 }
 
 @OptIn(JsInternalApi::class)
-inline fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Result : JsValue> JsResultLambda4.Companion.syntax(
+fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Result : JsValue> JsResultLambda4.Companion.syntax(
     value: String,
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result,
-    isNullable: Boolean = false,
-    isResultNullable: Boolean = false
+    resultTypeBuilder: (JsElement) -> Result,
 ): JsResultLambda4<Param1, Param2, Param3, Param4, Result> = JsResultLambda4Syntax(
     value = value,
-    resultTypeBuilder = { element -> resultTypeBuilder(element, isResultNullable) },
-    isNullable = isNullable,
+    resultTypeBuilder = resultTypeBuilder,
 )
 
 @OptIn(JsInternalApi::class)
 inline fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, reified Result : JsValue> JsResultLambda4.Companion.syntax(
     value: JsElement,
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
-    isNullable: Boolean = false,
-    isResultNullable: Boolean = false
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
 ): JsResultLambda4<Param1, Param2, Param3, Param4, Result> = JsResultLambda4Syntax(
     value = value,
-    resultTypeBuilder = { element -> resultTypeBuilder(element, isResultNullable) },
-    isNullable = isNullable,
+    resultTypeBuilder = resultTypeBuilder,
 )

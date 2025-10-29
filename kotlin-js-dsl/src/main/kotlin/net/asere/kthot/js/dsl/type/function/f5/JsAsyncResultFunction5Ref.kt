@@ -27,7 +27,7 @@ class JsAsyncResultFunction5Ref<
         Param5 : JsValue,
         Result : JsValue>(
     name: String,
-    internal val resultTypeBuilder: (JsElement, Boolean) -> Result,
+    internal val resultTypeBuilder: (JsElement) -> Result,
 ) : JsFunctionRef(name) {
 
     /**
@@ -47,7 +47,7 @@ class JsAsyncResultFunction5Ref<
      */
     operator fun invoke(param1: Param1, param2: Param2, param3: Param3, param4: Param4, param5: Param5) =
         JsPromise.syntax(
-            value = resultTypeBuilder(InvocationOperation(this, param1, param2, param3, param4, param5), false),
+            value = resultTypeBuilder(InvocationOperation(this, param1, param2, param3, param4, param5)),
             typeBuilder = resultTypeBuilder
         )
 }

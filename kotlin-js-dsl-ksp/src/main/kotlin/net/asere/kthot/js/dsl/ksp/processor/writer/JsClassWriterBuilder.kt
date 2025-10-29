@@ -76,7 +76,7 @@ class JsClassWriterBuilder(
             declaration.findJsConstructors().firstOrNull()?.parameters?.mapIndexed { index, item -> 
                 (item.name?.asString() ?: "p$index").let { name -> 
                     if (item.type.isGenericTypeParameter()) {
-                        "           $name = provide(JsSyntax(), false)\n"
+                        "           $name = provide(JsSyntax())\n"
                     } else {
                         "           $name = ${item.type.resolve().declaration.basicJsName}.ref${item.type.resolve().declaration.genericTypesString}(\"$name\")\n"
                     }

@@ -8,13 +8,13 @@ import net.asere.kthot.js.dsl.syntax.JsSyntax
 /**
  * A [JsSyntax] implementation specifically for [JsGeolocationPositionOptions].
  */
-class JsGeolocationCoordinatesSyntax internal constructor(value: String, isNullable: Boolean) :
-    JsReferenceSyntax<JsGeolocationCoordinates>(value, isNullable), JsGeolocationCoordinates {
-    internal constructor(value: JsElement, isNullable: Boolean) : this("$value", isNullable)
+class JsGeolocationCoordinatesSyntax internal constructor(value: String) :
+    JsReferenceSyntax<JsGeolocationCoordinates>(value), JsGeolocationCoordinates {
+    internal constructor(value: JsElement) : this("$value")
 }
 
-fun JsGeolocationCoordinates.Companion.syntax(value: String, isNullable: Boolean = false): JsGeolocationCoordinates =
-    JsGeolocationCoordinatesSyntax(value, isNullable)
+fun JsGeolocationCoordinates.Companion.syntax(value: String): JsGeolocationCoordinates =
+    JsGeolocationCoordinatesSyntax(value)
 
-fun JsGeolocationCoordinates.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsGeolocationCoordinates =
-    JsGeolocationCoordinatesSyntax(value, isNullable)
+fun JsGeolocationCoordinates.Companion.syntax(value: JsElement): JsGeolocationCoordinates =
+    JsGeolocationCoordinatesSyntax(value)

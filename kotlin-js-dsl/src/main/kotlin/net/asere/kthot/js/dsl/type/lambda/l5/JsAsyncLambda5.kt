@@ -10,25 +10,19 @@ import net.asere.kthot.js.dsl.type.value.JsValue
 
 inline fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Param5 : JsValue, reified Result : JsValue> JsResultLambda5.Companion.asyncRef(
     name: String = "lambda_${ReferenceId.nextRefInt()}",
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
-    isNullable: Boolean = false,
-    isResultNullable: Boolean = false,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
 ): JsResultLambda5<Param1, Param2, Param3, Param4, Param5, JsPromise<Result>> = JsResultLambda5Ref(
     name = name,
-    resultTypeBuilder = { element -> JsPromise.syntax(resultTypeBuilder(element, isResultNullable)) },
-    isNullable = isNullable
+    resultTypeBuilder = { element -> JsPromise.syntax(resultTypeBuilder(element)) },
 )
 
 inline fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, Param5 : JsValue, reified Result : JsValue> JsResultLambda5.Companion.asyncDef(
     name: String = "lambda_${ReferenceId.nextRefInt()}",
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
-    isNullable: Boolean = false,
-    isResultNullable: Boolean = false,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
 ) = object :
     JsPrintableDefinition<JsResultLambda5Ref<Param1, Param2, Param3, Param4, Param5, JsPromise<Result>>, JsResultLambda5<Param1, Param2, Param3, Param4, Param5, JsPromise<Result>>>() {
     override val reference: JsResultLambda5Ref<Param1, Param2, Param3, Param4, Param5, JsPromise<Result>> = JsResultLambda5Ref(
         name = name,
-        resultTypeBuilder = { element -> JsPromise.syntax(resultTypeBuilder(element, isResultNullable)) },
-        isNullable = isNullable
+        resultTypeBuilder = { element -> JsPromise.syntax(resultTypeBuilder(element)) },
     )
 }

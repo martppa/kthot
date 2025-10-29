@@ -113,7 +113,7 @@ class JsFunctionFileBuilder(
                     function.returnType?.resolve()?.definitionName}${function.whereClauseString} = ${
                     function.returnType?.resolve()?.builderName}(${
                     jsInvocationOperationDeclaration.name}(\"$functionName\", ${
-                    function.parameters.listString()}), ${function.returnType.isNullable()})")
+                    function.parameters.listString()}))")
             } else if (function.returnType?.resolve().hasArgumentsTypes()) {
                 append("  inline fun ${function.getDeclaration(functionName)}(${
                     function.parameters.definitionString()}): ${

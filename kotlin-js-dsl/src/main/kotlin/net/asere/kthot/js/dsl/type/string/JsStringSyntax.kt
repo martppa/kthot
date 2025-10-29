@@ -1,15 +1,15 @@
 package net.asere.kthot.js.dsl.type.string
 
-import net.asere.kthot.js.dsl.type.JsElement
 import net.asere.kthot.js.dsl.syntax.JsReferenceSyntax
+import net.asere.kthot.js.dsl.type.JsElement
 
-class JsStringSyntax internal constructor(value: String, isNullable: Boolean) :
-    JsReferenceSyntax<JsString>(value, isNullable), JsString {
-    internal constructor(value: JsElement, isNullable: Boolean) : this("$value", isNullable)
+class JsStringSyntax internal constructor(value: String) :
+    JsReferenceSyntax<JsString>(value), JsString {
+    internal constructor(value: JsElement) : this("$value")
 
     override fun stringify(): String = $$$"${$$${super.name}}"
 }
 
-fun JsString.Companion.syntax(value: String, isNullable: Boolean = false): JsString = JsStringSyntax(value, isNullable)
-fun JsString.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsString =
-    JsStringSyntax(value, isNullable)
+fun JsString.Companion.syntax(value: String): JsString = JsStringSyntax(value)
+fun JsString.Companion.syntax(value: JsElement): JsString =
+    JsStringSyntax(value)

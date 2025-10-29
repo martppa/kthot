@@ -8,9 +8,9 @@ import net.asere.kthot.js.dsl.type.promise.JsPromise
 import net.asere.kthot.js.dsl.type.value.JsValue
 
 inline fun <reified T : JsValue> JsScope.await(
-    resultTypeBuilder: (JsElement, Boolean) -> T = ::provide,
+    resultTypeBuilder: (JsElement) -> T = ::provide,
     block: JsScope.() -> JsPromise<T>
-): T = resultTypeBuilder(JsAwaitSyntax(block()), false) // TODO: Apply improvement to nullable types
+): T = resultTypeBuilder(JsAwaitSyntax(block()))
 
 @JsDsl
 inline fun <reified T : JsValue> JsScope.Await(

@@ -19,7 +19,7 @@ import net.asere.kthot.js.dsl.type.value.JsValue
  */
 class JsAsyncResultFunction2Ref<Param1 : JsValue, Param2 : JsValue, Result : JsValue>(
     name: String? = null,
-    internal val resultTypeBuilder: (JsElement, Boolean) -> Result,
+    internal val resultTypeBuilder: (JsElement) -> Result,
 ) : JsFunctionRef(name) {
     /**
      * Invokes the JavaScript function with the provided parameters.
@@ -34,7 +34,7 @@ class JsAsyncResultFunction2Ref<Param1 : JsValue, Param2 : JsValue, Result : JsV
      * @return A [JsPromise] object representing the JavaScript function call.
      */
     operator fun invoke(param1: Param1, param2: Param2) = JsPromise.syntax(
-        value = resultTypeBuilder(InvocationOperation(this, param1, param2), false),
+        value = resultTypeBuilder(InvocationOperation(this, param1, param2)),
         typeBuilder = resultTypeBuilder
     )
 }

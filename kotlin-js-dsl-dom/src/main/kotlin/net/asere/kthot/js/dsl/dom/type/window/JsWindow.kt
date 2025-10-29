@@ -367,7 +367,7 @@ object Window : JsObjectRef("window") {
      * Returns the [JsScreen] object, which contains information about the user's screen.
      */
     val screen: JsScreen
-        get() = JsScreenSyntax(ChainOperation(this, "screen"), isNullable = false)
+        get() = JsScreenSyntax(ChainOperation(this, "screen"))
 
     /**
      * Attaches an event listener to the window. When the specified event occurs,

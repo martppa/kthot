@@ -7,13 +7,13 @@ import net.asere.kthot.js.dsl.syntax.JsSyntax
 /**
  * A [JsSyntax] implementation specifically for [JsKeyboardEvent].
  */
-class JsKeyboardEventSyntax internal constructor(value: String, isNullable: Boolean) :
-    JsReferenceSyntax<JsKeyboardEvent>(value, isNullable), JsKeyboardEvent {
-    internal constructor(value: JsElement, isNullable: Boolean) : this("$value", isNullable)
+class JsKeyboardEventSyntax internal constructor(value: String) :
+    JsReferenceSyntax<JsKeyboardEvent>(value), JsKeyboardEvent {
+    internal constructor(value: JsElement) : this("$value")
 }
 
-fun JsKeyboardEvent.Companion.syntax(value: String, isNullable: Boolean = false): JsKeyboardEventSyntax =
-    JsKeyboardEventSyntax(value, isNullable)
+fun JsKeyboardEvent.Companion.syntax(value: String): JsKeyboardEventSyntax =
+    JsKeyboardEventSyntax(value)
 
-fun JsKeyboardEvent.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsKeyboardEventSyntax =
-    JsKeyboardEventSyntax(value, isNullable)
+fun JsKeyboardEvent.Companion.syntax(value: JsElement): JsKeyboardEventSyntax =
+    JsKeyboardEventSyntax(value)

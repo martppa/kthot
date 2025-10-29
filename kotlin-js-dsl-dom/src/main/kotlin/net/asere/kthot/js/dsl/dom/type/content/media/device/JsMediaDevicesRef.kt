@@ -10,24 +10,22 @@ import net.asere.kthot.js.dsl.type.reference.ReferenceId
 
 class JsMediaDevicesRef @JsInternalApi constructor(
     name: String? = null,
-    isNullable: Boolean = false
 ) : JsValueRef<JsMediaDevices>(
     name ?: "media_devices_${ReferenceId.nextRefInt()}",
-    isNullable = isNullable,
 ), JsMediaDevices, JsReference<JsMediaDevices> {
     override fun toString(): String = present()
 }
 
 @OptIn(JsInternalApi::class)
-fun JsMediaDevices.Companion.ref(name: String? = null, isNullable: Boolean = false): JsMediaDevicesRef =
-    JsMediaDevicesRef(name, isNullable)
+fun JsMediaDevices.Companion.ref(name: String? = null): JsMediaDevicesRef =
+    JsMediaDevicesRef(name)
 
 @OptIn(JsInternalApi::class)
-fun JsMediaDevices.Companion.ref(element: JsElement, isNullable: Boolean = false): JsMediaDevicesRef =
-    JsMediaDevicesRef(element.present(), isNullable)
+fun JsMediaDevices.Companion.ref(element: JsElement): JsMediaDevicesRef =
+    JsMediaDevicesRef(element.present())
 
 @OptIn(JsInternalApi::class)
-fun JsLocation.Companion.def(name: String? = null, isNullable: Boolean = false) =
+fun JsLocation.Companion.def(name: String? = null) =
     object : JsPrintableDefinition<JsMediaDevicesRef, JsMediaDevices>() {
-        override val reference: JsMediaDevicesRef = JsMediaDevicesRef(name, isNullable)
+        override val reference: JsMediaDevicesRef = JsMediaDevicesRef(name)
     }

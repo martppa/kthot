@@ -10,25 +10,19 @@ import net.asere.kthot.js.dsl.type.value.JsValue
 
 inline fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, reified Result : JsValue> JsResultLambda4.Companion.asyncRef(
     name: String = "lambda_${ReferenceId.nextRefInt()}",
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
-    isNullable: Boolean = false,
-    isResultNullable: Boolean = false,
+    crossinline resultTypeBuilder: (JsElement) -> Result = ::provide,
 ): JsResultLambda4<Param1, Param2, Param3, Param4, JsPromise<Result>> = JsResultLambda4Ref(
     name = name,
-    resultTypeBuilder = { element -> JsPromise.syntax(resultTypeBuilder(element, isResultNullable)) },
-    isNullable = isNullable
+    resultTypeBuilder = { element -> JsPromise.syntax(resultTypeBuilder(element)) },
 )
 
 inline fun <Param1 : JsValue, Param2 : JsValue, Param3 : JsValue, Param4 : JsValue, reified Result : JsValue> JsResultLambda4.Companion.asyncDef(
     name: String = "lambda_${ReferenceId.nextRefInt()}",
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
-    isNullable: Boolean = false,
-    isResultNullable: Boolean = false,
+    crossinline resultTypeBuilder: (JsElement) -> Result = ::provide,
 ) = object :
     JsPrintableDefinition<JsResultLambda4Ref<Param1, Param2, Param3, Param4, JsPromise<Result>>, JsResultLambda4<Param1, Param2, Param3, Param4, JsPromise<Result>>>() {
     override val reference: JsResultLambda4Ref<Param1, Param2, Param3, Param4, JsPromise<Result>> = JsResultLambda4Ref(
         name = name,
-        resultTypeBuilder = { element -> JsPromise.syntax(resultTypeBuilder(element, isResultNullable)) },
-        isNullable = isNullable
+        resultTypeBuilder = { element -> JsPromise.syntax(resultTypeBuilder(element)) },
     )
 }

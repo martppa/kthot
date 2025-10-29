@@ -9,24 +9,24 @@ import net.asere.kthot.js.dsl.type.reference.ReferenceId
 
 class JsMouseEventRef @JsInternalApi constructor(
     name: String? = null,
-    isNullable: Boolean = false
+    
 ) : JsValueRef<JsMouseEvent>(
     name ?: "mouse_event_${ReferenceId.nextRefInt()}",
-    isNullable = isNullable
+    
 ), JsMouseEvent, JsReference<JsMouseEvent> {
     override fun toString(): String = present()
 }
 
 @OptIn(JsInternalApi::class)
-fun JsMouseEvent.Companion.ref(name: String? = null, isNullable: Boolean = false): JsMouseEventRef =
-    JsMouseEventRef(name, isNullable)
+fun JsMouseEvent.Companion.ref(name: String? = null): JsMouseEventRef =
+    JsMouseEventRef(name)
 
 @OptIn(JsInternalApi::class)
-fun JsMouseEvent.Companion.ref(element: JsElement, isNullable: Boolean = false): JsMouseEventRef =
-    JsMouseEventRef(element.present(), isNullable)
+fun JsMouseEvent.Companion.ref(element: JsElement): JsMouseEventRef =
+    JsMouseEventRef(element.present())
 
 @OptIn(JsInternalApi::class)
-fun JsMouseEvent.Companion.def(name: String? = null, isNullable: Boolean = false) =
+fun JsMouseEvent.Companion.def(name: String? = null) =
     object : JsPrintableDefinition<JsMouseEventRef, JsMouseEvent>() {
-        override val reference: JsMouseEventRef = JsMouseEventRef(name, isNullable)
+        override val reference: JsMouseEventRef = JsMouseEventRef(name)
     }

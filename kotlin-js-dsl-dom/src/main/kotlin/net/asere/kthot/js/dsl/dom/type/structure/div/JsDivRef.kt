@@ -9,24 +9,24 @@ import net.asere.kthot.js.dsl.type.reference.ReferenceId
 
 class JsDivRef @JsInternalApi constructor(
     name: String? = null,
-    isNullable: Boolean = false,
+    
 ) : JsValueRef<JsDiv>(
     name ?: "div_${ReferenceId.nextRefInt()}",
-    isNullable = isNullable,
+    
 ), JsDiv, JsReference<JsDiv> {
     override fun toString(): String = present()
 }
 
 @OptIn(JsInternalApi::class)
-fun JsDiv.Companion.ref(name: String? = null, isNullable: Boolean = false): JsDivRef =
-    JsDivRef(name, isNullable)
+fun JsDiv.Companion.ref(name: String? = null): JsDivRef =
+    JsDivRef(name)
 
 @OptIn(JsInternalApi::class)
-fun JsDiv.Companion.ref(element: JsElement, isNullable: Boolean = false): JsDivRef =
-    JsDivRef(element.present(), isNullable)
+fun JsDiv.Companion.ref(element: JsElement): JsDivRef =
+    JsDivRef(element.present())
 
 @OptIn(JsInternalApi::class)
-fun JsDiv.Companion.def(name: String? = null, isNullable: Boolean = false) =
+fun JsDiv.Companion.def(name: String? = null) =
     object : JsPrintableDefinition<JsDivRef, JsDiv>() {
-        override val reference: JsDivRef = JsDivRef(name = name, isNullable)
+        override val reference: JsDivRef = JsDivRef(name = name)
     }

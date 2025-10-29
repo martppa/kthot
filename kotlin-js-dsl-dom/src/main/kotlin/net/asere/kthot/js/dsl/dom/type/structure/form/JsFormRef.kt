@@ -9,24 +9,24 @@ import net.asere.kthot.js.dsl.type.reference.ReferenceId
 
 class JsFormRef @JsInternalApi constructor(
     name: String? = null,
-    isNullable: Boolean = false,
+    
 ) : JsValueRef<JsForm>(
     name ?: "form_${ReferenceId.nextRefInt()}",
-    isNullable = isNullable,
+    
 ), JsForm, JsReference<JsForm> {
     override fun toString(): String = present()
 }
 
 @OptIn(JsInternalApi::class)
-fun JsForm.Companion.ref(name: String? = null, isNullable: Boolean = false): JsFormRef =
-    JsFormRef(name, isNullable)
+fun JsForm.Companion.ref(name: String? = null): JsFormRef =
+    JsFormRef(name)
 
 @OptIn(JsInternalApi::class)
-fun JsForm.Companion.ref(element: JsElement, isNullable: Boolean = false): JsFormRef =
-    JsFormRef(element.present(), isNullable)
+fun JsForm.Companion.ref(element: JsElement): JsFormRef =
+    JsFormRef(element.present())
 
 @OptIn(JsInternalApi::class)
-fun JsForm.Companion.def(name: String? = null, isNullable: Boolean = false) =
+fun JsForm.Companion.def(name: String? = null) =
     object : JsPrintableDefinition<JsFormRef, JsForm>() {
-        override val reference: JsFormRef = JsFormRef(name = name, isNullable)
+        override val reference: JsFormRef = JsFormRef(name = name)
     }

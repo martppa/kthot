@@ -7,13 +7,13 @@ import net.asere.kthot.js.dsl.syntax.JsSyntax
 /**
  * A [JsSyntax] implementation specifically for [JsMouseEvent].
  */
-class JsMouseEventSyntax internal constructor(value: String, isNullable: Boolean) :
-    JsReferenceSyntax<JsMouseEvent>(value, isNullable), JsMouseEvent {
-    internal constructor(value: JsElement, isNullable: Boolean) : this("$value", isNullable)
+class JsMouseEventSyntax internal constructor(value: String) :
+    JsReferenceSyntax<JsMouseEvent>(value), JsMouseEvent {
+    internal constructor(value: JsElement) : this("$value")
 }
 
-fun JsMouseEvent.Companion.syntax(value: String, isNullable: Boolean = false): JsMouseEvent =
-    JsMouseEventSyntax(value, isNullable)
+fun JsMouseEvent.Companion.syntax(value: String): JsMouseEvent =
+    JsMouseEventSyntax(value)
 
-fun JsMouseEvent.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsMouseEvent =
-    JsMouseEventSyntax(value, isNullable)
+fun JsMouseEvent.Companion.syntax(value: JsElement): JsMouseEvent =
+    JsMouseEventSyntax(value)

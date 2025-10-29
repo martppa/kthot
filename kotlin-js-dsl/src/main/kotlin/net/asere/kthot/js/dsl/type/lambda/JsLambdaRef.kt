@@ -6,7 +6,6 @@ import net.asere.kthot.js.dsl.type.value.JsValue
 
 abstract class JsLambdaRef<T : JsValue>(
     name: String,
-    isNullable: Boolean = false
-) : JsValueRef<T>(name, isNullable), JsCallable {
+) : JsValueRef<T>(name), JsCallable {
     override fun toString(): String = present()
 }

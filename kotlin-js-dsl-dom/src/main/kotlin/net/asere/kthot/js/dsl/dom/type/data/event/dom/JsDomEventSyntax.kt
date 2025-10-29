@@ -7,13 +7,13 @@ import net.asere.kthot.js.dsl.syntax.JsSyntax
 /**
  * A [JsSyntax] implementation specifically for [JsDomEvent].
  */
-class JsDomEventSyntax internal constructor(value: String, isNullable: Boolean) :
-    JsReferenceSyntax<JsDomEvent>(value, isNullable), JsDomEvent {
-    internal constructor(value: JsElement, isNullable: Boolean) : this("$value", isNullable)
+class JsDomEventSyntax internal constructor(value: String) :
+    JsReferenceSyntax<JsDomEvent>(value), JsDomEvent {
+    internal constructor(value: JsElement) : this("$value")
 }
 
-fun JsDomEvent.Companion.syntax(value: String, isNullable: Boolean = false): JsDomEvent =
-    JsDomEventSyntax(value, isNullable)
+fun JsDomEvent.Companion.syntax(value: String): JsDomEvent =
+    JsDomEventSyntax(value)
 
-fun JsDomEvent.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsDomEvent =
-    JsDomEventSyntax(value, isNullable)
+fun JsDomEvent.Companion.syntax(value: JsElement): JsDomEvent =
+    JsDomEventSyntax(value)

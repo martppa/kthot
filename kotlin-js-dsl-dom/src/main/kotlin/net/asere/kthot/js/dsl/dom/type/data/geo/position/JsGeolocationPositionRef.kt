@@ -9,24 +9,24 @@ import net.asere.kthot.js.dsl.type.reference.ReferenceId
 
 class JsGeolocationPositionRef @JsInternalApi constructor(
     name: String? = null,
-    isNullable: Boolean = false
+    
 ) : JsValueRef<JsGeolocationPosition>(
     name ?: "geolocation_position_${ReferenceId.nextRefInt()}",
-    isNullable = isNullable,
+    
 ), JsGeolocationPosition, JsReference<JsGeolocationPosition> {
     override fun toString(): String = present()
 }
 
 @OptIn(JsInternalApi::class)
-fun JsGeolocationPosition.Companion.ref(name: String? = null, isNullable: Boolean = false): JsGeolocationPositionRef =
-    JsGeolocationPositionRef(name, isNullable)
+fun JsGeolocationPosition.Companion.ref(name: String? = null): JsGeolocationPositionRef =
+    JsGeolocationPositionRef(name)
 
 @OptIn(JsInternalApi::class)
-fun JsGeolocationPosition.Companion.ref(element: JsElement, isNullable: Boolean = false): JsGeolocationPositionRef =
-    JsGeolocationPositionRef(element.present(), isNullable)
+fun JsGeolocationPosition.Companion.ref(element: JsElement): JsGeolocationPositionRef =
+    JsGeolocationPositionRef(element.present())
 
 @OptIn(JsInternalApi::class)
-fun JsGeolocationPosition.Companion.def(name: String? = null, isNullable: Boolean = false) = object :
+fun JsGeolocationPosition.Companion.def(name: String? = null) = object :
     JsPrintableDefinition<JsGeolocationPositionRef, JsGeolocationPosition>() {
-    override val reference: JsGeolocationPositionRef = JsGeolocationPositionRef(name, isNullable)
+    override val reference: JsGeolocationPositionRef = JsGeolocationPositionRef(name)
 }

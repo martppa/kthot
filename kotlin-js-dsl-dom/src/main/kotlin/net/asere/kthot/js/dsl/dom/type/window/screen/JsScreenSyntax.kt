@@ -7,9 +7,9 @@ import net.asere.kthot.js.dsl.syntax.JsSyntax
 /**
  * A [JsSyntax] implementation specifically for [JsScreen].
  */
-class JsScreenSyntax(value: String, isNullable: Boolean) : JsReferenceSyntax<JsScreen>(value, isNullable), JsScreen {
-    constructor(value: JsElement, isNullable: Boolean) : this("$value", isNullable)
+class JsScreenSyntax(value: String) : JsReferenceSyntax<JsScreen>(value), JsScreen {
+    constructor(value: JsElement) : this("$value")
 }
 
-fun JsScreen.Companion.syntax(value: String, isNullable: Boolean = false): JsScreen = JsScreenSyntax(value, isNullable)
-fun JsScreen.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsScreen = JsScreenSyntax(value, isNullable)
+fun JsScreen.Companion.syntax(value: String): JsScreen = JsScreenSyntax(value)
+fun JsScreen.Companion.syntax(value: JsElement): JsScreen = JsScreenSyntax(value)

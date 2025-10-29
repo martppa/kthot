@@ -41,7 +41,7 @@ fun jsAsyncLambda(definition: JsScope.() -> Unit): JsResultLambda0<JsPromise<JsN
             definition(this)
         }
     }
-    return JsResultLambda0.syntax<JsPromise<JsNothing>>(JsAsyncSyntax(value = value), isNullable = false)
+    return JsResultLambda0.syntax<JsPromise<JsNothing>>(JsAsyncSyntax(value = value))
 }
 
 /**
@@ -61,10 +61,9 @@ inline fun <reified Result : JsValue> jsAsyncResultLambda(
     }
     return JsResultLambda0.syntax<JsPromise<Result>>(
         value = JsAsyncSyntax(value = value),
-        resultTypeBuilder = { element, isNullable ->
-            JsPromise.syntax(element, isNullable)
+        resultTypeBuilder = {
+            JsPromise.syntax(it)
         },
-        isNullable = false
     )
 }
 
@@ -85,7 +84,7 @@ fun <Param1Ref : JsReference<Param1>, Param1 : JsValue> jsAsyncLambda(
             definition(this)
         }
     }
-    return JsResultLambda1.syntax<Param1, JsPromise<JsNothing>>(JsAsyncSyntax(value = value), isNullable = false)
+    return JsResultLambda1.syntax<Param1, JsPromise<JsNothing>>(JsAsyncSyntax(value = value))
 }
 
 /**
@@ -107,8 +106,7 @@ inline fun <Param1Ref : JsReference<Param1>, Param1 : JsValue, reified Result : 
     }
     return JsResultLambda1.syntax<Param1, JsPromise<Result>>(
         value = JsAsyncSyntax(value = value),
-        resultTypeBuilder = { element, isNullable -> JsPromise.syntax(element, isNullable) },
-        isNullable = false
+        resultTypeBuilder = { JsPromise.syntax(it) },
     )
 }
 
@@ -133,7 +131,6 @@ fun <Param1Ref : JsReference<Param1>, Param1 : JsValue, Param2Ref : JsReference<
     }
     return JsResultLambda2.syntax<Param1, Param2, JsPromise<JsNothing>>(
         value = JsAsyncSyntax(value = value),
-        isNullable = false
     )
 }
 
@@ -158,8 +155,7 @@ inline fun <Param1Ref : JsReference<Param1>, Param1 : JsValue, Param2Ref : JsRef
     }
     return JsResultLambda2.syntax<Param1, Param2, JsPromise<Result>>(
         value = JsAsyncSyntax(value = value),
-        resultTypeBuilder = { element, isNullable -> JsPromise.syntax(element, isNullable) },
-        isNullable = false
+        resultTypeBuilder = { JsPromise.syntax(it) },
     )
 }
 
@@ -190,7 +186,6 @@ fun <
     }
     return JsResultLambda3.syntax<Param1, Param2, Param3, JsPromise<JsNothing>>(
         value = JsAsyncSyntax(value = value),
-        isNullable = false
     )
 }
 
@@ -222,8 +217,7 @@ inline fun <
     }
     return JsResultLambda3.syntax<Param1, Param2, Param3, JsPromise<Result>>(
         value = JsAsyncSyntax(value = value),
-        resultTypeBuilder = { element, isNullable -> JsPromise.syntax(element, isNullable) },
-        isNullable = false
+        resultTypeBuilder = { JsPromise.syntax(it) },
     )
 }
 
@@ -257,7 +251,6 @@ fun <
     }
     return JsResultLambda4.syntax<Param1, Param2, Param3, Param4, JsPromise<JsNothing>>(
         value = JsAsyncSyntax(value = value),
-        isNullable = false
     )
 }
 
@@ -292,8 +285,7 @@ inline fun <
     }
     return JsResultLambda4.syntax<Param1, Param2, Param3, Param4, JsPromise<Result>>(
         value = JsAsyncSyntax(value = value),
-        resultTypeBuilder = { element, isNullable -> JsPromise.syntax(element, isNullable) },
-        isNullable = false
+        resultTypeBuilder = { JsPromise.syntax(it) },
     )
 }
 
@@ -336,7 +328,6 @@ fun <
     }
     return JsResultLambda5.syntax<Param1, Param2, Param3, Param4, Param5, JsPromise<JsNothing>>(
         value = JsAsyncSyntax(value = value),
-        isNullable = false
     )
 }
 
@@ -380,8 +371,7 @@ inline fun <
     }
     return JsResultLambda5.syntax<Param1, Param2, Param3, Param4, Param5, JsPromise<Result>>(
         value = JsAsyncSyntax(value = value),
-        resultTypeBuilder = { element, isNullable -> JsPromise.syntax(element, isNullable) },
-        isNullable = false
+        resultTypeBuilder = { JsPromise.syntax(it) },
     )
 }
 
@@ -403,7 +393,7 @@ fun jsLambda(
  */
 @OptIn(JsInternalApi::class)
 inline fun <reified Result : JsValue> jsResultLambda(
-    noinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
     noinline definition: JsSyntaxScope.() -> Result,
 ): JsResultLambda0Value<Result> = JsResultLambda0Value(
     resultTypeBuilder = resultTypeBuilder,
@@ -434,7 +424,7 @@ fun <Param1Ref : JsReference<Param1>, Param1 : JsValue> jsLambda(
 @OptIn(JsInternalApi::class)
 inline fun <Param1Ref : JsReference<Param1>, Param1 : JsValue, reified Result : JsValue> jsResultLambda(
     param1: JsDefinition<Param1Ref, Param1>,
-    noinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
     noinline definition: JsSyntaxScope.(Param1Ref) -> Result,
 ): JsResultLambda1Value<Param1Ref, Param1, Result> = JsResultLambda1Value(
     param = param1,
@@ -471,7 +461,7 @@ fun <Param1Ref : JsReference<Param1>, Param1 : JsValue, Param2Ref : JsReference<
 inline fun <Param1Ref : JsReference<Param1>, Param1 : JsValue, Param2Ref : JsReference<Param2>, Param2 : JsValue, reified Result : JsValue> jsResultLambda(
     param1: JsDefinition<Param1Ref, Param1>,
     param2: JsDefinition<Param2Ref, Param2>,
-    noinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
     noinline definition: JsSyntaxScope.(Param1Ref, Param2Ref) -> Result,
 ): JsResultLambda2<Param1, Param2, Result> = JsResultLambda2Value(
     param1 = param1,
@@ -521,7 +511,7 @@ inline fun <
     param1: JsDefinition<Param1Ref, Param1>,
     param2: JsDefinition<Param2Ref, Param2>,
     param3: JsDefinition<Param3Ref, Param3>,
-    noinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
     noinline definition: JsSyntaxScope.(Param1Ref, Param2Ref, Param3Ref) -> Result,
 ): JsResultLambda3<Param1, Param2, Param3, Result> = JsResultLambda3Value(
     param1 = param1,
@@ -579,7 +569,7 @@ inline fun <
     param2: JsDefinition<Param2Ref, Param2>,
     param3: JsDefinition<Param3Ref, Param3>,
     param4: JsDefinition<Param4Ref, Param4>,
-    noinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
     noinline definition: JsSyntaxScope.(Param1Ref, Param2Ref, Param3Ref, Param4Ref) -> Result,
 ): JsResultLambda4<Param1, Param2, Param3, Param4, Result> = JsResultLambda4Value(
     param1 = param1,
@@ -645,7 +635,7 @@ inline fun <
     param3: JsDefinition<Param3Ref, Param3>,
     param4: JsDefinition<Param4Ref, Param4>,
     param5: JsDefinition<Param5Ref, Param5>,
-    noinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
     noinline definition: JsSyntaxScope.(Param1Ref, Param2Ref, Param3Ref, Param4Ref, Param5Ref) -> Result,
 ): JsResultLambda5<Param1, Param2, Param3, Param4, Param5, Result> = JsResultLambda5Value(
     param1 = param1,

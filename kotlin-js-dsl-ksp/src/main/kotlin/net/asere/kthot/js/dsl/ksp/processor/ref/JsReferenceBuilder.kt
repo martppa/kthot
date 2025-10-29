@@ -35,15 +35,14 @@ class JsReferenceBuilder(
         codeBuilder.appendImports(declaration, resolver)
         val className = declaration.jsName + "Ref"
         codeBuilder.append("class $className${declaration.genericTypesDeclarationString()} @JsInternalApi constructor(\n")
-        codeBuilder.append("  name: String? = null,\n")
-        codeBuilder.append("  isNullable: Boolean = false${declaration.getComma(resolver)}\n")
+        codeBuilder.append("  name: String? = null${declaration.getComma(resolver)}\n")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("  override val ${type.getBuilderDefinition(resolver.loadClass(jsElementName))},\n")
         }
         codeBuilder.append(") : ${declaration.jsName}${declaration.genericTypesString}, ")
         codeBuilder.append("${resolver.loadClass(jsValueRefName)}<${declaration.jsName}${declaration.genericTypesString}>(\n")
         codeBuilder.append($$$"   name = name ?: \"$$${declaration.jsName.lowercase()}_${ReferenceId.nextRefInt()}\",\n")
-        codeBuilder.append("   isNullable = isNullable\n")
+        codeBuilder.append("   \n")
         codeBuilder.append(") ${declaration.whereClauseString} {\n")
         codeBuilder.append("   override fun toString(): String = present()\n")
         codeBuilder.append("}\n\n")
@@ -51,11 +50,11 @@ class JsReferenceBuilder(
         codeBuilder.append("@OptIn(JsInternalApi::class)\n")
         codeBuilder.append("${if (declaration.typeParameters.isNotEmpty()) "inline " else ""}fun ${declaration.genericTypesDeclarationString("reified")} ${declaration.jsName}.Companion.ref(\n")
         codeBuilder.append("  name: String? = null,\n")
-        codeBuilder.append("  isNullable: Boolean = false,\n")
+        codeBuilder.append("  \n")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("  noinline ${type.getBuilderDefinition(resolver.loadClass(jsElementName))} = ::provide,\n")
         }
-        codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesString} ${declaration.whereClauseString} = $className(name, isNullable${declaration.getComma(resolver)}")
+        codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesString} ${declaration.whereClauseString} = $className(name${declaration.getComma(resolver)}")
         declaration.getGenericReturnTypes(resolver).joinToString { item -> item.builderName }.let {
             codeBuilder.append(it)
         }
@@ -64,11 +63,11 @@ class JsReferenceBuilder(
         codeBuilder.append("@OptIn(JsInternalApi::class)\n")
         codeBuilder.append("${if (declaration.typeParameters.isNotEmpty()) "inline " else ""}fun ${declaration.genericTypesDeclarationString("reified")} ${declaration.jsName}.Companion.ref(\n")
         codeBuilder.append("  element: JsElement,\n")
-        codeBuilder.append("  isNullable: Boolean = false,\n")
+        codeBuilder.append("  \n")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("  noinline ${type.getBuilderDefinition(resolver.loadClass(jsElementName))} = ::provide,\n")
         }
-        codeBuilder.append($$$"): $$${declaration.jsName}$$${declaration.genericTypesString} $$${declaration.whereClauseString} = $$$className(element.present(), isNullable$$${declaration.getComma(resolver)}")
+        codeBuilder.append($$$"): $$${declaration.jsName}$$${declaration.genericTypesString} $$${declaration.whereClauseString} = $$$className(element.present()$$${declaration.getComma(resolver)}")
         declaration.getGenericReturnTypes(resolver).joinToString { item -> item.builderName }.let {
             codeBuilder.append(it)
         }
@@ -77,13 +76,13 @@ class JsReferenceBuilder(
         codeBuilder.append("@OptIn(JsInternalApi::class)\n")
         codeBuilder.append("${if (declaration.typeParameters.isNotEmpty()) "inline " else ""}fun ${declaration.genericTypesDeclarationString("reified")} ${declaration.jsName}.Companion.def(\n")
         codeBuilder.append("  name: String? = null,\n")
-        codeBuilder.append("  isNullable: Boolean = false,\n")
+        codeBuilder.append("  \n")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("  noinline ${type.getBuilderDefinition(resolver.loadClass(jsElementName))} = ::provide,\n")
         }
         codeBuilder.append("): ${printableDefinition.name}<${declaration.jsName}Ref${declaration.genericTypesString}, ${declaration.jsName}${declaration.genericTypesString}>\n")
         codeBuilder.append("${declaration.whereClauseString} = object : ${printableDefinition.name}<${declaration.jsName}Ref${declaration.genericTypesString}, ${declaration.jsName}${declaration.genericTypesString}>() {\n")
-        codeBuilder.append("  override val reference: ${declaration.jsName}Ref${declaration.genericTypesString} = $className(name, isNullable${declaration.getComma(resolver)}")
+        codeBuilder.append("  override val reference: ${declaration.jsName}Ref${declaration.genericTypesString} = $className(name${declaration.getComma(resolver)}")
         declaration.getGenericReturnTypes(resolver).joinToString { item -> item.builderName }.let {
             codeBuilder.append(it)
         }

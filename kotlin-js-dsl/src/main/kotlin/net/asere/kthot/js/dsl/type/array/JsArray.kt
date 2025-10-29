@@ -29,7 +29,7 @@ interface JsArray<T : JsValue> : JsObject {
     companion object
 
     @JsInternalApi
-    val typeBuilder: (JsElement, isNullable: Boolean) -> T get() = { _, _ -> throw IllegalStateException("JsArray type builder not set!") }
+    val typeBuilder: (JsElement) -> T get() = { throw IllegalStateException("JsArray type builder not set!") }
 
     /**
      * Returns the element at the specified index in the array.
@@ -39,7 +39,7 @@ interface JsArray<T : JsValue> : JsObject {
      * @return A [T] reference to the element at the specified index.
      */
     @OptIn(JsInternalApi::class)
-    fun getByIndex(index: JsNumber): T = typeBuilder(AccessOperation(this, index), false)
+    fun getByIndex(index: JsNumber): T = typeBuilder(AccessOperation(this, index))
 
     /**
      * Returns the number of elements in the array.
@@ -71,7 +71,7 @@ interface JsArray<T : JsValue> : JsObject {
         ChainOperation(
             leftHand = this,
             rightHand = InvocationOperation("pop")
-        ), false
+        )
     )
 
     /**
@@ -136,8 +136,8 @@ interface JsArray<T : JsValue> : JsObject {
         JsSyntax(ChainOperation(this, InvocationOperation("map", lambda)))
 
     @OptIn(JsInternalApi::class)
-    operator fun get(index: JsNumber): T = typeBuilder(AccessOperation(this, index), false)
+    operator fun get(index: JsNumber): T = typeBuilder(AccessOperation(this, index))
 
     @OptIn(JsInternalApi::class)
-    operator fun get(index: Int): T = typeBuilder(AccessOperation(this, index.js), false)
+    operator fun get(index: Int): T = typeBuilder(AccessOperation(this, index.js))
 }

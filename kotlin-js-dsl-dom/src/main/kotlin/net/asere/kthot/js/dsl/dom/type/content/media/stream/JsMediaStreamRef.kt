@@ -9,24 +9,22 @@ import net.asere.kthot.js.dsl.type.reference.ReferenceId
 
 class JsMediaStreamRef @JsInternalApi constructor(
     name: String? = null,
-    isNullable: Boolean = false
 ) : JsValueRef<JsMediaStream>(
     name ?: "media_stream_${ReferenceId.nextRefInt()}",
-    isNullable = isNullable,
 ), JsMediaStream, JsReference<JsMediaStream> {
     override fun toString(): String = present()
 }
 
 @OptIn(JsInternalApi::class)
-fun JsMediaStream.Companion.ref(name: String? = null, isNullable: Boolean = false): JsMediaStreamRef =
-    JsMediaStreamRef(name, isNullable)
+fun JsMediaStream.Companion.ref(name: String? = null): JsMediaStreamRef =
+    JsMediaStreamRef(name)
 
 @OptIn(JsInternalApi::class)
-fun JsMediaStream.Companion.ref(element: JsElement, isNullable: Boolean = false): JsMediaStreamRef =
-    JsMediaStreamRef(element.present(), isNullable)
+fun JsMediaStream.Companion.ref(element: JsElement): JsMediaStreamRef =
+    JsMediaStreamRef(element.present())
 
 @OptIn(JsInternalApi::class)
-fun JsMediaStream.Companion.def(name: String? = null, isNullable: Boolean = false) =
+fun JsMediaStream.Companion.def(name: String? = null) =
     object : JsPrintableDefinition<JsMediaStreamRef, JsMediaStream>() {
-        override val reference: JsMediaStreamRef = JsMediaStreamRef(name, isNullable)
+        override val reference: JsMediaStreamRef = JsMediaStreamRef(name)
     }

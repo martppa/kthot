@@ -10,24 +10,24 @@ import net.asere.kthot.js.dsl.type.reference.ReferenceId
 
 class JsMediaStreamTrackRef @JsInternalApi constructor(
     name: String? = null,
-    isNullable: Boolean = false
+    
 ) : JsValueRef<JsMediaStreamTrack>(
     name ?: "media_stream_track_${ReferenceId.nextRefInt()}",
-    isNullable = isNullable,
+    
 ), JsMediaStreamTrack, JsReference<JsMediaStreamTrack> {
     override fun toString(): String = present()
 }
 
 @OptIn(JsInternalApi::class)
-fun JsMediaStream.Companion.ref(name: String? = null, isNullable: Boolean = false): JsMediaStreamTrackRef =
-    JsMediaStreamTrackRef(name, isNullable)
+fun JsMediaStream.Companion.ref(name: String? = null): JsMediaStreamTrackRef =
+    JsMediaStreamTrackRef(name)
 
 @OptIn(JsInternalApi::class)
-fun JsMediaStream.Companion.ref(element: JsElement, isNullable: Boolean = false): JsMediaStreamTrackRef =
-    JsMediaStreamTrackRef(element.present(), isNullable)
+fun JsMediaStream.Companion.ref(element: JsElement): JsMediaStreamTrackRef =
+    JsMediaStreamTrackRef(element.present())
 
 @OptIn(JsInternalApi::class)
-fun JsMediaStreamTrack.Companion.def(name: String? = null, isNullable: Boolean = false) =
+fun JsMediaStreamTrack.Companion.def(name: String? = null) =
     object : JsPrintableDefinition<JsMediaStreamTrackRef, JsMediaStreamTrack>() {
-        override val reference: JsMediaStreamTrackRef = JsMediaStreamTrackRef(name, isNullable)
+        override val reference: JsMediaStreamTrackRef = JsMediaStreamTrackRef(name)
     }

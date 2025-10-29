@@ -9,24 +9,24 @@ import net.asere.kthot.js.dsl.type.reference.ReferenceId
 
 class JsDomArrayRef @JsInternalApi constructor(
     name: String? = null,
-    isNullable: Boolean = false,
+    
 ) : JsValueRef<JsDomArray>(
     name ?: "dom_collection_object_${ReferenceId.nextRefInt()}",
-    isNullable = isNullable,
+    
 ), JsDomArray, JsReference<JsDomArray> {
     override fun toString(): String = present()
 }
 
 @OptIn(JsInternalApi::class)
-fun JsDomArray.Companion.ref(name: String? = null, isNullable: Boolean = false): JsDomArrayRef =
-    JsDomArrayRef(name, isNullable)
+fun JsDomArray.Companion.ref(name: String? = null): JsDomArrayRef =
+    JsDomArrayRef(name)
 
 @OptIn(JsInternalApi::class)
-fun JsDomArray.Companion.ref(element: JsElement, isNullable: Boolean = false): JsDomArrayRef =
-    JsDomArrayRef(element.present(), isNullable)
+fun JsDomArray.Companion.ref(element: JsElement): JsDomArrayRef =
+    JsDomArrayRef(element.present())
 
 @OptIn(JsInternalApi::class)
-fun JsDomArray.Companion.def(name: String? = null, isNullable: Boolean = false) = object :
+fun JsDomArray.Companion.def(name: String? = null) = object :
     JsPrintableDefinition<JsDomArrayRef, JsDomArray>() {
-    override val reference: JsDomArrayRef = JsDomArrayRef(name, isNullable)
+    override val reference: JsDomArrayRef = JsDomArrayRef(name)
 }

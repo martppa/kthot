@@ -11,35 +11,30 @@ import net.asere.kthot.js.dsl.type.reference.ReferenceId
 import net.asere.kthot.js.dsl.type.value.JsValue
 
 class JsArrayRef<T : JsValue> @JsInternalApi constructor(
-    override val typeBuilder: (JsElement, isNullable: Boolean) -> T,
+    override val typeBuilder: (JsElement) -> T,
     name: String? = null,
-    isNullable: Boolean = false,
 ) : JsArray<T>, JsValueRef<JsArray<T>>(
     name = name ?: "collection_${ReferenceId.nextRefInt()}",
-    isNullable = isNullable,
 ) {
     override fun toString(): String = present()
 }
 
 inline fun <reified T : JsValue> JsArray.Companion.ref(
     name: String? = null,
-    isNullable: Boolean = false,
-    noinline typeBuilder: (JsElement, isNullable: Boolean) -> T = ::provide
+    noinline typeBuilder: (JsElement) -> T = ::provide
 ): JsArrayRef<T> =
-    JsArrayRef(typeBuilder, name, isNullable)
+    JsArrayRef(typeBuilder, name)
 
 inline fun <reified T : JsValue> JsArray.Companion.ref(
     element: JsElement,
-    isNullable: Boolean = false,
-    noinline typeBuilder: (JsElement, isNullable: Boolean) -> T = ::provide
+    noinline typeBuilder: (JsElement) -> T = ::provide
 ): JsArrayRef<T> =
-    JsArrayRef(typeBuilder, element.present(), isNullable)
+    JsArrayRef(typeBuilder, element.present())
 
 inline fun <reified T : JsValue> JsArray.Companion.def(
     name: String? = null,
-    isNullable: Boolean = false,
-    noinline typeBuilder: (JsElement, isNullable: Boolean) -> T = ::provide
+    noinline typeBuilder: (JsElement) -> T = ::provide
 ) = object :
     JsPrintableDefinition<JsArrayRef<T>, JsArray<T>>() {
-    override val reference: JsArrayRef<T> = JsArrayRef(typeBuilder, name, isNullable)
+    override val reference: JsArrayRef<T> = JsArrayRef(typeBuilder, name)
 }

@@ -9,27 +9,27 @@ import net.asere.kthot.js.dsl.type.reference.ReferenceId
 
 open class JsScreenRef @JsInternalApi constructor(
     name: String? = null,
-    isNullable: Boolean = false,
+    
 ) : JsValueRef<JsScreen>(
     name ?: "screen_${ReferenceId.nextRefInt()}",
-    isNullable = isNullable,
+    
 ), JsScreen, JsReference<JsScreen> {
     override fun toString(): String = present()
 }
 
 @OptIn(JsInternalApi::class)
-fun JsScreen.Companion.ref(name: String? = null, isNullable: Boolean = false): JsScreenRef =
-    JsScreenRef(name, isNullable)
+fun JsScreen.Companion.ref(name: String? = null): JsScreenRef =
+    JsScreenRef(name)
 
 @OptIn(JsInternalApi::class)
-fun JsScreen.Companion.ref(element: JsElement, isNullable: Boolean = false): JsScreenRef =
-    JsScreenRef(element.present(), isNullable)
+fun JsScreen.Companion.ref(element: JsElement): JsScreenRef =
+    JsScreenRef(element.present())
 
 @OptIn(JsInternalApi::class)
 fun JsScreen.Companion.def(
     name: String? = null,
-    isNullable: Boolean = false
+    
 ): JsPrintableDefinition<JsScreenRef, JsScreen> =
     object : JsPrintableDefinition<JsScreenRef, JsScreen>() {
-        override val reference: JsScreenRef = JsScreenRef(name = name, isNullable)
+        override val reference: JsScreenRef = JsScreenRef(name = name)
     }

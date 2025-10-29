@@ -7,21 +7,18 @@ import net.asere.kthot.js.dsl.type.reference.ReferenceId
 
 class JsLambda0Ref internal constructor(
     name: String,
-    isNullable: Boolean = false
-) : JsLambdaRef<JsLambda0>(name, isNullable), JsLambda0
+) : JsLambdaRef<JsLambda0>(name), JsLambda0
 
 fun JsLambda0.Companion.ref(
     name: String = "lambda_${ReferenceId.nextRefInt()}",
-    isNullable: Boolean = false
-): JsLambda0 = JsLambda0Ref(name, isNullable)
+): JsLambda0 = JsLambda0Ref(name)
 
 fun JsLambda0.Companion.ref(
     element: JsElement,
-    isNullable: Boolean = false
-): JsLambda0 = JsLambda0Ref(element.present(), isNullable)
+): JsLambda0 = JsLambda0Ref(element.present())
 
 fun JsLambda0.Companion.def(
-    name: String = "lambda_${ReferenceId.nextRefInt()}", isNullable: Boolean = false
+    name: String = "lambda_${ReferenceId.nextRefInt()}",
 ) = object : JsPrintableDefinition<JsLambda0Ref, JsLambda0>() {
-    override val reference: JsLambda0Ref = JsLambda0Ref(name, isNullable)
+    override val reference: JsLambda0Ref = JsLambda0Ref(name)
 }

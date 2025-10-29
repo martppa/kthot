@@ -12,73 +12,59 @@ import net.asere.kthot.js.dsl.type.value.JsValue
 
 class JsPromiseRef<T : JsValue> @JsInternalApi constructor(
     name: String? = null,
-    isNullable: Boolean = false,
-    override val typeBuilder: (JsElement, Boolean) -> T
+    override val typeBuilder: (JsElement) -> T
 ) : JsPromise<T>, JsValueRef<JsPromise<T>>(
     name = name ?: "promise_${ReferenceId.nextRefInt()}",
-    isNullable = isNullable,
 ) {
     override fun toString(): String = present()
 }
 
 fun <T : JsValue> JsPromise.Companion.ref(
     name: String? = null,
-    isNullable: Boolean = false,
-    typeBuilder: (JsElement, Boolean) -> T
+    typeBuilder: (JsElement) -> T
 ): JsPromise<T> = JsPromiseRef(
     name = name,
-    isNullable = isNullable,
     typeBuilder = typeBuilder
 )
 
 inline fun <reified T : JsValue> JsPromise.Companion.ref(
     name: String? = null,
-    isNullable: Boolean = false
 ): JsPromise<T> = JsPromiseRef(
     name = name,
-    isNullable = isNullable,
     typeBuilder = ::provide
 )
 
 fun <T : JsValue> JsPromise.Companion.ref(
     element: JsElement,
-    isNullable: Boolean = false,
-    typeBuilder: (JsElement, Boolean) -> T
+    typeBuilder: (JsElement) -> T
 ): JsPromise<T> = JsPromiseRef(
     name = "$element",
-    isNullable = isNullable,
     typeBuilder = typeBuilder
 )
 
 inline fun <reified T : JsValue> JsPromise.Companion.ref(
     element: JsElement,
-    isNullable: Boolean = false,
 ): JsPromise<T> = JsPromiseRef(
     name = "$element",
-    isNullable = isNullable,
     typeBuilder = ::provide
 )
 
 
 fun <T : JsValue> JsPromise.Companion.def(
     name: String? = null,
-    isNullable: Boolean = false,
-    typeBuilder: (JsElement, Boolean) -> T
+    typeBuilder: (JsElement) -> T
 ) = object : JsPrintableDefinition<JsPromiseRef<T>, JsPromise<T>>() {
     override val reference: JsPromiseRef<T> = JsPromiseRef(
         name = name,
-        isNullable = isNullable,
         typeBuilder = typeBuilder
     )
 }
 
 inline fun <reified T : JsValue> JsPromise.Companion.def(
     name: String? = null,
-    isNullable: Boolean = false
 ) = object : JsPrintableDefinition<JsPromiseRef<T>, JsPromise<T>>() {
     override val reference: JsPromiseRef<T> = JsPromiseRef(
         name = name,
-        isNullable = isNullable,
         typeBuilder = ::provide
     )
 }

@@ -25,5 +25,5 @@ class JsAsyncFunction0Ref(
      * ```
      * @return A [JsPromise] object representing the JavaScript function call.
      */
-    operator fun invoke(): JsPromise<JsNothing> = JsPromise.syntax(InvocationOperation(this), isNullable = false)
+    operator fun invoke(): JsPromise<JsNothing> = JsPromise.syntax(InvocationOperation(this))
 }

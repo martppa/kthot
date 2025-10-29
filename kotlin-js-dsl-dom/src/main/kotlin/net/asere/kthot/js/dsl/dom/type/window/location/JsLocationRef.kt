@@ -9,24 +9,24 @@ import net.asere.kthot.js.dsl.type.reference.ReferenceId
 
 class JsLocationRef @JsInternalApi constructor(
     name: String? = null,
-    isNullable: Boolean = false
+    
 ) : JsValueRef<JsLocation>(
     name ?: "location_${ReferenceId.nextRefInt()}",
-    isNullable = isNullable,
+    
 ), JsLocation, JsReference<JsLocation> {
     override fun toString(): String = present()
 }
 
 @OptIn(JsInternalApi::class)
-fun JsLocation.Companion.ref(name: String? = null, isNullable: Boolean = false): JsLocationRef =
-    JsLocationRef(name, isNullable)
+fun JsLocation.Companion.ref(name: String? = null): JsLocationRef =
+    JsLocationRef(name)
 
 @OptIn(JsInternalApi::class)
-fun JsLocation.Companion.ref(element: JsElement, isNullable: Boolean = false): JsLocationRef =
-    JsLocationRef(element.present(), isNullable)
+fun JsLocation.Companion.ref(element: JsElement): JsLocationRef =
+    JsLocationRef(element.present())
 
 @OptIn(JsInternalApi::class)
-fun JsLocation.Companion.def(name: String? = null, isNullable: Boolean = false) =
+fun JsLocation.Companion.def(name: String? = null) =
     object : JsPrintableDefinition<JsLocationRef, JsLocation>() {
-        override val reference: JsLocationRef = JsLocationRef(name, isNullable)
+        override val reference: JsLocationRef = JsLocationRef(name)
     }

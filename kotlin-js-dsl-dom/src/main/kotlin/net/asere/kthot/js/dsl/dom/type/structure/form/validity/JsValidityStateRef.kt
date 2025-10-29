@@ -9,24 +9,24 @@ import net.asere.kthot.js.dsl.type.reference.ReferenceId
 
 class JsValidityStateRef @JsInternalApi constructor(
     name: String? = null,
-    isNullable: Boolean = false,
+    
 ) : JsValueRef<JsValidityState>(
     name ?: "validitystate_${ReferenceId.nextRefInt()}",
-    isNullable = isNullable,
+    
 ), JsValidityState, JsReference<JsValidityState> {
     override fun toString(): String = present()
 }
 
 @OptIn(JsInternalApi::class)
-fun JsValidityState.Companion.ref(name: String? = null, isNullable: Boolean = false): JsValidityStateRef =
-    JsValidityStateRef(name, isNullable)
+fun JsValidityState.Companion.ref(name: String? = null): JsValidityStateRef =
+    JsValidityStateRef(name)
 
 @OptIn(JsInternalApi::class)
-fun JsValidityState.Companion.ref(element: JsElement, isNullable: Boolean = false): JsValidityStateRef =
-    JsValidityStateRef(element.present(), isNullable)
+fun JsValidityState.Companion.ref(element: JsElement): JsValidityStateRef =
+    JsValidityStateRef(element.present())
 
 @OptIn(JsInternalApi::class)
-fun JsValidityState.Companion.def(name: String? = null, isNullable: Boolean = false) =
+fun JsValidityState.Companion.def(name: String? = null) =
     object : JsPrintableDefinition<JsValidityStateRef, JsValidityState>() {
-        override val reference: JsValidityStateRef = JsValidityStateRef(name = name, isNullable)
+        override val reference: JsValidityStateRef = JsValidityStateRef(name = name)
     }

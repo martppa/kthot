@@ -10,12 +10,10 @@ import net.asere.kthot.js.dsl.type.value.JsValue
 @OptIn(JsInternalApi::class)
 class JsArraySyntax<T : JsValue> @JsInternalApi constructor(
     value: String,
-    isNullable: Boolean,
-    override val typeBuilder: (JsElement, isNullable: Boolean) -> T,
-) : JsReferenceSyntax<JsArray<T>>(value, isNullable), JsArray<T> {
-    @JsInternalApi constructor(typeBuilder: (JsElement, Boolean) -> T, value: JsElement, isNullable: Boolean) : this(
+    override val typeBuilder: (JsElement) -> T,
+) : JsReferenceSyntax<JsArray<T>>(value), JsArray<T> {
+    @JsInternalApi constructor(typeBuilder: (JsElement) -> T, value: JsElement) : this(
         value = "$value",
-        isNullable = isNullable,
         typeBuilder = typeBuilder
     )
 }
@@ -23,25 +21,21 @@ class JsArraySyntax<T : JsValue> @JsInternalApi constructor(
 @OptIn(JsInternalApi::class)
 inline fun <reified T : JsValue> JsArray.Companion.syntax(
     value: String,
-    isNullable: Boolean = false,
-): JsArray<T> = JsArraySyntax(value = value, isNullable = isNullable, typeBuilder = ::provide)
+): JsArray<T> = JsArraySyntax(value = value, typeBuilder = ::provide)
 
 @OptIn(JsInternalApi::class)
 fun <T : JsValue> JsArray.Companion.syntax(
     value: String,
-    isNullable: Boolean = false,
-    typeBuilder: (JsElement, isNullable: Boolean) -> T,
-): JsArray<T> = JsArraySyntax(value = value, isNullable = isNullable, typeBuilder = typeBuilder)
+    typeBuilder: (JsElement) -> T,
+): JsArray<T> = JsArraySyntax(value = value, typeBuilder = typeBuilder)
 
 @OptIn(JsInternalApi::class)
 inline fun <reified T : JsValue> JsArray.Companion.syntax(
     value: JsElement,
-    isNullable: Boolean = false,
-): JsArray<T> = JsArraySyntax(value = value, isNullable = isNullable, typeBuilder = ::provide)
+): JsArray<T> = JsArraySyntax(value = value, typeBuilder = ::provide)
 
 @OptIn(JsInternalApi::class)
 fun <T : JsValue> JsArray.Companion.syntax(
     value: JsElement,
-    isNullable: Boolean = false,
-    typeBuilder: (JsElement, isNullable: Boolean) -> T,
-): JsArray<T> = JsArraySyntax(value = value, isNullable = isNullable, typeBuilder = typeBuilder)
+    typeBuilder: (JsElement) -> T,
+): JsArray<T> = JsArraySyntax(value = value, typeBuilder = typeBuilder)

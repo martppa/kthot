@@ -9,24 +9,24 @@ import net.asere.kthot.js.dsl.type.reference.ReferenceId
 
 open class JsDomObjectRef @JsInternalApi constructor(
     name: String? = null,
-    isNullable: Boolean = false,
+    
 ) : JsValueRef<JsDomObject>(
     name ?: "dom_object_${ReferenceId.nextRefInt()}",
-    isNullable = isNullable,
+    
 ), JsDomObject, JsReference<JsDomObject> {
     override fun toString(): String = present()
 }
 
 @OptIn(JsInternalApi::class)
-fun JsDomObject.Companion.ref(name: String? = null, isNullable: Boolean = false): JsDomObjectRef =
-    JsDomObjectRef(name, isNullable)
+fun JsDomObject.Companion.ref(name: String? = null): JsDomObjectRef =
+    JsDomObjectRef(name)
 
 @OptIn(JsInternalApi::class)
-fun JsDomObject.Companion.ref(element: JsElement, isNullable: Boolean = false): JsDomObjectRef =
-    JsDomObjectRef(element.present(), isNullable)
+fun JsDomObject.Companion.ref(element: JsElement): JsDomObjectRef =
+    JsDomObjectRef(element.present())
 
 @OptIn(JsInternalApi::class)
-fun JsDomObject.Companion.def(name: String? = null, isNullable: Boolean = false) =
+fun JsDomObject.Companion.def(name: String? = null) =
     object : JsPrintableDefinition<JsDomObjectRef, JsDomObject>() {
-        override val reference: JsDomObjectRef = JsDomObjectRef(name = name, isNullable)
+        override val reference: JsDomObjectRef = JsDomObjectRef(name = name)
     }

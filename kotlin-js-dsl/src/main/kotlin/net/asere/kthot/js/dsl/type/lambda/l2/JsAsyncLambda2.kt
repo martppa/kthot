@@ -10,25 +10,19 @@ import net.asere.kthot.js.dsl.type.value.JsValue
 
 inline fun <Param1 : JsValue, Param2 : JsValue, reified Result : JsValue> JsResultLambda2.Companion.asyncRef(
     name: String = "lambda_${ReferenceId.nextRefInt()}",
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
-    isNullable: Boolean = false,
-    isResultNullable: Boolean = false,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
 ): JsResultLambda2<Param1, Param2, JsPromise<Result>> = JsResultLambda2Ref(
     name = name,
-    resultTypeBuilder = { element -> JsPromise.syntax(resultTypeBuilder(element, isResultNullable)) },
-    isNullable = isNullable
+    resultTypeBuilder = { element -> JsPromise.syntax(resultTypeBuilder(element)) },
 )
 
 inline fun <Param1 : JsValue, Param2 : JsValue, reified Result : JsValue> JsResultLambda2.Companion.asyncDef(
     name: String = "lambda_${ReferenceId.nextRefInt()}",
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
-    isNullable: Boolean = false,
-    isResultNullable: Boolean = false,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
 ) = object :
     JsPrintableDefinition<JsResultLambda2Ref<Param1, Param2, JsPromise<Result>>, JsResultLambda2<Param1, Param2, JsPromise<Result>>>() {
     override val reference: JsResultLambda2Ref<Param1, Param2, JsPromise<Result>> = JsResultLambda2Ref(
         name = name,
-        resultTypeBuilder = { element -> JsPromise.syntax(resultTypeBuilder(element, isResultNullable)) },
-        isNullable = isNullable
+        resultTypeBuilder = { element -> JsPromise.syntax(resultTypeBuilder(element)) },
     )
 }

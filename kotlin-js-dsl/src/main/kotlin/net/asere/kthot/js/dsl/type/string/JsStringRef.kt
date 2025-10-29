@@ -8,10 +8,8 @@ import net.asere.kthot.js.dsl.type.reference.ReferenceId
 
 class JsStringRef @JsInternalApi constructor(
     name: String? = null,
-    isNullable: Boolean = false
 ) : JsString, JsValueRef<JsString>(
     name = name ?: "string_${ReferenceId.nextRefInt()}",
-    isNullable = isNullable,
 ) {
     override fun toString(): String = present()
 
@@ -19,15 +17,15 @@ class JsStringRef @JsInternalApi constructor(
 }
 
 @OptIn(JsInternalApi::class)
-fun JsString.Companion.ref(name: String? = null, isNullable: Boolean = false): JsStringRef =
-    JsStringRef(name, isNullable)
+fun JsString.Companion.ref(name: String? = null): JsStringRef =
+    JsStringRef(name)
 
 @OptIn(JsInternalApi::class)
-fun JsString.Companion.ref(element: JsElement, isNullable: Boolean = false): JsStringRef =
-    JsStringRef(element.present(), isNullable)
+fun JsString.Companion.ref(element: JsElement): JsStringRef =
+    JsStringRef(element.present())
 
 @OptIn(JsInternalApi::class)
-fun JsString.Companion.def(name: String? = null, isNullable: Boolean = false) =
+fun JsString.Companion.def(name: String? = null) =
     object : JsPrintableDefinition<JsStringRef, JsString>() {
-        override val reference: JsStringRef = JsStringRef(name, isNullable)
+        override val reference: JsStringRef = JsStringRef(name)
     }

@@ -7,13 +7,13 @@ import net.asere.kthot.js.dsl.type.JsElement
 /**
  * A [JsSyntax] implementation specifically for [JsParagraph].
  */
-class JsParagraphSyntax internal constructor(value: String, isNullable: Boolean) :
-    JsReferenceSyntax<JsParagraph>(value, isNullable), JsParagraph {
-    internal constructor(value: JsElement, isNullable: Boolean) : this("$value", isNullable)
+class JsParagraphSyntax internal constructor(value: String) :
+    JsReferenceSyntax<JsParagraph>(value), JsParagraph {
+    internal constructor(value: JsElement) : this("$value")
 }
 
-fun JsParagraph.Companion.syntax(value: String, isNullable: Boolean = false): JsParagraph =
-    JsParagraphSyntax(value, isNullable)
+fun JsParagraph.Companion.syntax(value: String): JsParagraph =
+    JsParagraphSyntax(value)
 
-fun JsParagraph.Companion.syntax(value: JsElement, isNullable: Boolean = false): JsParagraph =
-    JsParagraphSyntax(value, isNullable)
+fun JsParagraph.Companion.syntax(value: JsElement): JsParagraph =
+    JsParagraphSyntax(value)

@@ -157,7 +157,7 @@ abstract class JsInterfaceBuilder(
                         resolver.loadClass(
                             jsAccessOperationName
                         )
-                    }(this, \"$propertyName\"), ${property.type.isNullable()})\n"
+                    }(this, \"$propertyName\"))\n"
                 )
             } else {
                 append("  val $propertyName: $propertyDefinitionName get() = ${property.type.resolve().declaration.basicJsName}.ref${property.type.resolve().declaration.genericTypesString}(${jsChainOperationDeclaration.name}(this, \"$propertyName\"))\n")
@@ -176,7 +176,7 @@ abstract class JsInterfaceBuilder(
                             function.returnType?.resolve()?.builderName}(${
                                 resolver.loadClass(jsAccessOperationName)}(this, ${
                                     jsInvocationOperationDeclaration.name}(\"$functionName\", ${
-                                        function.parameters.listString()})), ${function.returnType.isNullable()})")
+                                        function.parameters.listString()})))")
             } else if (function.returnType?.resolve().hasArgumentsTypes()) {
                 val builderParameters = function.returnType!!.resolve().getArgumentsTypes()
                 append("  fun $functionName(${

@@ -81,18 +81,11 @@ fun JsScope.Function(
 @JsDsl
 inline fun <reified Result : JsValue> JsScope.ResultFunction(
     name: String = "function_${ReferenceId.nextRefInt()}",
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
     noinline definition: JsSyntaxScope.() -> Result
 ) = +JsResultFunction0(
     name = name,
-    resultTypeBuilder = { syntax ->
-        resultTypeBuilder(
-            syntax,
-            with(JsSyntaxScope().run { definition() }) {
-                this is JsReference<*> && this.isNullable
-            }
-        )
-    },
+    resultTypeBuilder = resultTypeBuilder,
     definition = definition
 )
 
@@ -154,20 +147,11 @@ fun <Param1Ref: JsReference<Param1>, Param1 : JsValue> JsScope.Function(
 inline fun <Param1Ref: JsReference<Param1>, reified Param1 : JsValue, reified Result : JsValue> JsScope.ResultFunction(
     name: String = "function_${ReferenceId.nextRefInt()}",
     param1: JsDefinition<Param1Ref, Param1>,
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
     noinline definition: JsSyntaxScope.(Param1) -> Result
 ) = +JsResultFunction1(
     name = name,
-    resultTypeBuilder = { syntax, _ ->
-        val param1Builder: (JsElement, Boolean) -> Param1 = ::provide
-        val param1: Param1 = param1Builder(JsEmptySyntax, false)
-        resultTypeBuilder(
-            syntax,
-            with(JsSyntaxScope().run { definition(param1) }) {
-                this is JsReference<*> && this.isNullable
-            }
-        )
-    },
+    resultTypeBuilder = resultTypeBuilder,
     param1 = param1,
     definition = definition
 )
@@ -239,24 +223,13 @@ inline fun <Param1Ref: JsReference<Param1>, reified Param1 : JsValue, Param2Ref:
     name: String = "function_${ReferenceId.nextRefInt()}",
     param1: JsDefinition<Param1Ref, Param1>,
     param2: JsDefinition<Param2Ref, Param2>,
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
     noinline definition: JsSyntaxScope.(
         Param1, Param2
     ) -> Result
 ) = +JsResultFunction2(
     name = name,
-    resultTypeBuilder = { syntax ->
-        val param1Builder: (JsElement, Boolean) -> Param1 = ::provide
-        val param1: Param1 = param1Builder(JsEmptySyntax, false)
-        val param2Builder: (JsElement, Boolean) -> Param2 = ::provide
-        val param2: Param2 = param2Builder(JsEmptySyntax, false)
-        resultTypeBuilder(
-            syntax,
-            with(JsSyntaxScope().run { definition(param1, param2) }) {
-                this is JsReference<*> && this.isNullable
-            }
-        )
-    },
+    resultTypeBuilder = resultTypeBuilder,
     param1 = param1,
     param2 = param2,
     definition = definition
@@ -348,24 +321,11 @@ inline fun <
     param1: JsDefinition<Param1Ref, Param1>,
     param2: JsDefinition<Param2Ref, Param2>,
     param3: JsDefinition<Param3Ref, Param3>,
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
     noinline definition: JsSyntaxScope.(Param1, Param2, Param3) -> Result
 ) = +JsResultFunction3(
     name = name,
-    resultTypeBuilder = { syntax ->
-        val param1Builder: (JsElement, Boolean) -> Param1 = ::provide
-        val param2Builder: (JsElement, Boolean) -> Param2 = ::provide
-        val param3Builder: (JsElement, Boolean) -> Param3 = ::provide
-        val param1: Param1 = param1Builder(JsEmptySyntax, false)
-        val param2: Param2 = param2Builder(JsEmptySyntax, false)
-        val param3: Param3 = param3Builder(JsEmptySyntax, false)
-        resultTypeBuilder(
-            syntax,
-            with(JsSyntaxScope().run { definition(param1, param2, param3) }) {
-                this is JsReference<*> && this.isNullable
-            }
-        )
-    },
+    resultTypeBuilder = resultTypeBuilder,
     param1 = param1,
     param2 = param2,
     param3 = param3,
@@ -470,26 +430,11 @@ inline fun <
     param2: JsDefinition<Param2Ref, Param2>,
     param3: JsDefinition<Param3Ref, Param3>,
     param4: JsDefinition<Param4Ref, Param4>,
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
     noinline definition: JsSyntaxScope.(Param1, Param2, Param3, Param4) -> Result
 ) = +JsResultFunction4(
     name = name,
-    resultTypeBuilder = { syntax ->
-        val param1Builder: (JsElement, Boolean) -> Param1 = ::provide
-        val param2Builder: (JsElement, Boolean) -> Param2 = ::provide
-        val param3Builder: (JsElement, Boolean) -> Param3 = ::provide
-        val param4Builder: (JsElement, Boolean) -> Param4 = ::provide
-        val param1: Param1 = param1Builder(JsEmptySyntax, false)
-        val param2: Param2 = param2Builder(JsEmptySyntax, false)
-        val param3: Param3 = param3Builder(JsEmptySyntax, false)
-        val param4: Param4 = param4Builder(JsEmptySyntax, false)
-        resultTypeBuilder(
-            syntax,
-            with(JsSyntaxScope().run { definition(param1, param2, param3, param4) }) {
-                this is JsReference<*> && this.isNullable
-            }
-        )
-    },
+    resultTypeBuilder = resultTypeBuilder,
     param1 = param1,
     param2 = param2,
     param3 = param3,
@@ -606,28 +551,11 @@ inline fun <
     param3: JsDefinition<Param3Ref, Param3>,
     param4: JsDefinition<Param4Ref, Param4>,
     param5: JsDefinition<Param5Ref, Param5>,
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
     noinline definition: JsSyntaxScope.(Param1, Param2, Param3, Param4, Param5) -> Result
 ) = +JsResultFunction5(
     name = name,
-    resultTypeBuilder = { syntax ->
-        val param1Builder: (JsElement, Boolean) -> Param1 = ::provide
-        val param2Builder: (JsElement, Boolean) -> Param2 = ::provide
-        val param3Builder: (JsElement, Boolean) -> Param3 = ::provide
-        val param4Builder: (JsElement, Boolean) -> Param4 = ::provide
-        val param5Builder: (JsElement, Boolean) -> Param5 = ::provide
-        val param1: Param1 = param1Builder(JsEmptySyntax, false)
-        val param2: Param2 = param2Builder(JsEmptySyntax, false)
-        val param3: Param3 = param3Builder(JsEmptySyntax, false)
-        val param4: Param4 = param4Builder(JsEmptySyntax, false)
-        val param5: Param5 = param5Builder(JsEmptySyntax, false)
-        resultTypeBuilder(
-            syntax,
-            with(JsSyntaxScope().run { definition(param1, param2, param3, param4, param5) }) {
-                this is JsReference<*> && this.isNullable
-            }
-        )
-    },
+    resultTypeBuilder = resultTypeBuilder,
     param1 = param1,
     param2 = param2,
     param3 = param3,
@@ -687,11 +615,11 @@ fun JsScope.AsyncFunction(
 @JsDsl
 inline fun <reified Result : JsValue> JsScope.AsyncResultFunction(
     name: String = "function_${ReferenceId.nextRefInt()}",
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
-    crossinline definition: JsSyntaxScope.() -> Result,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
+    noinline definition: JsSyntaxScope.() -> Result,
 ): JsAsyncResultFunction0Ref<Result> {
     val scope = JsSyntaxScope()
-    val result = scope.run {
+    scope.run {
         ResultFunction<Result>(name) {
             definition()
         }
@@ -699,12 +627,7 @@ inline fun <reified Result : JsValue> JsScope.AsyncResultFunction(
     +JsAsyncSyntax(value = scope)
     return JsAsyncResultFunction0Ref(
         name = name,
-        resultTypeBuilder = { syntax, _ ->
-            resultTypeBuilder(
-                syntax,
-                result.isNullable
-            )
-        },
+        resultTypeBuilder = resultTypeBuilder,
     )
 }
 
@@ -771,11 +694,11 @@ fun <Param1Ref: JsReference<Param1>, Param1 : JsValue> JsScope.AsyncFunction(
 inline fun <Param1Ref: JsReference<Param1>, reified Param1 : JsValue, reified Result : JsValue> JsScope.AsyncResultFunction(
     name: String = "function_${ReferenceId.nextRefInt()}",
     param1: JsDefinition<Param1Ref, Param1>,
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
-    crossinline definition: JsSyntaxScope.(Param1) -> Result,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
+    noinline definition: JsSyntaxScope.(Param1) -> Result,
 ): JsAsyncResultFunction1Ref<Param1, Result> {
     val scope = JsSyntaxScope()
-    val result = scope.run {
+    scope.run {
         ResultFunction(name = name, param1 = param1) {
             definition(this, it)
         }
@@ -783,12 +706,7 @@ inline fun <Param1Ref: JsReference<Param1>, reified Param1 : JsValue, reified Re
     +JsAsyncSyntax(value = scope)
     return JsAsyncResultFunction1Ref(
         name = name,
-        resultTypeBuilder = { syntax, _ ->
-            resultTypeBuilder(
-                syntax,
-                result.isNullable
-            )
-        },
+        resultTypeBuilder = resultTypeBuilder,
     )
 }
 
@@ -864,11 +782,11 @@ inline fun <Param1Ref : JsReference<Param1>, reified Param1 : JsValue, Param2Ref
     name: String = "function_${ReferenceId.nextRefInt()}",
     param1: JsDefinition<Param1Ref, Param1>,
     param2: JsDefinition<Param2Ref, Param2>,
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
-    crossinline definition: JsSyntaxScope.(Param1, Param2) -> Result,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
+    noinline definition: JsSyntaxScope.(Param1, Param2) -> Result,
 ): JsAsyncResultFunction2Ref<Param1, Param2, Result> {
     val scope = JsSyntaxScope()
-    val result = scope.run {
+    scope.run {
         ResultFunction(name = name, param1 = param1, param2 = param2) { p1, p2 ->
             definition(this, p1, p2)
         }
@@ -876,12 +794,7 @@ inline fun <Param1Ref : JsReference<Param1>, reified Param1 : JsValue, Param2Ref
     +JsAsyncSyntax(value = scope)
     return JsAsyncResultFunction2Ref(
         name = name,
-        resultTypeBuilder = { syntax, _ ->
-            resultTypeBuilder(
-                syntax,
-                result.isNullable
-            )
-        },
+        resultTypeBuilder = resultTypeBuilder,
     )
 }
 
@@ -975,11 +888,11 @@ inline fun <
     param1: JsDefinition<Param1Ref, Param1>,
     param2: JsDefinition<Param2Ref, Param2>,
     param3: JsDefinition<Param3Ref, Param3>,
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
-    crossinline definition: JsSyntaxScope.(Param1, Param2, Param3) -> Result,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
+    noinline definition: JsSyntaxScope.(Param1, Param2, Param3) -> Result,
 ): JsAsyncResultFunction3Ref<Param1, Param2, Param3, Result> {
     val scope = JsSyntaxScope()
-    val result = scope.run {
+    scope.run {
         ResultFunction(name = name, param1 = param1, param2 = param2, param3 = param3) { p1, p2, p3 ->
             definition(this, p1, p2, p3)
         }
@@ -987,12 +900,7 @@ inline fun <
     +JsAsyncSyntax(value = scope)
     return JsAsyncResultFunction3Ref(
         name = name,
-        resultTypeBuilder = { syntax, _ ->
-            resultTypeBuilder(
-                syntax,
-                result.isNullable
-            )
-        },
+        resultTypeBuilder = resultTypeBuilder,
     )
 }
 
@@ -1097,11 +1005,11 @@ inline fun <
     param2: JsDefinition<Param2Ref, Param2>,
     param3: JsDefinition<Param3Ref, Param3>,
     param4: JsDefinition<Param4Ref, Param4>,
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
-    crossinline definition: JsSyntaxScope.(Param1, Param2, Param3, Param4) -> Result,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
+    noinline definition: JsSyntaxScope.(Param1, Param2, Param3, Param4) -> Result,
 ): JsAsyncResultFunction4Ref<Param1, Param2, Param3, Param4, Result> {
     val scope = JsSyntaxScope()
-    val result = scope.run {
+    scope.run {
         ResultFunction(name = name, param1 = param1, param2 = param2, param3 = param3, param4 = param4) { p1, p2, p3, p4 ->
             definition(this, p1, p2, p3, p4)
         }
@@ -1109,12 +1017,7 @@ inline fun <
     +JsAsyncSyntax(value = scope)
     return JsAsyncResultFunction4Ref(
         name = name,
-        resultTypeBuilder = { syntax, _ ->
-            resultTypeBuilder(
-                syntax,
-                result.isNullable
-            )
-        },
+        resultTypeBuilder = resultTypeBuilder,
     )
 }
 
@@ -1230,11 +1133,11 @@ inline fun <
     param3: JsDefinition<Param3Ref, Param3>,
     param4: JsDefinition<Param4Ref, Param4>,
     param5: JsDefinition<Param5Ref, Param5>,
-    crossinline resultTypeBuilder: (JsElement, Boolean) -> Result = ::provide,
-    crossinline definition: JsSyntaxScope.(Param1, Param2, Param3, Param4, Param5) -> Result,
+    noinline resultTypeBuilder: (JsElement) -> Result = ::provide,
+    noinline definition: JsSyntaxScope.(Param1, Param2, Param3, Param4, Param5) -> Result,
 ): JsAsyncResultFunction5Ref<Param1, Param2, Param3, Param4, Param5, Result> {
     val scope = JsSyntaxScope()
-    val result = scope.run {
+    scope.run {
         ResultFunction(name = name, param1 = param1, param2 = param2, param3 = param3, param4 = param4, param5 = param5) { p1, p2, p3, p4, p5 ->
             definition(this, p1, p2, p3, p4, p5)
         }
@@ -1242,11 +1145,6 @@ inline fun <
     +JsAsyncSyntax(value = scope)
     return JsAsyncResultFunction5Ref(
         name = name,
-        resultTypeBuilder = { syntax, _ ->
-            resultTypeBuilder(
-                syntax,
-                result.isNullable
-            )
-        },
+        resultTypeBuilder = resultTypeBuilder,
     )
 }

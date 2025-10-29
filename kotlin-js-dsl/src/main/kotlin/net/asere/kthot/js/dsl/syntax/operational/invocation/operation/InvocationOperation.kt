@@ -1,10 +1,8 @@
 package net.asere.kthot.js.dsl.syntax.operational.invocation.operation
 
-import net.asere.kthot.js.dsl.type.isNullable
 import net.asere.kthot.js.dsl.syntax.operational.Operator
 import net.asere.kthot.js.dsl.syntax.operational.ReflexiveOperation
 import net.asere.kthot.js.dsl.syntax.operational.invocation.operator.Invocation
-import net.asere.kthot.js.dsl.syntax.operational.invocation.operator.OptionalInvocation
 import net.asere.kthot.js.dsl.type.obj.JsObject
 import net.asere.kthot.js.dsl.type.obj.syntax
 import net.asere.kthot.js.dsl.type.value.JsValue
@@ -18,6 +16,5 @@ class InvocationOperation(
             : this(JsObject.syntax(leftSideElement), *args)
 
     override val leftSideElement: JsValue = JsObject.syntax(operable)
-    override val rightSideElement: Operator = if (leftSideElement.isNullable())
-        OptionalInvocation(*args) else Invocation(*args)
+    override val rightSideElement: Operator = Invocation(*args)
 }

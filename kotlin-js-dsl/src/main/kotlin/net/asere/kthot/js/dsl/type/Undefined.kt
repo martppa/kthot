@@ -12,4 +12,4 @@ import net.asere.kthot.js.dsl.type.obj.JsObjectSyntax
  * or to formal arguments for which there are no actual arguments.
  */
 @JsDsl
-object Undefined : JsObjectSyntax(value = "undefined", isNullable = false), JsNothing
+object Undefined : JsObjectSyntax(value = "undefined"), JsNothing

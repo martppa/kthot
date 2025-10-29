@@ -45,6 +45,5 @@ class JsAsyncFunction5Ref<
     operator fun invoke(param1: Param1, param2: Param2, param3: Param3, param4: Param4, param5: Param5) =
         JsPromise.syntax<JsNothing>(
             value = InvocationOperation(this, param1, param2, param3, param4, param5),
-            isNullable = false
         )
 }

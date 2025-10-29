@@ -31,7 +31,7 @@ import net.asere.kthot.js.dsl.type.value.JsValue
 interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
 
     @JsInternalApi
-    val typeBuilder: (JsElement, isNullable: Boolean) -> T
+    val typeBuilder: (JsElement) -> T
 
     /**
      * Attaches callbacks for the resolution of the Promise.
@@ -57,7 +57,7 @@ interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
      */
     fun then(onFulfilled: JsScope.(T) -> Unit): JsPromise<T> {
         val scope = JsSyntaxScope()
-        onFulfilled(scope, typeBuilder(JsSyntax("value"), false))
+        onFulfilled(scope, typeBuilder(JsSyntax("value")))
         return JsPromise.syntax(
             value = ChainOperation(
                 this, InvocationOperation(
