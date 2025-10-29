@@ -2,6 +2,9 @@ package net.asere.kthot.js.dsl.ksp.extension
 
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
+import com.google.devtools.ksp.symbol.KSTypeReference
+import net.asere.kthot.js.dsl.ksp.processor.jsAsyncAnnotationName
+import net.asere.kthot.js.dsl.ksp.processor.jsNullableAnnotationName
 
 /**
  * Returns the list of parameters of the function as definition string. For example,
@@ -46,3 +49,10 @@ val KSFunctionDeclaration.whereClauseString: String
         }.filter { it.isNotBlank() }.let { if (it.isEmpty()) "" else "where ${it.joinToString()}" }
         return whereClause
     }
+
+/**
+ * Tells if the reference is async
+ */
+val KSFunctionDeclaration?.isAsync: Boolean get() = this?.annotations?.find {
+    it.annotationType.resolve().declaration.qualifiedName?.asString() == jsAsyncAnnotationName
+} != null

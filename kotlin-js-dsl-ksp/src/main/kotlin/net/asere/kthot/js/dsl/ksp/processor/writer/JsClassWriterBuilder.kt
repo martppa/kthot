@@ -91,7 +91,7 @@ class JsClassWriterBuilder(
             }}, body = instance.constructorBody ?: JsSyntax(\"\"))\n")
         }
         declaration.findJsFunctions().forEach { function ->
-            codeBuilder.append("        addFunction(name = \"${function.name}\", parameters = listOf(${function.parameters.joinToString { param ->
+            codeBuilder.append("        addFunction(isAsync = ${function.isAsync}, name = \"${function.name}\", parameters = listOf(${function.parameters.joinToString { param ->
                 "\"${param.name?.asString() ?: "" }\""
             }}), body = instance.${function.name}(${function.parameters.mapIndexed { index, item ->
                 (item.name?.asString() ?: "p$index").let { name ->

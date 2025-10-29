@@ -35,10 +35,11 @@ abstract class JsClassWriter(
         parameters: List<String>,
         body: JsElement,
         isStatic: Boolean = false,
-        isPrivate: Boolean = false
+        isPrivate: Boolean = false,
+        isAsync: Boolean = false,
     ) {
         codeBuilder.append(
-            "${if (isStatic) "static " else ""}${if (isPrivate) "#" else ""}$name(${
+            "${if (isStatic) "static " else ""}${if (isPrivate) "#" else ""}${if (isAsync) "async " else ""}$name(${
                 parameters.joinToString(
                     ", "
                 )

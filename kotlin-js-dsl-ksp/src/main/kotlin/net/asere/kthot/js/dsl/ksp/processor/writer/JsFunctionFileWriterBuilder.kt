@@ -74,9 +74,9 @@ class JsFunctionFileWriterBuilder(
         codeBuilder.append("        val instance = ${declaration.name}()\n")
         codeBuilder.append("        instance.requirements.forEach { it -> addRequire(it) }\n")
         declaration.findJsFunctions().forEach { function ->
-            codeBuilder.append("        addFunction(name = \"${function.name}\", parameters = listOf(${function.parameters.joinToString { param ->
+            codeBuilder.append("        addFunction(isAsync = ${function.isAsync}, name = \"${function.name}\", parameters = listOf(${function.parameters.joinToString { param ->
                 "\"${param.name?.asString() ?: "" }\""
-            }}), body = ${declaration.jsName}.${function.name}(${function.parameters.mapIndexed { index, item ->
+            }}), body = instance.${function.name}(${function.parameters.mapIndexed { index, item ->
                 (item.name?.asString() ?: "p$index").let { name ->
                     if (item.type.isGenericTypeParameter()) {
                         "           $name = JsObject.syntax(\"$name\", false)\n"

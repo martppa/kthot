@@ -6,6 +6,7 @@ const val jsApiFunctionClassAnnotationName = "net.asere.kthot.js.dsl.ksp.annotat
 const val jsPropertyAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsProperty"
 const val jsFunctionAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsFunction"
 const val jsFunctionFileAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsFunctionFile"
+const val jsAsyncAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsAsync"
 const val jsDslAnnotationName = "net.asere.kthot.js.dsl.tag.JsDsl"
 const val jsConstructorAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsConstructor"
 const val jsImportableAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsImportable"
