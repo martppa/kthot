@@ -5,7 +5,7 @@ A typesafe Kotlin DSL for JavaScript. Write, reuse and interact with Javascript 
 
 ## Motivation
 
-As Kotlin developers and users of [Kotlin Html Dsl](https://kotlinlang.org/docs/typesafe-html-dsl.html) we may want to write JavaScript code while staying in Kotlin. This tool is meant to generate JavaScript code whithin Kotlin. It's designed for scripting and providing support to JavaScript code in frontend. If your goal is to write entire projects in JavaScript using Kotlin, [WASM](https://kotlinlang.org/docs/wasm-overview.html) may be your tool. This DSL is currently under development and it's in experimental stage.
+As Kotlin developers and users of [Kotlin Html Dsl](https://kotlinlang.org/docs/typesafe-html-dsl.html) we may want to write JavaScript code while staying in Kotlin. This tool is meant to generate JavaScript code within Kotlin. It's designed for scripting and providing support to JavaScript code in frontend. If your goal is to write entire projects in JavaScript using Kotlin, [WASM](https://kotlinlang.org/docs/wasm-overview.html) may be your tool. This DSL is currently under development and it's in experimental stage.
 
 ## Usage sample
 
