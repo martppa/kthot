@@ -69,6 +69,7 @@ class JsFunctionFileBuilder(
         imports.add(jsAccessOperationDeclaration.fullName)
         imports.add(jsInternalApiAnnotationDeclaration.fullName)
         imports.add(jsImportableAnnotationDeclaration.fullName)
+        imports.add(jsProvideFunctionName)
         declaration.getAllTypes().forEach {
             imports.add(it.declaration.fullName)
         }
@@ -84,7 +85,7 @@ class JsFunctionFileBuilder(
             if (function.returnType?.resolve() !is KSTypeParameter) {
                 imports.add(function.returnType!!.resolve().declaration.fullName)
                 imports.add(function.returnType!!.resolve().declaration.fullBasicTypeName)
-                function.returnType!!.resolve().getAllTypes().forEach { imports.add(it.declaration.fullName) }
+                function.returnType!!.resolve().getAllTypes().filter { !it.isGenericType }.forEach { imports.add(it.declaration.fullName) }
                 if (!function.returnType.isSubclassOf(jsSyntaxDeclaration)) {
                     imports.add("${function.returnType!!.packageName}.syntax")
                 }
@@ -116,6 +117,7 @@ class JsFunctionFileBuilder(
                     jsInvocationOperationDeclaration.name}(\"$functionName\", ${
                     function.parameters.listString()}))")
             } else if (function.returnType?.resolve().hasArgumentsTypes()) {
+                val builderParameters = function.returnType!!.resolve().getArgumentsTypes()
                 append("  inline fun ${function.getDeclaration(functionName)}(${
                     function.parameters.definitionString()}): ${
                     function.returnType?.resolve()?.definitionName}${function.whereClauseString} = ${
@@ -123,7 +125,11 @@ class JsFunctionFileBuilder(
                     jsInvocationOperationDeclaration.name
                 }(\"$functionName\", ${
                     function.parameters.listString()
-                }))\n")
+                }), ${
+                    builderParameters.joinToString(
+                        ", "
+                    ) { "::provide" }
+                })\n")
             } else {
                 append("  inline fun ${function.getDeclaration(functionName)}(${
                     function.parameters.definitionString()}): ${
@@ -157,7 +163,7 @@ private fun KSFunctionDeclaration.getDeclaration(name: String? = null): String {
     typeParameters.forEach { parameter ->
         val bounds = parameter.bounds.filter { !it.resolve().declaration.isAny() }.toList()
         when (bounds.size) {
-            1 -> genericTypes.add("${parameter.name.asString()} : ${bounds.first().resolve().definitionName}")
+            1 -> genericTypes.add("reified ${parameter.name.asString()} : ${bounds.first().resolve().definitionName}")
             else -> genericTypes.add(parameter.name.asString())
         }
     }

@@ -189,7 +189,7 @@ abstract class JsInterfaceBuilder(
                         function.parameters.listString()})), ${
                     builderParameters.joinToString(
                         ", "
-                    ) { "::provide" }
+                    ) { if (it.isGenericType) it.builderName else "::provide" }
                 })\n")
             } else if (function.returnType?.resolve()?.declaration.isJsElement(resolver)) {
                 append("  fun $functionName(${
