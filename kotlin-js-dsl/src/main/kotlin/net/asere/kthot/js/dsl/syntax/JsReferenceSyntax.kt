@@ -10,7 +10,7 @@ abstract class JsReferenceSyntax<T : JsValue>(
 
     constructor(value: JsElement) : this("$value")
 
-    override val name: String get() = value
+    override val refName: String get() = value
 
     override fun toString(): String = present()
 }

@@ -11,7 +11,7 @@ fun <Param1 : JsValue> JsScope.Async(block: JsScope.() -> JsFunction1Ref<Param1>
     val scope = JsSyntaxScope()
     val ref = block(scope)
     +JsAsyncSyntax(value = scope)
-    return JsAsyncFunction1Ref(name = ref.name)
+    return JsAsyncFunction1Ref(name = ref.refName)
 }
 
 @JsDsl
@@ -21,5 +21,5 @@ fun <Param1 : JsValue, Result : JsValue> JsScope.AsyncResult(
     val scope = JsSyntaxScope()
     val ref = block(scope)
     +JsAsyncSyntax(value = scope)
-    return JsAsyncResultFunction1Ref(name = ref.name, resultTypeBuilder = ref.resultTypeBuilder)
+    return JsAsyncResultFunction1Ref(name = ref.refName, resultTypeBuilder = ref.resultTypeBuilder)
 }
