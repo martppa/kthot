@@ -157,6 +157,7 @@ tasks.register('publishToSonatypeCentral') {
                 }
             } else {
                 println "Skipping repository '${repositoryKey}' because its state is '${repositoryState}' (only 'open' repositories are promoted)."
+                dropFailedRepository(repositoryKey, authEncoded, connectTimeoutMs, readTimeoutMs)
             }
         }
         println "Sonatype Central publishing process completed for all found 'open' repositories."
@@ -171,12 +172,12 @@ def dropFailedRepository(String repositoryKey, String authEncoded, int connectTi
               "stagedRepositoryIds":[
                  "${repositoryKey}"
               ],
-              "description":"Dropping failed staged repository.",
+              "description":"Dropping staged repository.",
               "autoDropAfterRelease": true
            }
         }"""
 
-    println "!! Attempting to DROP FAILED repository '${repositoryKey}' using POST to: ${dropUrl}"
+    println "!! Attempting to DROP repository '${repositoryKey}' using POST to: ${dropUrl}"
 
     try {
         def url = new URL(dropUrl)
