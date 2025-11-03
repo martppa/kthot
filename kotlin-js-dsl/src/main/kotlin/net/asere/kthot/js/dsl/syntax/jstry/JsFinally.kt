@@ -53,7 +53,7 @@ internal class JsFinally(
     private val block: JsScope.() -> Unit
 ) : JsCatchSyntax() {
 
-    override val value: String get() {
+    override val _value_: String get() {
         val scope = JsSyntaxScope()
         block(scope)
         return """

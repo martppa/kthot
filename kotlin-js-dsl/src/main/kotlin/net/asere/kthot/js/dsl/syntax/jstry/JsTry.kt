@@ -12,7 +12,7 @@ internal class JsTry(
     private val block: JsScope.() -> Unit
 ) : JsTrySyntax() {
 
-    override val value: String get() {
+    override val _value_: String get() {
         val scope = JsSyntaxScope()
         block(scope)
         return """

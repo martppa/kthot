@@ -8,7 +8,7 @@ abstract class CompoundOperation : Operation() {
     internal abstract val rightHand: Operable
     internal abstract val operator: Operator
 
-    override val value: String get() {
+    override val _value_: String get() {
         val stringBuilder = StringBuilder()
         stringBuilder.append("$leftHand")
         stringBuilder.append("$operator")

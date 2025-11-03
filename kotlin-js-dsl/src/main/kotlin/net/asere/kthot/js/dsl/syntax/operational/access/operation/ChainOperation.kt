@@ -17,7 +17,7 @@ class ChainOperation(
 
     override val operator: ChainingOperator = Chain
 
-    override val value: String get() {
+    override val _value_: String get() {
         val stringBuilder = StringBuilder()
         stringBuilder.append("${leftHand.groupIfGroupable()}")
         stringBuilder.append("$operator")

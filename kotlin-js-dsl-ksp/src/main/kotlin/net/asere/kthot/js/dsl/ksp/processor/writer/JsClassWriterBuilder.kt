@@ -36,14 +36,14 @@ class JsClassWriterBuilder(
         imports.add("import ${jsObjectClass.fullName}\n")
         imports.add("import ${jsObjectClass.packageName.asString()}.syntax\n")
 
-        declaration.getAllTypes().forEach {
+        declaration.getAllTypes().filter { it.isJsElement(resolver) }.forEach {
             imports.add("import ${it.declaration.fullName}\n")
             if (it.declaration.isImportable)
                 requirements.add("${it.declaration.jsName}.Source")
         }
 
         declaration.findJsConstructors().firstOrNull()?.parameters?.forEach {
-            if (!it.type.isGenericTypeParameter()) {
+            if (!it.type.isGenericTypeParameter() && it.type.resolve().declaration.isJsElement(resolver)) {
                 imports.add("import ${it.type.resolve().declaration.fullName}\n")
                 imports.add("import ${it.type.resolve().declaration.fullBasicTypeName}\n")
                 imports.add("import ${it.type.resolve().declaration.packageName.asString()}.ref\n")
@@ -87,6 +87,9 @@ class JsClassWriterBuilder(
         codeBuilder.append("        addClassHeader(\"${declaration.jsName}\")\n")
         declaration.findJsConstructors().forEach {
             codeBuilder.append("        addConstructor(${it.parameters.joinToString { param -> 
+                val parameterType = param.type.resolve()
+                if (!parameterType.isJsElement(resolver) && !parameterType.isGenericType)
+                    throw IllegalArgumentException("Constructor properties of type '${declaration.jsName}' must be JsElement types.")
                 "\"${param.name?.asString() ?: "" }\""
             }}, body = instance.constructorBody ?: JsSyntax(\"\"))\n")
         }

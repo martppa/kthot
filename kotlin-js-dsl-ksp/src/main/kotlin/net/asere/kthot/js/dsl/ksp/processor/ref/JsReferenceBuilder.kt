@@ -106,7 +106,7 @@ class JsReferenceBuilder(
         imports.add(resolver.loadClass(jsInternalApiAnnotationName).fullName)
         imports.add(jsProvideFunctionName)
 
-        declaration.getAllTypes().forEach {
+        declaration.getAllTypes().filter { it.isJsElement(resolver) }.forEach {
             imports.add(it.declaration.fullName)
         }
         declaration.findJsConstructors().forEach { constructor ->

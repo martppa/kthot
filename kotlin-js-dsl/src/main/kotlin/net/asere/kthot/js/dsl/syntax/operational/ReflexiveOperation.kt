@@ -8,7 +8,7 @@ abstract class ReflexiveOperation : Operation() {
     internal abstract val leftSideElement: JsElement
     internal abstract val rightSideElement: JsElement
 
-    override val value: String get() {
+    override val _value_: String get() {
         val stringBuilder = StringBuilder()
         stringBuilder.append("${leftSideElement.groupIfGroupable()}")
         stringBuilder.append("$rightSideElement")

@@ -3,5 +3,5 @@ package net.asere.kthot.js.dsl.syntax.operational.arithmetical.comparison.operat
 import net.asere.kthot.js.dsl.syntax.operational.arithmetical.operator.ArithmeticalOperator
 
 object Plus : ArithmeticalOperator() {
-    override val value: String = " + "
+    override val _value_: String = " + "
 }

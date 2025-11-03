@@ -3,5 +3,5 @@ package net.asere.kthot.js.dsl.syntax.operational.arithmetical.comparison.operat
 import net.asere.kthot.js.dsl.syntax.operational.arithmetical.operator.ArithmeticalOperator
 
 object Times : ArithmeticalOperator() {
-    override val value: String = " * " // TODO: Implement a dynamic spacing solution
+    override val _value_: String = " * " // TODO: Implement a dynamic spacing solution
 }

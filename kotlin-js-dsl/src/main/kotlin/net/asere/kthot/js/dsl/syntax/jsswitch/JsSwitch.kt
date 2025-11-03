@@ -55,7 +55,7 @@ internal class JsSwitch(
     private val block: JsSwitchScope.() -> Unit
 ) : JsSyntax() {
 
-    override val value: String get() {
+    override val _value_: String get() {
         val scope = JsSwitchScope()
         block(scope)
         return """

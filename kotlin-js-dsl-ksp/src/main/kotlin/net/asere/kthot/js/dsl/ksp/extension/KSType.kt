@@ -1,5 +1,6 @@
 package net.asere.kthot.js.dsl.ksp.extension
 
+import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSDeclaration
 import com.google.devtools.ksp.symbol.KSType
@@ -95,3 +96,5 @@ fun KSType.getBuilderDefinition(argument: KSClassDeclaration) =
 fun KSType.getTypesAsParametersDefinition() = arguments.joinToString { "${it.type?.resolve()?.declaration?.jsName?.replaceFirstChar { char -> char.lowercase() } ?: "p${ReferenceId.nextRefInt()}"} : ${it.type}" }
 
 val KSType.isGenericType: Boolean get() = declaration is KSTypeParameter
+
+fun KSType.isJsElement(resolver: Resolver): Boolean = declaration.isJsElement(resolver)

@@ -7,7 +7,7 @@ class JsStringSyntax internal constructor(value: String) :
     JsReferenceSyntax<JsString>(value), JsString {
     internal constructor(value: JsElement) : this("$value")
 
-    override fun stringify(): String = $$$"${$$${super.refName}}"
+    override fun stringify(): String = $$$"${$$${super._name_}}"
 }
 
 fun JsString.Companion.syntax(value: String): JsString = JsStringSyntax(value)

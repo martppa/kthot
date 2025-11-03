@@ -71,7 +71,7 @@ internal class JsCatch(
     private val block: JsScope.(JsError) -> Unit
 ) : JsCatchSyntax() {
 
-    override val value: String get() {
+    override val _value_: String get() {
         val scope = JsSyntaxScope()
         block(scope, error)
         return """

@@ -5,5 +5,5 @@ import net.asere.kthot.js.dsl.type.value.JsValue
 class Invocation(
     vararg args: JsValue
 ) : InvocationOperator() {
-    override val value: String = "(${args.joinToString(", ")})"
+    override val _value_: String = "(${args.joinToString(", ")})"
 }

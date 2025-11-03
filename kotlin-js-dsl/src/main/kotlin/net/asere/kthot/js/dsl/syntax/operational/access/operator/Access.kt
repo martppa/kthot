@@ -6,5 +6,5 @@ import net.asere.kthot.js.dsl.type.value.JsValue
 class Access(
     arg: JsValue
 ) : InvocationOperator() {
-    override val value: String = "[$arg]"
+    override val _value_: String = "[$arg]"
 }

@@ -8,9 +8,9 @@ open class JsSyntax(
 
     constructor(value: JsElement) : this("$value")
 
-    protected open val value: String = value.orEmpty()
+    protected open val _value_: String = value.orEmpty()
 
-    override fun present(): String = value
+    override fun present(): String = _value_
 
     override fun toString(): String = present()
 

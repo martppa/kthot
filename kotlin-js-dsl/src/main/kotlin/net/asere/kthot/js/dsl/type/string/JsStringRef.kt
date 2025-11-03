@@ -13,7 +13,7 @@ class JsStringRef @JsInternalApi constructor(
 ) {
     override fun toString(): String = present()
 
-    override fun stringify(): String = $$$"${$$${super.refName}}"
+    override fun stringify(): String = $$$"${$$${super._name_}}"
 }
 
 @OptIn(JsInternalApi::class)

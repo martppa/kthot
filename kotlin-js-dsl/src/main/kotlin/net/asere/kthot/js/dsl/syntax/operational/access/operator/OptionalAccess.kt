@@ -6,5 +6,5 @@ import net.asere.kthot.js.dsl.type.value.JsValue
 class OptionalAccess(
     arg: JsValue
 ) : InvocationOperator() {
-    override val value: String = "?.[${Access(arg)}]"
+    override val _value_: String = "?.[${Access(arg)}]"
 }

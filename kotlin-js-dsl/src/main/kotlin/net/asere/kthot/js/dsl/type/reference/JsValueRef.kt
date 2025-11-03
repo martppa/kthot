@@ -6,9 +6,9 @@ open class JsValueRef<T : JsValue>(
     name: String? = null,
 ) : JsReference<T> {
 
-    override val refName: String = name ?: "value_${ReferenceId.nextRefInt()}"
+    override val _name_: String = name ?: "value_${ReferenceId.nextRefInt()}"
 
-    override fun present(): String = refName
+    override fun present(): String = _name_
 
     override fun toString(): String = present()
 }
