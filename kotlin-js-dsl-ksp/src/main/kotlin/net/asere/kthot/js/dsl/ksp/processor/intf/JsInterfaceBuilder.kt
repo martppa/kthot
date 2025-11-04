@@ -80,6 +80,9 @@ abstract class JsInterfaceBuilder(
         imports.add(jsInternalApiAnnotationDeclaration.fullName)
         imports.add(jsImportableAnnotationDeclaration.fullName)
         imports.add(jsProvideFunctionName)
+        declaration.getGenericReturnTypes(resolver).filter { !it.isGenericType }.forEach { type ->
+            imports.add(type.declaration.fullName)
+        }
         if (declaration.getGenericReturnTypes(resolver).isNotEmpty()) {
             imports.add(jsElementDeclaration.fullName)
         }
@@ -161,7 +164,12 @@ abstract class JsInterfaceBuilder(
                     }(this, \"$propertyName\"))\n"
                 )
             } else {
-                append("  val $propertyName: $propertyDefinitionName get() = ${property.type.resolve().declaration.basicJsName}.ref(${jsChainOperationDeclaration.name}(this, \"$propertyName\"))\n")
+                val builderParameters = property.type.resolve().getArgumentsTypes()
+                append("  val $propertyName: $propertyDefinitionName get() = ${property.type.resolve().declaration.basicJsName}.ref(${jsChainOperationDeclaration.name}(this, \"$propertyName\"), ${
+                    builderParameters.joinToString(
+                        ", "
+                    ) { if (it.isGenericType) it.builderName else "::provide" }
+                })\n")
             }
         }
     }
