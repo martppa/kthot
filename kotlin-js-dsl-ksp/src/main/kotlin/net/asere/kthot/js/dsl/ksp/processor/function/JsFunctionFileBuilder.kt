@@ -73,6 +73,9 @@ class JsFunctionFileBuilder(
         declaration.getAllTypes().forEach {
             imports.add(it.declaration.fullName)
         }
+        declaration.getGenericReturnTypes(resolver).filter { !it.isGenericType }.forEach { type ->
+            imports.add(type.declaration.fullName)
+        }
         for (function in declaration.getJsAvailableFunctions(resolver)) {
             function.typeParameters
                 .map { type ->
