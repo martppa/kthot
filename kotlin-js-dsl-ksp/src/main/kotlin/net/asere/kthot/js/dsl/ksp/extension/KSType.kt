@@ -77,11 +77,11 @@ fun KSType.getAllTypes(): Set<KSType> {
  * Creates a name for a generic type builder
  */
 val KSType.builderName: String get() = if (declaration.typeParameters.isEmpty())
-    "${declaration.name.replaceFirstChar { it.lowercase() }}Builder"
+    "_${declaration.name.replaceFirstChar { it.lowercase() }}Builder_"
 else
-    "${getAllTypes().joinToString("") {
+    "_${getAllTypes().joinToString("") {
         it.declaration.jsName
-    }.replaceFirstChar { it.lowercase() }}Builder"
+    }.replaceFirstChar { it.lowercase() }}Builder_"
 
 /**
  * Creates a definition for a generic type builder lambda following a syntax builder pattern.

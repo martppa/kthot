@@ -20,7 +20,7 @@ import net.asere.kthot.js.dsl.type.value.JsValue
 @JsInternalApi
 class JsPromiseValue<T : JsValue>(
     val value: JsSyntax,
-    override val typeBuilder: (JsElement) -> T,
+    override val _typeBuilder_: (JsElement) -> T,
 ) : JsPromise<T>, JsRawValue<JsPromise<T>> {
 
     override fun present(): String = """
@@ -36,7 +36,7 @@ fun <T : JsValue> JsPromise.Companion.value(
 ): JsPromise<T> {
     return JsPromiseValue(
         value = JsSyntax("Promise($lambda)"),
-        typeBuilder = typeBuilder
+        _typeBuilder_ = typeBuilder
     )
 }
 
@@ -45,7 +45,7 @@ inline fun <reified T : JsValue> JsPromise.Companion.value(
 ): JsPromise<T> {
     return JsPromiseValue(
         value = JsSyntax("Promise($lambda)"),
-        typeBuilder = ::provide
+        _typeBuilder_ = ::provide
     )
 }
 
@@ -54,7 +54,7 @@ inline fun <reified T : JsValue> JsPromise.Companion.value(
 ): JsPromiseValue<T> {
     return JsPromiseValue(
         value = JsSyntax("Promise($value)"),
-        typeBuilder = ::provide
+        _typeBuilder_ = ::provide
     )
 }
 

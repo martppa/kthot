@@ -9,10 +9,10 @@ import net.asere.kthot.js.dsl.type.value.JsValue
 @JsInternalApi
 class JsPromiseSyntax<T : JsValue>(
     value: String,
-    override val typeBuilder: (JsElement) -> T
+    override val _typeBuilder_: (JsElement) -> T
 ) : JsReferenceSyntax<JsPromise<T>>(value), JsPromise<T> {
     constructor(value: JsElement, typeBuilder: (JsElement) -> T)
-            : this(value = "$value", typeBuilder = typeBuilder)
+            : this(value = "$value", _typeBuilder_ = typeBuilder)
 }
 
 @OptIn(JsInternalApi::class)
@@ -21,7 +21,7 @@ fun <T : JsValue> JsPromise.Companion.syntax(
     typeBuilder: (JsElement) -> T,
 ): JsPromise<T> = JsPromiseSyntax(
     value = value,
-    typeBuilder = typeBuilder
+    _typeBuilder_ = typeBuilder
 )
 
 @OptIn(JsInternalApi::class)
@@ -38,7 +38,7 @@ inline fun <reified T : JsValue> JsPromise.Companion.syntax(
     value: String,
 ): JsPromise<T> = JsPromiseSyntax(
     value = value,
-    typeBuilder = ::provide
+    _typeBuilder_ = ::provide
 )
 
 @OptIn(JsInternalApi::class)

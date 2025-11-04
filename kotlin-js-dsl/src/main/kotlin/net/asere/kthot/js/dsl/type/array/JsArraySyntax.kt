@@ -10,24 +10,24 @@ import net.asere.kthot.js.dsl.type.value.JsValue
 @OptIn(JsInternalApi::class)
 class JsArraySyntax<T : JsValue> @JsInternalApi constructor(
     value: String,
-    override val typeBuilder: (JsElement) -> T,
+    override val _typeBuilder_: (JsElement) -> T,
 ) : JsReferenceSyntax<JsArray<T>>(value), JsArray<T> {
     @JsInternalApi constructor(typeBuilder: (JsElement) -> T, value: JsElement) : this(
         value = "$value",
-        typeBuilder = typeBuilder
+        _typeBuilder_ = typeBuilder
     )
 }
 
 @OptIn(JsInternalApi::class)
 inline fun <reified T : JsValue> JsArray.Companion.syntax(
     value: String,
-): JsArray<T> = JsArraySyntax(value = value, typeBuilder = ::provide)
+): JsArray<T> = JsArraySyntax(value = value, _typeBuilder_ = ::provide)
 
 @OptIn(JsInternalApi::class)
 fun <T : JsValue> JsArray.Companion.syntax(
     value: String,
     typeBuilder: (JsElement) -> T,
-): JsArray<T> = JsArraySyntax(value = value, typeBuilder = typeBuilder)
+): JsArray<T> = JsArraySyntax(value = value, _typeBuilder_ = typeBuilder)
 
 @OptIn(JsInternalApi::class)
 inline fun <reified T : JsValue> JsArray.Companion.syntax(

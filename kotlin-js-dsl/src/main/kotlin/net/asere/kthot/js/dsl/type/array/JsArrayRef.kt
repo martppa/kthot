@@ -11,8 +11,8 @@ import net.asere.kthot.js.dsl.type.reference.ReferenceId
 import net.asere.kthot.js.dsl.type.value.JsValue
 
 class JsArrayRef<T : JsValue> @JsInternalApi constructor(
-    override val typeBuilder: (JsElement) -> T,
     name: String? = null,
+    override val _typeBuilder_: (JsElement) -> T,
 ) : JsArray<T>, JsValueRef<JsArray<T>>(
     name = name ?: "collection_${ReferenceId.nextRefInt()}",
 ) {
@@ -21,20 +21,30 @@ class JsArrayRef<T : JsValue> @JsInternalApi constructor(
 
 inline fun <reified T : JsValue> JsArray.Companion.ref(
     name: String? = null,
-    noinline typeBuilder: (JsElement) -> T = ::provide
 ): JsArrayRef<T> =
-    JsArrayRef(typeBuilder, name)
+    JsArrayRef(name, ::provide)
 
 inline fun <reified T : JsValue> JsArray.Companion.ref(
     element: JsElement,
-    noinline typeBuilder: (JsElement) -> T = ::provide
 ): JsArrayRef<T> =
-    JsArrayRef(typeBuilder, element.present())
+    JsArrayRef(element.present(), ::provide)
+
+fun <T : JsValue> JsArray.Companion.ref(
+    name: String? = null,
+    typeBuilder: (JsElement) -> T
+): JsArrayRef<T> =
+    JsArrayRef(name, typeBuilder)
+
+fun <T : JsValue> JsArray.Companion.ref(
+    element: JsElement,
+    typeBuilder: (JsElement) -> T
+): JsArrayRef<T> =
+    JsArrayRef(element.present(), typeBuilder)
 
 inline fun <reified T : JsValue> JsArray.Companion.def(
     name: String? = null,
     noinline typeBuilder: (JsElement) -> T = ::provide
 ) = object :
     JsPrintableDefinition<JsArrayRef<T>, JsArray<T>>() {
-    override val reference: JsArrayRef<T> = JsArrayRef(typeBuilder, name)
+    override val reference: JsArrayRef<T> = JsArrayRef(name, typeBuilder)
 }

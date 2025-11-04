@@ -31,7 +31,7 @@ import net.asere.kthot.js.dsl.type.value.JsValue
 interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
 
     @JsInternalApi
-    val typeBuilder: (JsElement) -> T
+    val _typeBuilder_: (JsElement) -> T
 
     /**
      * Attaches callbacks for the resolution of the Promise.
@@ -43,7 +43,7 @@ interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
     fun then(): JsPromise<T> =
         JsPromise.syntax(
             value = ChainOperation(this, InvocationOperation("then")),
-            typeBuilder = typeBuilder
+            typeBuilder = _typeBuilder_
         )
 
     /**
@@ -57,14 +57,14 @@ interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
      */
     fun then(onFulfilled: JsScope.(T) -> Unit): JsPromise<T> {
         val scope = JsSyntaxScope()
-        onFulfilled(scope, typeBuilder(JsSyntax("value")))
+        onFulfilled(scope, _typeBuilder_(JsSyntax("value")))
         return JsPromise.syntax(
             value = ChainOperation(
                 this, InvocationOperation(
-                    leftSideElement = "then", onFulfilled.js(typeBuilder)
+                    leftSideElement = "then", onFulfilled.js(_typeBuilder_)
                 )
             ),
-            typeBuilder = typeBuilder
+            typeBuilder = _typeBuilder_
         )
     }
 
@@ -80,7 +80,7 @@ interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
     fun then(onFulfilled: JsLambda1<T>): JsPromise<T> =
         JsPromise.syntax(
             value = ChainOperation(this, InvocationOperation("then", onFulfilled)),
-            typeBuilder = typeBuilder
+            typeBuilder = _typeBuilder_
         )
 
     /**
@@ -94,7 +94,7 @@ interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
     fun then(onFulfilled: JsLambda0): JsPromise<T> =
         JsPromise.syntax(
             value = ChainOperation(this, InvocationOperation("then", onFulfilled)),
-            typeBuilder = typeBuilder
+            typeBuilder = _typeBuilder_
         )
 
     /**
@@ -111,7 +111,7 @@ interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
     fun then(onFulfilled: JsLambda1<T>, onRejected: JsLambda1<JsError>): JsPromise<T> =
         JsPromise.syntax(
             value = ChainOperation(this, InvocationOperation("then", onFulfilled, onRejected)),
-            typeBuilder = typeBuilder
+            typeBuilder = _typeBuilder_
         )
 
     /**
@@ -127,7 +127,7 @@ interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
     fun then(onFulfilled: JsLambda0, onRejected: JsLambda1<JsError>): JsPromise<T> =
         JsPromise.syntax(
             value = ChainOperation(this, InvocationOperation("then", onFulfilled, onRejected)),
-            typeBuilder = typeBuilder
+            typeBuilder = _typeBuilder_
         )
 
     /**
@@ -142,7 +142,7 @@ interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
     fun then(onFulfilled: JsLambda0, onRejected: JsLambda0): JsPromise<T> =
         JsPromise.syntax(
             value = ChainOperation(this, InvocationOperation("then", onFulfilled, onRejected)),
-            typeBuilder = typeBuilder
+            typeBuilder = _typeBuilder_
         )
 
     /**
@@ -157,7 +157,7 @@ interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
     fun onCatch(onRejected: JsLambda1<JsError>): JsPromise<T> =
         JsPromise.syntax(
             value = ChainOperation(this, InvocationOperation("catch", onRejected)),
-            typeBuilder = typeBuilder
+            typeBuilder = _typeBuilder_
         )
 
     /**
@@ -178,7 +178,7 @@ interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
                     leftSideElement = "catch", onRejected.js
                 )
             ),
-            typeBuilder = typeBuilder
+            typeBuilder = _typeBuilder_
         )
     }
 
@@ -193,7 +193,7 @@ interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
     fun onCatch(onRejected: JsLambda0): JsPromise<T> =
         JsPromise.syntax(
             value = ChainOperation(this, InvocationOperation("catch", onRejected)),
-            typeBuilder = typeBuilder
+            typeBuilder = _typeBuilder_
         )
 
     /**
@@ -207,7 +207,7 @@ interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
     fun doFinally(onFinally: JsLambda0): JsPromise<JsValue> =
         JsPromise.syntax(
             value = ChainOperation(this, InvocationOperation("finally", onFinally)),
-            typeBuilder = typeBuilder
+            typeBuilder = _typeBuilder_
         )
 
     /**
@@ -221,7 +221,7 @@ interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
     fun doFinally(onFinally: JsScope.() -> Unit): JsPromise<JsValue> =
         JsPromise.syntax(
             value = ChainOperation(this, InvocationOperation("finally", onFinally.js)),
-            typeBuilder = typeBuilder
+            typeBuilder = _typeBuilder_
         )
 
     companion object

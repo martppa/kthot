@@ -29,7 +29,7 @@ interface JsArray<T : JsValue> : JsObject {
     companion object
 
     @JsInternalApi
-    val typeBuilder: (JsElement) -> T get() = { throw IllegalStateException("JsArray type builder not set!") }
+    val _typeBuilder_: (JsElement) -> T get() = { throw IllegalStateException("JsArray type builder not set!") }
 
     /**
      * Returns the element at the specified index in the array.
@@ -39,7 +39,7 @@ interface JsArray<T : JsValue> : JsObject {
      * @return A [T] reference to the element at the specified index.
      */
     @OptIn(JsInternalApi::class)
-    fun getByIndex(index: JsNumber): T = typeBuilder(AccessOperation(this, index))
+    fun getByIndex(index: JsNumber): T = _typeBuilder_(AccessOperation(this, index))
 
     /**
      * Returns the number of elements in the array.
@@ -67,7 +67,7 @@ interface JsArray<T : JsValue> : JsObject {
      * @return A [T] reference to the removed element.
      */
     @OptIn(JsInternalApi::class)
-    fun pop(): T = typeBuilder(
+    fun pop(): T = _typeBuilder_(
         ChainOperation(
             leftHand = this,
             rightHand = InvocationOperation("pop")
@@ -111,7 +111,7 @@ interface JsArray<T : JsValue> : JsObject {
      * The function typically receives the current element as its first argument.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun forEach(lambda: JsScope.(T) -> Unit): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("forEach", lambda.js(typeBuilder))))
+    fun forEach(lambda: JsScope.(T) -> Unit): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("forEach", lambda.js(_typeBuilder_))))
 
     /**
      * Creates a new array populated with the results of calling a provided function on every element in the calling array.
@@ -136,8 +136,8 @@ interface JsArray<T : JsValue> : JsObject {
         JsSyntax(ChainOperation(this, InvocationOperation("map", lambda)))
 
     @OptIn(JsInternalApi::class)
-    operator fun get(index: JsNumber): T = typeBuilder(AccessOperation(this, index))
+    operator fun get(index: JsNumber): T = _typeBuilder_(AccessOperation(this, index))
 
     @OptIn(JsInternalApi::class)
-    operator fun get(index: Int): T = typeBuilder(AccessOperation(this, index.js))
+    operator fun get(index: Int): T = _typeBuilder_(AccessOperation(this, index.js))
 }

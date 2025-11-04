@@ -12,7 +12,7 @@ import net.asere.kthot.js.dsl.type.value.JsValue
 
 class JsPromiseRef<T : JsValue> @JsInternalApi constructor(
     name: String? = null,
-    override val typeBuilder: (JsElement) -> T
+    override val _typeBuilder_: (JsElement) -> T
 ) : JsPromise<T>, JsValueRef<JsPromise<T>>(
     name = name ?: "promise_${ReferenceId.nextRefInt()}",
 ) {
@@ -24,14 +24,14 @@ fun <T : JsValue> JsPromise.Companion.ref(
     typeBuilder: (JsElement) -> T
 ): JsPromise<T> = JsPromiseRef(
     name = name,
-    typeBuilder = typeBuilder
+    _typeBuilder_ = typeBuilder
 )
 
 inline fun <reified T : JsValue> JsPromise.Companion.ref(
     name: String? = null,
 ): JsPromise<T> = JsPromiseRef(
     name = name,
-    typeBuilder = ::provide
+    _typeBuilder_ = ::provide
 )
 
 fun <T : JsValue> JsPromise.Companion.ref(
@@ -39,14 +39,14 @@ fun <T : JsValue> JsPromise.Companion.ref(
     typeBuilder: (JsElement) -> T
 ): JsPromise<T> = JsPromiseRef(
     name = "$element",
-    typeBuilder = typeBuilder
+    _typeBuilder_ = typeBuilder
 )
 
 inline fun <reified T : JsValue> JsPromise.Companion.ref(
     element: JsElement,
 ): JsPromise<T> = JsPromiseRef(
     name = "$element",
-    typeBuilder = ::provide
+    _typeBuilder_ = ::provide
 )
 
 
@@ -56,7 +56,7 @@ fun <T : JsValue> JsPromise.Companion.def(
 ) = object : JsPrintableDefinition<JsPromiseRef<T>, JsPromise<T>>() {
     override val reference: JsPromiseRef<T> = JsPromiseRef(
         name = name,
-        typeBuilder = typeBuilder
+        _typeBuilder_ = typeBuilder
     )
 }
 
@@ -65,6 +65,6 @@ inline fun <reified T : JsValue> JsPromise.Companion.def(
 ) = object : JsPrintableDefinition<JsPromiseRef<T>, JsPromise<T>>() {
     override val reference: JsPromiseRef<T> = JsPromiseRef(
         name = name,
-        typeBuilder = ::provide
+        _typeBuilder_ = ::provide
     )
 }
