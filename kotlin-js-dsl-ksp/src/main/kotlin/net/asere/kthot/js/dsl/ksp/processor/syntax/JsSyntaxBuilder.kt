@@ -33,7 +33,13 @@ class JsSyntaxBuilder(
             codeBuilder.append("  override val ${type.getBuilderDefinition(resolver.loadClass(jsElementName))},\n")
         }
         codeBuilder.append(") : ${resolver.loadClass(jsReferenceSyntaxName)}<${declaration.jsName}${declaration.genericTypesNamesString}>(value), ${declaration.jsName}${declaration.genericTypesNamesString}${declaration.whereClauseString} {\n")
-        codeBuilder.append("   @JsInternalApi constructor(value: ${resolver.loadClass(jsElementName).name}${declaration.getComma(resolver)} ")
+        codeBuilder.append(
+            "   @JsInternalApi constructor(value: ${resolver.loadClass(jsElementName).name}${
+                declaration.getComma(
+                    resolver
+                )
+            } "
+        )
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             codeBuilder.append("${type.getBuilderDefinition(resolver.loadClass(jsElementName))},")
         }
@@ -73,15 +79,31 @@ class JsSyntaxBuilder(
             codeBuilder.append(")\n")
 
             codeBuilder.append("\n")
-            declaration.findJsConstructors().firstOrNull()?.let { constructor ->
-                codeBuilder.append("inline fun ${declaration.genericTypesDeclarationString(modifier = "reified")} ${declaration.jsName}.Companion.new(${
-                    constructor.parametersDefinitionBasicString}): ${declaration.jsName}${declaration.genericTypesNamesString} = ${declaration.jsName}.syntax${declaration.genericTypesNamesString}(JsSyntax(\"new ${declaration.jsName}(${constructor.parametersNames.joinToString { "$$it" }})\"))")
+            val constructor = declaration.findJsConstructors().firstOrNull()
+            if (constructor != null) {
+                codeBuilder.append(
+                    "inline fun ${declaration.genericTypesDeclarationString(modifier = "reified")} ${declaration.jsName}.Companion.new(${
+                    constructor.parametersDefinitionBasicString
+                }): ${declaration.jsName}${declaration.genericTypesNamesString} = ${declaration.jsName}.syntax${declaration.genericTypesNamesString}(JsSyntax(\"new ${declaration.jsName}(${constructor.parametersNames.joinToString { "$$it" }})\"))"
+                )
+            } else {
+                codeBuilder.append("inline fun ${declaration.genericTypesDeclarationString(modifier = "reified")} ${declaration.jsName}.Companion.new(): ${declaration.jsName}${declaration.genericTypesNamesString} = ${declaration.jsName}.syntax${declaration.genericTypesNamesString}(JsSyntax(\"new ${declaration.jsName}()\"))")
             }
         } else {
             codeBuilder.append("\n")
-            declaration.findJsConstructors().firstOrNull()?.let { constructor ->
-                codeBuilder.append("fun ${declaration.jsName}.Companion.new(${
-                    constructor.parametersDefinitionBasicString}): ${declaration.jsName} = ${declaration.jsName}.syntax(JsSyntax(\"new ${declaration.jsName}(${constructor.parametersNames.joinToString { "$$it" }})\"))")
+            val constructor = declaration.findJsConstructors().firstOrNull()
+            if (constructor != null) {
+                declaration.findJsConstructors().firstOrNull()?.let { constructor ->
+                    codeBuilder.append(
+                        "fun ${declaration.jsName}.Companion.new(${
+                            constructor.parametersDefinitionBasicString
+                        }): ${declaration.jsName} = ${declaration.jsName}.syntax(JsSyntax(\"new ${declaration.jsName}(${constructor.parametersNames.joinToString { "$$it" }})\"))"
+                    )
+                }
+            } else {
+                codeBuilder.append(
+                    "fun ${declaration.jsName}.Companion.new(): ${declaration.jsName} = ${declaration.jsName}.syntax(JsSyntax(\"new ${declaration.jsName}()\"))"
+                )
             }
         }
 
