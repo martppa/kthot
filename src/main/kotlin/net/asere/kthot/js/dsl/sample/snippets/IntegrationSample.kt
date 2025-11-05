@@ -1,4 +1,4 @@
-package net.asere.kthot.js.dsl
+package net.asere.kthot.js.dsl.sample.snippets
 
 import kotlinx.html.*
 import kotlinx.html.stream.createHTML

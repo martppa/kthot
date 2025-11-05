@@ -1,4 +1,4 @@
-package net.asere.kthot.js.dsl
+package net.asere.kthot.js.dsl.sample.snippets
 
 import net.asere.kthot.js.dsl.log.Log
 import net.asere.kthot.js.dsl.syntax.js
