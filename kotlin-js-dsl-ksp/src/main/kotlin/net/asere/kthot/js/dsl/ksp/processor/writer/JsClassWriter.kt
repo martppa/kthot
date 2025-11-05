@@ -24,7 +24,7 @@ abstract class JsClassWriter(
 
     protected fun addClassHeader(clasName: String, parents: List<String> = emptyList()) {
         codeBuilder.append(
-            "export class $clasName${
+            "class $clasName${
                 if (parents.isNotEmpty()) "extends ${parents.joinToString(", ")}" else ""
             } {\n"
         )
