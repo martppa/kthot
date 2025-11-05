@@ -11,6 +11,7 @@ import net.asere.kthot.js.dsl.ksp.extension.findJsApiClasses
 import net.asere.kthot.js.dsl.ksp.extension.findJsApiFunctionsClasses
 import net.asere.kthot.js.dsl.ksp.extension.findJsClasses
 import net.asere.kthot.js.dsl.ksp.extension.findJsFunctionsFiles
+import net.asere.kthot.js.dsl.ksp.extension.jsName
 import net.asere.kthot.js.dsl.ksp.processor.composite.CodeBuilderComposite
 import net.asere.kthot.js.dsl.ksp.processor.function.JsFunctionFileBuilder
 import net.asere.kthot.js.dsl.ksp.processor.initializer.JsInitializerBuilder
@@ -58,6 +59,7 @@ class JsClassProcessor(
         val classDeclarations = resolver.findJsClasses()
 
         for (declaration in classDeclarations) {
+            println("${declaration.jsName} - declaration")
             if (declaration.validate()) {
                 jsClassBuilder.build(resolver, declaration)
                 initializerBuilder.addType(declaration)
@@ -99,7 +101,13 @@ class JsClassProcessor(
             }
         }
 
-        if (nonProcessedSymbols.isEmpty()) {
+        val noPendingDeclarations = (functionFilesDeclarations
+                + apiFunctionClassDeclarations
+                + apiDeclarations
+                + classDeclarations
+        ).toList().isEmpty()
+
+        if (noPendingDeclarations && nonProcessedSymbols.isEmpty()) {
             initializerBuilder.build(resolver)
         }
 
