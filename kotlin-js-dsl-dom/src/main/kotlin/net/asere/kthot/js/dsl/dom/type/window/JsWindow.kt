@@ -16,6 +16,7 @@ import net.asere.kthot.js.dsl.dom.type.window.Window.setTimeout
 import net.asere.kthot.js.dsl.dom.type.content.document.JsDocument
 import net.asere.kthot.js.dsl.dom.type.content.document.syntax
 import net.asere.kthot.js.dsl.dom.type.data.event.dom.JsDomEvent
+import net.asere.kthot.js.dsl.dom.type.data.event.dom.syntax
 import net.asere.kthot.js.dsl.dom.type.window.history.JsHistory
 import net.asere.kthot.js.dsl.dom.type.window.history.syntax
 import net.asere.kthot.js.dsl.dom.type.window.location.JsLocation
@@ -24,8 +25,11 @@ import net.asere.kthot.js.dsl.dom.type.window.navigator.JsNavigator
 import net.asere.kthot.js.dsl.dom.type.window.navigator.syntax
 import net.asere.kthot.js.dsl.dom.type.window.screen.JsScreen
 import net.asere.kthot.js.dsl.dom.type.window.screen.JsScreenSyntax
+import net.asere.kthot.js.dsl.syntax.JsScope
 import net.asere.kthot.js.dsl.syntax.JsSyntax
+import net.asere.kthot.js.dsl.syntax.js
 import net.asere.kthot.js.dsl.syntax.operational.access.operation.ChainOperation
+import net.asere.kthot.js.dsl.syntax.operational.invocation.operation.InvocationOperation
 import net.asere.kthot.js.dsl.type.bool.JsBoolean
 import net.asere.kthot.js.dsl.type.bool.syntax
 import net.asere.kthot.js.dsl.type.lambda.l0.JsLambda0
@@ -382,6 +386,17 @@ object Window : JsObjectRef("window") {
     fun addEventListener(event: JsString, handler: JsLambda1<JsDomEvent>): JsSyntax =
         JsSyntax(ChainOperation(this, "addEventListener($event, $handler)"))
 
+    fun addEventListener(event: JsString, handler: JsScope.(JsDomEvent) -> Unit): JsSyntax =
+        JsSyntax(
+            ChainOperation(
+                leftHand = this,
+                rightHand = InvocationOperation(
+                    leftSideElement = "addEventListener",
+                    event, handler.js(JsDomEvent::syntax)
+                )
+            )
+        )
+
     /**
      * Attaches an event listener to the window.
      * This is a convenience overload for [addEventListener] that accepts a Kotlin [String] for the event name.
@@ -391,6 +406,9 @@ object Window : JsObjectRef("window") {
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
     fun addEventListener(event: String, handler: JsLambda1<JsDomEvent>): JsSyntax = addEventListener(event.js, handler)
+
+    fun addEventListener(event: String, handler: JsScope.(JsDomEvent) -> Unit): JsSyntax =
+        addEventListener(event.js, handler)
 
     /**
      * Removes an event listener from the window.
