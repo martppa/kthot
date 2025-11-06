@@ -26,7 +26,7 @@ class JsFunctionFileWriterBuilder(
             codeBuilder.append("package $packageName\n\n")
         }
 
-        val classWriter = resolver.loadClass(jsClassWriterName)
+        val classWriter = resolver.loadClass(jsFunctionFileWriterName)
         val jsDslAnnotation = resolver.loadClass(jsDslAnnotationName)
         val jsObjectClass = resolver.loadClass(jsObjectName)
 

@@ -77,6 +77,7 @@ fun KSDeclaration.getGenericReturnTypes(resolver: Resolver): Set<KSType> {
             argument.type?.let { type -> types.add(type.resolve()) }
         }
         argument.type?.resolve()?.arguments?.map {
+            it.type?.resolve()?.let { type -> types.add(type) }
             checkArguments(it)
         }
     }
@@ -103,6 +104,7 @@ fun KSDeclaration.getGenericReturnTypes(resolver: Resolver): Set<KSType> {
                     function.returnType?.resolve()?.let { types.add(it) }
                 } else {
                     val generics = function.returnType?.resolve()?.arguments?.map {
+                        it.type?.resolve()?.let { type -> types.add(type) }
                         checkArguments(it)
                     } ?: listOf()
                     if (generics.isNotEmpty()) {
@@ -114,6 +116,7 @@ fun KSDeclaration.getGenericReturnTypes(resolver: Resolver): Set<KSType> {
     if (this is KSPropertyDeclaration) {
         types.addAll(type.resolve().declaration.getGenericReturnTypes(resolver))
     }
+    println("$jsName -> $types")
     return types
 }
 
