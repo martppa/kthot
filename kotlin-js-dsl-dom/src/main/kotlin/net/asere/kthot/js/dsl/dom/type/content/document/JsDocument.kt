@@ -24,7 +24,7 @@ interface JsDocument : JsDomObject {
     /**
      * Returns a reference to the element by its ID.
      *
-     * In JavaScript, this corresponds to `document.getElementById(id)`.
+     * In JavaScript, this corresponds to `document.getElementById(id)`, but this method will always return a [JsDomObject].
      * @param id The ID of the element to find as a [JsString] object.
      * @return A [JsDomObject] representing the element, or `null` if no element with the specified ID exists.
      */
@@ -73,14 +73,14 @@ interface JsDocument : JsDomObject {
     /**
      * Creates a new HTML element with the specified tag name.
      *
-     * In JavaScript, this corresponds to `document.createElement(tagName)`.
+     * In JavaScript, this corresponds to `document.createElement(tagName)` but this method returns a [JsDomObject].
      * @param tagName The tag name of the element to create (e.g., "div", "span") as a [JsString] object.
      * @return A new [JsDomObject] representing the created element.
      */
-    fun createElement(tagName: JsString): JsDomObject =
+    fun createDomElement(tagName: JsString): JsDomObject =
         JsDomObject.syntax(ChainOperation(this, InvocationOperation("createElement", tagName)))
 
-    fun createElement(tagName: String): JsDomObject = createElement(tagName.js)
+    fun createDomElement(tagName: String): JsDomObject = createDomElement(tagName.js)
 
     /**
      * Creates a new text node with the specified text.
@@ -243,3 +243,14 @@ interface JsDocument : JsDomObject {
 inline fun <reified T : JsDomObject> JsDocument.getElementById(id: JsString): T = provide(ChainOperation(this, InvocationOperation("getElementById", id)))
 
 inline fun <reified T : JsDomObject> JsDocument.getElementById(id: String): T = getElementById(id.js)
+
+/**
+ * Creates a new HTML element with the specified tag name.
+ *
+ * In JavaScript, this corresponds to `document.createElement(tagName)`.
+ * @param tagName The tag name of the element to create (e.g., "div", "span") as a [JsString] object.
+ * @return A new [T] representing the created element.
+ */
+inline fun <reified T : JsDomObject> JsDocument.createElement(id: JsString): T = provide(ChainOperation(this, InvocationOperation("createElement", id)))
+
+inline fun <reified T : JsDomObject> JsDocument.createElement(id: String): T = createElement(id.js)
