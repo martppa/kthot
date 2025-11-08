@@ -5,11 +5,11 @@ import com.google.devtools.ksp.isConstructor
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.*
 import net.asere.kthot.js.dsl.ksp.processor.jsApiAnnotationName
-import net.asere.kthot.js.dsl.ksp.processor.jsApiFunctionClassAnnotationName
+import net.asere.kthot.js.dsl.ksp.processor.jsApiFunctionModuleAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsClassAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsConstructorAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsFunctionAnnotationName
-import net.asere.kthot.js.dsl.ksp.processor.jsFunctionFileAnnotationName
+import net.asere.kthot.js.dsl.ksp.processor.jsFunctionModuleAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsImportableAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsNullableAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsPropertyAnnotationName
@@ -83,8 +83,8 @@ val KSClassDeclaration.jsName: String
         val jsClassAnnotation = annotations.find {
             it.annotationType.resolve().declaration.qualifiedName?.asString() == jsClassAnnotationName ||
                     it.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiAnnotationName ||
-            it.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiFunctionClassAnnotationName ||
-            it.annotationType.resolve().declaration.qualifiedName?.asString() == jsFunctionFileAnnotationName
+            it.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiFunctionModuleAnnotationName ||
+            it.annotationType.resolve().declaration.qualifiedName?.asString() == jsFunctionModuleAnnotationName
         } ?: return name
 
         val nameFromAnnotation =

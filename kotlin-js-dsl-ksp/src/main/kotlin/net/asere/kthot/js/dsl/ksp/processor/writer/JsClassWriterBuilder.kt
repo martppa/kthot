@@ -39,7 +39,7 @@ class JsClassWriterBuilder(
         declaration.getAllTypes().filter { it.isJsElement(resolver) }.forEach {
             imports.add("import ${it.declaration.fullName}\n")
             if (it.declaration.isImportable)
-                requirements.add("${it.declaration.jsName}.Source")
+                requirements.add("${it.declaration.jsName}.Module")
         }
 
         declaration.findJsConstructors().firstOrNull()?.parameters?.forEach {
@@ -48,7 +48,7 @@ class JsClassWriterBuilder(
                 imports.add("import ${it.type.resolve().declaration.fullBasicTypeName}\n")
                 imports.add("import ${it.type.resolve().declaration.packageName.asString()}.ref\n")
                 if (it.type.resolve().declaration.isImportable)
-                    requirements.add("${it.type.resolve().declaration.jsName}.Source")
+                    requirements.add("${it.type.resolve().declaration.jsName}.Module")
             }
         }
         declaration.findJsFunctions().map { it.parameters }.flatten().forEach {
@@ -57,7 +57,7 @@ class JsClassWriterBuilder(
                 imports.add("import ${it.type.resolve().declaration.fullBasicTypeName}\n")
                 imports.add("import ${it.type.resolve().declaration.packageName.asString()}.ref\n")
                 if (it is KSDeclaration && it.isImportable)
-                    requirements.add("${it.jsName}.Source")
+                    requirements.add("${it.jsName}.Module")
             }
         }
         imports.add("import $jsProvideFunctionName\n")
@@ -83,7 +83,7 @@ class JsClassWriterBuilder(
                 }
             }?.joinToString { it } ?: ""
         })\n")
-        codeBuilder.append("        instance.requirements.forEach { it -> addRequire(it) }\n")
+        codeBuilder.append("        instance.requirements.forEach { it -> addImport(it) }\n")
         codeBuilder.append("        addClassHeader(\"${declaration.jsName}\")\n")
         declaration.findJsConstructors().forEach {
             codeBuilder.append("        addConstructor(${it.parameters.joinToString { param -> 

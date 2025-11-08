@@ -116,7 +116,6 @@ fun KSDeclaration.getGenericReturnTypes(resolver: Resolver): Set<KSType> {
     if (this is KSPropertyDeclaration) {
         types.addAll(type.resolve().declaration.getGenericReturnTypes(resolver))
     }
-    println("$jsName -> $types")
     return types
 }
 

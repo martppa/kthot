@@ -13,14 +13,14 @@ import net.asere.kthot.js.dsl.ksp.extension.findJsClasses
 import net.asere.kthot.js.dsl.ksp.extension.findJsFunctionsFiles
 import net.asere.kthot.js.dsl.ksp.extension.jsName
 import net.asere.kthot.js.dsl.ksp.processor.composite.CodeBuilderComposite
-import net.asere.kthot.js.dsl.ksp.processor.function.JsFunctionFileBuilder
+import net.asere.kthot.js.dsl.ksp.processor.function.JsFunctionModuleBuilder
 import net.asere.kthot.js.dsl.ksp.processor.initializer.JsInitializerBuilder
 import net.asere.kthot.js.dsl.ksp.processor.intf.JsApiInterfaceBuilder
 import net.asere.kthot.js.dsl.ksp.processor.intf.JsClassInterfaceBuilder
 import net.asere.kthot.js.dsl.ksp.processor.ref.JsReferenceBuilder
 import net.asere.kthot.js.dsl.ksp.processor.syntax.JsSyntaxBuilder
 import net.asere.kthot.js.dsl.ksp.processor.writer.JsClassWriterBuilder
-import net.asere.kthot.js.dsl.ksp.processor.writer.JsFunctionFileWriterBuilder
+import net.asere.kthot.js.dsl.ksp.processor.writer.JsFunctionModuleWriterBuilder
 
 class JsClassProcessor(
     codeGenerator: CodeGenerator,
@@ -35,8 +35,8 @@ class JsClassProcessor(
     )
 
     private val jsFunctionBuilder = CodeBuilderComposite(
-        JsFunctionFileBuilder(codeGenerator, logger),
-        JsFunctionFileWriterBuilder(codeGenerator, logger),
+        JsFunctionModuleBuilder(codeGenerator, logger),
+        JsFunctionModuleWriterBuilder(codeGenerator, logger),
     )
 
     private val jsApiClassBuilder = CodeBuilderComposite(
@@ -45,7 +45,7 @@ class JsClassProcessor(
         JsSyntaxBuilder(codeGenerator, logger),
     )
     private val jsApiFunctionBuilder = CodeBuilderComposite(
-        JsFunctionFileBuilder(codeGenerator, logger),
+        JsFunctionModuleBuilder(codeGenerator, logger),
     )
     private val initializerBuilder: JsInitializerBuilder = JsInitializerBuilder(
         codeGenerator = codeGenerator,
@@ -59,7 +59,6 @@ class JsClassProcessor(
         val classDeclarations = resolver.findJsClasses()
 
         for (declaration in classDeclarations) {
-            println("${declaration.jsName} - declaration")
             if (declaration.validate()) {
                 jsClassBuilder.build(resolver, declaration)
                 initializerBuilder.addType(declaration)

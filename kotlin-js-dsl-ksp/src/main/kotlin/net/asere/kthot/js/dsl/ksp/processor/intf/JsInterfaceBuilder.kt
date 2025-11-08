@@ -27,6 +27,8 @@ abstract class JsInterfaceBuilder(
         append("interface ${declaration.getDeclaration(declaration.jsName)} {\n")
     }
 
+    protected abstract fun getModuleClass(resolver: Resolver): KSClassDeclaration
+
     override fun build(resolver: Resolver, declaration: KSClassDeclaration) {
         resolver.checkDependencies()
         val packageName = declaration.packageName.asString()
@@ -38,7 +40,7 @@ abstract class JsInterfaceBuilder(
         codeBuilder.appendHeader(declaration)
         codeBuilder.appendProperties(declaration, resolver)
         codeBuilder.appendMethods(declaration, resolver)
-        codeBuilder.appendCompanion(declaration)
+        codeBuilder.appendCompanion(resolver, declaration)
         codeBuilder.append("}\n")
         writeToFile(
             fileName = declaration.jsName,
@@ -48,14 +50,7 @@ abstract class JsInterfaceBuilder(
         )
     }
 
-    private fun StringBuilder.appendCompanion(declaration: KSClassDeclaration) {
-        append("\n")
-        append("   companion object {\n")
-        getImportPath(declaration)?.let {
-            append("       const val Source = \"$it\"\n")
-        }
-        append("   }\n")
-    }
+    protected abstract fun StringBuilder.appendCompanion(resolver: Resolver, declaration: KSClassDeclaration)
 
     protected abstract fun getImportPath(declaration: KSClassDeclaration): String?
 
@@ -74,6 +69,7 @@ abstract class JsInterfaceBuilder(
     private fun StringBuilder.appendImports(declaration: KSClassDeclaration, resolver: Resolver) {
         val imports: MutableSet<String> = mutableSetOf()
         imports.add(resolver.loadClass(jsElementName).fullName)
+        imports.add(getModuleClass(resolver).fullName)
         imports.add(jsChainOperationDeclaration.fullName)
         imports.add(jsInvocationOperationDeclaration.fullName)
         imports.add(jsAccessOperationDeclaration.fullName)

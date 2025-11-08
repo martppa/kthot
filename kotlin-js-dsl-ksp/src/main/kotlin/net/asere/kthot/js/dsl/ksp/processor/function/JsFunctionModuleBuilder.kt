@@ -11,7 +11,7 @@ import net.asere.kthot.js.dsl.ksp.extension.*
 import net.asere.kthot.js.dsl.ksp.processor.*
 import java.io.OutputStreamWriter
 
-class JsFunctionFileBuilder(
+class JsFunctionModuleBuilder(
     private val codeGenerator: CodeGenerator,
     private val logger: KSPLogger,
 ) : ClassCodeBuilder {
@@ -24,21 +24,24 @@ class JsFunctionFileBuilder(
     private lateinit var jsAccessOperationDeclaration: KSClassDeclaration
     private lateinit var jsInternalApiAnnotationDeclaration: KSClassDeclaration
     private lateinit var jsImportableAnnotationDeclaration: KSClassDeclaration
+    private lateinit var jsFunctionModuleAnnotationDeclaration: KSClassDeclaration
 
     private fun Resolver.checkDependencies() {
         jsChainOperationDeclaration = loadClass(jsChainOperationName)
         jsInvocationOperationDeclaration = loadClass(jsInvocationOperationName)
         jsObjectDeclaration = loadClass(jsObjectName)
         jsSyntaxDeclaration = loadClass(jsSyntaxName)
-        jsReferenceDeclaration = loadClass(jsSyntaxName)
+        jsReferenceDeclaration = loadClass(jsReferenceName)
         jsElementDeclaration = loadClass(jsElementName)
         jsAccessOperationDeclaration = loadClass(jsAccessOperationName)
         jsInternalApiAnnotationDeclaration = loadClass(jsInternalApiAnnotationName)
         jsImportableAnnotationDeclaration = loadClass(jsImportableAnnotationName)
+        jsFunctionModuleAnnotationDeclaration = loadClass(jsFunctionsModuleName)
     }
 
     override fun build(resolver: Resolver, declaration: KSClassDeclaration) {
         resolver.checkDependencies()
+        val moduleClass = resolver.loadClass(jsFunctionsModuleName)
         val packageName = declaration.packageName.asString()
         val codeBuilder = StringBuilder()
         if (packageName.isNotBlank()) {
@@ -49,7 +52,11 @@ class JsFunctionFileBuilder(
         codeBuilder.append("@${jsImportableAnnotationDeclaration.name}\n")
         codeBuilder.append("interface $interfaceName {\n")
         codeBuilder.append("    companion object {\n")
-        codeBuilder.append("        const val Source = \"${declaration.getImportPath()}\"\n")
+        codeBuilder.append(
+            "       val Module = ${moduleClass.name}(\"${declaration.jsName}\", \"/${
+                declaration.packageName.asString().replace(".", "/")
+            }/${declaration.jsName}.js\")\n"
+        )
         codeBuilder.appendMethods(declaration, resolver)
         codeBuilder.append("    }\n")
         codeBuilder.append("}\n")
@@ -88,11 +95,12 @@ class JsFunctionFileBuilder(
             if (function.returnType?.resolve() !is KSTypeParameter) {
                 imports.add(function.returnType!!.resolve().declaration.fullName)
                 imports.add(function.returnType!!.resolve().declaration.fullBasicTypeName)
-                function.returnType!!.resolve().getAllTypes().filter { !it.isGenericType }.forEach { imports.add(it.declaration.fullName) }
+                function.returnType!!.resolve().getAllTypes().filter { !it.isGenericType }
+                    .forEach { imports.add(it.declaration.fullName) }
                 if (!function.returnType.isSubclassOf(jsSyntaxDeclaration)) {
                     imports.add("${function.returnType!!.packageName}.syntax")
                 }
-                if (!function.returnType.isSubclassOf(jsReferenceDeclaration)) {
+                if (function.returnType.isSubclassOf(jsReferenceDeclaration)) {
                     imports.add("${function.returnType!!.packageName}.ref")
                 }
             }
@@ -110,7 +118,8 @@ class JsFunctionFileBuilder(
 
     private fun StringBuilder.appendMethods(declaration: KSClassDeclaration, resolver: Resolver) {
         declaration.getJsAvailableFunctions(resolver).forEach { function ->
-            val syntaxInvocationString: String = if (function.returnType?.resolve()?.declaration?.fullName == jsSyntaxName) "" else ".syntax"
+            val syntaxInvocationString: String =
+                if (function.returnType?.resolve()?.declaration?.fullName == jsSyntaxName) "" else ".syntax"
             val functionName = function.name
             if (function.returnType.isGenericTypeParameter()) {
                 append("  inline fun ${function.getDeclaration(functionName)}(${

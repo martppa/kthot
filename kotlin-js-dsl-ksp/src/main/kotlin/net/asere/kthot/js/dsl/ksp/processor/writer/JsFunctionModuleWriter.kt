@@ -1,7 +1,7 @@
 package net.asere.kthot.js.dsl.ksp.processor.writer
 
 import net.asere.kthot.js.dsl.syntax.module.JsModule
-import net.asere.kthot.js.dsl.syntax.JsSyntax
+import net.asere.kthot.js.dsl.syntax.module.asImportSyntax
 import net.asere.kthot.js.dsl.type.JsElement
 import java.io.IOException
 import java.nio.charset.StandardCharsets
@@ -9,26 +9,13 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import kotlin.io.path.Path
 
-
-abstract class JsClassWriter(
+abstract class JsFunctionModuleWriter(
     private val path: String,
 ) {
     protected val codeBuilder: StringBuilder = StringBuilder()
 
     protected fun addImport(module: JsModule) {
-        codeBuilder.append(module)
-    }
-
-    protected fun addProperty(name: String, isStatic: Boolean = false, isPrivate: Boolean = false) {
-        codeBuilder.append("        ${if (isStatic) "static " else ""}${if (isPrivate) "#" else ""}$name")
-    }
-
-    protected fun addClassHeader(clasName: String, parents: List<String> = emptyList()) {
-        codeBuilder.append(
-            "export class $clasName${
-                if (parents.isNotEmpty()) "extends ${parents.joinToString(", ")}" else ""
-            } {\n"
-        )
+        codeBuilder.append(module.asImportSyntax())
     }
 
     protected fun addFunction(
@@ -40,23 +27,12 @@ abstract class JsClassWriter(
         isAsync: Boolean = false,
     ) {
         codeBuilder.append(
-            "${if (isStatic) "static " else ""}${if (isPrivate) "#" else ""}${if (isAsync) "async " else ""}$name(${
+            "export ${if (isStatic) "static " else ""}${if (isPrivate) "#" else ""}${if (isAsync) "async " else ""} function $name(${
                 parameters.joinToString(
                     ", "
                 )
             }) { \n $body \n }\n"
         )
-    }
-
-    protected fun addConstructor(vararg ownProperties: String, body: JsSyntax) {
-        codeBuilder.append("\n")
-        codeBuilder.append("    constructor(${ownProperties.joinToString(", ")}) {\n")
-        codeBuilder.append("$body\n")
-        codeBuilder.append("    }\n")
-    }
-
-    protected fun finishClassDeclaration() {
-        codeBuilder.append("\n}")
     }
 
     abstract fun write()
