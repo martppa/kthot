@@ -3,7 +3,7 @@ package net.asere.kthot.js.dsl.ksp.extension
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
-import net.asere.kthot.js.dsl.ksp.processor.jsApiAnnotationName
+import net.asere.kthot.js.dsl.ksp.processor.jsApiClassAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsApiFunctionModuleAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsClassAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsFunctionModuleAnnotationName
@@ -38,7 +38,7 @@ fun Resolver.findJsClasses(): Sequence<KSClassDeclaration> {
 }
 
 fun Resolver.findJsApiClasses(): Sequence<KSClassDeclaration> {
-    val symbols = getSymbolsWithAnnotation(jsApiAnnotationName)
+    val symbols = getSymbolsWithAnnotation(jsApiClassAnnotationName)
         .filterIsInstance<KSClassDeclaration>()
     return symbols
 }

@@ -24,7 +24,6 @@ class JsFunctionModuleBuilder(
     private lateinit var jsAccessOperationDeclaration: KSClassDeclaration
     private lateinit var jsInternalApiAnnotationDeclaration: KSClassDeclaration
     private lateinit var jsImportableAnnotationDeclaration: KSClassDeclaration
-    private lateinit var jsFunctionModuleAnnotationDeclaration: KSClassDeclaration
 
     private fun Resolver.checkDependencies() {
         jsChainOperationDeclaration = loadClass(jsChainOperationName)
@@ -36,12 +35,10 @@ class JsFunctionModuleBuilder(
         jsAccessOperationDeclaration = loadClass(jsAccessOperationName)
         jsInternalApiAnnotationDeclaration = loadClass(jsInternalApiAnnotationName)
         jsImportableAnnotationDeclaration = loadClass(jsImportableAnnotationName)
-        jsFunctionModuleAnnotationDeclaration = loadClass(jsFunctionsModuleName)
     }
 
     override fun build(resolver: Resolver, declaration: KSClassDeclaration) {
         resolver.checkDependencies()
-        val moduleClass = resolver.loadClass(jsFunctionsModuleName)
         val packageName = declaration.packageName.asString()
         val codeBuilder = StringBuilder()
         if (packageName.isNotBlank()) {
@@ -52,11 +49,11 @@ class JsFunctionModuleBuilder(
         codeBuilder.append("@${jsImportableAnnotationDeclaration.name}\n")
         codeBuilder.append("interface $interfaceName {\n")
         codeBuilder.append("    companion object {\n")
-        codeBuilder.append(
-            "       val Module = ${moduleClass.name}(\"${declaration.jsName}\", \"/${
-                declaration.packageName.asString().replace(".", "/")
-            }/${declaration.jsName}.js\")\n"
-        )
+        if (!declaration.isApi) {
+            codeBuilder.append(
+                "       val Module = ${declaration.jsName}Module()\n"
+            )
+        }
         codeBuilder.appendMethods(declaration, resolver)
         codeBuilder.append("    }\n")
         codeBuilder.append("}\n")
@@ -77,6 +74,9 @@ class JsFunctionModuleBuilder(
         imports.add(jsInternalApiAnnotationDeclaration.fullName)
         imports.add(jsImportableAnnotationDeclaration.fullName)
         imports.add(jsProvideFunctionName)
+        if (!declaration.isApi) {
+            imports.add("${declaration.packageName.asString()}.${declaration.jsName}Module")
+        }
         declaration.getAllTypes().forEach {
             imports.add(it.declaration.fullName)
         }

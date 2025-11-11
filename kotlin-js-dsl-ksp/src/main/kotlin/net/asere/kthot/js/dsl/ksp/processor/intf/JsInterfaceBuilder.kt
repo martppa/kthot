@@ -21,13 +21,11 @@ abstract class JsInterfaceBuilder(
     protected lateinit var jsInternalApiAnnotationDeclaration: KSClassDeclaration
     protected lateinit var jsImportableAnnotationDeclaration: KSClassDeclaration
 
-    protected open fun StringBuilder.appendHeader(declaration: KSClassDeclaration) {
+    protected open fun appendHeader(stringBuilder: StringBuilder, declaration: KSClassDeclaration): Unit = with(stringBuilder) {
         append("@OptIn(${jsInternalApiAnnotationDeclaration.name}::class)\n")
         append("@${jsImportableAnnotationDeclaration.name}\n")
         append("interface ${declaration.getDeclaration(declaration.jsName)} {\n")
     }
-
-    protected abstract fun getModuleClass(resolver: Resolver): KSClassDeclaration
 
     override fun build(resolver: Resolver, declaration: KSClassDeclaration) {
         resolver.checkDependencies()
@@ -36,11 +34,11 @@ abstract class JsInterfaceBuilder(
         if (packageName.isNotBlank()) {
             codeBuilder.append("package $packageName\n\n")
         }
-        codeBuilder.appendImports(declaration, resolver)
-        codeBuilder.appendHeader(declaration)
-        codeBuilder.appendProperties(declaration, resolver)
-        codeBuilder.appendMethods(declaration, resolver)
-        codeBuilder.appendCompanion(resolver, declaration)
+        appendImports(codeBuilder, declaration, resolver)
+        appendHeader(codeBuilder, declaration)
+        appendProperties(codeBuilder, declaration, resolver)
+        appendMethods(codeBuilder, declaration, resolver)
+        appendCompanion(codeBuilder, resolver, declaration)
         codeBuilder.append("}\n")
         writeToFile(
             fileName = declaration.jsName,
@@ -50,7 +48,7 @@ abstract class JsInterfaceBuilder(
         )
     }
 
-    protected abstract fun StringBuilder.appendCompanion(resolver: Resolver, declaration: KSClassDeclaration)
+    protected abstract fun appendCompanion(stringBuilder: StringBuilder, resolver: Resolver, declaration: KSClassDeclaration)
 
     protected abstract fun getImportPath(declaration: KSClassDeclaration): String?
 
@@ -66,10 +64,9 @@ abstract class JsInterfaceBuilder(
         jsImportableAnnotationDeclaration = loadClass(jsImportableAnnotationName)
     }
 
-    private fun StringBuilder.appendImports(declaration: KSClassDeclaration, resolver: Resolver) {
+    protected open fun appendImports(stringBuilder: StringBuilder, declaration: KSClassDeclaration, resolver: Resolver): Unit = with(stringBuilder) {
         val imports: MutableSet<String> = mutableSetOf()
         imports.add(resolver.loadClass(jsElementName).fullName)
-        imports.add(getModuleClass(resolver).fullName)
         imports.add(jsChainOperationDeclaration.fullName)
         imports.add(jsInvocationOperationDeclaration.fullName)
         imports.add(jsAccessOperationDeclaration.fullName)
@@ -142,7 +139,7 @@ abstract class JsInterfaceBuilder(
         append("\n")
     }
 
-    private fun StringBuilder.appendProperties(declaration: KSClassDeclaration, resolver: Resolver) {
+    private fun appendProperties(stringBuilder: StringBuilder, declaration: KSClassDeclaration, resolver: Resolver): Unit = with(stringBuilder) {
         declaration.getGenericReturnTypes(resolver).forEach { type ->
             append("  val ${type.getBuilderDefinition(jsElementDeclaration)}\n")
         }
@@ -170,7 +167,7 @@ abstract class JsInterfaceBuilder(
         }
     }
 
-    private fun StringBuilder.appendMethods(declaration: KSClassDeclaration, resolver: Resolver) {
+    private fun appendMethods(stringBuilder: StringBuilder, declaration: KSClassDeclaration, resolver: Resolver): Unit = with(stringBuilder) {
         declaration.getJsAvailableFunctions(resolver).forEach { function ->
             val syntaxInvocationString: String = if (function.returnType?.resolve()?.declaration?.fullName == jsSyntaxName) "" else ".syntax"
             val functionName = function.name

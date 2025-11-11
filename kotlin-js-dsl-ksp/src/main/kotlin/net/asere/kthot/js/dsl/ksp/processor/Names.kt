@@ -1,7 +1,7 @@
 package net.asere.kthot.js.dsl.ksp.processor
 
 const val jsClassAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsClass"
-const val jsApiAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsApiClass"
+const val jsApiClassAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsApiClass"
 const val jsApiFunctionModuleAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsApiFunctionModule"
 const val jsPropertyAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsProperty"
 const val jsFunctionAnnotationName = "net.asere.kthot.js.dsl.ksp.annotation.JsFunction"
@@ -32,5 +32,5 @@ const val jsKthotCoreName = "net.asere.kthot.js.dsl.KthotCore"
 const val jsClassWriterName = "net.asere.kthot.js.dsl.ksp.processor.writer.JsClassWriter"
 const val jsFunctionModuleWriterName = "net.asere.kthot.js.dsl.ksp.processor.writer.JsFunctionModuleWriter"
 const val jsInitConfigName = "net.asere.kthot.js.dsl.ksp.processor.model.JsInitConfig"
-const val jsClassModuleName = "net.asere.kthot.js.dsl.syntax.module.JsClassModule"
-const val jsFunctionsModuleName = "net.asere.kthot.js.dsl.syntax.module.JsFunctionsModule"
+const val jsModuleItemName = "net.asere.kthot.js.dsl.syntax.module.JsModuleItem"
+const val jsModuleName = "net.asere.kthot.js.dsl.syntax.module.JsModule"

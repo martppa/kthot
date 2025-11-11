@@ -17,10 +17,12 @@ import net.asere.kthot.js.dsl.ksp.processor.function.JsFunctionModuleBuilder
 import net.asere.kthot.js.dsl.ksp.processor.initializer.JsInitializerBuilder
 import net.asere.kthot.js.dsl.ksp.processor.intf.JsApiInterfaceBuilder
 import net.asere.kthot.js.dsl.ksp.processor.intf.JsClassInterfaceBuilder
+import net.asere.kthot.js.dsl.ksp.processor.module.JsFunctionModuleObjectBuilder
 import net.asere.kthot.js.dsl.ksp.processor.ref.JsReferenceBuilder
 import net.asere.kthot.js.dsl.ksp.processor.syntax.JsSyntaxBuilder
 import net.asere.kthot.js.dsl.ksp.processor.writer.JsClassWriterBuilder
 import net.asere.kthot.js.dsl.ksp.processor.writer.JsFunctionModuleWriterBuilder
+import kotlin.math.log
 
 class JsClassProcessor(
     codeGenerator: CodeGenerator,
@@ -28,6 +30,7 @@ class JsClassProcessor(
 ) : SymbolProcessor {
 
     private val jsClassBuilder = CodeBuilderComposite(
+        JsFunctionModuleObjectBuilder(codeGenerator, logger),
         JsClassInterfaceBuilder(codeGenerator, logger),
         JsReferenceBuilder(codeGenerator, logger),
         JsSyntaxBuilder(codeGenerator, logger),
@@ -35,6 +38,7 @@ class JsClassProcessor(
     )
 
     private val jsFunctionBuilder = CodeBuilderComposite(
+        JsFunctionModuleObjectBuilder(codeGenerator, logger),
         JsFunctionModuleBuilder(codeGenerator, logger),
         JsFunctionModuleWriterBuilder(codeGenerator, logger),
     )
@@ -45,7 +49,7 @@ class JsClassProcessor(
         JsSyntaxBuilder(codeGenerator, logger),
     )
     private val jsApiFunctionBuilder = CodeBuilderComposite(
-        JsFunctionModuleBuilder(codeGenerator, logger),
+        JsFunctionModuleBuilder(codeGenerator, logger)
     )
     private val initializerBuilder: JsInitializerBuilder = JsInitializerBuilder(
         codeGenerator = codeGenerator,
@@ -90,7 +94,6 @@ class JsClassProcessor(
         }
 
         val functionFilesDeclarations = resolver.findJsFunctionsFiles()
-
         for (declaration in functionFilesDeclarations) {
             if (declaration.validate()) {
                 jsFunctionBuilder.build(resolver, declaration)

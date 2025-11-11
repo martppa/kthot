@@ -4,10 +4,10 @@ import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import net.asere.kthot.js.dsl.ksp.extension.fullJsName
 import net.asere.kthot.js.dsl.ksp.extension.jsName
 import net.asere.kthot.js.dsl.ksp.extension.loadClass
 import net.asere.kthot.js.dsl.ksp.extension.name
-import net.asere.kthot.js.dsl.ksp.processor.jsClassModuleName
 
 class JsClassInterfaceBuilder(
     codeGenerator: CodeGenerator,
@@ -15,18 +15,20 @@ class JsClassInterfaceBuilder(
 ) : JsInterfaceBuilder(
     codeGenerator, logger
 ) {
-    override fun StringBuilder.appendCompanion(resolver: Resolver, declaration: KSClassDeclaration) {
-        val moduleClass = resolver.loadClass(jsClassModuleName)
-        append("\n")
-        append("   companion object {\n")
-        append("       val Module = ${moduleClass.name}(\"${declaration.jsName}\", \"/${
-            declaration.packageName.asString().replace(".", "/")
-        }/${declaration.jsName}.js\")\n")
-        append("   }\n")
+    override fun appendImports(
+        stringBuilder: StringBuilder,
+        declaration: KSClassDeclaration,
+        resolver: Resolver
+    ): Unit = with(stringBuilder) {
+        append("import ${declaration.fullJsName}Module\n")
+        super.appendImports(stringBuilder, declaration, resolver)
     }
 
-    override fun getModuleClass(resolver: Resolver): KSClassDeclaration {
-        return resolver.loadClass(jsClassModuleName)
+    override fun appendCompanion(stringBuilder: StringBuilder, resolver: Resolver, declaration: KSClassDeclaration): Unit = with(stringBuilder) {
+        append("\n")
+        append("   companion object {\n")
+        append("       val Module = ${declaration.jsName}Module()\n")
+        append("   }\n")
     }
 
     override fun getImportPath(declaration: KSClassDeclaration): String = "${

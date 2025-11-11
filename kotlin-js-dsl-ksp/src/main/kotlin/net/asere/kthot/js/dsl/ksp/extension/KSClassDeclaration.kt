@@ -4,7 +4,7 @@ import com.google.devtools.ksp.getVisibility
 import com.google.devtools.ksp.isConstructor
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.*
-import net.asere.kthot.js.dsl.ksp.processor.jsApiAnnotationName
+import net.asere.kthot.js.dsl.ksp.processor.jsApiClassAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsApiFunctionModuleAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsClassAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsConstructorAnnotationName
@@ -82,7 +82,7 @@ val KSClassDeclaration.jsName: String
     get() {
         val jsClassAnnotation = annotations.find {
             it.annotationType.resolve().declaration.qualifiedName?.asString() == jsClassAnnotationName ||
-                    it.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiAnnotationName ||
+                    it.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiClassAnnotationName ||
             it.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiFunctionModuleAnnotationName ||
             it.annotationType.resolve().declaration.qualifiedName?.asString() == jsFunctionModuleAnnotationName
         } ?: return name
@@ -198,6 +198,16 @@ fun KSClassDeclaration.getImportPath(): String = "${
 
 val KSClassDeclaration.isImportable: Boolean get() = annotations.any { annotation ->
     annotation.annotationType.resolve().declaration.qualifiedName?.asString() == jsImportableAnnotationName
+}
+
+val KSClassDeclaration.isApi: Boolean get() = annotations.any { annotation ->
+    annotation.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiClassAnnotationName ||
+    annotation.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiFunctionModuleAnnotationName
+}
+
+val KSClassDeclaration.isMarkedAsClass: Boolean get() = annotations.any { annotation ->
+    annotation.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiClassAnnotationName ||
+    annotation.annotationType.resolve().declaration.qualifiedName?.asString() == jsClassAnnotationName
 }
 
 fun KSClassDeclaration.getDeclaration(name: String? = null): String {

@@ -4,12 +4,11 @@ import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import net.asere.kthot.js.dsl.ksp.extension.fullJsName
 import net.asere.kthot.js.dsl.ksp.extension.getDeclaration
 import net.asere.kthot.js.dsl.ksp.extension.jsName
-import net.asere.kthot.js.dsl.ksp.extension.loadClass
 import net.asere.kthot.js.dsl.ksp.extension.name
-import net.asere.kthot.js.dsl.ksp.processor.jsApiAnnotationName
-import net.asere.kthot.js.dsl.ksp.processor.jsFunctionsModuleName
+import net.asere.kthot.js.dsl.ksp.processor.jsApiClassAnnotationName
 
 class JsApiInterfaceBuilder(
     codeGenerator: CodeGenerator,
@@ -17,28 +16,20 @@ class JsApiInterfaceBuilder(
 ) : JsInterfaceBuilder(
     codeGenerator, logger
 ) {
-    override fun StringBuilder.appendHeader(declaration: KSClassDeclaration) {
+    override fun appendHeader(stringBuilder: StringBuilder, declaration: KSClassDeclaration): Unit = with(stringBuilder) {
         append("@OptIn(${jsInternalApiAnnotationDeclaration.name}::class)\n")
         append("interface ${declaration.getDeclaration(declaration.jsName)} {\n")
     }
 
-    override fun getModuleClass(resolver: Resolver): KSClassDeclaration {
-        return resolver.loadClass(jsFunctionsModuleName)
-    }
-
-    override fun StringBuilder.appendCompanion(resolver: Resolver, declaration: KSClassDeclaration) {
-        val moduleClass = resolver.loadClass(jsFunctionsModuleName)
+    override fun appendCompanion(stringBuilder: StringBuilder, resolver: Resolver, declaration: KSClassDeclaration): Unit = with(stringBuilder) {
         append("\n")
         append("   companion object {\n")
-        append("       val Module = ${moduleClass.name}(\"${declaration.jsName}\", \"/${
-            declaration.packageName.asString().replace(".", "/")
-        }/${declaration.jsName}.js\")\n")
         append("   }\n")
     }
 
     override fun getImportPath(declaration: KSClassDeclaration): String? {
         val jsClassAnnotation = declaration.annotations.find {
-            it.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiAnnotationName
+            it.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiClassAnnotationName
         } ?: throw IllegalArgumentException("The declaration has no import path associated")
         val value =  jsClassAnnotation.arguments.find {
             it.name?.asString() == "import"
