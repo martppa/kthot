@@ -1,4 +1,4 @@
-# Kthot ![](https://img.shields.io/badge/maven_central-0.1.12-004475)
+# Kthot ![](https://img.shields.io/badge/maven_central-0.1.13-004475)
 A typesafe Kotlin DSL for JavaScript. Write, reuse and interact with Javascript without [WASM](https://kotlinlang.org/docs/wasm-overview.html).
 
 ![Gemini_Generated_Image_vy4v8hvy4v8hvy4v (1)](https://github.com/user-attachments/assets/0e69ad71-7358-4ec6-a70c-e508f76e652f)
