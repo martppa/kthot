@@ -5,5 +5,3 @@ interface JsModule {
     val url: String
     val items: List<JsModuleItem>
 }
-
-fun JsModule.asImportSyntax(): String = "import { ${items.joinToString { it.name }} } from '$url'\n"

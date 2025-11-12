@@ -1,7 +1,7 @@
 package net.asere.kthot.js.dsl.ksp.processor.writer
 
-import net.asere.kthot.js.dsl.syntax.module.JsModule
-import net.asere.kthot.js.dsl.syntax.module.asImportSyntax
+import net.asere.kthot.js.dsl.syntax.module.JsImport
+import net.asere.kthot.js.dsl.syntax.module.toSyntax
 import net.asere.kthot.js.dsl.type.JsElement
 import java.io.IOException
 import java.nio.charset.StandardCharsets
@@ -14,8 +14,8 @@ abstract class JsFunctionModuleWriter(
 ) {
     protected val codeBuilder: StringBuilder = StringBuilder()
 
-    protected fun addImport(module: JsModule) {
-        codeBuilder.append(module.asImportSyntax())
+    protected fun addImport(requirement: JsImport) {
+        codeBuilder.append(requirement.toSyntax())
     }
 
     protected fun addFunction(
