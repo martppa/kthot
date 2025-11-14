@@ -1,9 +1,10 @@
-package net.asere.kthot.js.dsl
+package net.asere.kthot.js.dsl.sample.snippets
 
 import net.asere.kthot.js.dsl.declaration.Const
 import net.asere.kthot.js.dsl.ksp.Kthot
 import net.asere.kthot.js.dsl.ksp.annotation.*
 import net.asere.kthot.js.dsl.ksp.processor.js.JavaScriptClass
+import net.asere.kthot.js.dsl.ksp.processor.js.JavaScriptModule
 import net.asere.kthot.js.dsl.log.Log
 import net.asere.kthot.js.dsl.provider.provide
 import net.asere.kthot.js.dsl.provider.register
@@ -15,21 +16,29 @@ import net.asere.kthot.js.dsl.type.array.JsArray
 import net.asere.kthot.js.dsl.type.array.syntax
 import net.asere.kthot.js.dsl.type.number.*
 import net.asere.kthot.js.dsl.type.promise.JsPromise
+import net.asere.kthot.js.dsl.type.promise.syntax
 import net.asere.kthot.js.dsl.type.string.JsString
 import net.asere.kthot.js.dsl.type.string.JsStringRef
 
-@JsApiFunctionFile(name = "prebadName")
-internal interface _ApiTestPrieba {
+@JsFunctionModule(name = "prebadName")
+internal class _ApiTestPrieba : JavaScriptModule() {
+    @JsAsync
     @JsFunction
-    fun prueba() = js {
+    fun prueba(): JsPromise<JsString> = JsPromise.syntax(js {
 
-    }
+    })
+}
+
+@JsApiFunctionModule(name = "prebadNameFile")
+internal interface _ApiTestPriebaFile {
+    @JsFunction
+    fun prueba(): JsPromise<JsString>
 }
 
 @JsApiClass
 class ApiSample
 
-@JsClass
+@JsClass(name = "JsPruebaDefinitiva")
 data class Test<T : JsArray<JsPromise<JsNumber>>> @JsConstructor constructor(
     @JsProperty
     val property2: JsStringRef,
@@ -38,8 +47,14 @@ data class Test<T : JsArray<JsPromise<JsNumber>>> @JsConstructor constructor(
     val valuex: T,
 
     @JsProperty
-    val syntaxSample: JsString
+    val syntaxSample: JsString,
+
+    @JsProperty
+    val primise: JsPromise<JsArray<JsString>>
 ) : JavaScriptClass() {
+
+    @JsProperty
+    lateinit var primisePropertyy: JsPromise<JsString>
 
     @JsProperty
     val number: JsNumberRef = JsNumber.ref("number")
@@ -54,6 +69,11 @@ data class Test<T : JsArray<JsPromise<JsNumber>>> @JsConstructor constructor(
     fun function1(value: JsString) = js {
        This.property2 assign value
     }
+
+    @JsFunction
+    fun promiseTest(): JsPromise<JsString> = JsPromise.syntax<JsString>(js {
+
+    })
 }
 
 fun main() {
