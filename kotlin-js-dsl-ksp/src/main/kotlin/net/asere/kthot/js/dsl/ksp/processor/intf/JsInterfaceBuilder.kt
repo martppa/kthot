@@ -109,13 +109,14 @@ abstract class JsInterfaceBuilder(
             }
         }
         for (function in declaration.getJsAvailableFunctions(resolver)) {
-            if (function.returnType?.resolve() !is KSTypeParameter) {
+            if (function.returnType != null && !function.returnType!!.isGenericTypeParameter()) {
                 imports.add(function.returnType!!.resolve().declaration.fullName)
                 imports.add(function.returnType!!.resolve().declaration.fullBasicTypeName)
                 if (!function.returnType.isSubclassOf(jsSyntaxDeclaration)) {
                     imports.add("${function.returnType!!.packageName}.syntax")
                 }
-                if (!function.returnType.isSubclassOf(jsReferenceDeclaration)) {
+                if (!function.returnType.isSubclassOf(jsReferenceDeclaration) &&
+                    function.returnType!!.resolve().declaration.fullJsName != jsNothingName) {
                     imports.add("${function.returnType!!.packageName}.ref")
                 }
             }

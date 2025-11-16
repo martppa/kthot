@@ -92,7 +92,7 @@ class JsFunctionModuleBuilder(
                 }.flatten().flatten().map { it.declaration.fullName }.forEach {
                     imports.add(it)
                 }
-            if (function.returnType?.resolve() !is KSTypeParameter) {
+            if (function.returnType != null && !function.returnType!!.isGenericTypeParameter()) {
                 imports.add(function.returnType!!.resolve().declaration.fullName)
                 imports.add(function.returnType!!.resolve().declaration.fullBasicTypeName)
                 function.returnType!!.resolve().getAllTypes().filter { !it.isGenericType }
@@ -100,13 +100,16 @@ class JsFunctionModuleBuilder(
                 if (!function.returnType.isSubclassOf(jsSyntaxDeclaration)) {
                     imports.add("${function.returnType!!.packageName}.syntax")
                 }
-                if (function.returnType.isSubclassOf(jsReferenceDeclaration)) {
+                if (function.returnType.isSubclassOf(jsReferenceDeclaration) &&
+                    function.returnType!!.resolve().declaration.fullJsName != jsNothingName) {
                     imports.add("${function.returnType!!.packageName}.ref")
                 }
             }
             function.parameters.filter { it.type.resolve() !is KSTypeParameter }.forEach { param ->
-                imports.add(param.type.resolve().declaration.fullName)
-                imports.add(param.type.resolve().declaration.fullBasicTypeName)
+                if (!param.type.isGenericTypeParameter()) {
+                    imports.add(param.type.resolve().declaration.fullName)
+                    imports.add(param.type.resolve().declaration.fullBasicTypeName)
+                }
             }
         }
         imports.remove("kotlin.Any")
@@ -118,22 +121,19 @@ class JsFunctionModuleBuilder(
 
     private fun StringBuilder.appendMethods(declaration: KSClassDeclaration, resolver: Resolver) {
         declaration.getJsAvailableFunctions(resolver).forEach { function ->
-            val syntaxInvocationString: String =
-                if (function.returnType?.resolve()?.declaration?.fullName == jsSyntaxName) "" else ".syntax"
             val functionName = function.name
             if (function.returnType.isGenericTypeParameter()) {
                 append("  inline fun ${function.getDeclaration(functionName)}(${
                     function.parameters.definitionString()}): ${
-                    function.returnType?.resolve()?.definitionName}${function.whereClauseString} = ${
-                    function.returnType?.resolve()?.builderName}(${
+                    function.returnType?.resolve()?.definitionName}${function.whereClauseString} = provide(${
                     jsInvocationOperationDeclaration.name}(\"$functionName\", ${
-                    function.parameters.listString()}))")
+                    function.parameters.listString()}))\n")
             } else if (function.returnType?.resolve().hasArgumentsTypes()) {
                 val builderParameters = function.returnType!!.resolve().getArgumentsTypes()
                 append("  inline fun ${function.getDeclaration(functionName)}(${
                     function.parameters.definitionString()}): ${
                     function.returnType?.resolve()?.definitionName}${function.whereClauseString} = ${
-                    function.returnType?.resolve()?.declaration?.name}$syntaxInvocationString(${
+                    function.returnType?.resolve()?.declaration?.name}.syntax(${
                     jsInvocationOperationDeclaration.name
                 }(\"$functionName\", ${
                     function.parameters.listString()
@@ -146,7 +146,7 @@ class JsFunctionModuleBuilder(
                 append("  inline fun ${function.getDeclaration(functionName)}(${
                     function.parameters.definitionString()}): ${
                     function.returnType?.resolve()?.definitionName}${function.whereClauseString} = ${
-                    function.returnType?.resolve()?.declaration?.name}$syntaxInvocationString(${
+                    function.returnType?.resolve()?.declaration?.name}.syntax(${
                     jsInvocationOperationDeclaration.name}(\"$functionName\", ${
                     function.parameters.listString()}))\n")
             }

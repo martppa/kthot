@@ -55,6 +55,13 @@ fun KSDeclaration?.isJsElement(resolver: Resolver): Boolean {
 }
 
 /**
+ * Returns whether a declaration is a Generic type that extends JsElement or not.
+ */
+fun KSDeclaration?.isJsElementGeneric(resolver: Resolver): Boolean {
+    return this is KSTypeParameter && bounds.any { it.resolve().isJsElement(resolver) }
+}
+
+/**
  * Returns whether a declaration is a subclass of the parameter or not.
  */
 fun KSDeclaration?.isSubclassOf(classDeclaration: KSClassDeclaration) = this

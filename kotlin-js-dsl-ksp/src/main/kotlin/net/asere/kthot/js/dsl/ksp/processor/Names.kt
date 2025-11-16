@@ -34,3 +34,4 @@ const val jsFunctionModuleWriterName = "net.asere.kthot.js.dsl.ksp.processor.wri
 const val jsInitConfigName = "net.asere.kthot.js.dsl.ksp.processor.model.JsInitConfig"
 const val jsModuleItemName = "net.asere.kthot.js.dsl.syntax.module.JsModuleItem"
 const val jsModuleName = "net.asere.kthot.js.dsl.syntax.module.JsModule"
+const val jsNothingName = "net.asere.kthot.js.dsl.JsNothing"

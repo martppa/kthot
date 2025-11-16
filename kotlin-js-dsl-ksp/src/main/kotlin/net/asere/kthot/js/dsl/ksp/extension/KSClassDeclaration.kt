@@ -11,8 +11,10 @@ import net.asere.kthot.js.dsl.ksp.processor.jsConstructorAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsFunctionAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsFunctionModuleAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsImportableAnnotationName
+import net.asere.kthot.js.dsl.ksp.processor.jsNothingName
 import net.asere.kthot.js.dsl.ksp.processor.jsNullableAnnotationName
 import net.asere.kthot.js.dsl.ksp.processor.jsPropertyAnnotationName
+import net.asere.kthot.js.dsl.ksp.processor.jsSyntaxName
 
 /**
  * Returns a sequence of available functions annotated as @JsFunction
@@ -23,10 +25,27 @@ fun KSClassDeclaration.getJsAvailableFunctions(resolver: Resolver): Sequence<KSF
         it.annotations.find { annotation ->
             annotation.annotationType.resolve().declaration.qualifiedName?.asString() == jsFunctionAnnotationName
         } != null
+    }.onEach {
+        if (it.returnType?.resolve()?.declaration?.fullJsName == jsSyntaxName)
+            throw IllegalStateException("The JavaScript tagged function '${
+                it.name
+            }' can't return a type 'JsSyntax'. If a function has no return value then it must return 'JsNothing'.")
+        if (it.getVisibility() != Visibility.PUBLIC)
+            throw IllegalStateException("The JavaScript tagged function '${it.name}' must be public.")
+        if (it.isConstructor())
+            throw IllegalStateException("JavaScript tagged functions can't be constructors.")
+        if (it.returnType?.resolve()?.declaration?.isJsElement(resolver) == false &&
+            it.returnType?.resolve()?.declaration?.isJsElementGeneric(resolver) == false)
+            throw IllegalStateException("The JavaScript tagged function '${
+                it.name
+            }' must return a type of JsElement or a generic type bounded to a JsElement type.")
+        if (it.parameters.map { param -> param.type }.any {
+            type -> !type.resolve().declaration.isJsElement(resolver) &&
+                    !type.resolve().declaration.isJsElementGeneric(resolver)
+        }) throw IllegalArgumentException("Every argument of the JavaScript tagged function '${
+            it.name
+        }' must be of type of JsElement or a generic type bounded to a JsElement type.")
     }
-    .filter { it.getVisibility() == Visibility.PUBLIC }
-    .filter { !it.isConstructor() }
-    .filter { it.returnType?.resolve()?.declaration.isJsElement(resolver) }
 
 /**
  * Returns a sequence of available properties annotated as @JsFunction
@@ -36,8 +55,21 @@ fun KSClassDeclaration.getJsAvailableProperties(resolver: Resolver) = getAllProp
         it.annotations.find { annotation ->
             annotation.annotationType.resolve().declaration.qualifiedName?.asString() == jsPropertyAnnotationName
         } != null
+    }.onEach {
+        if (it.type.resolve().declaration.fullJsName == jsSyntaxName)
+            throw IllegalStateException("The JavaScript tagged property '${
+                it.name
+            }' can't be of type 'JsSyntax'.")
+        if (it.type.resolve().declaration.fullJsName == jsNothingName)
+            throw IllegalStateException("The JavaScript tagged property '${it.name}' must be of type 'JsNothing'.")
+        if (it.getVisibility() != Visibility.PUBLIC)
+            throw IllegalStateException("The JavaScript tagged property '${it.name}' must be public.")
+        if (!it.type.resolve().declaration.isJsElement(resolver) &&
+            !it.type.resolve().declaration.isJsElementGeneric(resolver))
+            throw IllegalStateException("The JavaScript tagged property '${
+                it.name
+            }' must be of type of JsElement or a generic type bounded to a JsElement type.")
     }
-    .filter { it.getVisibility() == Visibility.PUBLIC && it.isJsElement(resolver) }
 
 /**
  * Searches for all super classes that are interfaces and returns them
@@ -83,8 +115,8 @@ val KSClassDeclaration.jsName: String
         val jsClassAnnotation = annotations.find {
             it.annotationType.resolve().declaration.qualifiedName?.asString() == jsClassAnnotationName ||
                     it.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiClassAnnotationName ||
-            it.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiFunctionModuleAnnotationName ||
-            it.annotationType.resolve().declaration.qualifiedName?.asString() == jsFunctionModuleAnnotationName
+                    it.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiFunctionModuleAnnotationName ||
+                    it.annotationType.resolve().declaration.qualifiedName?.asString() == jsFunctionModuleAnnotationName
         } ?: return name
 
         val nameFromAnnotation =
@@ -196,19 +228,22 @@ fun KSClassDeclaration.getImportPath(): String = "${
     packageName.asString().replace(".", "/")
 }/${jsName}.js"
 
-val KSClassDeclaration.isImportable: Boolean get() = annotations.any { annotation ->
-    annotation.annotationType.resolve().declaration.qualifiedName?.asString() == jsImportableAnnotationName
-}
+val KSClassDeclaration.isImportable: Boolean
+    get() = annotations.any { annotation ->
+        annotation.annotationType.resolve().declaration.qualifiedName?.asString() == jsImportableAnnotationName
+    }
 
-val KSClassDeclaration.isApi: Boolean get() = annotations.any { annotation ->
-    annotation.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiClassAnnotationName ||
-    annotation.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiFunctionModuleAnnotationName
-}
+val KSClassDeclaration.isApi: Boolean
+    get() = annotations.any { annotation ->
+        annotation.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiClassAnnotationName ||
+                annotation.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiFunctionModuleAnnotationName
+    }
 
-val KSClassDeclaration.isMarkedAsClass: Boolean get() = annotations.any { annotation ->
-    annotation.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiClassAnnotationName ||
-    annotation.annotationType.resolve().declaration.qualifiedName?.asString() == jsClassAnnotationName
-}
+val KSClassDeclaration.isMarkedAsClass: Boolean
+    get() = annotations.any { annotation ->
+        annotation.annotationType.resolve().declaration.qualifiedName?.asString() == jsApiClassAnnotationName ||
+                annotation.annotationType.resolve().declaration.qualifiedName?.asString() == jsClassAnnotationName
+    }
 
 fun KSClassDeclaration.getDeclaration(name: String? = null): String {
     val stringBuilder = StringBuilder()

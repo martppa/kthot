@@ -7,7 +7,7 @@ import com.google.devtools.ksp.symbol.KSValueParameter
  */
 fun List<KSValueParameter>.definitionString() = joinToString(", ") {
     val paramName = it.name?.asString()
-    val paramType = it.type.resolve().declaration.name
+    val paramType = it.type.resolve().basicDefinitionName
     "$paramName: $paramType"
 }
 
