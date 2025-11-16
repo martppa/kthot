@@ -4,6 +4,10 @@ import net.asere.kthot.js.dsl.type.JsElement
 import net.asere.kthot.js.dsl.annotation.JsInternalApi
 import net.asere.kthot.js.dsl.provider.provide
 import net.asere.kthot.js.dsl.syntax.JsReferenceSyntax
+import net.asere.kthot.js.dsl.syntax.JsScope
+import net.asere.kthot.js.dsl.syntax.JsSyntaxScope
+import net.asere.kthot.js.dsl.type.string.JsString
+import net.asere.kthot.js.dsl.type.string.syntax
 import net.asere.kthot.js.dsl.type.value.JsValue
 
 
@@ -39,3 +43,9 @@ fun <T : JsValue> JsArray.Companion.syntax(
     value: JsElement,
     typeBuilder: (JsElement) -> T,
 ): JsArray<T> = JsArraySyntax(value = value, typeBuilder = typeBuilder)
+
+inline fun <reified T : JsValue> JsArray.Companion.syntax(block: JsScope.() -> JsArray<T>): JsArray<T> {
+    val scope = JsSyntaxScope()
+    scope.block()
+    return syntax(scope)
+}

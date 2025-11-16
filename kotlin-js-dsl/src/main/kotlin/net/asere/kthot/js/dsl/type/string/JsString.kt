@@ -26,7 +26,7 @@ interface JsString : JsValue {
      * Returns the length of the string.
      *
      * In JavaScript, this corresponds to `string.length`.
-     * @return A [net.asere.kthot.js.dsl.type.number.JsNumber] object representing the length of the string.
+     * @return A [JsNumber] object representing the length of the string.
      */
     fun getLength(): JsNumber = JsNumber.syntax(ChainOperation(this, "length"))
 

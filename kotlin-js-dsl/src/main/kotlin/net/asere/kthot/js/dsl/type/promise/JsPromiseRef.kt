@@ -4,10 +4,14 @@ package net.asere.kthot.js.dsl.type.promise
 
 import net.asere.kthot.js.dsl.annotation.JsInternalApi
 import net.asere.kthot.js.dsl.provider.provide
+import net.asere.kthot.js.dsl.syntax.JsScope
+import net.asere.kthot.js.dsl.syntax.JsSyntaxScope
 import net.asere.kthot.js.dsl.type.JsElement
 import net.asere.kthot.js.dsl.type.definition.JsPrintableDefinition
 import net.asere.kthot.js.dsl.type.reference.JsValueRef
 import net.asere.kthot.js.dsl.type.reference.ReferenceId
+import net.asere.kthot.js.dsl.type.string.JsString
+import net.asere.kthot.js.dsl.type.string.syntax
 import net.asere.kthot.js.dsl.type.value.JsValue
 
 class JsPromiseRef<T : JsValue> @JsInternalApi constructor(
@@ -67,4 +71,10 @@ inline fun <reified T : JsValue> JsPromise.Companion.def(
         name = name,
         _typeBuilder_ = ::provide
     )
+}
+
+inline fun <reified T : JsValue> JsPromise.Companion.syntax(block: JsScope.() -> JsPromise<T>): JsPromise<T> {
+    val scope = JsSyntaxScope()
+    scope.block()
+    return syntax(scope)
 }
