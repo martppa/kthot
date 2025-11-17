@@ -35,3 +35,5 @@ const val jsInitConfigName = "net.asere.kthot.js.dsl.ksp.processor.model.JsInitC
 const val jsModuleItemName = "net.asere.kthot.js.dsl.syntax.module.JsModuleItem"
 const val jsModuleName = "net.asere.kthot.js.dsl.syntax.module.JsModule"
 const val jsNothingName = "net.asere.kthot.js.dsl.JsNothing"
+const val jsSyntaxScopeName = "net.asere.kthot.js.dsl.syntax.JsSyntaxScope"
+const val jsScopeName = "net.asere.kthot.js.dsl.syntax.JsScope"

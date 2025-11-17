@@ -15,8 +15,10 @@ class JsStringSyntax internal constructor(value: String) :
 }
 
 fun JsString.Companion.syntax(value: String): JsString = JsStringSyntax(value)
+
 fun JsString.Companion.syntax(value: JsElement): JsString =
     JsStringSyntax(value)
+
 fun JsString.Companion.syntax(block: JsScope.() -> JsString): JsString {
     val scope = JsSyntaxScope()
     scope.block()

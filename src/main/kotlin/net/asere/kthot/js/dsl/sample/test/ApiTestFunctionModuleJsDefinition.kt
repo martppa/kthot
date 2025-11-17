@@ -16,6 +16,9 @@ interface ApiTestFunctionModuleJsDefinition {
     fun returningFunction(): JsNothing
 
     @JsFunction
+    fun stringReturningFunction(): JsString
+
+    @JsFunction
     fun functionWithParameter(number: JsNumber): JsNothing
 
     @JsFunction

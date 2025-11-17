@@ -271,3 +271,8 @@ fun KSClassDeclaration.getDeclaration(name: String? = null): String {
 
     return stringBuilder.toString()
 }
+
+/**
+ * Return the full name with types parameters
+ */
+val KSClassDeclaration.parametrizedName: String get() = "$jsName${genericTypesNamesString}"

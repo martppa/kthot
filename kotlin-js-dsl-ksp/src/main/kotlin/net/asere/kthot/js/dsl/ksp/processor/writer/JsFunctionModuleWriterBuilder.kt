@@ -40,6 +40,9 @@ class JsFunctionModuleWriterBuilder(
             if (it.declaration.isImportable)
                 requirements.add("${it.declaration.jsName}.Module")
         }
+        declaration.getGenericReturnTypes(resolver).filter { !it.isGenericType }.forEach {
+            imports.add("import ${it.declaration.fullName}\n")
+        }
 
         declaration.findJsConstructors().firstOrNull()?.parameters?.forEach {
             if (!it.type.isGenericTypeParameter()) {
@@ -79,9 +82,9 @@ class JsFunctionModuleWriterBuilder(
             }}), body = instance.${function.name}(${function.parameters.mapIndexed { index, item ->
                 (item.name?.asString() ?: "p$index").let { name ->
                     if (item.type.isGenericTypeParameter()) {
-                        "           $name = JsObject.syntax(\"$name\", false)\n"
+                        "           $name = JsObject.syntax(\"$name\")\n"
                     } else {
-                        "           $name = ${item.type.resolve().declaration.basicJsName}.ref${item.type.resolve().declaration.genericTypesNamesString}(\"$name\")\n"
+                        "           $name = ${item.type.resolve().declaration.basicJsName}.ref${item.type.resolve().definitionTypesWithObjects}(\"$name\")\n"
                     }
                 }
             }.joinToString { it } }))\n")

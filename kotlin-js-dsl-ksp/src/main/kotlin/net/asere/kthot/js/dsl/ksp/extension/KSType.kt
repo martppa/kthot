@@ -8,7 +8,7 @@ import com.google.devtools.ksp.symbol.KSTypeParameter
 import net.asere.kthot.js.dsl.type.reference.ReferenceId
 
 /**
- * The definition name includes all generic type parameters and its types
+ * The definition name includes all generic type parameters and its types, e.g: JsPromise<JsArray<JsString>>
  */
 val KSType.definitionName: String get() {
     val baseDeclaration = this.declaration
@@ -20,6 +20,47 @@ val KSType.definitionName: String get() {
             argumentType?.definitionName ?: "???"
         }
         return "$baseName<$argumentNames>"
+    }
+
+    return baseName
+}
+
+/**
+ * The definition types of all generic type parameters and its types, e.g: <JsArray<JsString>>
+ */
+val KSType.definitionTypes: String get() {
+    val baseName = ""
+
+    if (this.arguments.isNotEmpty()) {
+        val argumentNames = this.arguments.joinToString(separator = ", ") { arg ->
+            val argumentType = arg.type?.resolve()
+            argumentType?.definitionName ?: "???"
+        }
+        return "<$argumentNames>"
+    }
+
+    return baseName
+}
+
+/**
+ * The definition types of all generic type parameters and its types replacing TyeParameters as JsObject,
+ * e.g, in <JsArray<T>> would be: <JsArray<JsObject>>
+ */
+val KSType.definitionTypesWithObjects: String get() {
+    val baseName = ""
+
+    if (this.arguments.isNotEmpty()) {
+        val argumentNames = this.arguments.joinToString(separator = ", ") { arg ->
+            val argumentType = arg.type?.resolve()
+            if (argumentType?.isGenericType == true) {
+                "JsObject"
+            } else {
+                argumentType?.let {
+                    "${it.declaration.jsName}${it.definitionTypesWithObjects}"
+                } ?: "???"
+            }
+        }
+        return "<$argumentNames>"
     }
 
     return baseName

@@ -4,8 +4,6 @@ import net.asere.kthot.js.dsl.syntax.JsReferenceSyntax
 import net.asere.kthot.js.dsl.syntax.JsScope
 import net.asere.kthot.js.dsl.syntax.JsSyntaxScope
 import net.asere.kthot.js.dsl.type.JsElement
-import net.asere.kthot.js.dsl.type.string.JsString
-import net.asere.kthot.js.dsl.type.string.syntax
 
 class JsNumberSyntax internal constructor(value: String) :
     JsReferenceSyntax<JsNumber>(value), JsNumber {

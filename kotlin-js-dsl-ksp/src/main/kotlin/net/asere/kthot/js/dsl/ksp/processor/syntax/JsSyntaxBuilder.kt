@@ -15,7 +15,12 @@ class JsSyntaxBuilder(
     private val logger: KSPLogger
 ) : ClassCodeBuilder {
 
+    private lateinit var jsSyntaxScopeDeclaration: KSClassDeclaration
+    private lateinit var jsScopeDeclaration: KSClassDeclaration
+
     override fun build(resolver: Resolver, declaration: KSClassDeclaration) {
+        jsSyntaxScopeDeclaration = resolver.loadClass(jsSyntaxScopeName)
+        jsScopeDeclaration = resolver.loadClass(jsScopeName)
         createSyntax(declaration, resolver)
     }
 
@@ -54,7 +59,7 @@ class JsSyntaxBuilder(
         if (declaration.typeParameters.isNotEmpty() && declaration.getGenericReturnTypes(resolver).isNotEmpty()) {
             codeBuilder.append("@OptIn(JsInternalApi::class)\n")
             codeBuilder.append("inline fun ${declaration.genericTypesDeclarationString("reified")} ${declaration.jsName}.Companion.syntax(\n")
-            codeBuilder.append("  value: String,\n")
+            codeBuilder.append("  value: String")
             codeBuilder.append("  \n")
             codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesNamesString}${declaration.whereClauseString}")
             codeBuilder.append(" = ")
@@ -67,7 +72,7 @@ class JsSyntaxBuilder(
 
             codeBuilder.append("@OptIn(JsInternalApi::class)\n")
             codeBuilder.append("inline fun ${declaration.genericTypesDeclarationString("reified")} ${declaration.jsName}.Companion.syntax(\n")
-            codeBuilder.append("  value: JsElement,\n")
+            codeBuilder.append("  value: JsElement")
             codeBuilder.append("  \n")
             codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesNamesString}${declaration.whereClauseString}")
             codeBuilder.append(" = ")
@@ -77,6 +82,15 @@ class JsSyntaxBuilder(
                 codeBuilder.append(it)
             }
             codeBuilder.append(")\n")
+
+            codeBuilder.append("inline fun ${declaration.genericTypesDeclarationString("reified")} ${declaration.jsName}.Companion.syntax(\n")
+            codeBuilder.append("  block: ${jsScopeDeclaration.name}.() -> ${declaration.parametrizedName}")
+            codeBuilder.append("  \n")
+            codeBuilder.append("): ${declaration.parametrizedName} {\n")
+            codeBuilder.append("    val scope = ${jsSyntaxScopeDeclaration.name}()\n")
+            codeBuilder.append("    scope.block()\n")
+            codeBuilder.append("    return syntax(scope)\n")
+            codeBuilder.append("}\n")
 
             codeBuilder.append("\n")
             val constructor = declaration.findJsConstructors().firstOrNull()
@@ -90,6 +104,15 @@ class JsSyntaxBuilder(
                 codeBuilder.append("inline fun ${declaration.genericTypesDeclarationString(modifier = "reified")} ${declaration.jsName}.Companion.new(): ${declaration.jsName}${declaration.genericTypesNamesString} = ${declaration.jsName}.syntax${declaration.genericTypesNamesString}(JsSyntax(\"new ${declaration.jsName}()\"))")
             }
         } else {
+            codeBuilder.append("fun ${declaration.jsName}.Companion.syntax(\n")
+            codeBuilder.append("  block: ${jsScopeDeclaration.name}.() -> ${declaration.jsName}")
+            codeBuilder.append("  \n")
+            codeBuilder.append("): ${declaration.jsName} {\n")
+            codeBuilder.append("    val scope = ${jsSyntaxScopeDeclaration.name}()\n")
+            codeBuilder.append("    scope.block()\n")
+            codeBuilder.append("    return syntax(scope)\n")
+            codeBuilder.append("}\n")
+
             codeBuilder.append("\n")
             val constructor = declaration.findJsConstructors().firstOrNull()
             if (constructor != null) {
@@ -154,6 +177,8 @@ class JsSyntaxBuilder(
         imports.add(resolver.loadClass(jsInternalApiAnnotationName).fullName)
         imports.add(resolver.loadClass(jsElementName).fullName)
         imports.add(resolver.loadClass(jsSyntaxName).fullName)
+        imports.add(resolver.loadClass(jsSyntaxScopeName).fullName)
+        imports.add(resolver.loadClass(jsScopeName).fullName)
         imports.add(jsProvideFunctionName)
         declaration.getAllTypes().forEach {
             imports.add(it.declaration.fullName)
