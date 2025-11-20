@@ -24,6 +24,7 @@ class JsFunctionModuleBuilder(
     private lateinit var jsAccessOperationDeclaration: KSClassDeclaration
     private lateinit var jsInternalApiAnnotationDeclaration: KSClassDeclaration
     private lateinit var jsImportableAnnotationDeclaration: KSClassDeclaration
+    private lateinit var jsGenericsDeclaration: KSClassDeclaration
 
     private fun Resolver.checkDependencies() {
         jsChainOperationDeclaration = loadClass(jsChainOperationName)
@@ -35,6 +36,7 @@ class JsFunctionModuleBuilder(
         jsAccessOperationDeclaration = loadClass(jsAccessOperationName)
         jsInternalApiAnnotationDeclaration = loadClass(jsInternalApiAnnotationName)
         jsImportableAnnotationDeclaration = loadClass(jsImportableAnnotationName)
+        jsGenericsDeclaration = loadClass(jsGenericsName)
     }
 
     override fun build(resolver: Resolver, declaration: KSClassDeclaration) {
@@ -73,11 +75,12 @@ class JsFunctionModuleBuilder(
         imports.add(jsAccessOperationDeclaration.fullName)
         imports.add(jsInternalApiAnnotationDeclaration.fullName)
         imports.add(jsImportableAnnotationDeclaration.fullName)
+        imports.add(jsGenericsDeclaration.fullName)
         imports.add(jsProvideFunctionName)
         if (!declaration.isApi) {
             imports.add("${declaration.packageName.asString()}.${declaration.jsName}Module")
         }
-        declaration.getAllTypes().forEach {
+        declaration.getAllTypes().filter { !it.isGenericType }.forEach {
             imports.add(it.declaration.fullName)
         }
         declaration.getGenericReturnTypes(resolver).filter { !it.isGenericType }.forEach { type ->
@@ -121,16 +124,17 @@ class JsFunctionModuleBuilder(
 
     private fun StringBuilder.appendMethods(declaration: KSClassDeclaration, resolver: Resolver) {
         declaration.getJsAvailableFunctions(resolver).forEach { function ->
+            val prefix = if (function.typeParameters.isEmpty()) "" else "inline "
             val functionName = function.name
             if (function.returnType.isGenericTypeParameter()) {
-                append("  inline fun ${function.getDeclaration(functionName)}(${
+                append("  ${prefix}fun ${function.getDeclaration(functionName)}(${
                     function.parameters.definitionString()}): ${
                     function.returnType?.resolve()?.definitionName}${function.whereClauseString} = provide(${
                     jsInvocationOperationDeclaration.name}(\"$functionName\", ${
                     function.parameters.listString()}))\n")
             } else if (function.returnType?.resolve().hasArgumentsTypes()) {
                 val builderParameters = function.returnType!!.resolve().getArgumentsTypes()
-                append("  inline fun ${function.getDeclaration(functionName)}(${
+                append("  ${prefix}fun ${function.getDeclaration(functionName)}(${
                     function.parameters.definitionString()}): ${
                     function.returnType?.resolve()?.definitionName}${function.whereClauseString} = ${
                     function.returnType?.resolve()?.declaration?.name}.syntax(${
@@ -143,7 +147,7 @@ class JsFunctionModuleBuilder(
                     ) { "::provide" }
                 })\n")
             } else {
-                append("  inline fun ${function.getDeclaration(functionName)}(${
+                append("  ${prefix}fun ${function.getDeclaration(functionName)}(${
                     function.parameters.definitionString()}): ${
                     function.returnType?.resolve()?.definitionName}${function.whereClauseString} = ${
                     function.returnType?.resolve()?.declaration?.name}.syntax(${

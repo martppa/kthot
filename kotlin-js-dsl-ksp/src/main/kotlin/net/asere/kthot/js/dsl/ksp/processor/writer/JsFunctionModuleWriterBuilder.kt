@@ -6,6 +6,7 @@ import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSDeclaration
+import com.google.devtools.ksp.symbol.KSTypeParameter
 import net.asere.kthot.js.dsl.ksp.extension.*
 import net.asere.kthot.js.dsl.ksp.processor.*
 import java.io.OutputStreamWriter
@@ -29,13 +30,16 @@ class JsFunctionModuleWriterBuilder(
         val classWriter = resolver.loadClass(jsFunctionModuleWriterName)
         val jsDslAnnotation = resolver.loadClass(jsDslAnnotationName)
         val jsObjectClass = resolver.loadClass(jsObjectName)
+        val jsGenericsDeclaration = resolver.loadClass(jsGenericsName)
 
         imports.add("import ${jsDslAnnotation.fullName}\n")
         imports.add("import ${classWriter.fullName}\n")
         imports.add("import ${resolver.loadClass(jsValueName).fullName}\n")
+        imports.add("import ${jsGenericsDeclaration.fullName}\n")
         imports.add("import ${jsObjectClass.fullName}\n")
         imports.add("import ${jsObjectClass.packageName.asString()}.syntax\n")
-        declaration.getAllTypes().forEach {
+
+        declaration.getAllTypes().filter { it.isJsElement(resolver) }.forEach {
             imports.add("import ${it.declaration.fullName}\n")
             if (it.declaration.isImportable)
                 requirements.add("${it.declaration.jsName}.Module")
@@ -82,9 +86,9 @@ class JsFunctionModuleWriterBuilder(
             }}), body = instance.${function.name}(${function.parameters.mapIndexed { index, item ->
                 (item.name?.asString() ?: "p$index").let { name ->
                     if (item.type.isGenericTypeParameter()) {
-                        "           $name = JsObject.syntax(\"$name\")\n"
+                        "           $name = ${jsGenericsDeclaration.name}.syntax(\"$name\")\n"
                     } else {
-                        "           $name = ${item.type.resolve().declaration.basicJsName}.ref${item.type.resolve().definitionTypesWithObjects}(\"$name\")\n"
+                        "           $name = ${item.type.resolve().declaration.basicJsName}.ref${item.type.resolve().definitionTypesAsJsGenerics}(\"$name\")\n"
                     }
                 }
             }.joinToString { it } }))\n")

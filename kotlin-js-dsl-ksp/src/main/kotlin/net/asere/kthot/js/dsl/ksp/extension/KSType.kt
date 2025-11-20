@@ -2,7 +2,6 @@ package net.asere.kthot.js.dsl.ksp.extension
 
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSClassDeclaration
-import com.google.devtools.ksp.symbol.KSDeclaration
 import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSTypeParameter
 import net.asere.kthot.js.dsl.type.reference.ReferenceId
@@ -17,7 +16,7 @@ val KSType.definitionName: String get() {
     if (this.arguments.isNotEmpty()) {
         val argumentNames = this.arguments.joinToString(separator = ", ") { arg ->
             val argumentType = arg.type?.resolve()
-            argumentType?.definitionName ?: "???"
+            argumentType?.definitionName ?: "*"
         }
         return "$baseName<$argumentNames>"
     }
@@ -34,7 +33,7 @@ val KSType.definitionTypes: String get() {
     if (this.arguments.isNotEmpty()) {
         val argumentNames = this.arguments.joinToString(separator = ", ") { arg ->
             val argumentType = arg.type?.resolve()
-            argumentType?.definitionName ?: "???"
+            argumentType?.definitionName ?: "*"
         }
         return "<$argumentNames>"
     }
@@ -46,18 +45,23 @@ val KSType.definitionTypes: String get() {
  * The definition types of all generic type parameters and its types replacing TyeParameters as JsObject,
  * e.g, in <JsArray<T>> would be: <JsArray<JsObject>>
  */
-val KSType.definitionTypesWithObjects: String get() {
+val KSType.definitionTypesAsJsGenerics: String get() {
     val baseName = ""
 
     if (this.arguments.isNotEmpty()) {
         val argumentNames = this.arguments.joinToString(separator = ", ") { arg ->
             val argumentType = arg.type?.resolve()
             if (argumentType?.isGenericType == true) {
-                "JsObject"
+                val declaration = argumentType.declaration as KSTypeParameter
+                if (declaration.bounds.toList().isEmpty()) {
+                    "JsGenerics"
+                } else {
+                    declaration.bounds.first().resolve().definitionName
+                }
             } else {
                 argumentType?.let {
-                    "${it.declaration.jsName}${it.definitionTypesWithObjects}"
-                } ?: "???"
+                    "${it.declaration.jsName}${it.definitionTypesAsJsGenerics}"
+                } ?: "*"
             }
         }
         return "<$argumentNames>"
@@ -76,7 +80,7 @@ val KSType.basicDefinitionName: String get() {
     if (this.arguments.isNotEmpty()) {
         val argumentNames = this.arguments.joinToString(separator = ", ") { arg ->
             val argumentType = arg.type?.resolve()
-            argumentType?.basicDefinitionName ?: "???"
+            argumentType?.basicDefinitionName ?: "*"
         }
         return "$baseName<$argumentNames>"
     }

@@ -6,6 +6,7 @@ import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSDeclaration
+import com.google.devtools.ksp.symbol.KSTypeParameter
 import net.asere.kthot.js.dsl.ksp.extension.*
 import net.asere.kthot.js.dsl.ksp.processor.*
 import java.io.OutputStreamWriter
@@ -29,10 +30,12 @@ class JsClassWriterBuilder(
         val classWriter = resolver.loadClass(jsClassWriterName)
         val jsDslAnnotation = resolver.loadClass(jsDslAnnotationName)
         val jsObjectClass = resolver.loadClass(jsObjectName)
+        val jsGenericsClass = resolver.loadClass(jsGenericsName)
 
         imports.add("import ${jsDslAnnotation.fullName}\n")
         imports.add("import ${classWriter.fullName}\n")
         imports.add("import ${resolver.loadClass(jsValueName).fullName}\n")
+        imports.add("import ${jsGenericsClass.fullName}\n")
         imports.add("import ${jsObjectClass.fullName}\n")
         imports.add("import ${jsObjectClass.packageName.asString()}.syntax\n")
 
@@ -40,6 +43,10 @@ class JsClassWriterBuilder(
             imports.add("import ${it.declaration.fullName}\n")
             if (it.declaration.isImportable)
                 requirements.add("${it.declaration.jsName}.Module")
+        }
+
+        declaration.getGenericReturnTypes(resolver).filter { !it.isGenericType }.forEach {
+            imports.add("import ${it.declaration.fullName}\n")
         }
 
         declaration.findJsConstructors().firstOrNull()?.parameters?.forEach {
@@ -72,11 +79,11 @@ class JsClassWriterBuilder(
         requirements.forEach {
             codeBuilder.append("    addRequire($it)\n")
         }
-        codeBuilder.append("        val instance = ${declaration.name}(\n${
+        codeBuilder.append("        val instance = ${declaration.name}${declaration.asType(listOf()).definitionTypesAsJsGenerics}(\n${
             declaration.findJsConstructors().firstOrNull()?.parameters?.mapIndexed { index, item -> 
                 (item.name?.asString() ?: "p$index").let { name -> 
                     if (item.type.isGenericTypeParameter()) {
-                        "           $name = provide(JsSyntax())\n"
+                        "           $name = provide(JsSyntax(\"$name\"))\n"
                     } else {
                         "           $name = ${item.type.resolve().declaration.basicJsName}.ref(\"$name\")\n"
                     }
@@ -99,9 +106,9 @@ class JsClassWriterBuilder(
             }}), body = instance.${function.name}(${function.parameters.mapIndexed { index, item ->
                 (item.name?.asString() ?: "p$index").let { name ->
                     if (item.type.isGenericTypeParameter()) {
-                        "           $name = JsObject.syntax(\"$name\", false)\n"
+                        "           $name = ${jsGenericsClass.name}.syntax(\"$name\")\n"
                     } else {
-                        "           $name = ${item.type.resolve().declaration.basicJsName}.ref${item.type.resolve().declaration.genericTypesNamesString}(\"$name\")\n"
+                        "           $name = ${item.type.resolve().declaration.basicJsName}.ref${item.type.resolve().definitionTypesAsJsGenerics}(\"$name\")\n"
                     }
                 }
             }.joinToString { it } }))\n")

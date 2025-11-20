@@ -1,11 +1,12 @@
 package net.asere.kthot.js.dsl.sample.test
 
 import net.asere.kthot.js.dsl.JsNothing
+import net.asere.kthot.js.dsl.ksp.annotation.JsClass
+import net.asere.kthot.js.dsl.ksp.annotation.JsConstructor
 import net.asere.kthot.js.dsl.ksp.annotation.JsFunction
-import net.asere.kthot.js.dsl.ksp.annotation.JsFunctionModule
-import net.asere.kthot.js.dsl.ksp.processor.js.JavaScriptModule
+import net.asere.kthot.js.dsl.ksp.annotation.JsProperty
+import net.asere.kthot.js.dsl.ksp.processor.js.JavaScriptClass
 import net.asere.kthot.js.dsl.log.Log
-import net.asere.kthot.js.dsl.provider.provide
 import net.asere.kthot.js.dsl.syntax
 import net.asere.kthot.js.dsl.syntax.JsGenerics
 import net.asere.kthot.js.dsl.syntax.jsreturn.Return
@@ -14,13 +15,36 @@ import net.asere.kthot.js.dsl.type.array.syntax
 import net.asere.kthot.js.dsl.type.number.JsNumber
 import net.asere.kthot.js.dsl.type.promise.JsPromise
 import net.asere.kthot.js.dsl.type.string.JsString
+import net.asere.kthot.js.dsl.type.string.JsStringRef
 import net.asere.kthot.js.dsl.type.string.js
+import net.asere.kthot.js.dsl.type.string.ref
 import net.asere.kthot.js.dsl.type.string.syntax
 import net.asere.kthot.js.dsl.type.string.value
 import net.asere.kthot.js.dsl.type.value.JsValue
 
-@JsFunctionModule(name = "JsTestFunctionModule")
-class TestFunctionModule : JavaScriptModule() {
+
+@JsClass(name = "JsClassTest2")
+class ClassTest2FunctionModule : JavaScriptClass() {
+
+}
+
+@JsClass(name = "JsClassTest")
+class ClassTestFunctionModule<T : JsValue> @JsConstructor constructor(
+    @JsProperty
+    val genericProperty: T
+) : JavaScriptClass() {
+
+    @JsProperty
+    val stringProperty: JsStringRef = JsString.ref("stringProperty")
+
+    init {
+        importModule(JsClassTest2.Module)
+        Constructor {
+            This.genericProperty assign genericProperty
+            This.stringProperty assign stringProperty
+        }
+    }
+
     @JsFunction
     fun returningFunction(): JsNothing = JsNothing.syntax {
         Log("Sample function")
@@ -37,8 +61,8 @@ class TestFunctionModule : JavaScriptModule() {
     }
 
     @JsFunction
-    inline fun <reified T : JsArray<JsString>> basicFunctionReturnGeneric(): T = JsGenerics.syntax {
-        Return { provide(JsString.value("")) }
+    fun basicFunctionReturnGeneric(): T = JsGenerics.syntax {
+        Return { genericProperty }
     }
 
     @JsFunction
@@ -47,7 +71,7 @@ class TestFunctionModule : JavaScriptModule() {
     }
 
     @JsFunction
-    fun <T : JsValue> functionWithGenericParameter(parameter: T): JsNothing = JsNothing.syntax {
+    fun functionWithGenericParameter(parameter: T): JsNothing = JsNothing.syntax {
         Log(JsString.value("Nothing returned for #0", parameter))
     }
 
@@ -69,7 +93,7 @@ class TestFunctionModule : JavaScriptModule() {
     }
 
     @JsFunction
-    fun <T : JsValue> functionWithPromiseGenericTypeParameter(genericTyped: JsPromise<T>): JsNothing = JsNothing.syntax {
+    fun functionWithGenericTypeParameter(genericTyped: JsPromise<T>): JsNothing = JsNothing.syntax {
         Log("Nothing!")
     }
 
@@ -81,15 +105,8 @@ class TestFunctionModule : JavaScriptModule() {
     }
 
     @JsFunction
-    fun <T : JsValue> functionWithComplexGenericTypeParameter(
+    fun functionWithComplexGenericTypeParameter(
         genericTyped: JsPromise<JsArray<T>>
-    ): JsNothing = JsNothing.syntax {
-        Log("Nothing!")
-    }
-
-    @JsFunction
-    fun <T : JsValue> functionWithGenericTypeParameter(
-        genericTyped: T
     ): JsNothing = JsNothing.syntax {
         Log("Nothing!")
     }

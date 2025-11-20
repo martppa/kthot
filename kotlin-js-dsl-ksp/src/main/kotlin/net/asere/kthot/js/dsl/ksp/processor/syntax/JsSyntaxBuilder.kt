@@ -180,8 +180,14 @@ class JsSyntaxBuilder(
         imports.add(resolver.loadClass(jsSyntaxScopeName).fullName)
         imports.add(resolver.loadClass(jsScopeName).fullName)
         imports.add(jsProvideFunctionName)
-        declaration.getAllTypes().forEach {
+        declaration.getAllTypes().filter { !it.isGenericType }.forEach {
             imports.add(it.declaration.fullName)
+        }
+        declaration.getGenericReturnTypes(resolver).filter { !it.isGenericType }.forEach { type ->
+            type.getAllTypes().filter { !it.isGenericType }.forEach {
+                imports.add(it.declaration.fullName)
+            }
+            imports.add(type.declaration.fullName)
         }
         declaration.findJsConstructors().forEach { constructor ->
             constructor.parameters.forEach { parameter ->
@@ -190,21 +196,29 @@ class JsSyntaxBuilder(
             }
         }
         declaration.getJsAvailableProperties(resolver)
-            .filter { it.type.resolve().declaration !is KSTypeParameter }
+            .filter { !it.isGenericTypeParameter() }
             .forEach { property ->
                 imports.add(property.typeFullName)
                 imports.add(property.basicTypeFullName)
             }
         for (function in declaration.getJsAvailableFunctions(resolver)) {
-            if (function.returnType?.resolve() !is KSTypeParameter) {
+            if (function.returnType?.isGenericTypeParameter() == false) {
                 imports.add(function.returnType!!.resolve().declaration.fullName)
                 imports.add(function.returnType!!.resolve().declaration.fullBasicTypeName)
             }
-            function.parameters.filter { it.type.resolve() !is KSTypeParameter }.forEach { param ->
+            function.parameters.filter { !it.type.isGenericTypeParameter() }.forEach { param ->
                 imports.add(param.type.resolve().declaration.fullName)
                 imports.add(param.type.resolve().declaration.fullBasicTypeName)
             }
         }
+        declaration.typeParameters
+            .map { type ->
+                type.bounds.toList().map {
+                    it.resolve().getAllTypes()
+                }
+            }.flatten().flatten().filter { !it.isGenericType }.map { it.declaration.fullName }.forEach {
+                imports.add(it)
+            }
         imports.remove("kotlin.Any")
         imports.forEach {
             append("import $it\n")

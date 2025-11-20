@@ -38,13 +38,13 @@ fun KSClassDeclaration.getJsAvailableFunctions(resolver: Resolver): Sequence<KSF
             it.returnType?.resolve()?.declaration?.isJsElementGeneric(resolver) == false)
             throw IllegalStateException("The JavaScript tagged function '${
                 it.name
-            }' must return a type of JsElement or a generic type bounded to a JsElement type.")
+            }' must return a type of JsElement or a generic type bound to a JsElement type.")
         if (it.parameters.map { param -> param.type }.any {
             type -> !type.resolve().declaration.isJsElement(resolver) &&
                     !type.resolve().declaration.isJsElementGeneric(resolver)
         }) throw IllegalArgumentException("Every argument of the JavaScript tagged function '${
             it.name
-        }' must be of type of JsElement or a generic type bounded to a JsElement type.")
+        }' must be of type of JsElement or a generic type bound to a JsElement type.")
     }
 
 /**
@@ -68,7 +68,7 @@ fun KSClassDeclaration.getJsAvailableProperties(resolver: Resolver) = getAllProp
             !it.type.resolve().declaration.isJsElementGeneric(resolver))
             throw IllegalStateException("The JavaScript tagged property '${
                 it.name
-            }' must be of type of JsElement or a generic type bounded to a JsElement type.")
+            }' must be of type of JsElement or a generic type bound to a JsElement type.")
     }
 
 /**

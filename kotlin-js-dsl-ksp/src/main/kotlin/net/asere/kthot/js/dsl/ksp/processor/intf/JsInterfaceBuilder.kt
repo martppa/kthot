@@ -73,14 +73,20 @@ abstract class JsInterfaceBuilder(
         imports.add(jsInternalApiAnnotationDeclaration.fullName)
         imports.add(jsImportableAnnotationDeclaration.fullName)
         imports.add(jsProvideFunctionName)
+        declaration.getAllTypes().filter { !it.isGenericType }.forEach {
+            imports.add(it.declaration.fullName)
+        }
         declaration.getGenericReturnTypes(resolver).filter { !it.isGenericType }.forEach { type ->
+            type.getAllTypes().filter { !it.isGenericType }.forEach {
+                imports.add(it.declaration.fullName)
+            }
             imports.add(type.declaration.fullName)
         }
         if (declaration.getGenericReturnTypes(resolver).isNotEmpty()) {
             imports.add(jsElementDeclaration.fullName)
         }
         declaration.superTypeInterfaces.forEach { type ->
-            imports.addAll(type.getAllTypes().map { it.declaration.fullName })
+            imports.addAll(type.getAllTypes().filter { !it.isGenericType }.map { it.declaration.fullName })
         }
         declaration.constructors.forEach { constructor ->
             constructor.parameters.forEach { parameter ->
@@ -89,7 +95,7 @@ abstract class JsInterfaceBuilder(
             }
         }
         declaration.getJsAvailableProperties(resolver)
-            .filter { it.type.resolve().declaration !is KSTypeParameter }
+            .filter { !it.isGenericTypeParameter() }
             .forEach { property ->
                 imports.add(property.typeFullName)
                 imports.add(property.basicTypeFullName)
@@ -120,7 +126,7 @@ abstract class JsInterfaceBuilder(
                     imports.add("${function.returnType!!.packageName}.ref")
                 }
             }
-            function.parameters.filter { it.type.resolve() !is KSTypeParameter }.forEach { param ->
+            function.parameters.filter { !it.type.isGenericTypeParameter() }.forEach { param ->
                 imports.add(param.type.resolve().declaration.fullName)
                 imports.add(param.type.resolve().declaration.fullBasicTypeName)
             }
@@ -130,7 +136,7 @@ abstract class JsInterfaceBuilder(
                 type.bounds.toList().map {
                     it.resolve().getAllTypes()
                 }
-            }.flatten().flatten().map { it.declaration.fullName }.forEach {
+            }.flatten().flatten().filter { !it.isGenericType }.map { it.declaration.fullName }.forEach {
                 imports.add(it)
             }
         imports.remove("kotlin.Any")
@@ -145,15 +151,13 @@ abstract class JsInterfaceBuilder(
             append("  val ${type.getBuilderDefinition(jsElementDeclaration)}\n")
         }
         declaration.getJsAvailableProperties(resolver).forEach { property ->
-            if (property.type.isSubclassOf(jsSyntaxDeclaration))
-                throw IllegalArgumentException("Properties of generated classes can't be of type JsSyntax")
             val propertyName = property.name
             val propertyDefinitionName = property.type.resolve().definitionName
             if (property.isGenericTypeParameter()) {
                 append(
                     "  val $propertyName: $propertyDefinitionName get() = ${property.type.resolve().builderName}(${
                         resolver.loadClass(
-                            jsAccessOperationName
+                            jsChainOperationName
                         )
                     }(this, \"$propertyName\"))\n"
                 )
@@ -177,9 +181,9 @@ abstract class JsInterfaceBuilder(
                     function.parameters.definitionString()}): ${
                         function.returnType?.resolve()?.definitionName} = ${
                             function.returnType?.resolve()?.builderName}(${
-                                resolver.loadClass(jsAccessOperationName)}(this, ${
+                                jsChainOperationDeclaration.name}(this, ${
                                     jsInvocationOperationDeclaration.name}(\"$functionName\", ${
-                                        function.parameters.listString()})))")
+                                        function.parameters.listString()})))\n")
             } else if (function.returnType?.resolve().hasArgumentsTypes()) {
                 val builderParameters = function.returnType!!.resolve().getArgumentsTypes()
                 append("  fun $functionName(${
