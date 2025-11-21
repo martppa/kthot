@@ -29,3 +29,5 @@ fun <T : JsValue> ((JsElement) -> T).syntax(block: JsScope.() -> T): T {
     return this(scope)
 }
 
+fun <T : JsValue> ((JsElement) -> T).syntax(value: String): T = this(JsSyntax(value))
+

@@ -4,6 +4,8 @@ import net.asere.kthot.js.dsl.annotation.JsInternalApi
 import net.asere.kthot.js.dsl.provider.provide
 import net.asere.kthot.js.dsl.type.JsElement
 import net.asere.kthot.js.dsl.syntax.JsReferenceSyntax
+import net.asere.kthot.js.dsl.syntax.JsScope
+import net.asere.kthot.js.dsl.syntax.JsSyntaxScope
 import net.asere.kthot.js.dsl.type.value.JsValue
 
 @JsInternalApi
@@ -48,3 +50,15 @@ inline fun <reified T : JsValue> JsPromise.Companion.syntax(
     value = value,
     typeBuilder = ::provide,
 )
+
+inline fun <reified T : JsValue> JsPromise.Companion.syntax(block: JsScope.() -> JsPromise<T>): JsPromise<T> {
+    val scope = JsSyntaxScope()
+    scope.block()
+    return syntax(scope)
+}
+
+inline fun <reified T : JsValue> JsPromise.Companion.async(block: JsScope.() -> T): JsPromise<T> {
+    val scope = JsSyntaxScope()
+    scope.block()
+    return syntax(scope)
+}

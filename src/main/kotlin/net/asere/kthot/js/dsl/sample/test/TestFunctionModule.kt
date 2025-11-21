@@ -38,7 +38,7 @@ class TestFunctionModule : JavaScriptModule() {
 
     @JsFunction
     inline fun <reified T : JsArray<JsString>> basicFunctionReturnGeneric(): T = provide {
-        Return { provide(JsArray.value("One element".js)) }
+        Return { provide(JsArray.value("Element one".js)) }
     }
 
     @JsFunction

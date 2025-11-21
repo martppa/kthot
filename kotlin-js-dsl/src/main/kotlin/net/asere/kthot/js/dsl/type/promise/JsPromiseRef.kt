@@ -72,9 +72,3 @@ inline fun <reified T : JsValue> JsPromise.Companion.def(
         _typeBuilder_ = ::provide
     )
 }
-
-inline fun <reified T : JsValue> JsPromise.Companion.syntax(block: JsScope.() -> JsPromise<T>): JsPromise<T> {
-    val scope = JsSyntaxScope()
-    scope.block()
-    return syntax(scope)
-}

@@ -94,13 +94,16 @@ class JsClassWriterBuilder(
         })\n")
         codeBuilder.append("        instance.requirements.forEach { it -> addImport(it) }\n")
         codeBuilder.append("        addClassHeader(\"${declaration.jsName}\")\n")
-        declaration.findJsConstructors().forEach {
-            codeBuilder.append("        addConstructor(${it.parameters.joinToString { param -> 
+        declaration.findJsConstructors().firstOrNull()?.let {
+            val constructorParams = it.parameters.filter { param -> !param.type.isBuilderFunction }
+            codeBuilder.append("        if (instance.constructorBody != null) {\n")
+            codeBuilder.append("        addConstructor(${constructorParams.joinToString { param -> 
                 val parameterType = param.type.resolve()
                 if (!parameterType.isJsElement(resolver) && !parameterType.isGenericType && !parameterType.isBuilderFunction)
                     throw IllegalArgumentException("Constructor properties of type '${declaration.jsName}' must be JsElement types or type builders '(JsElement) -> T'.")
                 "\"${param.name?.asString() ?: "" }\""
-            }}, body = instance.constructorBody ?: JsSyntax(\"\"))\n")
+            }}${if (constructorParams.isEmpty()) "" else ","} body = instance.constructorBody!!)\n")
+            codeBuilder.append("        }\n")
         }
         declaration.findJsFunctions().forEach { function ->
             codeBuilder.append("        addFunction(isAsync = ${function.isAsync}, name = \"${function.name}\", parameters = listOf(${function.parameters.joinToString { param ->
