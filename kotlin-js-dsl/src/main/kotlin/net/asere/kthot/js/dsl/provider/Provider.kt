@@ -1,5 +1,7 @@
 package net.asere.kthot.js.dsl.provider
 
+import net.asere.kthot.js.dsl.syntax.JsScope
+import net.asere.kthot.js.dsl.syntax.JsSyntaxScope
 import net.asere.kthot.js.dsl.type.JsElement
 import net.asere.kthot.js.dsl.type.reference.JsReference
 import net.asere.kthot.js.dsl.type.value.JsValue
@@ -21,6 +23,12 @@ fun provide(key: String, value: JsElement): Any {
     val beacon = beacons[key]
         ?: throw ProviderNotFoundException(key)
     return beacon.invoke(value)
+}
+
+inline fun <reified T> provide(block: JsScope.() -> T): T {
+    val scope = JsSyntaxScope()
+    scope.block()
+    return provide(scope)
 }
 
 inline fun <reified T> provide(element: JsElement): T {

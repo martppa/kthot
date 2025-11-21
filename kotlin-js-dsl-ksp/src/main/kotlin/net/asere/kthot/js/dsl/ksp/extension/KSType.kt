@@ -4,6 +4,7 @@ import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSTypeParameter
+import net.asere.kthot.js.dsl.ksp.processor.jsElementName
 import net.asere.kthot.js.dsl.type.reference.ReferenceId
 
 /**
@@ -143,3 +144,36 @@ fun KSType.getTypesAsParametersDefinition() = arguments.joinToString { "${it.typ
 val KSType.isGenericType: Boolean get() = declaration is KSTypeParameter
 
 fun KSType.isJsElement(resolver: Resolver): Boolean = declaration.isJsElement(resolver)
+
+/**
+ * Checks if the given KSType represents a function signature of the form
+ * (JsElement) -> T, where T is any return type.
+ *
+ * @return True if the type matches the pattern, false otherwise.
+ */
+val KSType.isBuilderFunction: Boolean get() {
+    val FUNCTION1_QUALIFIED_NAME = "kotlin.Function1"
+
+    val JSELEMENT_QUALIFIED_NAME = jsElementName
+
+    val isFunction1 = declaration.qualifiedName?.asString() == FUNCTION1_QUALIFIED_NAME
+    if (!isFunction1) {
+        return false
+    }
+
+    val typeArguments = arguments
+
+    if (typeArguments.size != 2) {
+        return false
+    }
+
+    val parameterTypeReference = typeArguments[0].type
+    if (parameterTypeReference == null) {
+        return false
+    }
+
+    val parameterType = parameterTypeReference.resolve()
+    val parameterQualifiedName = parameterType.declaration.qualifiedName?.asString()
+
+    return parameterQualifiedName == JSELEMENT_QUALIFIED_NAME
+}

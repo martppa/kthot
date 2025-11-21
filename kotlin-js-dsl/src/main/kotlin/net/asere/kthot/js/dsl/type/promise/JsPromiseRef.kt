@@ -26,14 +26,14 @@ class JsPromiseRef<T : JsValue> @JsInternalApi constructor(
 fun <T : JsValue> JsPromise.Companion.ref(
     name: String? = null,
     typeBuilder: (JsElement) -> T
-): JsPromise<T> = JsPromiseRef(
+): JsPromiseRef<T> = JsPromiseRef(
     name = name,
     _typeBuilder_ = typeBuilder
 )
 
 inline fun <reified T : JsValue> JsPromise.Companion.ref(
     name: String? = null,
-): JsPromise<T> = JsPromiseRef(
+): JsPromiseRef<T> = JsPromiseRef(
     name = name,
     _typeBuilder_ = ::provide
 )
@@ -41,14 +41,14 @@ inline fun <reified T : JsValue> JsPromise.Companion.ref(
 fun <T : JsValue> JsPromise.Companion.ref(
     element: JsElement,
     typeBuilder: (JsElement) -> T
-): JsPromise<T> = JsPromiseRef(
+): JsPromiseRef<T> = JsPromiseRef(
     name = "$element",
     _typeBuilder_ = typeBuilder
 )
 
 inline fun <reified T : JsValue> JsPromise.Companion.ref(
     element: JsElement,
-): JsPromise<T> = JsPromiseRef(
+): JsPromiseRef<T> = JsPromiseRef(
     name = "$element",
     _typeBuilder_ = ::provide
 )

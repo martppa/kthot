@@ -19,7 +19,7 @@ val KSFunctionDeclaration.parametersDefinitionString: String get() = parameters.
  * "value1: JsString, value2: JsString, value3: JsNumber"
  */
 val KSFunctionDeclaration.parametersDefinitionBasicString: String get() = parameters.mapIndexed { index, parameter ->
-    "${parameter.name?.asString() ?: "p$index"}: ${parameter.type.resolve().basicDefinitionName}"
+    "${if (parameter.type.isBuilderFunction) "noinline " else ""}${parameter.name?.asString() ?: "p$index"}: ${parameter.type.resolve().basicDefinitionName}${if (parameter.type.isBuilderFunction) " = ::provide" else ""}"
 }.joinToString(", ")
 
 /**

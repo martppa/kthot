@@ -7,10 +7,10 @@ import net.asere.kthot.js.dsl.ksp.processor.js.JavaScriptModule
 import net.asere.kthot.js.dsl.log.Log
 import net.asere.kthot.js.dsl.provider.provide
 import net.asere.kthot.js.dsl.syntax
-import net.asere.kthot.js.dsl.syntax.JsGenerics
 import net.asere.kthot.js.dsl.syntax.jsreturn.Return
 import net.asere.kthot.js.dsl.type.array.JsArray
 import net.asere.kthot.js.dsl.type.array.syntax
+import net.asere.kthot.js.dsl.type.array.value
 import net.asere.kthot.js.dsl.type.number.JsNumber
 import net.asere.kthot.js.dsl.type.promise.JsPromise
 import net.asere.kthot.js.dsl.type.string.JsString
@@ -37,8 +37,8 @@ class TestFunctionModule : JavaScriptModule() {
     }
 
     @JsFunction
-    inline fun <reified T : JsArray<JsString>> basicFunctionReturnGeneric(): T = JsGenerics.syntax {
-        Return { provide(JsString.value("")) }
+    inline fun <reified T : JsArray<JsString>> basicFunctionReturnGeneric(): T = provide {
+        Return { provide(JsArray.value("One element".js)) }
     }
 
     @JsFunction

@@ -84,6 +84,8 @@ class JsClassWriterBuilder(
                 (item.name?.asString() ?: "p$index").let { name -> 
                     if (item.type.isGenericTypeParameter()) {
                         "           $name = provide(JsSyntax(\"$name\"))\n"
+                    } else if (item.type.isBuilderFunction) {
+                        "           $name = ::provide\n"
                     } else {
                         "           $name = ${item.type.resolve().declaration.basicJsName}.ref(\"$name\")\n"
                     }
@@ -95,8 +97,8 @@ class JsClassWriterBuilder(
         declaration.findJsConstructors().forEach {
             codeBuilder.append("        addConstructor(${it.parameters.joinToString { param -> 
                 val parameterType = param.type.resolve()
-                if (!parameterType.isJsElement(resolver) && !parameterType.isGenericType)
-                    throw IllegalArgumentException("Constructor properties of type '${declaration.jsName}' must be JsElement types.")
+                if (!parameterType.isJsElement(resolver) && !parameterType.isGenericType && !parameterType.isBuilderFunction)
+                    throw IllegalArgumentException("Constructor properties of type '${declaration.jsName}' must be JsElement types or type builders '(JsElement) -> T'.")
                 "\"${param.name?.asString() ?: "" }\""
             }}, body = instance.constructorBody ?: JsSyntax(\"\"))\n")
         }

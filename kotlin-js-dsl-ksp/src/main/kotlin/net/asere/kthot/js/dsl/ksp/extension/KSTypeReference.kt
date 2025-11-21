@@ -50,3 +50,5 @@ fun KSTypeReference.collectTypesRecursively(
         argumentTypeReference?.collectTypesRecursively(collectedTypes)
     }
 }
+
+val KSTypeReference.isBuilderFunction: Boolean get() = resolve().isBuilderFunction

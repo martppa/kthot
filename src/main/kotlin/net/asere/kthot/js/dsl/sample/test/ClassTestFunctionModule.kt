@@ -8,34 +8,54 @@ import net.asere.kthot.js.dsl.ksp.annotation.JsProperty
 import net.asere.kthot.js.dsl.ksp.processor.js.JavaScriptClass
 import net.asere.kthot.js.dsl.log.Log
 import net.asere.kthot.js.dsl.syntax
-import net.asere.kthot.js.dsl.syntax.JsGenerics
 import net.asere.kthot.js.dsl.syntax.jsreturn.Return
+import net.asere.kthot.js.dsl.syntax.syntax
+import net.asere.kthot.js.dsl.type.JsElement
 import net.asere.kthot.js.dsl.type.array.JsArray
 import net.asere.kthot.js.dsl.type.array.syntax
 import net.asere.kthot.js.dsl.type.number.JsNumber
+import net.asere.kthot.js.dsl.type.number.ref
 import net.asere.kthot.js.dsl.type.promise.JsPromise
-import net.asere.kthot.js.dsl.type.string.JsString
-import net.asere.kthot.js.dsl.type.string.JsStringRef
-import net.asere.kthot.js.dsl.type.string.js
-import net.asere.kthot.js.dsl.type.string.ref
-import net.asere.kthot.js.dsl.type.string.syntax
-import net.asere.kthot.js.dsl.type.string.value
+import net.asere.kthot.js.dsl.type.promise.JsPromiseRef
+import net.asere.kthot.js.dsl.type.promise.ref
+import net.asere.kthot.js.dsl.type.string.*
 import net.asere.kthot.js.dsl.type.value.JsValue
+
+@JsClass(name = "JsClassTest3")
+class ClassTest3Module @JsConstructor constructor(
+    @JsProperty
+    val testStringProperty: JsString
+) : JavaScriptClass() {
+
+    init {
+        Constructor {
+            This.testStringProperty assign testStringProperty
+        }
+    }
+
+    @JsProperty
+    val testNumberProperty: JsNumber = JsNumber.ref("testNumberProperty")
+}
 
 
 @JsClass(name = "JsClassTest2")
-class ClassTest2FunctionModule : JavaScriptClass() {
-
-}
+class ClassTest2Module : JavaScriptClass()
 
 @JsClass(name = "JsClassTest")
-class ClassTestFunctionModule<T : JsValue> @JsConstructor constructor(
+class ClassTestModule<T : JsValue> @JsConstructor constructor(
     @JsProperty
-    val genericProperty: T
+    val genericProperty: T,
+    val tBuilder: (JsElement) -> T
 ) : JavaScriptClass() {
 
     @JsProperty
     val stringProperty: JsStringRef = JsString.ref("stringProperty")
+
+    @JsProperty
+    val promiseArrayProperty: JsPromiseRef<JsArray<JsNumber>> = JsPromise.ref<JsArray<JsNumber>>("promiseArrayProperty")
+
+    @JsProperty
+    val genericPromiseArrayProperty: JsPromiseRef<JsArray<T>> = JsPromise.ref<JsArray<T>>("genericPromiseArrayProperty")
 
     init {
         importModule(JsClassTest2.Module)
@@ -61,7 +81,7 @@ class ClassTestFunctionModule<T : JsValue> @JsConstructor constructor(
     }
 
     @JsFunction
-    fun basicFunctionReturnGeneric(): T = JsGenerics.syntax {
+    fun basicFunctionReturnGeneric(): T = tBuilder.syntax {
         Return { genericProperty }
     }
 

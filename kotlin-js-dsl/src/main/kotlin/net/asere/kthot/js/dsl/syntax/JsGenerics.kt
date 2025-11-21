@@ -23,3 +23,9 @@ private class JsGenericsSyntax(value: JsElement) : JsGenerics {
     override fun toString(): String = _name_
 }
 
+fun <T : JsValue> ((JsElement) -> T).syntax(block: JsScope.() -> T): T {
+    val scope = JsSyntaxScope()
+    scope.block()
+    return this(scope)
+}
+
