@@ -5,6 +5,7 @@ import net.asere.kthot.js.dsl.type.JsElement
 import net.asere.kthot.js.dsl.type.lambda.l0.JsLambda0
 import net.asere.kthot.js.dsl.type.lambda.l0.syntax
 import net.asere.kthot.js.dsl.type.lambda.l1.JsLambda1
+import net.asere.kthot.js.dsl.type.lambda.l1.JsResultLambda1
 import net.asere.kthot.js.dsl.type.lambda.l1.syntax
 import net.asere.kthot.js.dsl.type.lambda.l2.JsLambda2
 import net.asere.kthot.js.dsl.type.lambda.l2.syntax
@@ -35,6 +36,13 @@ val <reified T : JsValue> (JsScope.(T) -> Unit).js inline get(): JsLambda1<T> {
     val param: T = provide(JsSyntax("value"))
     this(scope, param)
     return JsLambda1.syntax("($param) => {\n$scope\n}")
+}
+
+val <reified Input : JsValue, reified Output : JsValue> (JsScope.(Input) -> Output).js inline get(): JsResultLambda1<Input, Output> {
+    val scope = JsSyntaxScope()
+    val param: Input = provide(JsSyntax("value"))
+    this(scope, param)
+    return JsResultLambda1.syntax("($param) => {\n$scope\n}")
 }
 
 fun <T : JsValue, C : JsValue> (JsScope.(T, C) -> Unit).js(

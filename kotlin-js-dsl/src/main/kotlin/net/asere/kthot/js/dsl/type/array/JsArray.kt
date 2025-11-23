@@ -4,12 +4,12 @@ package net.asere.kthot.js.dsl.type.array
 
 import net.asere.kthot.js.dsl.annotation.JsInternalApi
 import net.asere.kthot.js.dsl.syntax.JsScope
-import net.asere.kthot.js.dsl.type.JsElement
 import net.asere.kthot.js.dsl.syntax.JsSyntax
 import net.asere.kthot.js.dsl.syntax.js
 import net.asere.kthot.js.dsl.syntax.operational.access.operation.AccessOperation
 import net.asere.kthot.js.dsl.syntax.operational.access.operation.ChainOperation
 import net.asere.kthot.js.dsl.syntax.operational.invocation.operation.InvocationOperation
+import net.asere.kthot.js.dsl.type.JsElement
 import net.asere.kthot.js.dsl.type.lambda.l1.JsLambda1
 import net.asere.kthot.js.dsl.type.lambda.l2.JsLambda2
 import net.asere.kthot.js.dsl.type.number.JsNumber
@@ -111,17 +111,11 @@ interface JsArray<T : JsValue> : JsObject {
      * The function typically receives the current element as its first argument.
      * @return A [JsSyntax] object representing the JavaScript method call.
      */
-    fun forEach(lambda: JsScope.(T) -> Unit): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("forEach", lambda.js(_typeBuilder_))))
-
-    /**
-     * Creates a new array populated with the results of calling a provided function on every element in the calling array.
-     *
-     * In JavaScript, this corresponds to `array.map(callback)`.
-     * @param lambda A [JsLambda1] representing the JavaScript function to execute for each element.
-     * The function typically receives the current element as its first argument.
-     * @return A [JsSyntax] object representing the JavaScript method call that returns a new array.
-     */
-    fun map(lambda: JsLambda1<T>): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("map", lambda)))
+    fun forEach(lambda: JsScope.(T) -> Unit): JsSyntax =
+        JsSyntax(ChainOperation(
+            this,
+            InvocationOperation("forEach", lambda.js(_typeBuilder_)))
+        )
 
     /**
      * Creates a new array populated with the results of calling a provided function on every element in the calling array,
@@ -141,3 +135,29 @@ interface JsArray<T : JsValue> : JsObject {
     @OptIn(JsInternalApi::class)
     operator fun get(index: Int): T = _typeBuilder_(AccessOperation(this, index.js))
 }
+
+/**
+ * Creates a new array populated with the results of calling a provided function on every element in the calling array.
+ *
+ * In JavaScript, this corresponds to `array.map(callback)`.
+ * @param lambda A [JsLambda1] representing the JavaScript function to execute for each element.
+ * The function typically receives the current element as its first argument.
+ * @return A [JsArray] object representing the JavaScript method call that returns a new array.
+ */
+inline fun <T : JsValue, reified Output : JsValue> JsArray<T>.map(lambda: JsLambda1<T>): JsArray<Output> =
+    JsArray.syntax(
+        ChainOperation(this, InvocationOperation("map", lambda))
+    )
+
+/**
+ * Creates a new array populated with the results of calling a provided function on every element in the calling array.
+ *
+ * In JavaScript, this corresponds to `array.map(callback)`.
+ * @param lambda A [JsLambda1] representing the JavaScript function to execute for each element.
+ * The function typically receives the current element as its first argument.
+ * @return A [JsArray] object representing the JavaScript method call that returns a new array.
+ */
+inline fun <reified T : JsValue, reified Output : JsValue> JsArray<T>.map(noinline lambda: JsScope.(T) -> Output): JsArray<Output> =
+    JsArray.syntax(
+        ChainOperation(this, InvocationOperation("map", lambda.js))
+    )
