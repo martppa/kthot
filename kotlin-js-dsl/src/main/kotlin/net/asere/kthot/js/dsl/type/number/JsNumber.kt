@@ -181,6 +181,14 @@ interface JsNumber : JsValue, ArithmeticalComparable {
                 )
             )
         }
+
+        val MAX_VALUE: JsNumber = JsNumber.syntax("Number.MAX_VALUE")
+        val MIN_VALUE: JsNumber = JsNumber.syntax("Number.MIN_VALUE")
+        val POSITIVE_INFINITY: JsNumber = JsNumber.syntax("Number.POSITIVE_INFINITY")
+        val NEGATIVE_INFINITY: JsNumber = JsNumber.syntax("Number.NEGATIVE_INFINITY")
+        val NaN: JsNumber = JsNumber.syntax("Number.NaN")
+        val MAX_SAFE_INTEGER: JsNumber = JsNumber.syntax("Number.MAX_SAFE_INTEGER")
+        val MIN_SAFE_INTEGER: JsNumber = JsNumber.syntax("Number.MIN_SAFE_INTEGER")
     }
 }
 
