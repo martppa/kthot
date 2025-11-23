@@ -15,8 +15,8 @@ class JsErrorValue internal constructor(
     override fun toString(): String = present()
 }
 
-fun JsError.Companion.new(value: String): JsError =
+fun JsError.Companion.new(value: String = ""): JsError =
     JsError.syntax(JsInstantiationSyntax(JsErrorValue("Error(${value.js})")))
 
-fun JsError.Companion.new(value: JsString): JsError =
+fun JsError.Companion.new(value: JsString = "".js): JsError =
     JsError.syntax(JsInstantiationSyntax(JsErrorValue("Error(${value})")))

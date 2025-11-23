@@ -432,4 +432,7 @@ object Window : JsObjectRef("window") {
      */
     fun removeEventListener(event: String, handler: JsLambda1<JsDomEvent>): JsSyntax =
         removeEventListener(event.js, handler)
+
+    val host: JsString
+        get() = JsString.syntax(ChainOperation(this, "host"))
 }
