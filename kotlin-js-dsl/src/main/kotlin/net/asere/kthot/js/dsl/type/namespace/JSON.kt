@@ -13,11 +13,11 @@ import net.asere.kthot.js.dsl.type.string.syntax
 import net.asere.kthot.js.dsl.type.value.JsValue
 
 object JSON : JsObjectRef("JSON") {
-    fun isRawJSON(): JsBoolean = JsBoolean.syntax(ChainOperation(this, InvocationOperation("isRawJSON")))
+    fun isRawJSON(value: JsValue): JsBoolean = JsBoolean.syntax(ChainOperation(this, InvocationOperation("isRawJSON", value)))
 
-    inline fun <reified T : JsValue> parse(): T = provide(ChainOperation(this, InvocationOperation("parse")))
+    inline fun <reified T : JsValue> parse(value: JsValue): T = provide(ChainOperation(this, InvocationOperation("parse", value)))
 
-    fun rawJSON(): JsObject = JsObject.syntax(ChainOperation(this, InvocationOperation("rawJSON")))
+    fun rawJSON(value: JsString): JsObject = JsObject.syntax(ChainOperation(this, InvocationOperation("rawJSON", value)))
 
-    fun stringify(): JsString = JsString.syntax(ChainOperation(this, InvocationOperation("stringify")))
+    fun stringify(value: JsValue): JsString = JsString.syntax(ChainOperation(this, InvocationOperation("stringify", value)))
 }
