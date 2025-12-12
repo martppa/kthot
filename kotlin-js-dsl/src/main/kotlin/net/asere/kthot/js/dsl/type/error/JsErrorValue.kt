@@ -1,14 +1,14 @@
 package net.asere.kthot.js.dsl.type.error
 
-import net.asere.kthot.js.dsl.syntax.instantiation.Instantiable
-import net.asere.kthot.js.dsl.syntax.instantiation.JsInstantiationSyntax
+import net.asere.kthot.js.dsl.syntax.operational.instantiation.InstantiationOperation
+import net.asere.kthot.js.dsl.syntax.operational.invocation.operation.InvocationOperation
 import net.asere.kthot.js.dsl.type.string.JsString
 import net.asere.kthot.js.dsl.type.string.js
 import net.asere.kthot.js.dsl.type.value.JsRawValue
 
 class JsErrorValue internal constructor(
     val value: String
-) : JsError, JsRawValue<JsError>, Instantiable {
+) : JsError, JsRawValue<JsError> {
 
     override fun present(): String = value
 
@@ -16,7 +16,7 @@ class JsErrorValue internal constructor(
 }
 
 fun JsError.Companion.new(value: String = ""): JsError =
-    JsError.syntax(JsInstantiationSyntax(JsErrorValue("Error(${value.js})")))
+    JsError.syntax(InstantiationOperation(InvocationOperation("Error", value.js)))
 
 fun JsError.Companion.new(value: JsString = "".js): JsError =
-    JsError.syntax(JsInstantiationSyntax(JsErrorValue("Error(${value})")))
+    JsError.syntax(InstantiationOperation(InvocationOperation("Error", value)))

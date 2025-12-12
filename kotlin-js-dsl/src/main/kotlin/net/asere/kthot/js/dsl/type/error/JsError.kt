@@ -1,6 +1,5 @@
 package net.asere.kthot.js.dsl.type.error
 
-import net.asere.kthot.js.dsl.syntax.instantiation.Instantiable
 import net.asere.kthot.js.dsl.type.obj.JsObject
 import net.asere.kthot.js.dsl.type.string.JsString
 import net.asere.kthot.js.dsl.type.string.syntax
@@ -10,7 +9,7 @@ import net.asere.kthot.js.dsl.type.string.syntax
  * This object is typically thrown when runtime errors occur.
  * It provides information about the error, such as its name, message, and stack trace.
  */
-interface JsError : JsObject, Instantiable {
+interface JsError : JsObject {
 
     /**
      * Returns the name of the error type (e.g., "Error", "TypeError", "ReferenceError")
