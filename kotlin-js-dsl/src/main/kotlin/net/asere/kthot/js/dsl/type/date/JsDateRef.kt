@@ -1,6 +1,7 @@
 package net.asere.kthot.js.dsl.type.date
 
 import net.asere.kthot.js.dsl.annotation.JsInternalApi
+import net.asere.kthot.js.dsl.type.JsElement
 import net.asere.kthot.js.dsl.type.definition.JsPrintableDefinition
 import net.asere.kthot.js.dsl.type.reference.JsReference
 import net.asere.kthot.js.dsl.type.reference.JsValueRef
@@ -17,6 +18,10 @@ class JsDateRef @JsInternalApi constructor(
 @OptIn(JsInternalApi::class)
 fun JsDate.Companion.ref(name: String? = null): JsDateRef =
     JsDateRef(name)
+
+@OptIn(JsInternalApi::class)
+fun JsDate.Companion.ref(element: JsElement): JsDateRef =
+    JsDateRef(element.present())
 
 @OptIn(JsInternalApi::class)
 fun JsDate.Companion.def(name: String? = null) = object :

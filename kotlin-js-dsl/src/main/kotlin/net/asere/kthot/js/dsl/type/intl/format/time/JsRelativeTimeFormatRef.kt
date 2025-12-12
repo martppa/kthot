@@ -1,6 +1,7 @@
 package net.asere.kthot.js.dsl.type.intl.format.time
 
 import net.asere.kthot.js.dsl.annotation.JsInternalApi
+import net.asere.kthot.js.dsl.type.JsElement
 import net.asere.kthot.js.dsl.type.definition.JsPrintableDefinition
 import net.asere.kthot.js.dsl.type.reference.JsReference
 import net.asere.kthot.js.dsl.type.reference.JsValueRef
@@ -17,6 +18,10 @@ class JsRelativeTimeFormatRef @JsInternalApi constructor(
 @OptIn(JsInternalApi::class)
 fun JsRelativeTimeFormat.Companion.ref(name: String? = null): JsRelativeTimeFormatRef =
     JsRelativeTimeFormatRef(name)
+
+@OptIn(JsInternalApi::class)
+fun JsRelativeTimeFormat.Companion.ref(element: JsElement): JsRelativeTimeFormatRef =
+    JsRelativeTimeFormatRef(element.present())
 
 @OptIn(JsInternalApi::class)
 fun JsRelativeTimeFormat.Companion.def(name: String? = null) = object :

@@ -1,6 +1,7 @@
 package net.asere.kthot.js.dsl.type.intl.locale
 
 import net.asere.kthot.js.dsl.annotation.JsInternalApi
+import net.asere.kthot.js.dsl.type.JsElement
 import net.asere.kthot.js.dsl.type.definition.JsPrintableDefinition
 import net.asere.kthot.js.dsl.type.reference.JsReference
 import net.asere.kthot.js.dsl.type.reference.JsValueRef
@@ -17,6 +18,10 @@ class JsLocaleRef @JsInternalApi constructor(
 @OptIn(JsInternalApi::class)
 fun JsLocale.Companion.ref(name: String? = null): JsLocaleRef =
     JsLocaleRef(name)
+
+@OptIn(JsInternalApi::class)
+fun JsLocale.Companion.ref(element: JsElement): JsLocaleRef =
+    JsLocaleRef(element.present())
 
 @OptIn(JsInternalApi::class)
 fun JsLocale.Companion.def(name: String? = null) = object :

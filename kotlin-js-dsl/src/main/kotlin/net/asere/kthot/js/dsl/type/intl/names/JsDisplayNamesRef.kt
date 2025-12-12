@@ -1,6 +1,7 @@
 package net.asere.kthot.js.dsl.type.intl.names
 
 import net.asere.kthot.js.dsl.annotation.JsInternalApi
+import net.asere.kthot.js.dsl.type.JsElement
 import net.asere.kthot.js.dsl.type.definition.JsPrintableDefinition
 import net.asere.kthot.js.dsl.type.reference.JsReference
 import net.asere.kthot.js.dsl.type.reference.JsValueRef
@@ -17,6 +18,10 @@ class JsDisplayNamesRef @JsInternalApi constructor(
 @OptIn(JsInternalApi::class)
 fun JsDisplayNames.Companion.ref(name: String? = null): JsDisplayNamesRef =
     JsDisplayNamesRef(name)
+
+@OptIn(JsInternalApi::class)
+fun JsDisplayNames.Companion.ref(element: JsElement): JsDisplayNamesRef =
+    JsDisplayNamesRef(element.present())
 
 @OptIn(JsInternalApi::class)
 fun JsDisplayNames.Companion.def(name: String? = null) = object :

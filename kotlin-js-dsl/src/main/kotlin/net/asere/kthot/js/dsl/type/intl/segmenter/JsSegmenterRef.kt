@@ -1,6 +1,7 @@
 package net.asere.kthot.js.dsl.type.intl.segmenter
 
 import net.asere.kthot.js.dsl.annotation.JsInternalApi
+import net.asere.kthot.js.dsl.type.JsElement
 import net.asere.kthot.js.dsl.type.definition.JsPrintableDefinition
 import net.asere.kthot.js.dsl.type.reference.JsReference
 import net.asere.kthot.js.dsl.type.reference.JsValueRef
@@ -17,6 +18,10 @@ class JsSegmenterRef @JsInternalApi constructor(
 @OptIn(JsInternalApi::class)
 fun JsSegmenter.Companion.ref(name: String? = null): JsSegmenterRef =
     JsSegmenterRef(name)
+
+@OptIn(JsInternalApi::class)
+fun JsSegmenter.Companion.ref(element: JsElement): JsSegmenterRef =
+    JsSegmenterRef(element.present())
 
 @OptIn(JsInternalApi::class)
 fun JsSegmenter.Companion.def(name: String? = null) = object :

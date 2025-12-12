@@ -1,6 +1,7 @@
 package net.asere.kthot.js.dsl.type.intl.format.number
 
 import net.asere.kthot.js.dsl.annotation.JsInternalApi
+import net.asere.kthot.js.dsl.type.JsElement
 import net.asere.kthot.js.dsl.type.definition.JsPrintableDefinition
 import net.asere.kthot.js.dsl.type.reference.JsReference
 import net.asere.kthot.js.dsl.type.reference.JsValueRef
@@ -17,6 +18,10 @@ class JsNumberFormatRef @JsInternalApi constructor(
 @OptIn(JsInternalApi::class)
 fun JsNumberFormat.Companion.ref(name: String? = null): JsNumberFormatRef =
     JsNumberFormatRef(name)
+
+@OptIn(JsInternalApi::class)
+fun JsNumberFormat.Companion.ref(element: JsElement): JsNumberFormatRef =
+    JsNumberFormatRef(element.present())
 
 @OptIn(JsInternalApi::class)
 fun JsNumberFormat.Companion.def(name: String? = null) = object :
