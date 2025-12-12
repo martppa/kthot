@@ -7,7 +7,6 @@ import net.asere.kthot.js.dsl.syntax.JsScope
 import net.asere.kthot.js.dsl.syntax.JsSyntax
 import net.asere.kthot.js.dsl.syntax.JsSyntaxScope
 import net.asere.kthot.js.dsl.syntax.async.JsAsyncCallable
-import net.asere.kthot.js.dsl.syntax.instantiation.Instantiable
 import net.asere.kthot.js.dsl.syntax.js
 import net.asere.kthot.js.dsl.syntax.operational.access.operation.ChainOperation
 import net.asere.kthot.js.dsl.syntax.operational.invocation.operation.InvocationOperation
@@ -28,7 +27,7 @@ import net.asere.kthot.js.dsl.type.value.JsValue
  *
  * @param T The type of [JsValue] that the Promise will resolve to upon successful completion.
  */
-interface JsPromise<T : JsValue> : JsObject, Instantiable, JsAsyncCallable {
+interface JsPromise<T : JsValue> : JsObject, JsAsyncCallable {
 
     @JsInternalApi
     val _typeBuilder_: (JsElement) -> T

@@ -7,13 +7,18 @@ import net.asere.kthot.js.dsl.provider.provide
 import net.asere.kthot.js.dsl.syntax.JsScope
 import net.asere.kthot.js.dsl.syntax.JsSyntax
 import net.asere.kthot.js.dsl.syntax.JsSyntaxScope
-import net.asere.kthot.js.dsl.syntax.instantiation.JsInstantiationSyntax
+import net.asere.kthot.js.dsl.syntax.operational.instantiation.InstantiationOperation
+import net.asere.kthot.js.dsl.syntax.operational.invocation.operation.InvocationOperation
 import net.asere.kthot.js.dsl.type.JsElement
 import net.asere.kthot.js.dsl.type.error.JsError
+import net.asere.kthot.js.dsl.type.lambda.jsLambda
 import net.asere.kthot.js.dsl.type.lambda.l1.JsLambda1
 import net.asere.kthot.js.dsl.type.lambda.l1.JsLambda1Ref
+import net.asere.kthot.js.dsl.type.lambda.l1.def
 import net.asere.kthot.js.dsl.type.lambda.l1.ref
 import net.asere.kthot.js.dsl.type.lambda.l2.JsLambda2
+import net.asere.kthot.js.dsl.type.lambda.l2.JsLambda2Ref
+import net.asere.kthot.js.dsl.type.lambda.l2.JsLambda2Value
 import net.asere.kthot.js.dsl.type.value.JsRawValue
 import net.asere.kthot.js.dsl.type.value.JsValue
 
@@ -63,11 +68,8 @@ fun <T : JsValue> JsPromise.Companion.new(
     block: () -> JsLambda2<JsLambda1<T>, JsLambda1<JsError>>,
 ): JsPromise<T> {
     return JsPromise.syntax(
-        value = JsInstantiationSyntax(
-            value = JsPromise.value(
-                lambda = block(),
-                typeBuilder = typeBuilder
-            )
+        value = InstantiationOperation(
+            value = InvocationOperation(leftSideElement = "Promise", block())
         ),
         typeBuilder = typeBuilder
     )
@@ -76,20 +78,22 @@ fun <T : JsValue> JsPromise.Companion.new(
 inline fun <reified T : JsValue> JsPromise.Companion.new(
     lambda: JsLambda2<JsLambda1<T>, JsLambda1<JsError>>,
 ): JsPromise<T> = JsPromise.syntax(
-    value = JsInstantiationSyntax(JsPromise.value(lambda)),
+    value = InstantiationOperation(InvocationOperation(leftSideElement = "Promise", lambda)),
     typeBuilder = ::provide
 )
 
 inline fun <reified T : JsValue> JsPromise.Companion.new(
-    block: JsScope.(JsLambda1Ref<T>, JsLambda1Ref<JsError>) -> Unit,
+    noinline block: JsScope.(JsLambda1Ref<T>, JsLambda1Ref<JsError>) -> Unit,
 ): JsPromise<T> {
-    val scope = JsSyntaxScope()
-    val onSuccessLambda = JsLambda1.ref<T>("onSuccess")
-    val onErrorLambda = JsLambda1.ref<JsError>("onError")
-    block(scope, onSuccessLambda, onErrorLambda)
-    val syntax = JsSyntax("($onSuccessLambda, $onErrorLambda) => {\n    $scope\n}")
+    val onSuccessLambda = JsLambda1.def<T>("onSuccess")
+    val onErrorLambda = JsLambda1.def<JsError>("onError")
+    val lambda = jsLambda(
+        param1 = onSuccessLambda,
+        param2 = onErrorLambda,
+        definition = block
+    )
     return JsPromise.syntax(
-        value = JsInstantiationSyntax(JsPromise.value<T>(value = syntax)),
+        value = InstantiationOperation(InvocationOperation("Promise", lambda)),
         typeBuilder = ::provide
     )
 }
