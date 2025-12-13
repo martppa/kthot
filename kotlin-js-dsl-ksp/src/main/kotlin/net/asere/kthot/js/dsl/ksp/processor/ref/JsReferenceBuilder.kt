@@ -52,7 +52,7 @@ class JsReferenceBuilder(
         codeBuilder.append("  name: String? = null,\n")
         codeBuilder.append("  \n")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
-            codeBuilder.append("  noinline ${type.getBuilderDefinition(resolver.loadClass(jsElementName))} = ::provide,\n")
+            codeBuilder.append("  ${if (declaration.typeParameters.isNotEmpty()) "noinline " else ""}${type.getBuilderDefinition(resolver.loadClass(jsElementName))} = ::provide,\n")
         }
         codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesNamesString} ${declaration.whereClauseString} = $className(name${declaration.getComma(resolver)}")
         declaration.getGenericReturnTypes(resolver).joinToString { item -> item.builderName }.let {
@@ -65,7 +65,7 @@ class JsReferenceBuilder(
         codeBuilder.append("  element: JsElement,\n")
         codeBuilder.append("  \n")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
-            codeBuilder.append("  noinline ${type.getBuilderDefinition(resolver.loadClass(jsElementName))} = ::provide,\n")
+            codeBuilder.append("  ${if (declaration.typeParameters.isNotEmpty()) "noinline " else ""}${type.getBuilderDefinition(resolver.loadClass(jsElementName))} = ::provide,\n")
         }
         codeBuilder.append($$$"): $$${declaration.jsName}$$${declaration.genericTypesNamesString} $$${declaration.whereClauseString} = $$$className(element.present()$$${declaration.getComma(resolver)}")
         declaration.getGenericReturnTypes(resolver).joinToString { item -> item.builderName }.let {
@@ -78,7 +78,7 @@ class JsReferenceBuilder(
         codeBuilder.append("  name: String? = null,\n")
         codeBuilder.append("  \n")
         declaration.getGenericReturnTypes(resolver).forEach { type ->
-            codeBuilder.append("  noinline ${type.getBuilderDefinition(resolver.loadClass(jsElementName))} = ::provide,\n")
+            codeBuilder.append("  ${if (declaration.typeParameters.isNotEmpty()) "noinline " else ""}${type.getBuilderDefinition(resolver.loadClass(jsElementName))} = ::provide,\n")
         }
         codeBuilder.append("): ${printableDefinition.name}<${declaration.jsName}Ref${declaration.genericTypesNamesString}, ${declaration.jsName}${declaration.genericTypesNamesString}>\n")
         codeBuilder.append("${declaration.whereClauseString} = object : ${printableDefinition.name}<${declaration.jsName}Ref${declaration.genericTypesNamesString}, ${declaration.jsName}${declaration.genericTypesNamesString}>() {\n")

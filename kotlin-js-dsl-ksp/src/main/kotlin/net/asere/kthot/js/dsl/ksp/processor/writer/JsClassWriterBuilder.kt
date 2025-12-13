@@ -31,7 +31,9 @@ class JsClassWriterBuilder(
         val jsDslAnnotation = resolver.loadClass(jsDslAnnotationName)
         val jsObjectClass = resolver.loadClass(jsObjectName)
         val jsGenericsClass = resolver.loadClass(jsGenericsName)
+        val jsImportClass = resolver.loadClass(jsImportName)
 
+        imports.add("import ${jsImportClass.fullName}\n")
         imports.add("import ${jsDslAnnotation.fullName}\n")
         imports.add("import ${classWriter.fullName}\n")
         imports.add("import ${resolver.loadClass(jsValueName).fullName}\n")
@@ -77,7 +79,7 @@ class JsClassWriterBuilder(
         codeBuilder.append("\n")
         codeBuilder.append("   override fun write() {\n")
         requirements.forEach {
-            codeBuilder.append("    addRequire($it)\n")
+            codeBuilder.append("    addImport(JsImport(importedItems = $it.items, module = $it))\n")
         }
         codeBuilder.append("        val instance = ${declaration.name}${declaration.asType(listOf()).definitionTypesAsJsGenerics}(\n${
             declaration.findJsConstructors().firstOrNull()?.parameters?.mapIndexed { index, item -> 

@@ -18,6 +18,8 @@ import net.asere.kthot.js.dsl.type.string.JsString
 import net.asere.kthot.js.dsl.type.string.js
 import net.asere.kthot.js.dsl.type.string.syntax
 import net.asere.kthot.js.dsl.type.Undefined
+import net.asere.kthot.js.dsl.type.string.JsStringRef
+import net.asere.kthot.js.dsl.type.string.ref
 import net.asere.kthot.js.dsl.type.value.JsValue
 
 /**
@@ -31,7 +33,7 @@ interface JsDomObject : JsValue {
      *
      * In JavaScript, this corresponds to `element.innerHTML`.
      */
-    val innerHTML: JsString get() = JsString.syntax(ChainOperation(this, "innerHTML"))
+    val innerHTML: JsStringRef get() = JsString.ref(ChainOperation(this, "innerHTML"))
 
     /**
      * Sets the HTML content inside the element.
@@ -40,6 +42,7 @@ interface JsDomObject : JsValue {
      * @param html The new HTML content as a [JsString] object.
      * @return A [JsSyntax] object representing the JavaScript assignment.
      */
+    @Deprecated("Use the reference variable to be assigned")
     fun setInnerHTML(html: JsString): JsSyntax = JsSyntax("${ChainOperation(this, "innerHTML")} = $html")
 
     /**
@@ -49,6 +52,7 @@ interface JsDomObject : JsValue {
      * @param html The new HTML content as a Kotlin [String].
      * @return A [JsSyntax] object representing the JavaScript assignment.
      */
+    @Deprecated("Use the reference variable to be assigned")
     fun setInnerHTML(html: String): JsSyntax = setInnerHTML(html.js)
 
     /**

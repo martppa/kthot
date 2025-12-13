@@ -23,7 +23,7 @@ class JsObjectBuilder {
      * @param value The [JsValue] to assign to the property. This can be any JavaScript primitive, object, or expression.
      */
     fun property(key: String, value: JsValue) {
-        properties.add("$key: ${value.present()}") // Ensure value.present() is called for correct JS representation
+        properties.add("$key: $value")
     }
 
     /**

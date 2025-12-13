@@ -92,6 +92,37 @@ class JsSyntaxBuilder(
             codeBuilder.append("    return syntax(scope)\n")
             codeBuilder.append("}\n")
 
+            codeBuilder.append("@OptIn(JsInternalApi::class)\n")
+            codeBuilder.append("inline fun ${declaration.genericTypesDeclarationString("reified")} ${declaration.jsName}.Companion.syntax(\n")
+            codeBuilder.append("  value: ${resolver.loadClass(jsElementName)}${declaration.getComma(resolver)}\n")
+            declaration.getGenericReturnTypes(resolver).forEach { type ->
+                codeBuilder.append("  noinline ${type.getBuilderDefinition(resolver.loadClass(jsElementName))} = ::provide,\n")
+            }
+            codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesNamesString} ${declaration.whereClauseString}")
+            codeBuilder.append(" = ")
+            codeBuilder.append("$className(")
+            codeBuilder.append("value${declaration.getComma(resolver)}")
+            declaration.getGenericReturnTypes(resolver).joinToString { item -> item.builderName }.let {
+                codeBuilder.append(it)
+            }
+
+            codeBuilder.append(")\n\n")
+
+            codeBuilder.append("@OptIn(JsInternalApi::class)\n")
+            codeBuilder.append("inline fun ${declaration.genericTypesDeclarationString("reified")} ${declaration.jsName}.Companion.syntax(\n")
+            codeBuilder.append("  value: String${declaration.getComma(resolver)}\n")
+            declaration.getGenericReturnTypes(resolver).forEach { type ->
+                codeBuilder.append("  noinline ${type.getBuilderDefinition(resolver.loadClass(jsElementName))} = ::provide,\n")
+            }
+            codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesNamesString}${declaration.whereClauseString}")
+            codeBuilder.append(" = ")
+            codeBuilder.append("$className(")
+            codeBuilder.append("value${declaration.getComma(resolver)}")
+            declaration.getGenericReturnTypes(resolver).joinToString { item -> item.builderName }.let {
+                codeBuilder.append(it)
+            }
+            codeBuilder.append(")\n\n")
+
             codeBuilder.append("\n")
             val constructor = declaration.findJsConstructors().firstOrNull()
             if (constructor != null) {
@@ -113,7 +144,38 @@ class JsSyntaxBuilder(
             codeBuilder.append("    return syntax(scope)\n")
             codeBuilder.append("}\n")
 
-            codeBuilder.append("\n")
+            codeBuilder.append("@OptIn(JsInternalApi::class)\n")
+            codeBuilder.append("fun ${declaration.genericTypesDeclarationString()} ${declaration.jsName}.Companion.syntax(\n")
+            codeBuilder.append("  value: ${resolver.loadClass(jsElementName)}${declaration.getComma(resolver)}\n")
+            declaration.getGenericReturnTypes(resolver).forEach { type ->
+                codeBuilder.append("  ${type.getBuilderDefinition(resolver.loadClass(jsElementName))} = ::provide,\n")
+            }
+            codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesNamesString} ${declaration.whereClauseString}")
+            codeBuilder.append(" = ")
+            codeBuilder.append("$className(")
+            codeBuilder.append("value${declaration.getComma(resolver)}")
+            declaration.getGenericReturnTypes(resolver).joinToString { item -> item.builderName }.let {
+                codeBuilder.append(it)
+            }
+
+            codeBuilder.append(")\n\n")
+
+            codeBuilder.append("@OptIn(JsInternalApi::class)\n")
+            codeBuilder.append("fun ${declaration.genericTypesDeclarationString()} ${declaration.jsName}.Companion.syntax(\n")
+            codeBuilder.append("  value: String${declaration.getComma(resolver)}\n")
+            declaration.getGenericReturnTypes(resolver).forEach { type ->
+                codeBuilder.append("  ${type.getBuilderDefinition(resolver.loadClass(jsElementName))} = ::provide,\n")
+            }
+            codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesNamesString}${declaration.whereClauseString}")
+            codeBuilder.append(" = ")
+            codeBuilder.append("$className(")
+            codeBuilder.append("value${declaration.getComma(resolver)}")
+            declaration.getGenericReturnTypes(resolver).joinToString { item -> item.builderName }.let {
+                codeBuilder.append(it)
+            }
+
+            codeBuilder.append(")\n\n")
+
             val constructor = declaration.findJsConstructors().firstOrNull()
             if (constructor != null) {
                 declaration.findJsConstructors().firstOrNull()?.let { constructor ->
@@ -129,38 +191,6 @@ class JsSyntaxBuilder(
                 )
             }
         }
-
-        codeBuilder.append("\n\n")
-        codeBuilder.append("@OptIn(JsInternalApi::class)\n")
-        codeBuilder.append("fun ${declaration.genericTypesDeclarationString()} ${declaration.jsName}.Companion.syntax(\n")
-        codeBuilder.append("  value: ${resolver.loadClass(jsElementName)}${declaration.getComma(resolver)}\n")
-        declaration.getGenericReturnTypes(resolver).forEach { type ->
-            codeBuilder.append("  ${type.getBuilderDefinition(resolver.loadClass(jsElementName))},\n")
-        }
-        codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesNamesString} ${declaration.whereClauseString}")
-        codeBuilder.append(" = ")
-        codeBuilder.append("$className(")
-        codeBuilder.append("value${declaration.getComma(resolver)}")
-        declaration.getGenericReturnTypes(resolver).joinToString { item -> item.builderName }.let {
-            codeBuilder.append(it)
-        }
-
-        codeBuilder.append(")\n\n")
-
-        codeBuilder.append("@OptIn(JsInternalApi::class)\n")
-        codeBuilder.append("fun ${declaration.genericTypesDeclarationString()} ${declaration.jsName}.Companion.syntax(\n")
-        codeBuilder.append("  value: String${declaration.getComma(resolver)}\n")
-        declaration.getGenericReturnTypes(resolver).forEach { type ->
-            codeBuilder.append("  ${type.getBuilderDefinition(resolver.loadClass(jsElementName))},\n")
-        }
-        codeBuilder.append("): ${declaration.jsName}${declaration.genericTypesNamesString}${declaration.whereClauseString}")
-        codeBuilder.append(" = ")
-        codeBuilder.append("$className(")
-        codeBuilder.append("value${declaration.getComma(resolver)}")
-        declaration.getGenericReturnTypes(resolver).joinToString { item -> item.builderName }.let {
-            codeBuilder.append(it)
-        }
-        codeBuilder.append(")\n\n")
 
         writeToFile(
             fileName = className,
