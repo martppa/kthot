@@ -1,6 +1,7 @@
 package net.asere.kthot.js.dsl.dom.type.data.token.list
 
-import net.asere.kthot.js.dsl.dom.type.data.obj.JsDomObject
+import net.asere.kthot.js.dsl.JsNothing
+import net.asere.kthot.js.dsl.syntax
 import net.asere.kthot.js.dsl.syntax.JsSyntax
 import net.asere.kthot.js.dsl.syntax.operational.access.operation.ChainOperation
 import net.asere.kthot.js.dsl.syntax.operational.invocation.operation.InvocationOperation
@@ -46,7 +47,7 @@ interface JsDomTokenList : JsObject {
      *
      * In JavaScript, this corresponds to `tokenList.add(token1, token2, ...)`.
      * @param tokens A variable number of [JsString] objects representing the tokens to add.
-     * @return A [JsSyntax] object representing the JavaScript method call.
+     * @return A [JsNothing] object representing the JavaScript method call.
      */
     fun add(vararg tokens: JsString): JsSyntax =
         JsSyntax(ChainOperation(this, InvocationOperation("add", *tokens)))
@@ -57,13 +58,13 @@ interface JsDomTokenList : JsObject {
      *
      * In JavaScript, this corresponds to `tokenList.remove(token1, token2, ...)`.
      * @param tokens A variable number of [JsString] objects representing the tokens to remove.
-     * @return A [JsSyntax] object representing the JavaScript method call.
+     * @return A [JsNothing] object representing the JavaScript method call.
      */
-    fun remove(vararg tokens: JsString): JsSyntax = JsSyntax(
+    fun remove(vararg tokens: JsString): JsNothing = JsNothing.syntax(
         ChainOperation(this,
             InvocationOperation("remove", *tokens))
     )
-    fun remove(vararg tokens: String): JsSyntax = remove(*tokens.map { it.js }.toTypedArray())
+    fun remove(vararg tokens: String): JsNothing = remove(*tokens.map { it.js }.toTypedArray())
 
     /**
      * Toggles a token in the list. If the token is present, it's removed; if not, it's added.
@@ -111,25 +112,25 @@ interface JsDomTokenList : JsObject {
      * Returns a new `Iterator` object that contains the `[index, value]` pairs for each token in the list.
      *
      * In JavaScript, this corresponds to `tokenList.entries()`.
-     * @return A [JsSyntax] object representing the JavaScript method call that returns an Iterator.
+     * @return A [JsNothing] object representing the JavaScript method call that returns an Iterator.
      */
-    fun entries(): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("entries")))
+    fun entries(): JsNothing = JsNothing.syntax(ChainOperation(this, InvocationOperation("entries")))
 
     /**
      * Returns a new `Iterator` object that contains the keys (indices) for each token in the list.
      *
      * In JavaScript, this corresponds to `tokenList.keys()`.
-     * @return A [JsSyntax] object representing the JavaScript method call that returns an Iterator.
+     * @return A [JsNothing] object representing the JavaScript method call that returns an Iterator.
      */
-    fun keys(): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("keys")))
+    fun keys(): JsNothing = JsNothing.syntax(ChainOperation(this, InvocationOperation("keys")))
 
     /**
      * Returns a new `Iterator` object that contains the values (tokens) for each token in the list.
      *
      * In JavaScript, this corresponds to `tokenList.values()`.
-     * @return A [JsSyntax] object representing the JavaScript method call that returns an Iterator.
+     * @return A [JsNothing] object representing the JavaScript method call that returns an Iterator.
      */
-    fun values(): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("values")))
+    fun values(): JsNothing = JsNothing.syntax(ChainOperation(this, InvocationOperation("values")))
 
     /**
      * Executes a provided function once for each token in the list.
@@ -137,10 +138,10 @@ interface JsDomTokenList : JsObject {
      * In JavaScript, this corresponds to `tokenList.forEach(callback)`.
      * @param callback A [JsLambda1Ref] representing the JavaScript function to execute for each token.
      * The function typically receives the current token as its first argument.
-     * @return A [JsSyntax] object representing the JavaScript method call.
+     * @return A [JsNothing] object representing the JavaScript method call.
      */
-    fun forEach(callback: JsLambda1Ref<JsDomObject>): JsSyntax =
-        JsSyntax(ChainOperation(this, InvocationOperation("forEach", callback)))
+    fun forEach(callback: JsLambda1Ref<JsString>): JsNothing =
+        JsNothing.syntax(ChainOperation(this, InvocationOperation("forEach", callback)))
 
     companion object
 }

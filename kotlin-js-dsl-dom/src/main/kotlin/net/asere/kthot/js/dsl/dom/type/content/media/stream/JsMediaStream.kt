@@ -21,7 +21,7 @@ import net.asere.kthot.js.dsl.type.string.syntax
  */
 interface JsMediaStream : JsObject {
     /**
-     * Returns a unique identifier for the stream as a [net.asere.kthot.js.dsl.type.string.JsString] object.
+     * Returns a unique identifier for the stream as a [JsString] object.
      *
      * In JavaScript, this corresponds to `mediaStream.id`.
      */
@@ -29,7 +29,7 @@ interface JsMediaStream : JsObject {
 
     /**
      * Returns a boolean indicating whether the stream is active (has at least one active track)
-     * as a [net.asere.kthot.js.dsl.type.bool.JsBoolean] object.
+     * as a [JsBoolean] object.
      *
      * In JavaScript, this corresponds to `mediaStream.active`.
      */

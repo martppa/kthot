@@ -42,12 +42,12 @@ interface JsArray<T : JsValue> : JsObject {
     fun getByIndex(index: JsNumber): T = _typeBuilder_(AccessOperation(this, index))
 
     /**
-     * Returns the number of elements in the array.
+     * The number of elements in the array.
      *
      * In JavaScript, this corresponds to `array.length`.
      * @return A [JsNumber] object representing the length of the array.
      */
-    fun getLength(): JsNumber = JsNumberSyntax(ChainOperation(this, "length"))
+    val length: JsNumber get() = JsNumberSyntax(ChainOperation(this, "length"))
 
     /**
      * Adds one or more elements to the end of an array and returns the new length of the array.

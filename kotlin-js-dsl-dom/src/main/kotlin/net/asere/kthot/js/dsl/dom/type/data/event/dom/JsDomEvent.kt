@@ -1,7 +1,7 @@
 package net.asere.kthot.js.dsl.dom.type.data.event.dom
 
-import net.asere.kthot.js.dsl.dom.type.data.obj.JsDomObject
-import net.asere.kthot.js.dsl.dom.type.data.obj.syntax
+import net.asere.kthot.js.dsl.dom.type.core.event.target.JsEventTarget
+import net.asere.kthot.js.dsl.dom.type.core.event.target.syntax
 import net.asere.kthot.js.dsl.syntax.JsSyntax
 import net.asere.kthot.js.dsl.syntax.operational.access.operation.ChainOperation
 import net.asere.kthot.js.dsl.syntax.operational.invocation.operation.InvocationOperation
@@ -29,19 +29,19 @@ interface JsDomEvent : JsObject {
 
     /**
      * Returns the element that originally dispatched the event (the most deeply nested element)
-     * as a [JsDomObject] object.
+     * as a [JsEventTarget] object.
      *
      * In JavaScript, this corresponds to `event.target`.
      */
-    val target: JsDomObject get() = JsDomObject.syntax(ChainOperation(this, "target"))
+    val target: JsEventTarget get() = JsEventTarget.syntax(ChainOperation(this, "target"))
 
     /**
      * Returns the element to which the event listener was attached (the current target during bubbling)
-     * as a [JsDomObject] object.
+     * as a [JsEventTarget] object.
      *
      * In JavaScript, this corresponds to `event.currentTarget`.
      */
-    val currentTarget: JsDomObject get() = JsDomObject.syntax(ChainOperation(this, "currentTarget"))
+    val currentTarget: JsEventTarget get() = JsEventTarget.syntax(ChainOperation(this, "currentTarget"))
 
     /**
      * Returns the time (in milliseconds since the epoch) at which the event was created as a [JsNumber] object.

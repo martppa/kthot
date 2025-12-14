@@ -11,11 +11,11 @@ class JsLambda0Ref internal constructor(
 
 fun JsLambda0.Companion.ref(
     name: String = "lambda_${ReferenceId.nextRefInt()}",
-): JsLambda0 = JsLambda0Ref(name)
+): JsLambda0Ref = JsLambda0Ref(name)
 
 fun JsLambda0.Companion.ref(
     element: JsElement,
-): JsLambda0 = JsLambda0Ref(element.present())
+): JsLambda0Ref = JsLambda0Ref(element.present())
 
 fun JsLambda0.Companion.def(
     name: String = "lambda_${ReferenceId.nextRefInt()}",

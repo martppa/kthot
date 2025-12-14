@@ -1,22 +1,10 @@
 package net.asere.kthot.js.dsl.dom.type.window
 
-import net.asere.kthot.js.dsl.dom.type.window.Window.addEventListener
-import net.asere.kthot.js.dsl.dom.type.window.Window.alert
-import net.asere.kthot.js.dsl.dom.type.window.Window.clearInterval
-import net.asere.kthot.js.dsl.dom.type.window.Window.clearTimeout
-import net.asere.kthot.js.dsl.dom.type.window.Window.confirm
-import net.asere.kthot.js.dsl.dom.type.window.Window.open
-import net.asere.kthot.js.dsl.dom.type.window.Window.prompt
-import net.asere.kthot.js.dsl.dom.type.window.Window.removeEventListener
-import net.asere.kthot.js.dsl.dom.type.window.Window.scrollBy
-import net.asere.kthot.js.dsl.dom.type.window.Window.scrollTo
-import net.asere.kthot.js.dsl.dom.type.window.Window.setInterval
-import net.asere.kthot.js.dsl.dom.type.window.Window.setName
-import net.asere.kthot.js.dsl.dom.type.window.Window.setTimeout
 import net.asere.kthot.js.dsl.dom.type.content.document.JsDocument
 import net.asere.kthot.js.dsl.dom.type.content.document.syntax
-import net.asere.kthot.js.dsl.dom.type.data.event.dom.JsDomEvent
-import net.asere.kthot.js.dsl.dom.type.data.event.dom.syntax
+import net.asere.kthot.js.dsl.dom.type.core.event.target.JsEventTargetRef
+import net.asere.kthot.js.dsl.dom.type.window.Window.setInterval
+import net.asere.kthot.js.dsl.dom.type.window.Window.setTimeout
 import net.asere.kthot.js.dsl.dom.type.window.history.JsHistory
 import net.asere.kthot.js.dsl.dom.type.window.history.syntax
 import net.asere.kthot.js.dsl.dom.type.window.location.JsLocation
@@ -30,409 +18,266 @@ import net.asere.kthot.js.dsl.syntax.JsSyntax
 import net.asere.kthot.js.dsl.syntax.js
 import net.asere.kthot.js.dsl.syntax.operational.access.operation.ChainOperation
 import net.asere.kthot.js.dsl.syntax.operational.invocation.operation.InvocationOperation
+import net.asere.kthot.js.dsl.type.Undefined
 import net.asere.kthot.js.dsl.type.bool.JsBoolean
 import net.asere.kthot.js.dsl.type.bool.syntax
 import net.asere.kthot.js.dsl.type.lambda.l0.JsLambda0
-import net.asere.kthot.js.dsl.type.lambda.l1.JsLambda1
 import net.asere.kthot.js.dsl.type.number.JsNumber
 import net.asere.kthot.js.dsl.type.number.js
 import net.asere.kthot.js.dsl.type.number.syntax
-import net.asere.kthot.js.dsl.type.obj.JsObjectRef
 import net.asere.kthot.js.dsl.type.string.JsString
+import net.asere.kthot.js.dsl.type.string.JsStringRef
 import net.asere.kthot.js.dsl.type.string.js
+import net.asere.kthot.js.dsl.type.string.ref
 import net.asere.kthot.js.dsl.type.string.syntax
 
 /**
  * Represents the JavaScript `window` object, which is the global object in client-side JavaScript.
- * It represents the window in which the document is loaded and provides a wide range of
- * properties and methods for interacting with the browser window and its contents.
+ * It is the root of the browser's JavaScript environment and the Document Object Model (DOM).
+ * It inherits from [JsEventTarget] to allow for event handling (e.g., 'load', 'resize').
  */
-object Window : JsObjectRef("window") {
-    /**
-     * Displays an alert box with a specified message and an OK button.
-     *
-     * In JavaScript, this corresponds to `window.alert(message)`.
-     * @param text The message to display in the alert box as a [JsString] object.
-     * @return A [JsSyntax] object representing the JavaScript method call.
-     */
-    fun alert(text: JsString): JsSyntax = JsSyntax(ChainOperation(this, "alert($text)"))
+object Window : JsEventTargetRef("window") {
 
     /**
      * Displays an alert box with a specified message and an OK button.
-     * This is a convenience overload for [alert] that accepts a Kotlin [String].
-     *
-     * @param text The message to display as a Kotlin [String].
-     * @return A [JsSyntax] object representing the JavaScript method call.
+     * Corresponds to `window.alert(message)`.
      */
+    fun alert(text: JsString): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("alert", text)))
     fun alert(text: String): JsSyntax = alert(text.js)
 
     /**
      * Displays a confirmation box with a specified message, an OK button, and a Cancel button.
-     *
-     * In JavaScript, this corresponds to `window.confirm(message)`.
-     * @param text The message to display in the confirmation box as a [JsString] object.
+     * Corresponds to `window.confirm(message)`.
      * @return A [JsBoolean] object representing the JavaScript boolean result (`true` if OK, `false` if Cancel).
      */
-    fun confirm(text: JsString): JsBoolean = JsBoolean.syntax(ChainOperation(this, "confirm($text)"))
-
-    /**
-     * Displays a confirmation box with a specified message, an OK button, and a Cancel button.
-     * This is a convenience overload for [confirm] that accepts a Kotlin [String].
-     *
-     * @param text The message to display as a Kotlin [String].
-     * @return A [JsBoolean] object representing the JavaScript boolean result.
-     */
+    fun confirm(text: JsString): JsBoolean = JsBoolean.syntax(ChainOperation(this, InvocationOperation("confirm", text)))
     fun confirm(text: String): JsBoolean = confirm(text.js)
 
     /**
      * Displays a dialog box that prompts the user for input.
-     *
-     * In JavaScript, this corresponds to `window.prompt(message, defaultValue)`.
-     * @param text The message to display in the prompt box as a [JsString] object.
-     * @param defaultValue An optional [JsString] object representing the default value to display in the input field.
+     * Corresponds to `window.prompt(message, defaultValue)`.
      * @return A [JsString] object representing the user's input, or `null` if the user cancels the dialog.
      */
     fun prompt(text: JsString, defaultValue: JsString? = null): JsString =
-        JsString.syntax(ChainOperation(this, "prompt(${text.present()}${defaultValue?.let { ", $it" } ?: ""})"))
-
-    /**
-     * Displays a dialog box that prompts the user for input.
-     * This is a convenience overload for [prompt] that accepts Kotlin [String]s.
-     *
-     * @param text The message to display as a Kotlin [String].
-     * @param defaultValue An optional Kotlin [String] representing the default value.
-     * @return A [JsString] object representing the user's input, or `null` if the user cancels the dialog.
-     */
+        JsString.syntax(ChainOperation(this, InvocationOperation("prompt", text, defaultValue ?: Undefined)))
     fun prompt(text: String, defaultValue: String? = null): JsString =
         prompt(text.js, defaultValue?.js)
 
     /**
      * Sets a timer which executes a function or specified piece of code once after the timer expires.
-     *
-     * In JavaScript, this corresponds to `window.setTimeout(handler, delay)`.
+     * Corresponds to `window.setTimeout(handler, delay)`.
      * @param handler A [JsLambda0] object representing the function to be executed.
-     * @param delay The time, in milliseconds, the timer should wait before the specified function is executed, as a [JsNumber] object.
-     * @return A [JsNumber] object representing the ID of the timer. This ID can be used with [clearTimeout].
-     */
-    fun setTimeout(handler: JsLambda0, delay: JsNumber): JsNumber =
-        JsNumber.syntax(ChainOperation(this, "setTimeout($handler, $delay)"))
-
-    /**
-     * Sets a timer which executes a function or specified piece of code once after the timer expires.
-     * This is a convenience overload for [setTimeout] that accepts a Kotlin [Int] for delay.
-     *
-     * @param handler A [JsLambda0] object representing the function to be executed.
-     * @param delay The time, in milliseconds, as a Kotlin [Int].
      * @return A [JsNumber] object representing the ID of the timer.
      */
-    fun setTimeout(handler: JsLambda0, delay: Int): JsNumber = setTimeout(handler, delay.js)
-
-    /**
-     * Clears a timer set with [setTimeout].
-     *
-     * In JavaScript, this corresponds to `window.clearTimeout(timeoutId)`.
-     * @param timeoutId The ID of the timer to clear as a [JsNumber] object.
-     * @return A [JsSyntax] object representing the JavaScript method call.
-     */
-    fun clearTimeout(timeoutId: JsNumber): JsSyntax = JsSyntax(ChainOperation(this, "clearTimeout($timeoutId)"))
-
-    /**
-     * Clears a timer set with [setTimeout].
-     * This is a convenience overload for [clearTimeout] that accepts a Kotlin [Int].
-     *
-     * @param timeoutId The ID of the timer to clear as a Kotlin [Int].
-     * @return A [JsSyntax] object representing the JavaScript method call.
-     */
-    fun clearTimeout(timeoutId: Int): JsSyntax = clearTimeout(timeoutId.js)
+    fun setTimeout(handler: JsLambda0, delay: JsNumber): JsNumber =
+        JsNumber.syntax(ChainOperation(this, InvocationOperation("setTimeout", handler, delay)))
 
     /**
      * Repeatedly calls a function or executes a code snippet, with a fixed time delay between each call.
-     *
-     * In JavaScript, this corresponds to `window.setInterval(handler, delay)`.
+     * Corresponds to `window.setInterval(handler, delay)`.
      * @param handler A [JsLambda0] object representing the function to be executed.
-     * @param delay The time, in milliseconds, the timer should wait between executions, as a [JsNumber] object.
-     * @return A [JsNumber] object representing the ID of the interval. This ID can be used with [clearInterval].
-     */
-    fun setInterval(handler: JsLambda0, delay: JsNumber): JsNumber =
-        JsNumber.syntax(ChainOperation(this, "setInterval($handler, $delay)"))
-
-    /**
-     * Repeatedly calls a function or executes a code snippet.
-     * This is a convenience overload for [setInterval] that accepts a Kotlin [Int] for delay.
-     *
-     * @param handler A [JsLambda0] object representing the function to be executed.
-     * @param delay The time, in milliseconds, as a Kotlin [Int].
      * @return A [JsNumber] object representing the ID of the interval.
      */
-    fun setInterval(handler: JsLambda0, delay: Int): JsNumber = setInterval(handler, delay.js)
+    fun setInterval(handler: JsLambda0, delay: JsNumber): JsNumber =
+        JsNumber.syntax(ChainOperation(this, InvocationOperation("setInterval", handler, delay)))
+
+    /**
+     * Sets a timer which executes a block of code once after the timer expires.
+     * Uses a standard Kotlin lambda for clean, readable syntax.
+     * @param delay The time, in milliseconds, the timer should wait, as a [JsNumber] object.
+     * @param handler The Kotlin lambda (`JsScope.() -> Unit`) containing the code to be executed.
+     * @return A [JsNumber] object representing the ID of the timer.
+     */
+    fun setTimeout(delay: JsNumber, handler: JsScope.() -> Unit): JsNumber =
+        JsNumber.syntax(
+            ChainOperation(
+                this,
+                InvocationOperation(
+                    leftSideElement = "setTimeout",
+                    handler.js,
+                    delay
+                )
+            )
+        )
+
+    /**
+     * Sets a timer which executes a block of code once after the timer expires.
+     * Convenience overload accepting a Kotlin [Int] for delay.
+     */
+    fun setTimeout(delay: Int, handler: JsScope.() -> Unit): JsNumber = setTimeout(delay.js, handler)
+
+
+    /**
+     * Repeatedly calls a block of code, with a fixed time delay between each call.
+     * Uses a standard Kotlin lambda for clean, readable syntax.
+     * @param delay The time, in milliseconds, the timer should wait between executions, as a [JsNumber] object.
+     * @param handler The Kotlin lambda (`JsScope.() -> Unit`) containing the code to be executed repeatedly.
+     * @return A [JsNumber] object representing the ID of the interval.
+     */
+    fun setInterval(delay: JsNumber, handler: JsScope.() -> Unit): JsNumber =
+        JsNumber.syntax(
+            ChainOperation(
+                this,
+                InvocationOperation(
+                    leftSideElement = "setInterval",
+                    handler.js,
+                    delay
+                )
+            )
+        )
+
+    /**
+     * Repeatedly calls a block of code, with a fixed time delay between each call.
+     * Convenience overload accepting a Kotlin [Int] for delay.
+     */
+    fun setInterval(delay: Int, handler: JsScope.() -> Unit): JsNumber = setInterval(delay.js, handler)
+
+    /**
+     * Clears a timer set with [setTimeout].
+     * Corresponds to `window.clearTimeout(timeoutId)`.
+     */
+    fun clearTimeout(timeoutId: JsNumber): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("clearTimeout", timeoutId)))
+    fun clearTimeout(timeoutId: Int): JsSyntax = clearTimeout(timeoutId.js)
 
     /**
      * Clears an interval set with [setInterval].
-     *
-     * In JavaScript, this corresponds to `window.clearInterval(intervalId)`.
-     * @param intervalId The ID of the interval to clear as a [JsNumber] object.
-     * @return A [JsSyntax] object representing the JavaScript method call.
+     * Corresponds to `window.clearInterval(intervalId)`.
      */
-    fun clearInterval(intervalId: JsNumber): JsSyntax = JsSyntax(ChainOperation(this, "clearInterval($intervalId)"))
-
-    /**
-     * Clears an interval set with [setInterval].
-     * This is a convenience overload for [clearInterval] that accepts a Kotlin [Int].
-     *
-     * @param intervalId The ID of the interval to clear as a Kotlin [Int].
-     * @return A [JsSyntax] object representing the JavaScript method call.
-     */
+    fun clearInterval(intervalId: JsNumber): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("clearInterval", intervalId)))
     fun clearInterval(intervalId: Int): JsSyntax = clearInterval(intervalId.js)
 
     /**
-     * Returns the inner width of the browser window (viewport) in pixels as a [JsNumber] object.
-     * This includes the width of the vertical scrollbar, if present.
-     *
-     * In JavaScript, this corresponds to `window.innerWidth`.
+     * Returns the inner width of the browser window (viewport) in pixels.
+     * Corresponds to `window.innerWidth`.
      */
-    fun getInnerWidth(): JsNumber = JsNumber.syntax(ChainOperation(this, "innerWidth"))
+    val innerWidth: JsNumber get() = JsNumber.syntax(ChainOperation(this, "innerWidth"))
 
     /**
-     * Returns the inner height of the browser window (viewport) in pixels as a [JsNumber] object.
-     * This includes the height of the horizontal scrollbar, if present.
-     *
-     * In JavaScript, this corresponds to `window.innerHeight`.
+     * Returns the inner height of the browser window (viewport) in pixels.
+     * Corresponds to `window.innerHeight`.
      */
-    fun getInnerHeight(): JsNumber = JsNumber.syntax(ChainOperation(this, "innerHeight"))
+    val innerHeight: JsNumber get() = JsNumber.syntax(ChainOperation(this, "innerHeight"))
 
     /**
-     * Returns the outer width of the browser window (including toolbars/scrollbars) in pixels as a [JsNumber] object.
-     *
-     * In JavaScript, this corresponds to `window.outerWidth`.
+     * Returns the outer width of the browser window (including toolbars/scrollbars) in pixels.
+     * Corresponds to `window.outerWidth`.
      */
-    fun getOuterWidth(): JsNumber = JsNumber.syntax(ChainOperation(this, "outerWidth"))
+    val outerWidth: JsNumber get() = JsNumber.syntax(ChainOperation(this, "outerWidth"))
 
     /**
-     * Returns the outer height of the browser window (including toolbars/scrollbars) in pixels as a [JsNumber] object.
-     *
-     * In JavaScript, this corresponds to `window.outerHeight`.
+     * Returns the outer height of the browser window (including toolbars/scrollbars) in pixels.
+     * Corresponds to `window.outerHeight`.
      */
-    fun getOuterHeight(): JsNumber = JsNumber.syntax(ChainOperation(this, "outerHeight"))
+    val outerHeight: JsNumber get() = JsNumber.syntax(ChainOperation(this, "outerHeight"))
 
     /**
-     * Returns the number of pixels the document has been scrolled horizontally as a [JsNumber] object.
-     *
-     * In JavaScript, this corresponds to `window.scrollX`.
+     * Returns the number of pixels the document has been scrolled horizontally.
+     * Corresponds to `window.scrollX`.
      */
-    fun getScrollX(): JsNumber = JsNumber.syntax(ChainOperation(this, "scrollX"))
+    val scrollX: JsNumber get() = JsNumber.syntax(ChainOperation(this, "scrollX"))
 
     /**
-     * Returns the number of pixels the document has been scrolled vertically as a [JsNumber] object.
-     *
-     * In JavaScript, this corresponds to `window.scrollY`.
+     * Returns the number of pixels the document has been scrolled vertically.
+     * Corresponds to `window.scrollY`.
      */
-    fun getScrollY(): JsNumber = JsNumber.syntax(ChainOperation(this, "scrollY"))
+    val scrollY: JsNumber get() = JsNumber.syntax(ChainOperation(this, "scrollY"))
 
     /**
      * Scrolls the document to the specified coordinates.
-     *
-     * In JavaScript, this corresponds to `window.scrollTo(x, y)`.
-     * @param x The pixel along the horizontal axis of the document to scroll to as a [JsNumber] object.
-     * @param y The pixel along the vertical axis of the document to scroll to as a [JsNumber] object.
-     * @return A [JsSyntax] object representing the JavaScript method call.
+     * Corresponds to `window.scrollTo(x, y)`.
      */
-    fun scrollTo(x: JsNumber, y: JsNumber): JsSyntax = JsSyntax(ChainOperation(this, "scrollTo($x, $y)"))
-
-    /**
-     * Scrolls the document to the specified coordinates.
-     * This is a convenience overload for [scrollTo] that accepts Kotlin [Int]s.
-     *
-     * @param x The pixel along the horizontal axis as a Kotlin [Int].
-     * @param y The pixel along the vertical axis as a Kotlin [Int].
-     * @return A [JsSyntax] object representing the JavaScript method call.
-     */
+    fun scrollTo(x: JsNumber, y: JsNumber): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("scrollTo", x, y)))
     fun scrollTo(x: Int, y: Int): JsSyntax = scrollTo(x.js, y.js)
 
     /**
      * Scrolls the document by the specified amount.
-     *
-     * In JavaScript, this corresponds to `window.scrollBy(x, y)`.
-     * @param x The amount to scroll horizontally as a [JsNumber] object.
-     * @param y The amount to scroll vertically as a [JsNumber] object.
-     * @return A [JsSyntax] object representing the JavaScript method call.
+     * Corresponds to `window.scrollBy(x, y)`.
      */
-    fun scrollBy(x: JsNumber, y: JsNumber): JsSyntax = JsSyntax(ChainOperation(this, "scrollBy($x, $y)"))
-
-    /**
-     * Scrolls the document by the specified amount.
-     * This is a convenience overload for [scrollBy] that accepts Kotlin [Int]s.
-     *
-     * @param x The amount to scroll horizontally as a Kotlin [Int].
-     * @param y The amount to scroll vertically as a Kotlin [Int].
-     * @return A [JsSyntax] object representing the JavaScript method call.
-     */
+    fun scrollBy(x: JsNumber, y: JsNumber): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("scrollBy", x, y)))
     fun scrollBy(x: Int, y: Int): JsSyntax = scrollBy(x.js, y.js)
 
     /**
-     * Returns the name of the window as a [JsString] object.
-     *
-     * In JavaScript, this corresponds to `window.name`.
+     * Returns/sets the name of the window.
+     * Corresponds to `window.name`.
      */
-    fun getName(): JsString = JsString.syntax(ChainOperation(this, "name"))
+    val name: JsStringRef get() = JsString.ref(ChainOperation(this, "name"))
 
     /**
-     * Sets the name of the window.
-     *
-     * In JavaScript, this corresponds to `window.name = name`.
-     * @param name The new name as a [JsString] object.
-     * @return A [JsSyntax] object representing the JavaScript assignment.
+     * Returns a boolean indicating whether the window has been closed (read-only).
+     * Corresponds to `window.closed`.
      */
-    fun setName(name: JsString): JsSyntax = JsSyntax("${ChainOperation(this, "name")} = $name")
+    val closed: JsBoolean get() = JsBoolean.syntax(ChainOperation(this, "closed"))
 
     /**
-     * Sets the name of the window.
-     * This is a convenience overload for [setName] that accepts a Kotlin [String].
-     *
-     * @param name The new name as a Kotlin [String].
-     * @return A [JsSyntax] object representing the JavaScript assignment.
+     * Closes the current window.
+     * Corresponds to `window.close()`.
      */
-    fun setName(name: String): JsSyntax = setName(name.js)
-
-    /**
-     * Returns a boolean indicating whether the window has been closed as a [JsBoolean] object.
-     *
-     * In JavaScript, this corresponds to `window.closed`.
-     */
-    fun getClosed(): JsBoolean = JsBoolean.syntax(ChainOperation(this, "closed"))
-
-    /**
-     * Closes the current window. This method can only be called on windows that were opened by script.
-     *
-     * In JavaScript, this corresponds to `window.close()`.
-     * @return A [JsSyntax] object representing the JavaScript method call.
-     */
-    fun close(): JsSyntax = JsSyntax(ChainOperation(this, "close()"))
+    fun close(): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("close")))
 
     /**
      * Opens a new browser window or tab.
-     *
-     * In JavaScript, this corresponds to `window.open(url, windowName, features)`.
-     * @param url An optional [JsString] object specifying the URL to load in the new window.
-     * @param windowName An optional [JsString] object specifying the name of the new window.
-     * @param features An optional [JsString] object specifying window features (e.g., "width=200,height=100").
-     * @return A [JsSyntax] object representing the JavaScript method call.
+     * Corresponds to `window.open(url, windowName, features)`.
      */
     fun open(url: JsString? = null, windowName: JsString? = null, features: JsString? = null): JsSyntax =
         JsSyntax(
             ChainOperation(
                 this,
-                "open(${url ?: "''"}${windowName?.let { ", $it" } ?: ""}${features?.let { ", $it" } ?: ""})"))
-
-    /**
-     * Opens a new browser window or tab.
-     * This is a convenience overload for [open] that accepts Kotlin [String]s.
-     *
-     * @param url An optional Kotlin [String] specifying the URL.
-     * @param windowName An optional Kotlin [String] specifying the name.
-     * @param features An optional Kotlin [String] specifying window features.
-     * @return A [JsSyntax] object representing the JavaScript method call.
-     */
+                InvocationOperation(
+                    "open",
+                    url ?: JsString.syntax("''"),
+                    windowName ?: Undefined,
+                    features ?: Undefined
+                )
+            )
+        )
     fun open(url: String? = null, windowName: String? = null, features: String? = null): JsSyntax =
         open(url?.js, windowName?.js, features?.js)
 
     /**
      * Opens the Print Dialog to print the current document.
-     *
-     * In JavaScript, this corresponds to `window.print()`.
-     * @return A [JsSyntax] object representing the JavaScript method call.
+     * Corresponds to `window.print()`.
      */
-    fun print(): JsSyntax = JsSyntax(ChainOperation(this, "print()"))
+    fun print(): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("print")))
 
     /**
      * Returns the [JsLocation] object, which contains information about the current URL.
+     * Corresponds to `window.location`.
      */
     val location: JsLocation
         get() = JsLocation.syntax(ChainOperation(this, "location"))
 
     /**
-     * Returns the [JsDomObject] representing the `document` object, which is the root of the DOM tree.
+     * Returns the [JsDocument] object, which is the root of the DOM tree.
+     * Corresponds to `window.document`.
      */
     val document: JsDocument
         get() = JsDocument.syntax(ChainOperation(this, "document"))
 
     /**
      * Returns the [JsHistory] object, which provides access to the browser's session history.
+     * Corresponds to `window.history`.
      */
     val history: JsHistory
         get() = JsHistory.syntax(ChainOperation(this, "history"))
 
     /**
      * Returns the [JsNavigator] object, which contains information about the web browser.
+     * Corresponds to `window.navigator`.
      */
     val navigator: JsNavigator
         get() = JsNavigator.syntax(ChainOperation(this, "navigator"))
 
     /**
      * Returns the [JsScreen] object, which contains information about the user's screen.
+     * Corresponds to `window.screen`.
      */
     val screen: JsScreen
         get() = JsScreenSyntax(ChainOperation(this, "screen"))
 
     /**
-     * Attaches an event listener to the window. When the specified event occurs,
-     * the provided handler function will be executed.
-     *
-     * In JavaScript, this corresponds to `window.addEventListener(event, handler)`.
-     * @param event The name of the event to listen for (e.g., "load", "resize") as a [JsString] object.
-     * @param handler A [JsLambda1] representing the JavaScript function to execute when the event occurs.
-     * The function typically receives a [JsDomEvent] object as its first argument.
-     * @return A [JsSyntax] object representing the JavaScript method call.
+     * Returns the host (hostname plus port number) of the current URL (read-only).
+     * Corresponds to `window.host`.
      */
-    fun addEventListener(event: JsString, handler: JsLambda1<JsDomEvent>): JsSyntax =
-        JsSyntax(ChainOperation(this, "addEventListener($event, $handler)"))
-
-    fun addEventListener(event: JsString, handler: JsScope.(JsDomEvent) -> Unit): JsSyntax =
-        JsSyntax(
-            ChainOperation(
-                leftHand = this,
-                rightHand = InvocationOperation(
-                    leftSideElement = "addEventListener",
-                    event, handler.js(JsDomEvent::syntax)
-                )
-            )
-        )
-
-    /**
-     * Attaches an event listener to the window.
-     * This is a convenience overload for [addEventListener] that accepts a Kotlin [String] for the event name.
-     *
-     * @param event The name of the event to listen for as a Kotlin [String].
-     * @param handler A [JsLambda1] representing the JavaScript function to execute.
-     * @return A [JsSyntax] object representing the JavaScript method call.
-     */
-    fun addEventListener(event: String, handler: JsLambda1<JsDomEvent>): JsSyntax = addEventListener(event.js, handler)
-
-    fun addEventListener(event: String, handler: JsScope.(JsDomEvent) -> Unit): JsSyntax =
-        addEventListener(event.js, handler)
-
-    /**
-     * Removes an event listener from the window.
-     * The `handler` function must be the *exact same function instance* that was originally added.
-     *
-     * In JavaScript, this corresponds to `window.removeEventListener(event, handler)`.
-     * @param event The name of the event as a [JsString] object.
-     * @param handler A [JsLambda1] representing the JavaScript function that was previously added.
-     * @return A [JsSyntax] object representing the JavaScript method call.
-     */
-    fun removeEventListener(event: JsString, handler: JsLambda1<JsDomEvent>): JsSyntax =
-        JsSyntax(ChainOperation(this, "removeEventListener($event, $handler)"))
-
-    /**
-     * Removes an event listener from the window.
-     * This is a convenience overload for [removeEventListener] that accepts a Kotlin [String] for the event name.
-     *
-     * @param event The name of the event as a Kotlin [String].
-     * @param handler A [JsLambda1] representing the JavaScript function that was previously added.
-     * @return A [JsSyntax] object representing the JavaScript method call.
-     */
-    fun removeEventListener(event: String, handler: JsLambda1<JsDomEvent>): JsSyntax =
-        removeEventListener(event.js, handler)
-
     val host: JsString
         get() = JsString.syntax(ChainOperation(this, "host"))
 }

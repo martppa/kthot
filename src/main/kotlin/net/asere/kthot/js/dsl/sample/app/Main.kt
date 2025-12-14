@@ -14,10 +14,10 @@ import net.asere.kthot.js.dsl.dom.type.content.document.Document
 import net.asere.kthot.js.dsl.dom.type.content.document.createElement
 import net.asere.kthot.js.dsl.dom.type.content.document.getElementById
 import net.asere.kthot.js.dsl.dom.type.data.event.dom.JsDomEvent
-import net.asere.kthot.js.dsl.dom.type.structure.div.JsDiv
-import net.asere.kthot.js.dsl.dom.type.structure.div.def
-import net.asere.kthot.js.dsl.dom.type.structure.paragraph.JsParagraph
-import net.asere.kthot.js.dsl.dom.type.structure.paragraph.def
+import net.asere.kthot.js.dsl.dom.type.html.div.JsDivElement
+import net.asere.kthot.js.dsl.dom.type.html.div.def
+import net.asere.kthot.js.dsl.dom.type.html.paragraph.JsParagraphElement
+import net.asere.kthot.js.dsl.dom.type.html.paragraph.def
 import net.asere.kthot.js.dsl.dom.type.window.Window
 import net.asere.kthot.js.dsl.html.jslScript
 import net.asere.kthot.js.dsl.ksp.Kthot
@@ -47,11 +47,11 @@ fun main() {
                         jslScript {
                             Import(JsRepoDataSource.Module, JsRepoDataSource.Module.fetchRepos)
                             val fetchFunction = AsyncFunction(name = "fetchFunction") {
-                                val listDiv = Const { JsDiv.def("listDiv") } assign Document.getElementById("list")
+                                val listDiv = Const { JsDivElement.def("listDiv") } assign Document.getElementById("list")
                                 val repos = Const { JsArray.def<JsRepo>("repos") } assign await { JsRepoDataSource.fetchRepos() }
                                 +repos.forEach {
-                                    val paragraph = Const { JsParagraph.def("paragraph") } assign Document.createElement("div")
-                                    +paragraph.setTextContent(it.name)
+                                    val paragraph = Const { JsParagraphElement.def("paragraph") } assign Document.createElement("div")
+                                    paragraph.textContent assign it.name
                                     +listDiv.appendChild(paragraph)
                                 }
                             }
