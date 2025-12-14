@@ -1,4 +1,4 @@
-# Kthot ![](https://img.shields.io/badge/maven_central-0.2.6-004475)
+# Kthot ![](https://img.shields.io/badge/maven_central-0.3.0-004475)
 A typesafe Kotlin DSL for JavaScript. Write, reuse and interact with Javascript without [WASM](https://kotlinlang.org/docs/wasm-overview.html).
 
 ![Gemini_Generated_Image_vy4v8hvy4v8hvy4v (1)](https://github.com/user-attachments/assets/0e69ad71-7358-4ec6-a70c-e508f76e652f)
@@ -13,10 +13,10 @@ As Kotlin developers and users of [Kotlin Html Dsl](https://kotlinlang.org/docs/
 createHTML().html {
     head {
         jslScript {
-            val button = Const { JsButton.def("button") } assign Document.getElementById("button")
+            val button = Const { JsButtonElement.def("button") } assign Document.getElementById("button")
             +button.setOnClick {
-                val title = Const { JsParagraph.def("title") } assign Document.getElementById("title")
-                +title.setTextContent("Clicked!")
+                val title = Const { JsParagraphElement.def("title") } assign Document.getElementById("title")
+                title.textContent assign "Clicked!".js
                 Log("Clicked!")
             }
         }

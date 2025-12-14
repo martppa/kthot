@@ -6,7 +6,7 @@ plugins {
 }
 group = 'net.asere.kthot'
 
-version = '0.2.6'
+version = '0.3.0'
 
 ext {
     VERSION = version
