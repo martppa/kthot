@@ -10,7 +10,7 @@ repositories {
 }
 
 group = 'net.asere.kthot'
-version = '0.3.0'
+version = '0.3.1'
 
 ext {
     VERSION = version
