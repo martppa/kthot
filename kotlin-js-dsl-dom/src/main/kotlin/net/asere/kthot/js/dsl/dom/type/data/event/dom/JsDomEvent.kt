@@ -1,107 +1,136 @@
 package net.asere.kthot.js.dsl.dom.type.data.event.dom
 
+import net.asere.kthot.js.dsl.JsNothing
 import net.asere.kthot.js.dsl.dom.type.core.event.target.JsEventTarget
 import net.asere.kthot.js.dsl.dom.type.core.event.target.syntax
-import net.asere.kthot.js.dsl.syntax.JsSyntax
+import net.asere.kthot.js.dsl.syntax
 import net.asere.kthot.js.dsl.syntax.operational.access.operation.ChainOperation
 import net.asere.kthot.js.dsl.syntax.operational.invocation.operation.InvocationOperation
+import net.asere.kthot.js.dsl.type.array.JsArray
+import net.asere.kthot.js.dsl.type.array.syntax
 import net.asere.kthot.js.dsl.type.bool.JsBoolean
 import net.asere.kthot.js.dsl.type.bool.syntax
 import net.asere.kthot.js.dsl.type.number.JsNumber
 import net.asere.kthot.js.dsl.type.number.syntax
-import net.asere.kthot.js.dsl.type.obj.JsObject
 import net.asere.kthot.js.dsl.type.string.JsString
 import net.asere.kthot.js.dsl.type.string.syntax
 
 /**
- * Represents the base JavaScript `Event` object, which is passed to event listeners
- * when an event occurs in the DOM.
- *
- * This interface provides common properties and methods available on all standard DOM events.
+ * Represents the JavaScript `Event` interface. This is the base interface for all events fired
+ * in the DOM (e.g., click, change, keydown) and is inherited from [JsEventTarget].
  */
-interface JsDomEvent : JsObject {
-    /**
-     * Returns the type of the event (e.g., "click", "mouseover", "keydown") as a [JsString] object.
-     *
-     * In JavaScript, this corresponds to `event.type`.
-     */
-    val type: JsString get() = JsString.syntax(ChainOperation(this, "type"))
+interface JsDomEvent : JsEventTarget {
 
     /**
-     * Returns the element that originally dispatched the event (the most deeply nested element)
-     * as a [JsEventTarget] object.
-     *
-     * In JavaScript, this corresponds to `event.target`.
+     * The name identifying the type of the event (e.g., "click", "keydown").
+     * Corresponds to `event.type`.
      */
-    val target: JsEventTarget get() = JsEventTarget.syntax(ChainOperation(this, "target"))
+    val type: JsString
+        get() = JsString.syntax(ChainOperation(this, "type"))
 
     /**
-     * Returns the element to which the event listener was attached (the current target during bubbling)
-     * as a [JsEventTarget] object.
-     *
-     * In JavaScript, this corresponds to `event.currentTarget`.
+     * A reference to the object to which the event was originally dispatched.
+     * Corresponds to `event.target`.
      */
-    val currentTarget: JsEventTarget get() = JsEventTarget.syntax(ChainOperation(this, "currentTarget"))
+    val target: JsEventTarget
+        get() = JsEventTarget.syntax(ChainOperation(this, "target"))
 
     /**
-     * Returns the time (in milliseconds since the epoch) at which the event was created as a [JsNumber] object.
-     *
-     * In JavaScript, this corresponds to `event.timeStamp`.
+     * A reference to the currently registered target for the event (the element the listener was attached to).
+     * Corresponds to `event.currentTarget`.
      */
-    val timeStamp: JsNumber get() = JsNumber.syntax(ChainOperation(this, "timeStamp"))
+    val currentTarget: JsEventTarget
+        get() = JsEventTarget.syntax(ChainOperation(this, "currentTarget"))
 
     /**
-     * Returns a boolean indicating whether the event bubbles up through the DOM tree as a [JsBoolean] object.
-     *
-     * In JavaScript, this corresponds to `event.bubbles`.
+     * A boolean value indicating whether or not the event bubbles up through the DOM.
+     * Corresponds to `event.bubbles`.
      */
-    val bubbles: JsBoolean get() = JsBoolean.syntax(ChainOperation(this, "bubbles"))
+    val bubbles: JsBoolean
+        get() = JsBoolean.syntax(ChainOperation(this, "bubbles"))
 
     /**
-     * Returns a boolean indicating whether the event is cancelable (i.e., its default action can be prevented)
-     * as a [JsBoolean] object.
-     *
-     * In JavaScript, this corresponds to `event.cancelable`.
+     * A boolean value indicating whether the event is cancelable.
+     * Corresponds to `event.cancelable`.
      */
-    val cancelable: JsBoolean get() = JsBoolean.syntax(ChainOperation(this, "cancelable"))
+    val cancelable: JsBoolean
+        get() = JsBoolean.syntax(ChainOperation(this, "cancelable"))
 
     /**
-     * Returns a boolean indicating whether the default action of the event has been prevented
-     * as a [JsBoolean] object.
-     *
-     * In JavaScript, this corresponds to `event.defaultPrevented`.
+     * Indicates which phase of the event flow is being processed. (1=Capturing, 2=At Target, 3=Bubbling).
+     * Corresponds to `event.eventPhase`.
      */
-    val defaultPrevented: JsBoolean get() = JsBoolean.syntax(ChainOperation(this, "defaultPrevented"))
+    val eventPhase: JsNumber
+        get() = JsNumber.syntax(ChainOperation(this, "eventPhase"))
 
     /**
-     * Prevents the default action of the event from occurring.
-     * For example, preventing a link from navigating or a form from submitting.
-     *
-     * In JavaScript, this corresponds to `event.preventDefault()`.
-     * @return A [JsSyntax] object representing the JavaScript method call.
+     * Indicates whether or not the event was initiated by the browser (user action) or a script.
+     * Corresponds to `event.isTrusted`.
      */
-    fun preventDefault(): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("preventDefault")))
+    val isTrusted: JsBoolean
+        get() = JsBoolean.syntax(ChainOperation(this, "isTrusted"))
 
     /**
-     * Stops the propagation of the event up the DOM tree.
-     * This prevents the event from reaching parent elements' event listeners.
-     *
-     * In JavaScript, this corresponds to `event.stopPropagation()`.
-     * @return A [JsSyntax] object representing the JavaScript method call.
+     * Indicates whether or not the call to `event.preventDefault()` canceled the event.
+     * Corresponds to `event.defaultPrevented`.
      */
-    fun stopPropagation(): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("stopPropagation")))
+    val defaultPrevented: JsBoolean
+        get() = JsBoolean.syntax(ChainOperation(this, "defaultPrevented"))
 
     /**
-     * Stops the propagation of the event up the DOM tree and prevents any other event listeners
-     * on the *current* element from being called for the current event.
-     *
-     * In JavaScript, this corresponds to `event.stopImmediatePropagation()`.
-     * @return A [JsSyntax] object representing the JavaScript method call.
+     * A boolean indicating whether or not the event can bubble across the boundary between shadow DOM and the regular DOM.
+     * Corresponds to `event.composed`.
      */
-    fun stopImmediatePropagation(): JsSyntax =
-        JsSyntax(ChainOperation(this, InvocationOperation("stopImmediatePropagation")))
+    val composed: JsBoolean
+        get() = JsBoolean.syntax(ChainOperation(this, "composed"))
+
+    /**
+     * The time at which the event was created (in milliseconds).
+     * Corresponds to `event.timeStamp`.
+     */
+    val timeStamp: JsNumber
+        get() = JsNumber.syntax(ChainOperation(this, "timeStamp"))
+
+    /**
+     * Cancels the event (if it is cancelable), preventing the browser's default action.
+     * Corresponds to `event.preventDefault()`.
+     */
+    fun preventDefault(): JsNothing =
+        JsNothing.syntax(ChainOperation(this, InvocationOperation("preventDefault")))
+
+    /**
+     * Stops the propagation of events further along in the DOM tree (prevents bubbling/capturing to ancestors/descendants).
+     * Corresponds to `event.stopPropagation()`.
+     */
+    fun stopPropagation(): JsNothing =
+        JsNothing.syntax(ChainOperation(this, InvocationOperation("stopPropagation")))
+
+    /**
+     * Prevents all other listeners from being called for this event, including listeners on the same element.
+     * Corresponds to `event.stopImmediatePropagation()`.
+     */
+    fun stopImmediatePropagation(): JsNothing =
+        JsNothing.syntax(ChainOperation(this, InvocationOperation("stopImmediatePropagation")))
+
+    /**
+     * Returns the event's path (an array of objects on which listeners will be invoked).
+     * Corresponds to `event.composedPath()`.
+     */
+    fun composedPath(): JsArray<JsEventTarget> =
+        JsArray.syntax(ChainOperation(this, InvocationOperation("composedPath")))
+
+    /**
+     * Deprecated alias for [JsDomEvent.target]. Use [JsDomEvent.target] instead.
+     * Corresponds to `event.srcElement`.
+     */
+    val srcElement: JsEventTarget
+        get() = JsEventTarget.syntax(ChainOperation(this, "srcElement"))
 
     companion object {
+        const val NONE: Int = 0
+        const val CAPTURING_PHASE: Int = 1
+        const val AT_TARGET: Int = 2
+        const val BUBBLING_PHASE: Int = 3
         /** Event type constant: Fired when an element is clicked. */
         const val EVENT_CLICK = "click"
         /** Event type constant: Fired when a user double-clicks an element. */

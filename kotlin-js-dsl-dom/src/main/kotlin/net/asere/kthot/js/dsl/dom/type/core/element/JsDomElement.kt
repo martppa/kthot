@@ -1,8 +1,19 @@
 package net.asere.kthot.js.dsl.dom.type.core.element
 
+import net.asere.kthot.js.dsl.JsNothing
 import net.asere.kthot.js.dsl.dom.type.core.node.JsNode
+import net.asere.kthot.js.dsl.dom.type.core.node.list.JsNodeList
+import net.asere.kthot.js.dsl.dom.type.core.node.list.syntax
+import net.asere.kthot.js.dsl.dom.type.data.token.list.JsDomTokenList
+import net.asere.kthot.js.dsl.dom.type.data.token.list.syntax
+import net.asere.kthot.js.dsl.dom.type.html.collection.JsHtmlCollection
+import net.asere.kthot.js.dsl.dom.type.html.collection.syntax
+import net.asere.kthot.js.dsl.syntax
 import net.asere.kthot.js.dsl.syntax.operational.access.operation.ChainOperation
 import net.asere.kthot.js.dsl.syntax.operational.invocation.operation.InvocationOperation
+import net.asere.kthot.js.dsl.type.bool.JsBoolean
+import net.asere.kthot.js.dsl.type.bool.js
+import net.asere.kthot.js.dsl.type.bool.syntax
 import net.asere.kthot.js.dsl.type.number.JsNumber
 import net.asere.kthot.js.dsl.type.number.JsNumberRef
 import net.asere.kthot.js.dsl.type.number.ref
@@ -11,146 +22,314 @@ import net.asere.kthot.js.dsl.type.obj.JsObject
 import net.asere.kthot.js.dsl.type.obj.syntax
 import net.asere.kthot.js.dsl.type.string.JsString
 import net.asere.kthot.js.dsl.type.string.JsStringRef
+import net.asere.kthot.js.dsl.type.string.js
 import net.asere.kthot.js.dsl.type.string.ref
 import net.asere.kthot.js.dsl.type.string.syntax
 
 /**
- * Represents the base class for objects of elements in a document (the standard DOM 'Element' interface).
- * It extends [JsNode] and introduces properties related to element attributes, IDs, and scrolling.
+ * Represents the JavaScript `Element` interface. This is the fundamental interface for all elements
+ * in a document (HTML, SVG, etc.). It extends [JsNode] and provides core element-specific features
+ * like attributes, classes, and content manipulation.
  */
 interface JsDomElement : JsNode {
 
     /**
-     * Reflects the HTML global `id` attribute, representing the element's unique identifier.
-     * In JavaScript, this corresponds to `element.id`.
+     * Gets or sets the value of the `id` attribute.
+     * Corresponds to `element.id` in JavaScript.
      */
-    val id: JsStringRef get() = JsString.ref(ChainOperation(this, "id"))
+    val id: JsStringRef
+        get() = JsString.ref(ChainOperation(this, "id"))
 
     /**
-     * Reflects the HTML global `class` attribute, representing the space-separated list of the element's CSS classes.
-     * In JavaScript, this corresponds to `element.className`.
+     * Gets or sets the value of the `class` attribute.
+     * Corresponds to `element.className` in JavaScript.
      */
-    val className: JsStringRef get() = JsString.ref(ChainOperation(this, "className"))
+    val className: JsStringRef
+        get() = JsString.ref(ChainOperation(this, "className"))
 
     /**
-     * Returns a [DOMTokenList] object for the element's `class` attribute, allowing for convenient
-     * addition, removal, and toggling of individual CSS classes.
-     * In JavaScript, this corresponds to `element.classList`.
+     * Gets a token list for managing the element's classes.
+     * Corresponds to `element.classList` in JavaScript.
      */
-    val classList: JsObject get() = JsObject.syntax(ChainOperation(this, "classList")) // Returns DOMTokenList
+    val classList: JsDomTokenList
+        get() = JsDomTokenList.syntax(ChainOperation(this, "classList"))
 
     /**
-     * Returns the name of the element's tag (e.g., "DIV", "A", "P") in uppercase.
-     * In JavaScript, this corresponds to `element.tagName`.
+     * Gets the name of the tag (e.g., "DIV", "BUTTON").
+     * Corresponds to `element.tagName` in JavaScript.
      */
-    val tagName: JsString get() = JsString.syntax(ChainOperation(this, "tagName"))
+    val tagName: JsString
+        get() = JsString.syntax(ChainOperation(this, "tagName"))
 
     /**
-     * Returns a [JsObject] object containing the list of attributes of the element.
-     * In JavaScript, this corresponds to `element.attributes`.
+     * Gets the list of attributes assigned to the element. (Read-only)
+     * Corresponds to `element.attributes`.
      */
-    val attributes: JsObject get() = JsObject.syntax(ChainOperation(this, "attributes"))
+    val attributes: JsObject
+        get() = JsObject.syntax(ChainOperation(this, "attributes"))
 
     /**
-     * Reflects the HTML content (markup and text) inside the element.
-     * Setting this value replaces the element's content with parsed HTML.
-     * In JavaScript, this corresponds to `element.innerHTML`.
+     * Gets the inner height of an element (content + padding).
+     * Corresponds to `element.clientHeight`.
      */
-    val innerHTML: JsStringRef get() = JsString.ref(ChainOperation(this, "innerHTML"))
+    val clientHeight: JsNumber
+        get() = JsNumber.syntax(ChainOperation(this, "clientHeight"))
 
     /**
-     * Returns the serialized HTML markup of the element, including the element itself.
-     * Setting this value replaces the entire element in the DOM.
-     * In JavaScript, this corresponds to `element.outerHTML`.
+     * Gets the inner width of an element (content + padding).
+     * Corresponds to `element.clientWidth`.
      */
-    val outerHTML: JsStringRef get() = JsString.ref(ChainOperation(this, "outerHTML"))
+    val clientWidth: JsNumber
+        get() = JsNumber.syntax(ChainOperation(this, "clientWidth"))
 
     /**
-     * Returns the text content of the element and its descendants, without HTML markup.
-     * Setting this value replaces the element's content with plain text.
-     * In JavaScript, this corresponds to `element.textContent`.
+     * Gets the width of the left border of the element.
+     * Corresponds to `element.clientLeft`.
      */
-    val textContent: JsStringRef get() = JsString.ref(ChainOperation(this, "textContent"))
+    val clientLeft: JsNumber
+        get() = JsNumber.syntax(ChainOperation(this, "clientLeft"))
 
     /**
-     * The number of pixels that the content of an element has been scrolled vertically.
-     * This property is read/write and is intrinsic to any scrollable [Element].
-     * In JavaScript, this corresponds to `element.scrollTop`.
+     * Gets the width of the top border of the element.
+     * Corresponds to `element.clientTop`.
      */
-    val scrollTop: JsNumberRef get() = JsNumber.ref(ChainOperation(this, "scrollTop"))
+    val clientTop: JsNumber
+        get() = JsNumber.syntax(ChainOperation(this, "clientTop"))
 
     /**
-     * The number of pixels that the content of an element has been scrolled horizontally.
-     * This property is read/write and is intrinsic to any scrollable [Element].
-     * In JavaScript, this corresponds to `element.scrollLeft`.
+     * Gets the full height of the element's content, visible or not.
+     * Corresponds to `element.scrollHeight`.
      */
-    val scrollLeft: JsNumberRef get() = JsNumber.ref(ChainOperation(this, "scrollLeft"))
+    val scrollHeight: JsNumber
+        get() = JsNumber.syntax(ChainOperation(this, "scrollHeight"))
 
     /**
-     * The height of the element's content, including content not visible on the screen due to overflow.
-     * This property is read-only.
-     * In JavaScript, this corresponds to `element.scrollHeight`.
+     * Gets the full width of the element's content, visible or not.
+     * Corresponds to `element.scrollWidth`.
      */
-    val scrollHeight: JsNumber get() = JsNumber.syntax(ChainOperation(this, "scrollHeight"))
+    val scrollWidth: JsNumber
+        get() = JsNumber.syntax(ChainOperation(this, "scrollWidth"))
 
     /**
-     * The width of the element's content, including content not visible on the screen due to overflow.
-     * This property is read-only.
-     * In JavaScript, this corresponds to `element.scrollWidth`.
+     * Gets or sets the left scroll offset of the element.
+     * Corresponds to `element.scrollLeft`.
      */
-    val scrollWidth: JsNumber get() = JsNumber.syntax(ChainOperation(this, "scrollWidth"))
+    val scrollLeft: JsNumberRef
+        get() = JsNumber.ref(ChainOperation(this, "scrollLeft"))
+
+    /**
+     * Gets or sets the top scroll offset of the element.
+     * Corresponds to `element.scrollTop`.
+     */
+    val scrollTop: JsNumberRef
+        get() = JsNumber.ref(ChainOperation(this, "scrollTop"))
+
+    /**
+     * Returns the number of child elements.
+     * Corresponds to `element.childElementCount`.
+     */
+    val childElementCount: JsNumber
+        get() = JsNumber.syntax(ChainOperation(this, "childElementCount"))
+
+    /**
+     * Returns a live [JsHtmlCollection] of all child elements (excluding text/comment nodes).
+     * Corresponds to `element.children`.
+     */
+    val children: JsHtmlCollection
+        get() = JsHtmlCollection.syntax(ChainOperation(this, "children"))
+
+    /**
+     * Returns the first child element of this element, or null.
+     * Corresponds to `element.firstElementChild`.
+     */
+    val firstElementChild: JsDomElement
+        get() = JsDomElement.syntax(ChainOperation(this, "firstElementChild"))
+
+    /**
+     * Returns the last child element of this element, or null.
+     * Corresponds to `element.lastElementChild`.
+     */
+    val lastElementChild: JsDomElement
+        get() = JsDomElement.syntax(ChainOperation(this, "lastElementChild"))
+
+    /**
+     * Returns the element immediately following the given one in the tree, or null.
+     * Corresponds to `element.nextElementSibling`.
+     */
+    val nextElementSibling: JsDomElement
+        get() = JsDomElement.syntax(ChainOperation(this, "nextElementSibling"))
+
+    /**
+     * Returns the element immediately preceding the given one in the tree, or null.
+     * Corresponds to `element.previousElementSibling`.
+     */
+    val previousElementSibling: JsDomElement
+        get() = JsDomElement.syntax(ChainOperation(this, "previousElementSibling"))
+
+    /**
+     * Returns the name of the shadow DOM slot the element is inserted in.
+     * Corresponds to `element.slot`.
+     */
+    val slot: JsStringRef
+        get() = JsString.ref(ChainOperation(this, "slot"))
+
+    /**
+     * Gets or sets the HTML markup content of an element.
+     * Corresponds to `element.innerHTML`.
+     */
+    val innerHTML: JsStringRef
+        get() = JsString.ref(ChainOperation(this, "innerHTML"))
+
+    /**
+     * Gets or sets the element's markup, including the element itself.
+     * Corresponds to `element.outerHTML`.
+     */
+    val outerHTML: JsStringRef
+        get() = JsString.ref(ChainOperation(this, "outerHTML"))
 
     /**
      * Retrieves the value of the named attribute.
      * Corresponds to `element.getAttribute(name)`.
-     * @param name A [JsString] representing the attribute name.
-     * @return A [JsString] representing the attribute value, or `null` if the attribute does not exist.
      */
     fun getAttribute(name: JsString): JsString =
         JsString.syntax(ChainOperation(this, InvocationOperation("getAttribute", name)))
 
+    fun getAttribute(name: String): JsString = getAttribute(name.js)
+
     /**
-     * Sets the value of a named attribute. If the attribute already exists, its value is updated.
+     * Sets the value of the named attribute.
      * Corresponds to `element.setAttribute(name, value)`.
-     * @param name A [JsString] representing the attribute name.
-     * @param value A [JsString] representing the desired attribute value.
      */
-    fun setAttribute(name: JsString, value: JsString): JsObject =
-        JsObject.syntax(ChainOperation(this, InvocationOperation("setAttribute", name, value)))
+    fun setAttribute(name: JsString, value: JsString): JsNothing =
+        JsNothing.syntax(ChainOperation(this, InvocationOperation("setAttribute", name, value)))
+
+    fun setAttribute(name: String, value: String): JsNothing = setAttribute(name.js, value.js)
 
     /**
-     * Removes the named attribute from the current element.
+     * Removes the named attribute.
      * Corresponds to `element.removeAttribute(name)`.
-     * @param name A [JsString] representing the attribute name.
      */
-    fun removeAttribute(name: JsString): JsObject =
-        JsObject.syntax(ChainOperation(this, InvocationOperation("removeAttribute", name)))
+    fun removeAttribute(name: JsString): JsNothing =
+        JsNothing.syntax(ChainOperation(this, InvocationOperation("removeAttribute", name)))
+
+    fun removeAttribute(name: String): JsNothing = removeAttribute(name.js)
 
     /**
-     * Returns a live [JsHTMLCollection] of the children of the element.
-     * Note: Only element nodes are included (not text or comment nodes).
-     * In JavaScript, this corresponds to `element.children`.
+     * Returns a [JsBoolean] indicating whether the element has the specified attribute.
+     * Corresponds to `element.hasAttribute(name)`.
      */
-    val children: JsObject get() = JsObject.syntax(ChainOperation(this, "children")) // Returns HTMLCollection
+    fun hasAttribute(name: JsString): JsBoolean =
+        JsBoolean.syntax(ChainOperation(this, InvocationOperation("hasAttribute", name)))
+
+    fun hasAttribute(name: String): JsBoolean = hasAttribute(name.js)
 
     /**
-     * Returns the number of child elements (element nodes) of the current element.
-     * This property is read-only.
-     * In JavaScript, this corresponds to `element.childElementCount`.
+     * Toggles a boolean attribute, removing it if present, adding it if not.
+     * Corresponds to `element.toggleAttribute(name, force)`.
      */
-    val childElementCount: JsNumber get() = JsNumber.syntax(ChainOperation(this, "childElementCount"))
+    fun toggleAttribute(name: JsString, force: JsBoolean? = null): JsBoolean =
+        JsBoolean.syntax(ChainOperation(this, InvocationOperation("toggleAttribute", *listOfNotNull(name, force).toTypedArray())))
+
+    fun toggleAttribute(name: String, force: Boolean? = null): JsBoolean = toggleAttribute(name.js, force?.js)
 
     /**
-     * Returns the first child [JsDomElement] of the current element, or `null` if the element has no children.
-     * In JavaScript, this corresponds to `element.firstElementChild`.
+     * Returns the first element matching the specified selector string relative to the element.
+     * Corresponds to `element.querySelector(selectors)`.
      */
-    val firstElementChild: JsDomElement get() = JsDomElement.syntax(ChainOperation(this, "firstElementChild"))
+    fun querySelector(selectors: JsString): JsDomElement =
+        JsDomElement.syntax(ChainOperation(this, InvocationOperation("querySelector", selectors)))
+
+    fun querySelector(selectors: String): JsDomElement = querySelector(selectors.js)
 
     /**
-     * Returns the last child [JsDomElement] of the current element, or `null` if the element has no children.
-     * In JavaScript, this corresponds to `element.lastElementChild`.
+     * Returns a static [JsNodeList] of nodes matching the specified selector string relative to the element.
+     * Corresponds to `element.querySelectorAll(selectors)`.
      */
-    val lastElementChild: JsDomElement get() = JsDomElement.syntax(ChainOperation(this, "lastElementChild"))
+    fun querySelectorAll(selectors: JsString): JsNodeList =
+        JsNodeList.syntax(ChainOperation(this, InvocationOperation("querySelectorAll", selectors)))
+
+    fun querySelectorAll(selectors: String): JsNodeList = querySelectorAll(selectors.js)
+
+    /**
+     * Returns the closest ancestor of the current element (or the element itself) which matches the selectors.
+     * Corresponds to `element.closest(selectors)`.
+     */
+    fun closest(selectors: JsString): JsDomElement =
+        JsDomElement.syntax(ChainOperation(this, InvocationOperation("closest", selectors)))
+
+    fun closest(selectors: String): JsDomElement = closest(selectors.js)
+
+    /**
+     * Checks if the Element would be selected by the specified CSS selector.
+     * Corresponds to `element.matches(selectors)`.
+     */
+    fun matches(selectors: JsString): JsBoolean =
+        JsBoolean.syntax(ChainOperation(this, InvocationOperation("matches", selectors)))
+
+    fun matches(selectors: String): JsBoolean = matches(selectors.js)
+
+    /**
+     * Inserts a set of [JsNode] objects or strings after the last child of the element.
+     * Corresponds to `element.append(nodes)`.
+     */
+    fun append(vararg nodes: JsDomElement): JsNothing =
+        JsNothing.syntax(ChainOperation(this, InvocationOperation("append", *nodes)))
+
+    /**
+     * Inserts a set of [JsNode] objects or strings before the first child of the element.
+     * Corresponds to `element.prepend(nodes)`.
+     */
+    fun prepend(vararg nodes: JsDomElement): JsNothing =
+        JsNothing.syntax(ChainOperation(this, InvocationOperation("prepend", *nodes)))
+
+    /**
+     * Inserts a set of [JsNode] objects or strings in the children list of the element's parent, just before the element.
+     * Corresponds to `element.before(nodes)`.
+     */
+    fun before(vararg nodes: JsDomElement): JsNothing =
+        JsNothing.syntax(ChainOperation(this, InvocationOperation("before", *nodes)))
+
+    /**
+     * Inserts a set of [JsNode] objects or strings in the children list of the element's parent, just after the element.
+     * Corresponds to `element.after(nodes)`.
+     */
+    fun after(vararg nodes: JsDomElement): JsNothing =
+        JsNothing.syntax(ChainOperation(this, InvocationOperation("after", *nodes)))
+
+    /**
+     * Replaces the element in the children list of its parent with a set of [JsNode] objects or strings.
+     * Corresponds to `element.replaceWith(nodes)`.
+     */
+    fun replaceWith(vararg nodes: JsDomElement): JsNothing =
+        JsNothing.syntax(ChainOperation(this, InvocationOperation("replaceWith", *nodes)))
+
+    /**
+     * Scrolls the page until the element gets into view.
+     * Corresponds to `element.scrollIntoView(alignToTop)`.
+     */
+    fun scrollIntoView(alignToTop: JsBoolean = true.js): JsNothing =
+        JsNothing.syntax(ChainOperation(this, InvocationOperation("scrollIntoView", alignToTop)))
+
+    /**
+     * Scrolls to a particular set of coordinates inside the element.
+     * Corresponds to `element.scroll(x, y)` or `element.scroll({options})`.
+     */
+    fun scroll(x: JsNumber, y: JsNumber): JsNothing =
+        JsNothing.syntax(ChainOperation(this, InvocationOperation("scroll", x, y)))
+
+    /**
+     * Scrolls an element by the given amount.
+     * Corresponds to `element.scrollBy(x, y)`.
+     */
+    fun scrollBy(x: JsNumber, y: JsNumber): JsNothing =
+        JsNothing.syntax(ChainOperation(this, InvocationOperation("scrollBy", x, y)))
+
+
+    /**
+     * Returns the size of an element and its position relative to the viewport.
+     * Corresponds to `element.getBoundingClientRect()`. (Returns DOMRect).
+     */
+    fun getBoundingClientRect(): JsObject = JsObject.syntax(ChainOperation(this, InvocationOperation("getBoundingClientRect")))
 
     companion object
 }

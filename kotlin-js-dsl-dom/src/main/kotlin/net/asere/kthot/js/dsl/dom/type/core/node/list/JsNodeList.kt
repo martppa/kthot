@@ -13,6 +13,7 @@ import net.asere.kthot.js.dsl.type.number.JsNumber
 import net.asere.kthot.js.dsl.type.number.js
 import net.asere.kthot.js.dsl.type.number.syntax
 import net.asere.kthot.js.dsl.type.obj.JsObject
+import net.asere.kthot.js.dsl.type.obj.syntax
 
 /**
  * Represents the JavaScript DOM NodeList interface.
@@ -86,23 +87,23 @@ interface JsNodeList : JsObject {
     /**
      * Returns a new `Iterator` object that contains the `[index, node]` pairs for each node in the collection.
      * Corresponds to `collection.entries()`.
-     * @return A [JsSyntax] object representing the JavaScript method call that returns an Iterator.
+     * @return A [JsObject] object representing the JavaScript method call that returns an Iterator.
      */
-    fun entries(): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("entries")))
+    fun entries(): JsObject = JsObject.syntax(ChainOperation(this, InvocationOperation("entries")))
 
     /**
      * Returns a new `Iterator` object that contains the keys (indices) for each node in the collection.
      * Corresponds to `collection.keys()`.
-     * @return A [JsSyntax] object representing the JavaScript method call that returns an Iterator.
+     * @return A [JsObject] object representing the JavaScript method call that returns an Iterator.
      */
-    fun keys(): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("keys")))
+    fun keys(): JsObject = JsObject.syntax(ChainOperation(this, InvocationOperation("keys")))
 
     /**
      * Returns a new `Iterator` object that contains the values (nodes) for each node in the collection.
      * Corresponds to `collection.values()`.
-     * @return A [JsSyntax] object representing the JavaScript method call that returns an Iterator.
+     * @return A [JsObject] object representing the JavaScript method call that returns an Iterator.
      */
-    fun values(): JsSyntax = JsSyntax(ChainOperation(this, InvocationOperation("values")))
+    fun values(): JsObject = JsObject.syntax(ChainOperation(this, InvocationOperation("values")))
 
     companion object
 }
