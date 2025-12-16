@@ -11,7 +11,6 @@ import net.asere.kthot.js.dsl.ksp.extension.findJsApiClasses
 import net.asere.kthot.js.dsl.ksp.extension.findJsApiFunctionsClasses
 import net.asere.kthot.js.dsl.ksp.extension.findJsClasses
 import net.asere.kthot.js.dsl.ksp.extension.findJsFunctionsFiles
-import net.asere.kthot.js.dsl.ksp.extension.jsName
 import net.asere.kthot.js.dsl.ksp.processor.composite.CodeBuilderComposite
 import net.asere.kthot.js.dsl.ksp.processor.function.JsFunctionModuleBuilder
 import net.asere.kthot.js.dsl.ksp.processor.initializer.JsInitializerBuilder
@@ -22,7 +21,6 @@ import net.asere.kthot.js.dsl.ksp.processor.ref.JsReferenceBuilder
 import net.asere.kthot.js.dsl.ksp.processor.syntax.JsSyntaxBuilder
 import net.asere.kthot.js.dsl.ksp.processor.writer.JsClassWriterBuilder
 import net.asere.kthot.js.dsl.ksp.processor.writer.JsFunctionModuleWriterBuilder
-import kotlin.math.log
 
 class JsClassProcessor(
     codeGenerator: CodeGenerator,
@@ -103,15 +101,7 @@ class JsClassProcessor(
             }
         }
 
-        val noPendingDeclarations = (functionFilesDeclarations
-                + apiFunctionClassDeclarations
-                + apiDeclarations
-                + classDeclarations
-        ).toList().isEmpty()
-
-        if (noPendingDeclarations && nonProcessedSymbols.isEmpty()) {
-            initializerBuilder.build(resolver)
-        }
+        initializerBuilder.build(resolver)
 
         return nonProcessedSymbols
     }
