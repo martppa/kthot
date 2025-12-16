@@ -7,6 +7,6 @@ import net.asere.kthot.js.dsl.type.number.JsNumber
 class ModOperation(
     override val leftHand: JsNumber,
     override val rightHand: JsNumber,
-) : ArithmeticalOperation() {
+) : ArithmeticalCompoundOperation() {
     override val operator: ArithmeticalOperator = Mod
 }

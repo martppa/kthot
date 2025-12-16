@@ -8,6 +8,6 @@ import net.asere.kthot.js.dsl.type.string.JsString
 class ConcatOperation(
     override val leftHand: JsString,
     override val rightHand: Operable,
-) : ArithmeticalOperation(), JsString {
+) : ArithmeticalCompoundOperation(), JsString {
     override val operator: ArithmeticalOperator = Plus
 }

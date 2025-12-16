@@ -2,15 +2,26 @@
 
 package net.asere.kthot.js.dsl.syntax.group
 
-import net.asere.kthot.js.dsl.provider.provide
-import net.asere.kthot.js.dsl.syntax.JsScope
-import net.asere.kthot.js.dsl.syntax.JsSyntax
+import net.asere.kthot.js.dsl.syntax.operational.ArithmeticalOperation
+import net.asere.kthot.js.dsl.syntax.operational.ComparisonOperation
+import net.asere.kthot.js.dsl.syntax.operational.Operable
+import net.asere.kthot.js.dsl.syntax.operational.Operation
 import net.asere.kthot.js.dsl.type.JsElement
 
-inline fun <reified T> JsScope.group(typeBuilder: (JsElement) -> T = ::provide, block: () -> T): T =
-    typeBuilder(JsGroupSyntax(JsSyntax("${block()}")))
+fun ArithmeticalOperation.group() = ArithmeticalOperation.anonymous(JsGroupSyntax(this))
+fun ComparisonOperation.group() = ComparisonOperation.anonymous(JsGroupSyntax(this))
+fun Operation.group() = Operation.anonymous(JsGroupSyntax(this))
 
-inline fun <reified T> T.group(typeBuilder: (JsElement) -> T = ::provide): T =
-    typeBuilder(JsGroupSyntax(JsSyntax("$this")))
+inline fun <reified T : Operable> T.groupIfGroupable(): Operable = when (this) {
+    is ArithmeticalOperation -> group()
+    is ComparisonOperation -> group()
+    is Operation -> group()
+    else -> this
+}
 
-inline fun <reified T> T.groupIfGroupable(): T = if (this is Groupable) this.group() else this
+inline fun <reified T : JsElement> T.groupIfGroupable(): JsElement = when (this) {
+    is ArithmeticalOperation -> group()
+    is ComparisonOperation -> group()
+    is Operation -> group()
+    else -> this
+}

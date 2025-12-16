@@ -13,7 +13,7 @@ import net.asere.kthot.js.dsl.type.number.syntax
 class GreaterThanComparison(
     override val leftHand: Operable,
     override val rightHand: Operable,
-) : ArithmeticalComparison() {
+) : ArithmeticalCompoundComparison() {
     override val operator: ArithmeticalOperator = GreaterThan
 }
 

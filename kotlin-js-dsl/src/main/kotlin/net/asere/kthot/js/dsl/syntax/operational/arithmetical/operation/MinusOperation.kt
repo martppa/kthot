@@ -7,6 +7,6 @@ import net.asere.kthot.js.dsl.type.number.JsNumber
 class MinusOperation(
     override val leftHand: JsNumber,
     override val rightHand: JsNumber,
-) : ArithmeticalOperation(), JsNumber {
+) : ArithmeticalCompoundOperation(), JsNumber {
     override val operator: ArithmeticalOperator = Minus
 }

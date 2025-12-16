@@ -1,8 +1,9 @@
 package net.asere.kthot.js.dsl.syntax.operational
 
+import net.asere.kthot.js.dsl.syntax.JsSyntax
 import net.asere.kthot.js.dsl.syntax.operational.logical.operation.NegatedOperation
 
-abstract class CompoundOperation : Operation() {
+abstract class CompoundOperation : Operation, JsSyntax() {
 
     internal abstract val leftHand: Operable
     internal abstract val rightHand: Operable

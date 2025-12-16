@@ -11,7 +11,7 @@ import net.asere.kthot.js.dsl.type.bool.JsBoolean
 class EqualsComparison(
     override val leftHand: Operable,
     override val rightHand: Operable,
-) : EqualityComparison(), JsBoolean {
+) : EqualityComparison() {
     override val operator: EqualityOperator = Equals
 }
 

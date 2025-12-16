@@ -1,9 +1,10 @@
 package net.asere.kthot.js.dsl.syntax.operational
 
+import net.asere.kthot.js.dsl.syntax.JsSyntax
 import net.asere.kthot.js.dsl.syntax.group.groupIfGroupable
 import net.asere.kthot.js.dsl.type.JsElement
 
-abstract class ReflexiveOperation : Operation() {
+abstract class ReflexiveOperation : Operation, JsSyntax() {
 
     internal abstract val leftSideElement: JsElement
     internal abstract val rightSideElement: JsElement
