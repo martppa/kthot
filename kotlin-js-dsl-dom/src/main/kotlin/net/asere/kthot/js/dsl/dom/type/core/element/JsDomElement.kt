@@ -5,12 +5,16 @@ import net.asere.kthot.js.dsl.dom.type.core.node.JsNode
 import net.asere.kthot.js.dsl.dom.type.core.node.list.JsNodeList
 import net.asere.kthot.js.dsl.dom.type.core.node.list.syntax
 import net.asere.kthot.js.dsl.dom.type.data.token.list.JsDomTokenList
+import net.asere.kthot.js.dsl.dom.type.data.token.list.JsDomTokenListRef
+import net.asere.kthot.js.dsl.dom.type.data.token.list.ref
 import net.asere.kthot.js.dsl.dom.type.data.token.list.syntax
 import net.asere.kthot.js.dsl.dom.type.html.collection.JsHtmlCollection
 import net.asere.kthot.js.dsl.dom.type.html.collection.syntax
 import net.asere.kthot.js.dsl.syntax
 import net.asere.kthot.js.dsl.syntax.operational.access.operation.ChainOperation
 import net.asere.kthot.js.dsl.syntax.operational.invocation.operation.InvocationOperation
+import net.asere.kthot.js.dsl.type.array.JsArray
+import net.asere.kthot.js.dsl.type.array.syntax
 import net.asere.kthot.js.dsl.type.bool.JsBoolean
 import net.asere.kthot.js.dsl.type.bool.js
 import net.asere.kthot.js.dsl.type.bool.syntax
@@ -32,6 +36,41 @@ import net.asere.kthot.js.dsl.type.string.syntax
  * like attributes, classes, and content manipulation.
  */
 interface JsDomElement : JsNode {
+
+    /**
+     * Returns a [JsDomElement] representing the <slot> the node is inserted in.
+     */
+    val assignedSlot: JsDomElement get() = JsDomElement.syntax(ChainOperation(this, "assignedSlot"))
+
+    /**
+     * A number indicating the effective zoom size of the element, or 1.0 if the element is not rendered.
+     */
+    val currentCssZoom: JsNumber get() = JsNumber.syntax(ChainOperation(this, "currentCssZoom"))
+
+    /**
+     * A string reflecting the elementtiming attribute which marks an element for observation in the PerformanceElementTiming API.
+     */
+    val elementTiming: JsStringRef get() = JsString.ref(ChainOperation(this, "elementTiming"))
+
+    /**
+     * A string representing the local part of the qualified name of the element.
+     */
+    val localName: JsString get() = JsString.syntax(ChainOperation(this, "localName"))
+
+    /**
+     * The namespace URI of the element, or null if it is no namespace.
+     */
+    val namespaceURI: JsString get() = JsString.syntax(ChainOperation(this, "namespaceURI"))
+
+    /**
+     * Represents the part identifier(s) of the element (i.e., set using the part attribute), returned as a [JsDomTokenList].
+     */
+    val part: JsDomTokenListRef get() = JsDomTokenList.ref(ChainOperation(this, "part"))
+
+    /**
+     * A string representing the namespace prefix of the element, or null if no prefix is specified.
+     */
+    val prefix: JsString get() = JsString.syntax(ChainOperation(this, "prefix"))
 
     /**
      * Gets or sets the value of the `id` attribute.
@@ -123,6 +162,18 @@ interface JsDomElement : JsNode {
      */
     val scrollTop: JsNumberRef
         get() = JsNumber.ref(ChainOperation(this, "scrollTop"))
+
+    /**
+     * Returns a number representing the maximum top scroll offset possible for the element.
+     */
+    val scrollTopMax: JsNumber
+        get() = JsNumber.syntax(ChainOperation(this, "scrollTopMax"))
+
+    /**
+     * Returns the open shadow root that is hosted by the element, or null if no open shadow root is present.
+     */
+    val shadowRoot: JsObject
+        get() = JsObject.syntax(ChainOperation(this, "shadowRoot"))
 
     /**
      * Returns the number of child elements.
@@ -279,21 +330,21 @@ interface JsDomElement : JsNode {
      * Inserts a set of [JsNode] objects or strings before the first child of the element.
      * Corresponds to `element.prepend(nodes)`.
      */
-    fun prepend(vararg nodes: JsDomElement): JsNothing =
+    fun prepend(vararg nodes: JsNode): JsNothing =
         JsNothing.syntax(ChainOperation(this, InvocationOperation("prepend", *nodes)))
 
     /**
      * Inserts a set of [JsNode] objects or strings in the children list of the element's parent, just before the element.
      * Corresponds to `element.before(nodes)`.
      */
-    fun before(vararg nodes: JsDomElement): JsNothing =
+    fun before(vararg nodes: JsNode): JsNothing =
         JsNothing.syntax(ChainOperation(this, InvocationOperation("before", *nodes)))
 
     /**
      * Inserts a set of [JsNode] objects or strings in the children list of the element's parent, just after the element.
      * Corresponds to `element.after(nodes)`.
      */
-    fun after(vararg nodes: JsDomElement): JsNothing =
+    fun after(vararg nodes: JsNode): JsNothing =
         JsNothing.syntax(ChainOperation(this, InvocationOperation("after", *nodes)))
 
     /**
@@ -302,6 +353,12 @@ interface JsDomElement : JsNode {
      */
     fun replaceWith(vararg nodes: JsDomElement): JsNothing =
         JsNothing.syntax(ChainOperation(this, InvocationOperation("replaceWith", *nodes)))
+
+    /**
+     * Replaces the existing children of a Node with a specified new set of children.
+     */
+    fun replaceChildren(vararg nodes: JsDomElement): JsNothing =
+        JsNothing.syntax(ChainOperation(this, InvocationOperation("replaceChildren", *nodes)))
 
     /**
      * Scrolls the page until the element gets into view.
@@ -330,6 +387,68 @@ interface JsDomElement : JsNode {
      * Corresponds to `element.getBoundingClientRect()`. (Returns DOMRect).
      */
     fun getBoundingClientRect(): JsObject = JsObject.syntax(ChainOperation(this, InvocationOperation("getBoundingClientRect")))
+
+    /**
+     * A shortcut method to create and run an animation on an element. Returns the created Animation object instance.
+     */
+    fun animate(keyframes: JsObject, options: JsObject): JsObject = JsObject.syntax(ChainOperation(this, InvocationOperation("animate", keyframes, options)))
+
+    /**
+     * Attaches a shadow DOM tree to the specified element and returns a reference to its ShadowRoot.
+     */
+    fun attachShadow(options: JsObject): JsNothing = JsNothing.syntax(ChainOperation(this, InvocationOperation("attachShadow", options)))
+
+    /**
+     * Returns whether an element is expected to be visible or not based on configurable checks.
+     */
+    fun checkVisibility(options: JsObject): JsBoolean = JsBoolean.syntax(ChainOperation(this, InvocationOperation("checkVisibility", options)))
+
+    /**
+     * Returns an array of Animation objects currently active on the element.
+     */
+    fun getAnimations(options: JsObject): JsArray<JsObject> = JsArray.syntax(ChainOperation(this, InvocationOperation("getAnimations", options)))
+
+    /**
+     * Returns an array of Animation objects currently active on the element.
+     */
+    fun getAnimations(): JsArray<JsObject> = JsArray.syntax(ChainOperation(this, InvocationOperation("getAnimations")))
+
+    /**
+     * Returns the DOM content of the element as an HTML string, optionally including any shadow DOM.
+     */
+    fun getHTML(): JsDomElement = JsDomElement.syntax(ChainOperation(this, InvocationOperation("getHTML")))
+
+    /**
+     * Removes the element from the children list of its parent.
+     */
+    fun remove(): JsNothing = JsNothing.syntax(ChainOperation(this, InvocationOperation("remove")))
+
+    /**
+     * Asynchronously asks the browser to make the element fullscreen.
+     */
+    fun requestFullScreen(): JsNothing = JsNothing.syntax(ChainOperation(this, InvocationOperation("requestFullScreen")))
+
+    /**
+     * Asynchronously asks the browser to make the element fullscreen.
+     */
+    fun requestFullScreen(options: JsObject): JsNothing = JsNothing.syntax(ChainOperation(this, InvocationOperation("requestFullScreen", options)))
+
+    /**
+     * Allows to asynchronously ask for the pointer to be locked on the given element.
+     */
+    fun requestPointerLock(): JsNothing = JsNothing.syntax(ChainOperation(this, InvocationOperation("requestPointerLock")))
+
+    /**
+     * Allows to asynchronously ask for the pointer to be locked on the given element.
+     */
+    fun requestPointerLock(options: JsObject): JsNothing = JsNothing.syntax(ChainOperation(this, InvocationOperation("requestPointerLock", options)))
+
+    /**
+     * Parses and sanitizes a string of HTML into a document fragment, which then replaces the element's original subtree in the DOM.
+     */
+    fun setHTML(input: JsString): JsNothing = JsNothing.syntax(ChainOperation(this, InvocationOperation("setHTML", input)))
+
+
 
     companion object
 }
