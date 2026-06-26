@@ -12,9 +12,17 @@ import net.asere.kthot.js.dsl.dom.type.html.paragraph.def
 import net.asere.kthot.js.dsl.html.jslScript
 import net.asere.kthot.js.dsl.ksp.Kthot
 import net.asere.kthot.js.dsl.log.Log
+import net.asere.kthot.js.dsl.provider.register
+import net.asere.kthot.js.dsl.sample.app.scrirpt.api.fetch.JsResponse
+import net.asere.kthot.js.dsl.sample.app.scrirpt.api.fetch.syntax
+import net.asere.kthot.js.dsl.sample.app.scrirpt.model.JsRepo
+import net.asere.kthot.js.dsl.type.array.JsArray
+import net.asere.kthot.js.dsl.type.array.syntax
 import net.asere.kthot.js.dsl.type.string.js
 
 fun main(vararg args: String) {
+    register { element -> JsArray.syntax<JsRepo>(value = element) }
+    register { element -> JsResponse.syntax<JsArray<JsRepo>>(value = element) }
     val result = createHTML().html {
         head {
             jslScript {
