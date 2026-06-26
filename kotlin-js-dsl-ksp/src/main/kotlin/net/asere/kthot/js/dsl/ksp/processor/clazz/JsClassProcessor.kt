@@ -58,7 +58,10 @@ class JsClassProcessor(
 
         val nonProcessedSymbols: MutableList<KSDeclaration> = mutableListOf()
 
-        val classDeclarations = resolver.findJsClasses()
+        val classDeclarations = resolver.findJsClasses().toList()
+        val apiDeclarations = resolver.findJsApiClasses().toList()
+        val apiFunctionClassDeclarations = resolver.findJsApiFunctionsClasses().toList()
+        val functionFilesDeclarations = resolver.findJsFunctionsFiles().toList()
 
         for (declaration in classDeclarations) {
             if (declaration.validate()) {
@@ -70,8 +73,6 @@ class JsClassProcessor(
             }
         }
 
-        val apiDeclarations = resolver.findJsApiClasses()
-
         for (declaration in apiDeclarations) {
             if (declaration.validate()) {
                 jsApiClassBuilder.build(resolver, declaration)
@@ -81,8 +82,6 @@ class JsClassProcessor(
             }
         }
 
-        val apiFunctionClassDeclarations = resolver.findJsApiFunctionsClasses()
-
         for (declaration in apiFunctionClassDeclarations) {
             if (declaration.validate()) {
                 jsApiFunctionBuilder.build(resolver, declaration)
@@ -91,7 +90,6 @@ class JsClassProcessor(
             }
         }
 
-        val functionFilesDeclarations = resolver.findJsFunctionsFiles()
         for (declaration in functionFilesDeclarations) {
             if (declaration.validate()) {
                 jsFunctionBuilder.build(resolver, declaration)
@@ -101,7 +99,14 @@ class JsClassProcessor(
             }
         }
 
-        initializerBuilder.build(resolver)
+        val anyDeclarations = classDeclarations.isNotEmpty() ||
+                apiDeclarations.isNotEmpty() ||
+                apiFunctionClassDeclarations.isNotEmpty() ||
+                functionFilesDeclarations.isNotEmpty()
+
+        if (!anyDeclarations && nonProcessedSymbols.isEmpty()) {
+            initializerBuilder.build(resolver)
+        }
 
         return nonProcessedSymbols
     }
